@@ -6,8 +6,9 @@ services:
     pull_policy: always
     environment:
       - PORT=8080
-      # Modelo (OpenRouter)
+      # Modelo (OpenRouter OU Google direto via endpoint OpenAI-compatible)
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENROUTER_BASE_URL=${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
       - AGENT_MODEL=${AGENT_MODEL:-google/gemini-2.5-flash}
       # Octadesk
       - OCTADESK_BASE_URL=${OCTADESK_BASE_URL:-https://o222276-30e.api002.octadesk.services}
