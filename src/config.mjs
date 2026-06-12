@@ -21,6 +21,7 @@ export const config = {
   slAccess: req('SUPERLOGICA_ACCESS_TOKEN'),
   // segurança
   webhookSecret: env.WEBHOOK_SECRET || '',
+  chatPasscode: env.CHAT_PASSCODE || '',
   dryRunWrites: (env.DRY_RUN_WRITES || 'true') !== 'false',
   logPII: env.LOG_PII === 'true',
 };
