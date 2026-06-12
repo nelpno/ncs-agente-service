@@ -1,7 +1,12 @@
 services:
   ncs-agente:
-    build: .
+    image: node:20-alpine
     container_name: ncs-agente
+    working_dir: /app
+    # serviço é Node puro (sem dependências) → roda o código do repo direto, sem build
+    volumes:
+      - ./:/app:ro
+    command: ["node", "server.mjs"]
     restart: unless-stopped
     environment:
       - PORT=8080
