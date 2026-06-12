@@ -30,15 +30,17 @@ export async function resolver_cadastro({ cpf, condominio } = {}) {
     if (alvo.length) condos = alvo;
   }
   const unidades = [];
-  for (const c of condos.slice(0, condominio ? condos.length : 60)) {
-    let resp;
-    try { resp = await slGet('responsaveis/index', { idCondominio: c.id }); } catch { continue; }
+  const CONC = 8;
+  async function scan(c) {
+    let resp; try { resp = await slGet('responsaveis/index', { idCondominio: c.id }); } catch { return; }
     for (const r of (Array.isArray(resp) ? resp : [])) {
-      if (onlyDigits(r.st_cpf_con) === cpfd) {
-        unidades.push({ id_unidade: r.id_unidade_uni || r.id_unidade, condominio: c.nome, id_condominio: c.id, papel: r.id_label_tres, nome: r.st_nome_con });
-      }
+      if (onlyDigits(r.st_cpf_con) === cpfd) unidades.push({ id_unidade: r.id_unidade_uni || r.id_unidade, condominio: c.nome, id_condominio: c.id, papel: r.id_label_tres, nome: r.st_nome_con });
     }
-    if (unidades.length && condominio) break;
+  }
+  // busca em LOTES PARALELOS (não um a um) — para cedo assim que acha. Condomínio informado = 1 lote.
+  for (let i = 0; i < condos.length && !unidades.length; i += CONC) {
+    await Promise.all(condos.slice(i, i + CONC).map(scan));
+    if (condominio) break;
   }
   return unidades.length ? { encontrado: true, unidades } : { encontrado: false, unidades: [] };
 }
