@@ -1,0 +1,42 @@
+services:
+  ncs-agente:
+    build: .
+    container_name: ncs-agente
+    restart: unless-stopped
+    environment:
+      - PORT=8080
+      # Modelo (OpenRouter)
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - AGENT_MODEL=${AGENT_MODEL:-google/gemini-2.5-flash}
+      # Octadesk
+      - OCTADESK_BASE_URL=${OCTADESK_BASE_URL:-https://o222276-30e.api002.octadesk.services}
+      - OCTADESK_API_KEY=${OCTADESK_API_KEY}
+      - OCTADESK_SUBDOMAIN=${OCTADESK_SUBDOMAIN:-o222276-30e}
+      - OCTADESK_AGENT_EMAIL=${OCTADESK_AGENT_EMAIL}
+      # Superlógica (somente leitura no piloto)
+      - SUPERLOGICA_APP_TOKEN=${SUPERLOGICA_APP_TOKEN}
+      - SUPERLOGICA_ACCESS_TOKEN=${SUPERLOGICA_ACCESS_TOKEN}
+      # segurança
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - DRY_RUN_WRITES=true
+      - LOG_PII=false
+    expose:
+      - "8080"
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Cloudflare Tunnel: expõe o agente em HTTPS sem abrir porta.
+  # Crie o túnel no painel Cloudflare (Zero Trust > Tunnels), pegue o token e ponte para http://ncs-agente:8080.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: ncs-agente-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - ncs-agente
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }

@@ -1,0 +1,12 @@
+{
+  "name": "ncs-agente-service",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Agente IA da NCS (Ana) — webhook do Octadesk + leitura real do Superlógica. Modelo: Gemini 2.5 Flash via OpenRouter.",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
