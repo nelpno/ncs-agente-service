@@ -1,0 +1,55 @@
+{
+  "id": "vancouver",
+  "condominio": {
+    "nome": "CONDOMÍNIO RESIDENCIAL VANCOUVER",
+    "endereco": "AVENIDA GUMERCINDO SIQUEIRA, 1130 JARDIM MAGNOLIAS",
+    "cep": "14806-485",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
+  "responsavel": {
+    "nome": "MARIA DE FÁTIMA DOS SANTOS",
+    "cargo": "SÍNDICA"
+  },
+  "regra_multa": {
+    "descricao": "Convenção art. 49: valor inicial de 1 (uma) contribuição condominial, dobrada na reincidência. Na prática a síndica escala o nº de taxas pelo nível de reincidência.",
+    "taxas_sugeridas_por_nivel": { "1": 1, "2": 2, "3": 3 },
+    "observacao": "Valor é SUGESTÃO — o síndico confirma antes de assinar."
+  },
+  "convencao_penalidades": {
+    "capitulo": "CONVENÇÃO — CAPÍTULO VIII – DAS PENALIDADES, MULTAS E INDENIZAÇÕES",
+    "texto": "ARTIGO 49º Além das penalidades cominadas em lei, fica ainda o condômino que, transitória ou eventualmente, perturbar o uso das coisas comuns ou de causar a despesas, por ato seu, ou de seus parentes, familiares, amigos, convidados, visitantes ou inquilinos, sujeito à multa pecuniária correspondente ao valor inicial de 01 (uma) contribuição condominial, cobrada em dobro no caso de reincidência, sem prejuízo das demais consequências civis de seus atos.\n\nPARÁGRAFO PRIMEIRO: A violação de quaisquer deveres estipulados nesta convenção e regulamentos implicará na multa ao infrator nos mesmos moldes desta convenção.\n\nPARÁGRAFO SEGUNDO: A multa será imposta e cobrada pelo Síndico, juntamente com a contribuição condominial de vencimento imediatamente posterior."
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Excesso de barulho / perturbação do sossego",
+      "fundamento": "ARTIGO 15° do REGIMENTO INTERNO",
+      "texto_artigo": "ARTIGO 15°: No período das 22h00m às 08h00m, cumpre aos moradores guardarem silêncio, evitando a geração de ruídos ou sons que possam perturbar o sossego e o bem-estar dos demais moradores do edifício, bem como fazer faxinas ou quaisquer que sejam os reparos dentro de seus apartamentos.",
+      "palavras_chave": ["barulho", "ruído", "som alto", "passos fortes", "festa", "música", "sossego", "madrugada"]
+    },
+    "prestador_fora_horario": {
+      "titulo": "Prestador de serviço / obra fora do horário permitido",
+      "fundamento": "ARTIGO 18° do REGIMENTO INTERNO",
+      "texto_artigo": "18) A fim de que não sejam prejudicados o sossego e o bem-estar dos moradores, a execução de serviços de marcenaria, pintura, pedreiros, encanadores, eletricistas, uso de furadeiras e outros correlatos, e aqui não citados, são permitidos apenas de segunda a sexta-feira, dias úteis, das 08h30 às 16h30, e aos sábados das 08h30 às 11h30m, sendo terminantemente proibido aos domingos e feriados em qualquer horário, exceto os de emergência devidamente comprovados e autorizados pelo síndico, e em sua ausência, subsíndico, ou membros do conselho consultivo.",
+      "palavras_chave": ["prestador", "obra", "reforma", "furadeira", "pedreiro", "pintor", "fora do horário", "domingo", "feriado"]
+    },
+    "varal_sacada": {
+      "titulo": "Varal / objetos na sacada ou parte externa",
+      "fundamento": "CAPÍTULO IV — ARTIGO 14° do REGIMENTO INTERNO",
+      "texto_artigo": "ARTIGO 14°\nf) Estender, bater ou secar roupas, tapetes, toalhas, etc., nas janelas ou em outras áreas comuns, fronteiriças e que, nas quais, não poderão ser instalados varais de tipo a serem vistos do exterior;\ng) colocar vasos, antenas, varais, enfeites ou quaisquer outros objetos na parte externa, sobre os peitoris das janelas e áreas de uso comum do condomínio.",
+      "palavras_chave": ["varal", "roupa na sacada", "secar roupa", "vaso", "antena", "peitoril", "janela"]
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de veículo nas dependências do condomínio",
+      "fundamento": "ARTIGO 56° do REGIMENTO INTERNO",
+      "texto_artigo": "ARTIGO 56°: É proibida a lavagem de automóveis nas áreas das garagens, bem como o uso de mangueira para levar água do edifício aos veículos estacionados nas redondezas do prédio para serem lavados com água corrente.",
+      "palavras_chave": ["lavar carro", "lavagem", "veículo", "garagem", "mangueira", "automóvel"]
+    },
+    "instalacao_perigosa": {
+      "titulo": "Instalação/aparelho que cause perigo ou incômodo (ex.: câmera voltada a terceiros)",
+      "fundamento": "ARTIGO 07° — SÃO DEVERES DOS CONDÔMINOS do REGIMENTO INTERNO",
+      "texto_artigo": "ARTIGO 07° — SÃO DEVERES DOS CONDÔMINOS:\nj) Não manter, nas respectivas unidades autônomas, substâncias, instalações ou aparelho que causem perigo à segurança, salubridade e solidez do condomínio ou incômodo aos demais condôminos.",
+      "palavras_chave": ["câmera", "instalação", "aparelho", "perigo", "segurança", "vigilância", "incômodo"]
+    }
+  }
+}

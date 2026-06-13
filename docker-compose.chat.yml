@@ -1,0 +1,35 @@
+services:
+  # Chat NCS — assistente interno (mesma imagem da Ana, entrypoint do estagiário).
+  # Stack SEPARADA: deploy independente, não recria o container da Ana. Túnel/código próprios.
+  ncs-chat:
+    image: ghcr.io/nelpno/ncs-agente-service:latest
+    container_name: ncs-chat
+    restart: unless-stopped
+    pull_policy: always
+    command: ["node", "estagiario/server.mjs"]
+    environment:
+      - PORT=8090
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - OPENROUTER_BASE_URL=${OPENROUTER_BASE_URL:-https://generativelanguage.googleapis.com/v1beta/openai}
+      - AGENT_MODEL=${AGENT_MODEL:-gemini-3-flash-preview}
+      - CHAT_PASSCODE=${CHAT_PASSCODE}
+      - CHROME_PATH=/usr/bin/chromium-browser
+    expose:
+      - "8090"
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Cloudflare Tunnel próprio do Chat NCS (token do túnel ncs-chat).
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: ncs-chat-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - ncs-chat
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }

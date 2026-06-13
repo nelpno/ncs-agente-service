@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chat NCS — Assistente interno</title>
+<style>
+  :root{
+    --navy:#1a3a5c; --navy-d:#12283f; --navy-l:#27517d;
+    --gold:#c9a227; --gold-l:#e6c659; --gold-soft:#f7eecb;
+    --bg:#eef2f7; --card:#ffffff; --ink:#1b2733; --muted:#6b7a8d; --line:#dde5ee;
+    --me:#e7eefb; --ok:#e9f6ec; --ok-b:#bfe3c7;
+    --shadow:0 6px 22px rgba(20,40,65,.10);
+  }
+  *{box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);height:100vh;display:flex;flex-direction:column}
+
+  /* Cabeçalho */
+  header{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-d) 100%);
+    color:#fff;padding:14px 22px;display:flex;align-items:center;gap:14px;
+    box-shadow:0 2px 14px rgba(18,40,63,.25);position:relative;z-index:2;
+  }
+  .brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+  .logo{
+    width:46px;height:46px;border-radius:11px;flex:none;
+    background:linear-gradient(160deg,#214c79,#12283f);
+    border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
+    font-weight:800;letter-spacing:.5px;color:#fff;font-size:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 0 0 3px rgba(255,255,255,.04);
+  }
+  .logo b{color:var(--gold-l)}
+  .titles{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+  .titles .t{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .titles .t .tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    background:rgba(201,162,39,.18);color:var(--gold-l);border:1px solid rgba(201,162,39,.4);
+    padding:2px 7px;border-radius:20px}
+  .titles .s{font-size:12.5px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hbtn{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.22);
+    padding:8px 14px;border-radius:22px;cursor:pointer;font-weight:600;font-size:13px;transition:.15s}
+  .hbtn:hover{background:rgba(255,255,255,.2)}
+
+  /* Área central */
+  #scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px}
+  #scroll::-webkit-scrollbar{width:9px}#scroll::-webkit-scrollbar-thumb{background:#c2cfdd;border-radius:8px}
+
+  /* HERO (boas-vindas + capacidades) */
+  .hero{max-width:760px;margin:6px auto 0;width:100%}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .hero h1{font-size:23px;margin:6px 0 4px;color:var(--navy)}
+  .hero h1 .wave{color:var(--gold)}
+  .hero p.lead{margin:0 0 18px;color:var(--muted);font-size:15px;line-height:1.5}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:680px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px;
+    box-shadow:var(--shadow);transition:.18s;border-top:3px solid var(--gold)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,40,65,.14)}
+  .card .ic{width:40px;height:40px;border-radius:10px;background:var(--gold-soft);
+    display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+  .card h3{margin:0 0 5px;font-size:15px;color:var(--navy)}
+  .card p{margin:0;font-size:13px;color:var(--muted);line-height:1.45}
+
+  .conv{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;justify-content:center}
+  .conv .pill{font-size:12px;color:var(--navy);background:#fff;border:1px solid var(--line);
+    padding:5px 12px;border-radius:20px;font-weight:600}
+  .conv .pill b{color:var(--gold)}
+
+  .ex-title{margin:18px 0 8px;font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700;text-align:center}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:22px;padding:9px 15px;cursor:pointer;
+    font-size:13.5px;color:var(--navy);transition:.15s;box-shadow:0 1px 3px rgba(20,40,65,.05)}
+  .chip:hover{border-color:var(--gold);background:var(--gold-soft);transform:translateY(-1px)}
+  .chip::before{content:"›";color:var(--gold);font-weight:800;margin-right:7px}
+
+  /* Mensagens */
+  .row{display:flex;width:100%;max-width:860px;margin:0 auto}
+  .b{max-width:80%;padding:11px 15px;border-radius:14px;white-space:pre-wrap;line-height:1.45;font-size:15px;
+    box-shadow:0 1px 2px rgba(20,40,65,.08);animation:fade .25s ease}
+  .me{margin-left:auto;background:var(--me);border-bottom-right-radius:5px;color:#14203a}
+  .bot{margin-right:auto;background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}
+  .sys{margin:2px auto;font-size:12px;color:var(--muted);background:transparent}
+  .typing{margin-right:auto;color:var(--muted);font-style:italic;font-size:14px;display:flex;gap:5px;align-items:center}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:bl 1s infinite}
+  .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+  @keyframes bl{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+  /* Cartão da minuta gerada */
+  .doc{margin-right:auto;max-width:80%;background:var(--ok);border:1px solid var(--ok-b);border-radius:14px;
+    padding:14px 16px;box-shadow:var(--shadow)}
+  .doc .dh{display:flex;align-items:center;gap:10px;font-weight:700;color:#1f6f3f;font-size:14px}
+  .doc .dh .di{width:34px;height:34px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid var(--ok-b)}
+  .doc a.dl{display:inline-block;margin-top:10px;background:var(--navy);color:#fff;text-decoration:none;
+    padding:9px 16px;border-radius:9px;font-weight:600;font-size:13.5px;transition:.15s}
+  .doc a.dl:hover{background:var(--navy-l)}
+  .doc small{display:block;margin-top:9px;color:#4a6b53;font-size:12px}
+
+  /* Rodapé de entrada */
+  footer{padding:12px 16px 14px;background:#fff;border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(20,40,65,.05)}
+  .inbar{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+  textarea{flex:1;padding:12px 16px;border:1.5px solid var(--line);border-radius:24px;font-size:15px;outline:none;
+    resize:none;max-height:130px;line-height:1.4;transition:.15s;font-family:inherit}
+  textarea:focus{border-color:var(--navy-l);box-shadow:0 0 0 3px rgba(39,81,125,.12)}
+  #send{flex:none;width:48px;height:48px;border:none;border-radius:50%;cursor:pointer;
+    background:linear-gradient(160deg,var(--gold-l),var(--gold));color:var(--navy-d);font-size:20px;font-weight:800;
+    box-shadow:0 4px 12px rgba(201,162,39,.4);transition:.15s}
+  #send:hover{transform:scale(1.06)}#send:disabled{opacity:.5;cursor:default;transform:none}
+  .foot-note{max-width:860px;margin:8px auto 0;text-align:center;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">N<b>C</b>S</div>
+      <div class="titles">
+        <div class="t">Chat NCS <span class="tag">Interno</span></div>
+        <div class="s">Assistente da equipe · minutas para o síndico assinar</div>
+      </div>
+    </div>
+    <button class="hbtn" onclick="reset()">＋ Nova conversa</button>
+  </header>
+
+  <div id="scroll">
+    <div class="hero" id="hero">
+      <h1><span class="wave">Olá!</span> Sou o assistente interno do NCS.</h1>
+      <p class="lead">Me conte a situação em poucas palavras que eu preparo a <b>notificação</b> ou a <b>multa</b> — identifico a infração, cito o artigo certo do regimento e entrego o <b>PDF pronto</b>. Você confere e o síndico assina.</p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="ic">📄</div>
+          <h3>Multas e notificações</h3>
+          <p>Descreva a ocorrência. Eu classifico a infração, cito o artigo e gero o documento padronizado em segundos.</p>
+        </div>
+        <div class="card">
+          <div class="ic">📖</div>
+          <h3>Dúvidas do regimento</h3>
+          <p>Pergunte o que diz o regimento daquele condomínio. Respondo citando o artigo — sem inventar regra.</p>
+        </div>
+        <div class="card">
+          <div class="ic">✅</div>
+          <h3>Pronto pra assinar</h3>
+          <p>Sai sem erro de valor nem de digitação, no mesmo padrão de sempre. É só revisar e assinar.</p>
+        </div>
+      </div>
+
+      <div class="conv">
+        <span class="pill"><b>⚡</b> Em segundos, não em minutos</span>
+        <span class="pill"><b>🏢</b> Por condomínio</span>
+        <span class="pill"><b>🔒</b> Uso interno da equipe</span>
+        <span class="pill"><b>🧠</b> Lembra a conversa</span>
+      </div>
+
+      <div class="ex-title">Comece por um exemplo</div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="inbar">
+      <textarea id="msg" rows="1" placeholder="Ex.: morador do 132 fez barulho de novo, já levou notificação mês passado…" autocomplete="off"></textarea>
+      <button id="send" onclick="send()" title="Enviar">➤</button>
+    </div>
+    <div class="foot-note">As minutas são para conferência e assinatura do síndico. Conteúdo interno do Grupo NCS.</div>
+  </footer>
+
+<script>
+const params=new URLSearchParams(location.search); const K=params.get('k')||'';
+const scroll=document.getElementById('scroll'), hero=document.getElementById('hero'), inp=document.getElementById('msg'), btn=document.getElementById('send');
+
+// memória: mantém a MESMA sessão ao recarregar a página (conversa continua); "Nova conversa" começa do zero.
+function newSession(){return 'web-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
+let session=localStorage.getItem('ncs_chat_session');
+if(!session){session=newSession();localStorage.setItem('ncs_chat_session',session);}
+
+const EXEMPLOS=[
+  "Multa de barulho, 2ª reincidência, no Vancouver",
+  "Notificação de varal na sacada",
+  "Lavaram o carro na garagem do condomínio",
+  "O que o regimento diz sobre horário de reforma?"
+];
+const chipsEl=document.getElementById('chips');
+EXEMPLOS.forEach(function(t){
+  const c=document.createElement('div');c.className='chip';c.textContent=t;
+  c.onclick=function(){inp.value=t;autosize();inp.focus();send();};
+  chipsEl.appendChild(c);
+});
+
+function autosize(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';}
+inp.addEventListener('input',autosize);
+inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+
+function rowAdd(node){const r=document.createElement('div');r.className='row';r.appendChild(node);scroll.appendChild(r);scroll.scrollTop=scroll.scrollHeight;return r;}
+function add(text,cls){const d=document.createElement('div');d.className='b '+cls;d.textContent=text;return rowAdd(d);}
+function typing(){const d=document.createElement('div');d.className='b typing';
+  const sp=document.createElement('span');sp.textContent='Escrevendo';d.appendChild(sp);
+  for(let i=0;i<3;i++){const dt=document.createElement('span');dt.className='dot';d.appendChild(dt);}
+  return rowAdd(d);}
+function addDoc(doc){
+  const d=document.createElement('div');d.className='doc';
+  const h=document.createElement('div');h.className='dh';
+  const ic=document.createElement('div');ic.className='di';ic.textContent='📄';
+  const tt=document.createElement('span');tt.textContent='Minuta gerada — '+(doc.titulo||'documento');
+  h.appendChild(ic);h.appendChild(tt);
+  const a=document.createElement('a');a.className='dl';a.href=doc.url;a.target='_blank';a.textContent='Abrir / baixar PDF';
+  const s=document.createElement('small');s.textContent='Confira os dados e o síndico assina antes de enviar.';
+  d.appendChild(h);d.appendChild(a);d.appendChild(s);rowAdd(d);
+}
+
+function reset(){
+  session=newSession();localStorage.setItem('ncs_chat_session',session);
+  scroll.replaceChildren();scroll.appendChild(hero);hero.style.display='';
+}
+
+async function send(){
+  const t=inp.value.trim(); if(!t)return;
+  inp.value='';autosize();hero.style.display='none';btn.disabled=true;
+  add(t,'me'); const tp=typing(); const t0=Date.now();
+  try{
+    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session,k:K})});
+    const j=await r.json(); tp.remove();
+    if(r.status===401){add('Código de acesso inválido. Use o link completo que você recebeu.','sys');return;}
+    add(j.reply||'(sem resposta)','bot');
+    if(j.doc) addDoc(j.doc);
+  }catch(e){tp.remove();add('Tive um problema de conexão. Pode tentar de novo?','sys');}
+  finally{btn.disabled=false;inp.focus();}
+}
+inp.focus();
+</script>
+</body>
+</html>
