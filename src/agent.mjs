@@ -48,7 +48,10 @@ export async function handleTurn(session, userText, ctx) {
       }
       continue;
     }
-    const reply = res.content || '';
+    let reply = res.content || '';
+    if (!reply) reply = ctx.transferred
+      ? 'Pronto! Vou te encaminhar para o setor responsável, que vai dar sequência e te ajudar com isso. 🙏'
+      : 'Desculpa, não consegui processar agora. Pode reformular ou me dar mais um detalhe?';
     session.messages.push({ role: 'assistant', content: reply });
     return { reply, transferred: ctx.transferred || null };
   }
