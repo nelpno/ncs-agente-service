@@ -2,7 +2,7 @@
   "condominio": "Lume",
   "condominio_slug": "lume",
   "endereco": "Rua Didimo Vieira da Silva, 507 - Araraquara/SP",
-  "id_condominio_superlogica": null,
+  "id_condominio_superlogica": 179,
   "documentos": [
     {
       "arquivo": "convencao-lume.md",
