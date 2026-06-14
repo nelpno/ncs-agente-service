@@ -21,5 +21,9 @@
   ],
   "gerado_em": "2026-06-13",
   "revisao_humana": "pendente",
-  "uso_juridico_liberado": false
+  "uso_juridico_liberado": false,
+  "atas": {
+    "status": "pendente",
+    "motivo": "Pesquisa A2 (14/06/2026): o Lume (id 179) NAO possui nenhuma ATA/assembleia no modulo de assembleias da Superlogica (varredura de 29.062 arquivos: 51 hits de 'lume', todos categoria Despesa, ZERO em Assembleias). Metodo de download de ATA via API foi validado (publico/downloadarquivo com headers app_token+access_token), mas nao ha filtro confiavel por condominio (vinculo so por string no nome do arquivo). O retriever JA aceita arquivos ata-*.md / assembleia*.md (docTipo 'ata', ordenacao cronologica desc). Para ativar ATAs do Lume: o Fernando precisa subir a ATA ao modulo de assembleias da Superlogica OU fornecer via Google Drive (como os regimentos). Salvar como data/regimentos/lume/ata-AAAA-MM-DD.md."
+  }
 }

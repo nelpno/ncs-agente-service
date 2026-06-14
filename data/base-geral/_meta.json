@@ -1,0 +1,43 @@
+{
+  "fonte": "WordPress REST - https://gruponcs.net/wp-json/wp/v2",
+  "escopo": "BASE INSTITUCIONAL GLOBAL (igual p/ todos os condominios - NAO e por condominio)",
+  "gerado_em": "2026-06-14",
+  "revisao_humana": "pendente",
+  "documentos": [
+    {
+      "slug": "clube-ncs",
+      "titulo": "Clube NCS",
+      "file": "site-clube-ncs.md",
+      "chars": 7303,
+      "secoes": 63
+    },
+    {
+      "slug": "projetos",
+      "titulo": "Projetos",
+      "file": "site-projetos.md",
+      "chars": 2814,
+      "secoes": 6
+    },
+    {
+      "slug": "terceirizacao-maodeobra",
+      "titulo": "Terceirização de Mão de Obra",
+      "file": "site-terceirizacao-maodeobra.md",
+      "chars": 1137,
+      "secoes": 1
+    },
+    {
+      "slug": "administracao",
+      "titulo": "Administracao de Condomínios e Associações",
+      "file": "site-administracao.md",
+      "chars": 1249,
+      "secoes": 1
+    },
+    {
+      "slug": "sobre-nos",
+      "titulo": "Sobre Nós",
+      "file": "site-sobre-nos.md",
+      "chars": 1509,
+      "secoes": 1
+    }
+  ]
+}

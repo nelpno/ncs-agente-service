@@ -36,7 +36,42 @@ const SYN = {
   tenis:['quadra'], quadra:['tenis'], mercado:['carrinho','feira'], lavar:['lavagem'],
 };
 
-let _index = null; // { slug: { nome, chunks:[{docLabel,docTipo,secao,texto,ntexto,nsecao}] } }
+let _index = null; // { slug: { nome, chunks:[{docLabel,docTipo,secao,texto,ntexto,nsecao,ataData}] } }
+
+// Detecta o tipo do documento pelo nome do arquivo.
+// ATA de assembleia: nome casa /^ata-|assembleia/i (ex.: ata-2025-03-12.md, assembleia-extraordinaria.md).
+// Convenção: nome contém "conven". Senão: regimento interno.
+// Retorna { docTipo, docLabel, ataData } — ataData é Date|null (só para ATAs com data no nome).
+export function classificarDoc(fileName) {
+  if (/^ata-|assembleia/i.test(fileName)) {
+    const ataData = extrairDataAta(fileName);
+    const dataStr = ataData ? fmtData(ataData) : null;
+    return { docTipo: 'ata', docLabel: dataStr ? `ATA (${dataStr})` : 'ATA', ataData };
+  }
+  if (/conven/i.test(fileName)) return { docTipo: 'convencao', docLabel: 'Convenção', ataData: null };
+  return { docTipo: 'regimento-interno', docLabel: 'Regimento Interno', ataData: null };
+}
+
+// Extrai a data de um nome de arquivo de ATA. Aceita AAAA-MM-DD (preferido) e AAAA_MM_DD.
+// Ex.: ata-2025-03-12.md -> Date(2025-03-12). Retorna Date|null.
+function extrairDataAta(fileName) {
+  const m = fileName.match(/(\d{4})[-_](\d{1,2})[-_](\d{1,2})/);
+  if (!m) return null;
+  const [, y, mo, d] = m;
+  const dt = new Date(Number(y), Number(mo) - 1, Number(d));
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+// Formata Date -> DD/MM/AAAA (para o docLabel da ATA).
+function fmtData(dt) {
+  const dd = String(dt.getDate()).padStart(2, '0');
+  const mm = String(dt.getMonth() + 1).padStart(2, '0');
+  return `${dd}/${mm}/${dt.getFullYear()}`;
+}
+
+// Invalida o cache do índice. Uso interno/testes (ex.: após criar uma fixture em disco).
+// Não é chamado em runtime do agente — a base é estática enquanto o container vive.
+export function _reloadIndex() { _index = null; }
 
 function loadIndex() {
   if (_index) return _index;
@@ -50,15 +85,14 @@ function loadIndex() {
     const chunks = [];
     for (const f of fs.readdirSync(dir)) {
       if (!f.endsWith('.md')) continue;
-      const docTipo = /conven/i.test(f) ? 'convencao' : 'regimento-interno';
-      const docLabel = docTipo === 'convencao' ? 'Convenção' : 'Regimento Interno';
+      const { docTipo, docLabel, ataData } = classificarDoc(f);
       let txt = fs.readFileSync(path.join(dir, f), 'utf8');
       txt = txt.replace(/^---[\s\S]*?---\n/, '').replace(/<!--[\s\S]*?-->/g, ''); // tira front-matter e marcadores de página
       let secao = '(início)';
       let buf = [];
       const flush = () => {
         const t = buf.join(' ').trim();
-        if (t.length > 25) chunks.push({ docLabel, docTipo, secao, texto: t, ntexto: norm(t), nsecao: norm(secao) });
+        if (t.length > 25) chunks.push({ docLabel, docTipo, secao, texto: t, ntexto: norm(t), nsecao: norm(secao), ataData });
         buf = [];
       };
       for (const raw of txt.split('\n')) {
@@ -109,21 +143,51 @@ export function consultar_regimento({ condominio, pergunta, k = 6 } = {}) {
   if (!pergunta || !norm(pergunta)) return { encontrou: false, motivo: 'pergunta_vazia', trechos: [] };
 
   const ts = termos(pergunta);
-  const scored = index[slug].chunks.map((c) => {
+  // 1) Ranqueia por relevância (score). Comparador TOTAL/transitivo: score desc, e como
+  //    desempate puro a ATA mais recente sobe (não cria ciclo porque é só tie-break).
+  const ranked = index[slug].chunks.map((c) => {
     let s = 0;
     for (const t of ts) {
       if (c.ntexto.includes(t)) s += 1;
       if (c.nsecao.includes(t)) s += 2; // termo no título da seção pesa mais
     }
     return { c, s };
-  }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, k);
+  }).filter((x) => x.s > 0).sort((a, b) => {
+    if (b.s !== a.s) return b.s - a.s;
+    const da = a.c.ataData ? a.c.ataData.getTime() : -Infinity;
+    const db = b.c.ataData ? b.c.ataData.getTime() : -Infinity;
+    return db - da;
+  });
+
+  // 2) Passe cronológico das ATAs: reordena APENAS os trechos de ATA por data desc
+  //    (mais recente primeiro), mantendo as posições dos trechos de convenção/regimento.
+  //    Assim a deliberação de assembleia mais nova aparece antes da antiga sem bagunçar
+  //    o ranking de relevância dos outros documentos. Determinístico/estável.
+  const ataSorted = ranked
+    .filter((x) => x.c.docTipo === 'ata')
+    .sort((a, b) => {
+      const da = a.c.ataData ? a.c.ataData.getTime() : -Infinity;
+      const db = b.c.ataData ? b.c.ataData.getTime() : -Infinity;
+      if (db !== da) return db - da;   // ATA mais recente primeiro
+      return b.s - a.s;                 // mesma/sem data → relevância
+    });
+  let ai = 0;
+  const ordered = ranked.map((x) => (x.c.docTipo === 'ata' ? ataSorted[ai++] : x));
+  const scored = ordered.slice(0, k);
 
   if (!scored.length) return { encontrou: false, condominio: index[slug].nome, motivo: 'nada_relevante_no_documento', trechos: [] };
+  // Se algum trecho recuperado for de ATA, o resultado é potencialmente cronológico/variável:
+  // o agente deve priorizar a ATA mais recente e, na dúvida, sugerir confirmar com a administração.
+  const temAta = scored.some(({ c }) => c.docTipo === 'ata');
   return {
     encontrou: true,
     condominio: index[slug].nome,
+    contem_ata: temAta,
+    ...(temAta ? { aviso_ata: 'Há deliberação(ões) de assembleia entre os trechos. ATAs são cronológicas: vale a mais recente. Na dúvida, sugerir confirmar a regra vigente com a administração.' } : {}),
     trechos: scored.map(({ c }) => ({
       fonte: `${c.docLabel} — ${c.secao}`,
+      tipo: c.docTipo,
+      ...(c.docTipo === 'ata' && c.ataData ? { data: fmtData(c.ataData) } : {}),
       texto: c.texto.length > 700 ? c.texto.slice(0, 700) + '…' : c.texto,
     })),
   };
