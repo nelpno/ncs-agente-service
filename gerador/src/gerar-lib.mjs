@@ -18,8 +18,9 @@ const ORDINAL_FEM = { 1: "1ª", 2: "2ª", 3: "3ª", 4: "4ª", 5: "5ª" };
 const EXTENSO = { 1: "uma", 2: "duas", 3: "três", 4: "quatro", 5: "cinco" };
 
 export function carregarCondominio(condId, raiz = RAIZ) {
-  const p = path.join(raiz, "dados", `${condId}.json`);
-  if (!fs.existsSync(p)) throw new Error(`condomínio "${condId}" sem cadastro em dados/.`);
+  const slug = String(condId).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const p = path.join(raiz, "dados", `${slug}.json`);
+  if (!fs.existsSync(p)) throw new Error(`condomínio "${condId}" sem catálogo em dados/ (rode extrair-catalogo.mjs).`);
   return JSON.parse(fs.readFileSync(p, "utf-8"));
 }
 
@@ -29,7 +30,10 @@ export function listarInfracoes(dados) {
   }));
 }
 
-export function montarDoc(dados, oc) {
+export function montarDoc(dados, oc, cadastro) {
+  // cadastro do condomínio: vem do Superlógica (ao vivo) quando informado; senão o bloco fixo do catálogo (fallback/CLI).
+  const cad = cadastro || dados.condominio;
+  if (!cad || !cad.nome) throw new Error("cadastro do condomínio ausente (Superlógica não resolveu e não há bloco fixo no catálogo).");
   const infra = dados.catalogo_infracoes[oc.infracao_id];
   if (!infra) {
     const e = new Error(`infração "${oc.infracao_id}" não existe no catálogo de ${dados.id}.`);
@@ -67,8 +71,8 @@ export function montarDoc(dados, oc) {
 
   return {
     condominio: {
-      nome: dados.condominio.nome, endereco: dados.condominio.endereco,
-      cep: dados.condominio.cep, cidade_uf: dados.condominio.cidade_uf,
+      nome: cad.nome, endereco: cad.endereco,
+      cep: cad.cep, cidade_uf: cad.cidade_uf,
     },
     titulo, saudacao,
     fundamento: `Considerando o que dispõe o ${infra.fundamento},`,
@@ -77,7 +81,7 @@ export function montarDoc(dados, oc) {
     penalidade_paragrafo,
     convencao: dados.convencao_penalidades,
     fecho: "Agradecemos pela sua compreensão e cooperação.",
-    local_data: `${dados.condominio.cidade_fecho}, ${oc.data_documento}.`,
+    local_data: `${cad.cidade_fecho || cad.cidade_uf}, ${oc.data_documento}.`,
     assinatura: dados.responsavel,
     marca_dagua: oc.marca_revisao
       ? "Minuta gerada por assistente NCS — conferir e assinar (responsável pelo condomínio)."
@@ -90,10 +94,11 @@ export function slug(s) {
     .replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
 }
 
-/** gerarDocumento({ ocorrencia, destino?, raiz? }) -> { destino, titulo } */
-export function gerarDocumento({ ocorrencia, destino, raiz = RAIZ }) {
+/** gerarDocumento({ ocorrencia, destino?, raiz?, cadastro? }) -> { destino, titulo }
+ *  cadastro (do Superlógica) é opcional; sem ele, usa o bloco fixo do catálogo (CLI/fallback). */
+export function gerarDocumento({ ocorrencia, destino, raiz = RAIZ, cadastro }) {
   const dados = carregarCondominio(ocorrencia.condominio, raiz);
-  const doc = montarDoc(dados, ocorrencia);
+  const doc = montarDoc(dados, ocorrencia, cadastro);
   const html = renderHTML(doc);
   if (!destino) {
     const nome = `${slug(ocorrencia.condominio)}_${ocorrencia.tipo}_${slug(ocorrencia.infracao_id)}_ap${slug(ocorrencia.destinatario.apartamento)}.pdf`;

@@ -14,7 +14,8 @@ const MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","ag
 function hojeExtenso() { const d = new Date(); return `${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; }
 
 const TOOLS = [
-  { type: "function", function: { name: "listar_infracoes", description: "Lista o cardápio FECHADO de infrações de um condomínio (id, título, palavras-chave). Use ANTES de gerar um documento para escolher o infracao_id correto a partir do relato. Nunca invente um id fora desta lista.", parameters: { type: "object", properties: { condominio: { type: "string", description: "Slug/nome do condomínio (ex.: vancouver)." } }, required: ["condominio"] } } },
+  { type: "function", function: { name: "listar_infracoes", description: "Lista o cardápio FECHADO de infrações de um condomínio (id, título, palavras-chave). Use ANTES de gerar um documento para escolher o infracao_id correto a partir do relato. Nunca invente um id fora desta lista.", parameters: { type: "object", properties: { condominio: { type: "string", description: "Slug/nome do condomínio (ex.: vancouver, lume)." } }, required: ["condominio"] } } },
+  { type: "function", function: { name: "buscar_morador", description: "Busca o morador de uma unidade no Superlógica (nome + se é proprietário/inquilino). Use quando o usuário der o condomínio + número do apartamento, para preencher o destinatário SEM o usuário digitar o nome. Sempre confirme o nome retornado com o usuário antes de gerar o documento.", parameters: { type: "object", properties: { condominio: { type: "string" }, unidade: { type: "string", description: "Número do apartamento, ex.: '132'." }, bloco: { type: "string", description: "Bloco/torre, se houver, ex.: '01'." } }, required: ["condominio", "unidade"] } } },
   { type: "function", function: { name: "consultar_regimento", description: "Consulta o Regimento Interno / Convenção do condomínio para responder dúvidas sobre regras (animais, barulho, mudança, obras, garagem, multas etc.). Retorna trechos com a fonte (seção/artigo). Responda SEMPRE citando a fonte; se encontrou:false, não invente — ofereça encaminhar.", parameters: { type: "object", properties: { condominio: { type: "string" }, pergunta: { type: "string" } }, required: ["pergunta"] } } },
   { type: "function", function: { name: "gerar_documento", description: "Gera o PDF da notificação ou multa (uma MINUTA para o síndico assinar). Só chame com TODOS os campos confirmados. O texto do artigo, a convenção e o cabeçalho são preenchidos pelo motor — você só fornece a classificação e o relato.", parameters: { type: "object", properties: {
       condominio: { type: "string" },
@@ -34,12 +35,13 @@ const TOOLS = [
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
 
-function runTool(name, args, ctx) {
+async function runTool(name, args, ctx) {
   switch (name) {
     case "listar_infracoes": return DOC.listar_infracoes(args);
+    case "buscar_morador": return await DOC.buscar_morador(args);
     case "consultar_regimento": return REG.consultar_regimento(args);
     case "gerar_documento": {
-      const out = DOC.gerar_documento(args);
+      const out = await DOC.gerar_documento(args);
       if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };
       return out;
     }
@@ -58,7 +60,7 @@ export async function handleTurn(session, userText, ctx = {}) {
     if (res.tool_calls?.length) {
       session.messages.push({ role: "assistant", content: res.content || null, tool_calls: res.tool_calls });
       for (const tc of res.tool_calls) {
-        const out = runTool(tc.function?.name, safeParse(tc.function?.arguments || "{}"), ctx);
+        const out = await runTool(tc.function?.name, safeParse(tc.function?.arguments || "{}"), ctx);
         session.messages.push({ role: "tool", tool_call_id: tc.id, name: tc.function?.name, content: JSON.stringify(out) });
       }
       continue;
