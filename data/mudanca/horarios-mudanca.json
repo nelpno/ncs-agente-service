@@ -1,0 +1,338 @@
+{
+  "fonte": "Horários de Mudança dos Condomínios (1).docx — Fernando 15/06/2026",
+  "gerado_em": "2026-06-15",
+  "revisao_humana": "pendente",
+  "total": 55,
+  "condominios": [
+    {
+      "nome": "ABBOCATO",
+      "slug": "abbocato",
+      "horario": "SEG À SEXTA DÀS 08:00 ÁS 17:00H E AOS SÁB DÀS 08H ÁS 12H",
+      "procedimento": "NÃO AGENDAR AOS FERIADOS. ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "ACÁCIAS I",
+      "slug": "acacias-i",
+      "horario": "SEG A SEXTA DAS 8:00 AS 17:00H.",
+      "procedimento": "SEGUNDA A SEXTA DÀS 8:00H ÀS 17:00H. CONFIRMAR COM O DANIEL (SÍNDICO) SE O LOTE ESTÁ HABILITADO PARA SER REALIZADO A MUDANÇA. MANDAR INFORMATIVO AO SÍNDICO SOBRE O NOVO CADASTRO"
+    },
+    {
+      "nome": "ALLURE",
+      "slug": "allure",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 17H E SÁBADO DÀS 08:00 ÁS 12:00",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "ALTO DA BOA VISTA",
+      "slug": "alto-da-boa-vista",
+      "horario": "SEGUNDA A SEXTA DAS 08H ÀS 16H (CAMINHÃO DEVE SAIR ATÉ 17H) E SÁBADO DAS 09H ÀS 11H. A PORTARIA CADASTRA NO SHIELDER, SOMENTE ENVIAR O INFORMATIVO COM OS DADOS NO GRUPO DA PORTARIA NO WHATSAPP.",
+      "procedimento": ""
+    },
+    {
+      "nome": "ALTOS DO JARAGUÁ",
+      "slug": "altos-do-jaragua",
+      "horario": "SEG À SAB DÀS 8HRS ÁS 17 HRS.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO WHATSAPP DA PORTARIA JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO"
+    },
+    {
+      "nome": "AMARIGE",
+      "slug": "amarige",
+      "horario": "SEGUNDA A SEXTA DÀS 08:00 ÀS 17:00 E AOS SÁBADOS DÀS 08:00 ÀS 12:00 ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. DE PREFERENCIA O CONDOMINO AGENDA A MUDANÇA COM A SINDICA OU PORTARIA",
+      "procedimento": ""
+    },
+    {
+      "nome": "AMENDOEIRAS",
+      "slug": "amendoeiras",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 12:00 E DÀS 13:00 ÀS 17H, SÁBADOS DÀS 8H ÀS 11H.",
+      "procedimento": "QUANDO FOR SOMENTE MUDANÇA ENVIAR A AUTORIZAÇÃO AO ZELADOR NO WHATSAPP. QUANDO HOUVER CADASTRO DE NOVOS INQUILINOS OU PROPRIETARIOS COMUNICAR O SINDICO PELO WHATSAPP."
+    },
+    {
+      "nome": "ANGELO SMIRNE",
+      "slug": "angelo-smirne",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 16H.",
+      "procedimento": "ENCAMINHAR CADASTRO E AUTORIZAÇÃO DE MUDANÇA PARA O SINDICO."
+    },
+    {
+      "nome": "ARACAJÚ",
+      "slug": "aracaju",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 18:00H (ENVIAR A AUTORIZAÇÃO DE MUDANÇA PARA A ZELADORA NO WHATSAPP NÃO AGENDAR MUDANÇAS EM DIAS SEGUIDOS)",
+      "procedimento": "PORTARIA SYNNUS (MORADOR QUE FAZ O CADASTRO)"
+    },
+    {
+      "nome": "ARISTOCRATA",
+      "slug": "aristocrata",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 18H E SABADO DAS 08:00 AS 12:00",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA O SINDICO NO WHATSAPP."
+    },
+    {
+      "nome": "ATLANTA",
+      "slug": "atlanta",
+      "horario": "SEG A SAB DÀS 8H ÀS 17H ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICO/ GERENTE OPERACIONAL NO WHATSAPP.",
+      "procedimento": ""
+    },
+    {
+      "nome": "ATTUALE",
+      "slug": "attuale",
+      "horario": "SEGUNDA - SEXTA 08H - 17H SÁBADO – 08H / 12H",
+      "procedimento": "SEMPRE ENVIAR AUTORIZAÇÃO E INFORMATIVO DE NOVO CADASTRO NO GRUPO DA PORTARIA ANTECEDÊNCIA DE NO MÍNIMO 24H. 1 MUDANÇA POR DIA. CADASTRAR NO SHIELDER TAMBÉM ENVIAR AUTORIZAÇÃO DE MUDANÇA/ENTRADA MESMO QUE NÃO TENHA SIDO AGENDADO MUDANÇA."
+    },
+    {
+      "nome": "BARBIERI",
+      "slug": "barbieri",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 13H30 PAUSA PARA O ALMOÇO DO ZELADOR E RETORNA 14:30 ÀS 17H DE SÁBADO DÀS 8H AO 12H.",
+      "procedimento": "ENTREGAR A AUTORIZAÇÃO SEM DATA E HORÁRIO, AGENDAR DIRETO NA PORTARIA."
+    },
+    {
+      "nome": "CASABLANCA",
+      "slug": "casablanca",
+      "horario": "SEG À SEXTA DÀS 08:00H ÀS 11:00 E DA 13:00 ÀS 17:00H DE SÁBADO 8H ÀS 11H.",
+      "procedimento": "SEMPRE ENVIAR AUTORIZAÇÃO E INFORMATIVO DE NOVO CADASTRO NO GRUPO DA PORTARIA ANTECEDÊNCIA DE NO MÍNIMO 24H E NO GRUPO DO WHATSAPP 1 MUDANÇA POR DIA. CADASTRAR NA TW VIRTUA( ENTRADA OU SAIDA)"
+    },
+    {
+      "nome": "CDHU",
+      "slug": "cdhu",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 17H, DE SÁBADO DÀS 8H AO 12H.",
+      "procedimento": ""
+    },
+    {
+      "nome": "CEDROS",
+      "slug": "cedros",
+      "horario": "SEG A SEXTA DÀS 08:00 ÀS 11H00 E DA 13H00 ÀS 17H00.",
+      "procedimento": "DE SABADO DÀS 08:00 ÀS 11:00( UMA MUDANÇA POR DIA EM CADA BLOCO. SOLICITAR COM 24 HORAS DE ANTECEDÊNCIA, AVISAR NO GRUPO DO WHATSAPP. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "CITY CENTER",
+      "slug": "city-center",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 16:30H SÁBADO DÀS 9H AO 12H.",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A ZELADORA NO WHATSAPP."
+    },
+    {
+      "nome": "DOM PEDRO",
+      "slug": "dom-pedro",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 17H, DE SÁBADO DÀS 8H AO 12H",
+      "procedimento": "AVISAR DA SINDICA"
+    },
+    {
+      "nome": "FIVE",
+      "slug": "five",
+      "horario": "SEGUNDA A SEXTA-FEIRA 08H00 ÀS 11H00 E DA 13H00 ÀS 17H00 E SÁBADOS DÀS 08H00 ÀS 11H00, SÓ PODE UMA MUDANÇA POR DIA, AVISAR COM 1 DIA DE ANTECEDENCIA.",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO E COMUNICADO PARA A ANA ZELADORA PELO WHATSAPP. ENVIAR EMAIL PARA A PORTARIA ALARM SYSTEM INFORMANDO NOVO CADASTRO OU DESOCUPAÇÃO."
+    },
+    {
+      "nome": "FLORES",
+      "slug": "flores",
+      "horario": "AGENDAR MUDANÇA NO CONDOMINIO (EM CASO DE NOVOS CADASTROS EMITIR A AUTORIZAÇÃO EM BRANCO PARA AGENDAMENTO NO CONDOMINIO.",
+      "procedimento": "ENVIAR OS DADOS DE NOVO CADASTRO OU MUDANÇA NO EMAIL DA SINDICA E SIMONE"
+    },
+    {
+      "nome": "GARDEN PLACE",
+      "slug": "garden-place",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 16H",
+      "procedimento": "UMA MUDANÇA POR DIA EM CADA BLOCO. CADASTRAR NO SHIELDER, E AGENDAR MUDANÇA PELO SHIELDER"
+    },
+    {
+      "nome": "HADDAD",
+      "slug": "haddad",
+      "horario": "SEGUNDA A SEXTA 08H ÀS 16H E SÁBADO DAS 09H ÀS 11H.",
+      "procedimento": "ENVIAR INFORMATIVE DE CADASTRO PARA A SINDICA, E AGENDAR MUDANÇA PELO SHIELDER."
+    },
+    {
+      "nome": "IPE ROXO",
+      "slug": "ipe-roxo",
+      "horario": "SEG A SEXTA DAS 8H00 AS 17H00 E AOS SABADOS DAS 8H00 AS 12H00",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA O GRUPO NO WHATSAPP. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "JATIUCA",
+      "slug": "jatiuca",
+      "horario": "SEGUNDA À SEXTA DÀS 08:00 ÀS 18:00 E SÁBADO DÀS 8H AO 12H",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO."
+    },
+    {
+      "nome": "LUME",
+      "slug": "lume",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 11H E DA 13H ÀS 17H, SÁBADOS DÀS 8H ÀS 11H UMA MUDANÇA POR DIA.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "L’ HARMONIE",
+      "slug": "l-harmonie",
+      "horario": "SEGUNDA Á SEXTA DÀS 08:00 ÀS 11:00 E DA 13:00 ÀS 17:00 E SÁBADOS DÀS 8H ÀS 11H.",
+      "procedimento": "UMA MUDANÇA POR DIA. ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER."
+    },
+    {
+      "nome": "MAYORCA",
+      "slug": "mayorca",
+      "horario": "SEG À SEXTA DÀS 9H ÀS 18H, DE SÁBADO DÀS 9H ÀS 17H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICO NO WHATSAPP."
+    },
+    {
+      "nome": "MAGNOLIAS",
+      "slug": "magnolias",
+      "horario": "SEG À SEXTA DÀS 08h00 ÀS 18H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO E DOCUMENTAÇÃO PARA O ZAP DO ADIEL E DO JONAS PARA REALIZAREM O CADASTRO. MARIO ANDRADE: A SÍNDICA É RESPONSÁVEL E ENVIARÁ AS INFORMAÇÕES POR E-MAIL."
+    },
+    {
+      "nome": "MONET",
+      "slug": "monet",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 11H E DA 13H ÀS 17H, SÁBADOS DÀS 8H ÀS 11H UMA MUDANÇA POR DIA.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "MONTE CARLO",
+      "slug": "monte-carlo",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 12H E DA 13H ÀS 17H, DE SÁBADOS DÀS 8H ÀS 12H",
+      "procedimento": "ENTREGAR A AUTORIZAÇÃO SEM DATA E HORÁRIO, AGENDAR DIRETO COM O ZELADOR. ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRO OU DESOCUPAÇÃO TW VIRTUA"
+    },
+    {
+      "nome": "MOOVE",
+      "slug": "moove",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 11H E DA 13H ÀS 17H, SÁBADOS DÀS 8H ÀS 11H UMA MUDANÇA POR DIA.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "NASCENTE DO JARAGUA",
+      "slug": "nascente-do-jaragua",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 17H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICA NO WHATSAPP"
+    },
+    {
+      "nome": "PARK",
+      "slug": "park",
+      "horario": "SEGUNDA À SEXTA DÀS 8H ÀS 17:30H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICA NO WHATSAPP"
+    },
+    {
+      "nome": "PARQUE DOS TRILHOS",
+      "slug": "parque-dos-trilhos",
+      "horario": "SEG À SEX DÀS 8H ÀS 17:00H E SABADO DAS 08:00 AS 12:00",
+      "procedimento": "ENTREGAR A AUTORIZAÇÃO SEM DATA E HORÁRIO, AGENDAR DIRETO COM O ZELADOR. ENVIAR AUTORIZAÇÃO PARA O ZELADOR NO WHATSAPP E PARA O SINDICO JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRO OU DESOCUPAÇÃO TW VIRTUA."
+    },
+    {
+      "nome": "PRAÇAS DO SOL",
+      "slug": "pracas-do-sol",
+      "horario": "SEGUNDA A SEXTA DÀS 08:00 ÀS 17:00 E AOS SÁBADOS DÀS 08:00 ÀS 11:00",
+      "procedimento": "O AGENDAMENTO É FEITO DIRETO PELO SHIELDER. ATE DUAS MUDANÇA POR BLOCO."
+    },
+    {
+      "nome": "RESERVA DO CAMPO",
+      "slug": "reserva-do-campo",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 17H E AOS SÁBADOS DÀS 8H ÀS 13H UMA MUDANÇA POR DIA.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO PARA O SINDICO JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "RESIDENCIAL DAS PAINEIRAS",
+      "slug": "residencial-das-paineiras",
+      "horario": "SEG À SEXTA 8H ÀS 17H E SÁBADO DÀS 8H ÀS 12:00H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A LAIS NO WHA"
+    },
+    {
+      "nome": "RESIDENCIAL PIEMONTE",
+      "slug": "residencial-piemonte",
+      "horario": "SEG À SEXTA 8H ÀS 17H / SABADO DÀS 8H ÁS 12H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A ZELADOR NO WHATSAPP."
+    },
+    {
+      "nome": "PAIRAS",
+      "slug": "pairas",
+      "horario": "",
+      "procedimento": "O AGENDAMENTO É FEITO DIRETO PELO SHIELDER. ATE DUAS MUDANÇA POR BLOCO. SABADO DAS 08H AS 12H00. SEGUNDO SABADO DO MÊS MUDANÇA LIBERADA ATÉ AS 16:00. ENVIAR COMUNICADO DE CADASTRO E MUDANÇA NO GRUPO DO WHATSAPP"
+    },
+    {
+      "nome": "RIACHO DOCE",
+      "slug": "riacho-doce",
+      "horario": "SEG À SEXTA 8H ÀS 16:00H / SABADO DÀS 8H ÁS 11:00H (UMA MUDANÇA POR DIA)-MUDANÇA AGENDAR NO SHIELDER.",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICA NO WHATSAPP. QUANDO FOR NOVO CADASTRO, SEMPRE ENVIAR IMPRESSO PARA O CONDOMINIO A COPIA DA PRIMEIRA FOLHA DA DOCUMENTAÇÃO. CADASTRAR NO SHIELDER."
+    },
+    {
+      "nome": "ROSAS DE OURO",
+      "slug": "rosas-de-ouro",
+      "horario": "SEG A SEXTA DÀS 08H ÀS 17H.",
+      "procedimento": "ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO."
+    },
+    {
+      "nome": "ROSEIRAS II",
+      "slug": "roseiras-ii",
+      "horario": "SEG À SEXTA DÀS 9H ÀS 16H, SABADOS DAS 09H AS 11H.",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICO NO WHATSAPP."
+    },
+    {
+      "nome": "ROYAL GARDEN",
+      "slug": "royal-garden",
+      "horario": "SEG À SEXTA DÀS 8:30 ÀS 11:30 E 13:30 ÀS 16:45.SÁBADO DÀS 8H ÀS 11H.",
+      "procedimento": "(SE FOR ENTRADA COM MÓVEIS) EM CASOS DE MONTAGENS DE MÓVEIS, BARULHO OS HORÁRIOS SÃO DE SEGUNDA À SEXTA APÓS AS 18:00H, AOS SÁBADOS APÓS AO 12:00H E AOS DOMINGOS É LIBERADO O DIA TODO. * ENVIAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP JUNTO COM O INFORMATIVO SOBRE O NOVO CADASTRO"
+    },
+    {
+      "nome": "SALTO GRANDE III- CAMPO BELO",
+      "slug": "salto-grande-iii-campo-belo",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 11 E DÀS 13 A 17H",
+      "procedimento": "CADASTRAR NO SISTEMA SHILDER TAMBÉM."
+    },
+    {
+      "nome": "SALTO GRANDE I",
+      "slug": "salto-grande-i",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 16. CADASTRAR NO SHIELDER",
+      "procedimento": ""
+    },
+    {
+      "nome": "SALTO IV- RESERVA DO CAMPO",
+      "slug": "salto-iv-reserva-do-campo",
+      "horario": "SEG A SABADO DÀS 8H ÀS 18H00",
+      "procedimento": "CADASTRAR NO SISTEMA SHILDER TAMBÉM."
+    },
+    {
+      "nome": "SAN MARCO",
+      "slug": "san-marco",
+      "horario": "SEG À SEX DÀS 8:00 ÀS 18:00H E SÁB DÀS 8:00 À 12:00H",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A ZELADORA NO WHATSAPP"
+    },
+    {
+      "nome": "SEVILHA",
+      "slug": "sevilha",
+      "horario": "SEG À SEX DÀS 8:00 ÀS 18:00H E SÁB DÀS 8:00 À 12:00H",
+      "procedimento": ""
+    },
+    {
+      "nome": "SUMMERTIME",
+      "slug": "summertime",
+      "horario": "Seg à Sexta dàs 8h às 17:30h",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICO NO WHATSAPP"
+    },
+    {
+      "nome": "TIVOLI",
+      "slug": "tivoli",
+      "horario": "SEG A SEXTA DÀS 8H ÀS 17H, SÁBADOS DÀS 8H ÀS 12H.",
+      "procedimento": "AGENDAR COM 2 A 3 DIAS DE ANTECEDÊNCIA). MANDAR AUTORIZAÇÃO NO GRUPO DO WHATSAPP. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "TRIADE",
+      "slug": "triade",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 17H.",
+      "procedimento": "UMA MUDANÇA POR DIA MANDAR A AUTORIZAÇÃO E INFORMATIVO DE NOVO CADASTRO NO WHATS DA ZELADORIA. ENVIAR EMAIL PARA A PORTARIA ALARM SYSTEM INFORMANDO NOVO CADASTRO OU DESOCUPAÇÃO."
+    },
+    {
+      "nome": "VALE SUPREMO",
+      "slug": "vale-supremo",
+      "horario": "SEG A SEXTA DAS 8H00 AS 17H00 E AOS SABADOS DAS 8H00 AS 12H00",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA O GRUPO NO WHATSAPP. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "VANCOUVER",
+      "slug": "vancouver",
+      "horario": "SEGUNDA A SEXTA DÀS 08:30 ÀS 16:30. SABADOS DÀS 08:30 ÀS 11:30.",
+      "procedimento": "ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA A SINDICO NO WHATSAPP DA PORTARIA. CADASTRAR NO SHIELDER"
+    },
+    {
+      "nome": "VIDA PLENA",
+      "slug": "vida-plena",
+      "horario": "OBS: SEG À SEX DÀS 8:00H ÀS 11:00H, DÀS 13:00 ÀS 17:00H",
+      "procedimento": "PRECISA ENTREGAR COM 2 DIAS DE ANTECEDÊNCIA. SÓ PODE 1 MUDANÇA POR DIA, POIS O ZELADOR ACOMPANHA TODAS MUDANÇA, INDEPENDENTE DO BLOCO. - NÃO LIBERAR 2 DE JEITO NENHUM!!! ENVIAR A AUTORIZAÇÃO DE MUDANÇA E INFORMATIVO DE NOVO CADASTRO PARA O GRUPO DA PORTARIA NO WHATSAPP. CADASTRAR NA SHIELDER"
+    },
+    {
+      "nome": "VILA RIO PRETO",
+      "slug": "vila-rio-preto",
+      "horario": "SEG À SEXTA DÀS 8H ÀS 20H OBS: SÃO 4 TORRES ONDE AS MUDANÇAS SÃO DIVIDIDAS ENTRE MANHÃ E TARDE.",
+      "procedimento": "DE PREFERENCIA COMUNICAR O SINDICO QUANDO HÁ ALGUMA MUDANÇA OU NOVO CADASTRO."
+    }
+  ]
+}
