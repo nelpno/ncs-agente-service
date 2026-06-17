@@ -1,6 +1,15 @@
 // superlogica.mjs — tools de LEITURA reais (endpoints validados no live-map 11/06).
 // SOMENTE GET. Whitelist de campos (PII/cartão nunca saem). Cache da lista de condomínios.
 import { config } from './config.mjs';
+import { consultar_garantidora } from './garantidora.mjs';
+
+// garantidoraDe: resolve a garantidora do condomínio por id; tenta o nome (cache) como reforço de match.
+async function garantidoraDe(id_condominio) {
+  let nome = null;
+  try { const condos = await listCondominios(); nome = (condos.find((c) => String(c.id) === String(id_condominio)) || {}).nome; } catch { /* sem cache → casa por id mesmo */ }
+  const g = consultar_garantidora({ id_condominio, nome });
+  return g.tem ? g : null;
+}
 
 async function slGet(controllerAction, params = {}) {
   const qs = new URLSearchParams(params).toString();
@@ -91,12 +100,19 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone } = {}
 // ATENÇÃO: idUnidade é ignorado; o filtro é UNIDADES[0]=. Conferir id_unidade_uni no retorno (LGPD).
 export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
   if (!id_condominio || !id_unidade) return { erro: 'faltam id_condominio e id_unidade' };
+  // Garantidora 'total': a NCS não gera boleto pelo Superlógica → direcionar à garantidora (nem consulta o sistema).
+  const gar = await garantidoraDe(id_condominio);
+  if (gar && gar.tipo === 'total') return { liberado: false, motivo: 'garantidora', garantidora: gar.garantidora };
   const data = await slGet('cobranca/index', { idCondominio: id_condominio, status: 'pendentes', 'UNIDADES[0]': id_unidade });
   const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade)); // anti-troca
   if (!itens.length) return { liberado: false, motivo: 'nenhum boleto pendente para esta unidade' };
   const b = itens.sort((a, z) => new Date(a.dt_vencimento_recb) - new Date(z.dt_vencimento_recb))[0];
   const diasVencido = b.dt_vencimento_recb ? Math.floor((Date.now() - new Date(b.dt_vencimento_recb)) / 86400000) : 0;
-  if (diasVencido > 30) return { liberado: false, dias_vencido: diasVencido, motivo: 'boleto vencido +30 dias — encaminhar à cobrança' };
+  if (diasVencido > 30) {
+    const r = { liberado: false, dias_vencido: diasVencido, motivo: 'boleto vencido +30 dias — encaminhar à cobrança' };
+    if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure: inadimplência +31d é da Inadimplência Zero.
+    return r;
+  }
   return {
     liberado: true, dias_vencido: diasVencido,
     id_unidade_uni: b.id_unidade_uni,
@@ -108,8 +124,16 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
 }
 
 export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
+  // Garantidora 'total': a NCS não enxerga a cobrança pelo Superlógica → não cravar adimplência; direcionar à garantidora.
+  const gar = await garantidoraDe(id_condominio);
+  if (gar && gar.tipo === 'total') return { status: 'gerido_por_garantidora', garantidora: gar.garantidora };
   const data = await slGet('cobranca/index', { idCondominio: id_condominio, status: 'pendentes', 'UNIDADES[0]': id_unidade });
   const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade));
   const vencidos = itens.filter((b) => b.fl_inadimplente_recb == 1 || b.fl_inadimplente_recb === true);
-  return vencidos.length ? { status: 'inadimplente', qtd: vencidos.length } : { status: 'adimplente' };
+  if (vencidos.length) {
+    const r = { status: 'inadimplente', qtd: vencidos.length };
+    if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure inadimplente: cobrança pela Inadimplência Zero.
+    return r;
+  }
+  return { status: 'adimplente' };
 }
