@@ -1,0 +1,30 @@
+{
+  "_fonte": "Playlist oficial de tutoriais Gruvi (Superlógica) enviada pelo Fernando em 17/06/2026: https://www.youtube.com/playlist?list=PL0UifI_ql2dA9B_TQavwaqbtlfVOqv2bP — 23 vídeos. Extraídos via .tmp/gruvi_playlist2.mjs.",
+  "_uso": "Mapa intenção->link p/ a Ana enviar o how-to certo no WhatsApp (alvo C). 'temas' = palavras-chave p/ casar a dúvida do morador. Complementa data/base-geral/app-gruvi-funcionalidades.md (conhecimento textual).",
+  "_nao_wired": "Dado-fonte apenas; NÃO ligado ao runtime da Ana nem deployado. Wiring futuro: tool/branch que devolve o link ao detectar a intenção.",
+  "videos": [
+    { "id": "cagrevJrYtA", "titulo": "Como fazer o download e entrar no Gruvi?", "url": "https://youtu.be/cagrevJrYtA", "temas": ["baixar app", "download", "instalar", "primeiro acesso", "entrar", "login", "não consigo entrar"] },
+    { "id": "fYhhC3khtwk", "titulo": "Como cadastrar a facial no Gruvi?", "url": "https://youtu.be/fYhhC3khtwk", "temas": ["facial", "reconhecimento facial", "prova de vida", "biometria", "validação facial"] },
+    { "id": "U3X3uZ16-uc", "titulo": "Como validar o documento no Gruvi?", "url": "https://youtu.be/U3X3uZ16-uc", "temas": ["validar documento", "validação de documento", "documento de identidade"] },
+    { "id": "_0aIaPuQY2I", "titulo": "Como validar o e-mail no Gruvi?", "url": "https://youtu.be/_0aIaPuQY2I", "temas": ["validar email", "confirmar email", "verificar e-mail"] },
+    { "id": "e95bqBfx8O0", "titulo": "Como atualizar o Gruvi?", "url": "https://youtu.be/e95bqBfx8O0", "temas": ["atualizar app", "atualização", "versão do app"] },
+    { "id": "iOsPTfgMvLs", "titulo": "Como solicitar a atualização dos seus dados cadastrais via Gruvi?", "url": "https://youtu.be/iOsPTfgMvLs", "temas": ["atualizar dados", "dados cadastrais", "mudar telefone", "mudar email", "atualizar cadastro"] },
+    { "id": "KT8GC760H_s", "titulo": "Como pegar boletos no Gruvi?", "url": "https://youtu.be/KT8GC760H_s", "temas": ["boleto", "2ª via", "segunda via", "fatura", "pagamento"] },
+    { "id": "jBOS-yRH-94", "titulo": "Como fazer reservas no Gruvi?", "url": "https://youtu.be/jBOS-yRH-94", "temas": ["reserva", "área comum", "salão de festas", "churrasqueira", "espaço gourmet"] },
+    { "id": "Yv3EpN5jogQ", "titulo": "Como cadastrar veículos no Gruvi?", "url": "https://youtu.be/Yv3EpN5jogQ", "temas": ["veículo", "carro", "placa", "garagem", "vaga"] },
+    { "id": "Uw5ySR1cUo0", "titulo": "Como liberar visitantes no Gruvi?", "url": "https://youtu.be/Uw5ySR1cUo0", "temas": ["visitante", "visita", "liberar visita", "convidado"] },
+    { "id": "6TOgLIiQtJ4", "titulo": "Como liberar prestadores de serviço no Gruvi?", "url": "https://youtu.be/6TOgLIiQtJ4", "temas": ["prestador de serviço", "diarista", "técnico", "entregador", "liberar prestador"] },
+    { "id": "Aw2cOWXuptg", "titulo": "Como mandar mensagem no chat do Gruvi?", "url": "https://youtu.be/Aw2cOWXuptg", "temas": ["chat", "mensagem", "conversar", "falar no app"] },
+    { "id": "2zDHbpTAwQ4", "titulo": "Como falar com o síndico pelo Gruvi?", "url": "https://youtu.be/2zDHbpTAwQ4", "temas": ["síndico", "falar com síndico", "contato síndico"] },
+    { "id": "yVuC_E70ZTc", "titulo": "Como o morador fala com a portaria pelo Gruvi?", "url": "https://youtu.be/yVuC_E70ZTc", "temas": ["falar com portaria", "portaria", "porteiro"] },
+    { "id": "yC5quzC5pSg", "titulo": "Como ativar a portaria no Gruvi?", "url": "https://youtu.be/yC5quzC5pSg", "temas": ["ativar portaria", "portaria remota"] },
+    { "id": "lc-fTgxG_3w", "titulo": "Como o porteiro responde os moradores pelo Gruvi?", "url": "https://youtu.be/lc-fTgxG_3w", "temas": ["porteiro responde", "portaria atende", "interno portaria"] },
+    { "id": "y-ohidzDBuc", "titulo": "Como checar comunicados no Gruvi?", "url": "https://youtu.be/y-ohidzDBuc", "temas": ["comunicado", "aviso", "notícia do condomínio"] },
+    { "id": "3JiF0wlJWVE", "titulo": "Como visualizar documentos do condomínio no Gruvi?", "url": "https://youtu.be/3JiF0wlJWVE", "temas": ["documentos", "ata", "regimento", "convenção", "prestação de contas", "balancete"] },
+    { "id": "O7m0WzvJWp8", "titulo": "Como checar suas encomendas no Gruvi?", "url": "https://youtu.be/O7m0WzvJWp8", "temas": ["encomenda", "pacote", "correio", "entrega"] },
+    { "id": "RafdHS_vaS0", "titulo": "Como saber se há ocorrências para minha unidade no Gruvi?", "url": "https://youtu.be/RafdHS_vaS0", "temas": ["ocorrência", "multa", "advertência", "notificação", "infração"] },
+    { "id": "3Lbfq4eyOWU", "titulo": "Como abrir uma solicitação no Gruvi?", "url": "https://youtu.be/3Lbfq4eyOWU", "temas": ["solicitação", "pedido", "chamado", "abrir solicitação"] },
+    { "id": "aV00ltKkZCo", "titulo": "Como falar com suporte no Gruvi?", "url": "https://youtu.be/aV00ltKkZCo", "temas": ["suporte", "ajuda", "problema no app", "erro"] },
+    { "id": "Of_Nx7aJJcI", "titulo": "Como participar de assembleias no Gruvi?", "url": "https://youtu.be/Of_Nx7aJJcI", "temas": ["assembleia", "votação", "votar", "reunião"] }
+  ]
+}

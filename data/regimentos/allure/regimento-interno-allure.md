@@ -1,0 +1,359 @@
+# Regimento Interno — Allure
+
+## Capítulo I - Normas Gerais Art. 1º - O Bloco é exclusivamente residencial sendo terminantemente proibida a utilização das unidades autônomas e das partes comuns, para todo e qualquer fim diverso, comercial ou não, tais como: escolas, aulas, consultórios, escritórios, jogos de azar, casa de apostas, seitas religiosas, reuniões políticas ou de sociedade, ou outras atividades que motivem fluxo de pessoas residentes ou não no Bloco.
+
+### Art. 2o
+O Condômino que estiver em atraso com suas obrigações condominiais perderá o direito de voto nas Assembléias, além do direito de utilizar o Salão de Festas e demais dependências (Espaço Gourmet). Art. 3° - O condômino que estiver inadimplente por um período de 03 (três) meses poderá ter o seu nome registrado junto aos órgãos de proteção ao crédito.
+
+### Art. 4o
+Além do Síndico, Subsíndico e Conselheiros (aqui denominado CORPO SINDICO) compete ao funcionário designado, na qualidade de preposto do Corpo Síndico, fiscalizar o fiel cumprimento deste Regulamento, da mesma forma que os Srs. Condôminos e assim sucessivamente; Art. 5o - Em casos emergenciais, cujo presente Regulamento seja omisso e não houver quaisquer determinações ou disposições na legislação do Condomínio vigente e/ou Convenção do Condomínio que possam elucidá-los, valerá o determinado pelo Corpo Síndico;
+
+### Art. 6o
+Toda e qualquer sugestão ou reclamação dos Condôminos deverá ser feita por escrito no livro de ocorrências, que ficará disponível na portaria, identificando número do apartamento e bloco, bem como o nome completo do reclamante.
+
+## Capítulo II - Dos Direitos dos condôminos
+
+### Art. 1o
+Comparecer às assembléias e nelas discutir, reclamar, sugerir, votar e ser votado desde que em dia com suas obrigações condominiais;
+
+### Art. 2o
+Examinar a qualquer tempo, os livros, arquivos e demais documentos pertencentes ao Condomínio; Art. 3o - Exigir da Administração do Condomínio, regularmente eleita, que cumpra integralmente a Lei do Condomínio vigente e os Decretos que a complementam, a Convenção do Condomínio, bem como este Regulamento Interno e as normas estabelecidas em Assembléias Gerais do Condomínio;
+
+### Art. 4o
+Não poderá haver nenhuma decoração dos Halls de cada andar deverá por mera liberalidade fixar pequenos vasos fora da área de circulação e que não prejudique a segurança, caso não esteja nessas condições, deverá ser retirado mediante comunicação do síndico. Sob pena de multa. Parágrafo Único: As portas, soleiras e fechaduras que dão acesso ao hall, não poderão ser alteradas. Art. 5° - Os proprietários dos apartamentos poderão instalar grades de proteção de modelo e cor padronizados, desde que aprovados em Assembléia somente para o 1º piso, os demais somente poderão instalar rede de proteção.
+
+### Art. 6°
+Os proprietários dos apartamentos localizados nas coberturas poderão instalar guarda-corpo de modelo e cor padronizados, desde que aprovados em Assembléia.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 3 de 15
+
+## Capítulo III - Das Obrigações dos condôminos
+
+### Art. 1o
+Pagar regular e pontualmente todas as obrigações condominiais deliberadas nas Assembléias do Condomínio. Em caso de inadimplência, autoriza expressamente que conste no boleto e no balancete mensal o número da unidade, os meses em atraso e o valor total do débito.
+
+### Art. 2o
+Não infringir em nenhum aspecto a Lei do Condomínio e os decretos que a complementam, a Convenção do Condomínio, o Regulamento Interno, as Deliberações das Assembléias e as Determinações do Síndico.
+
+### Art. 3o
+Tomar as medidas de segurança normais para com os objetos de sua propriedade, tais como:
+
+a) Deixar sempre com o Funcionário designado pelo Síndico, em caso de ausência prolongada, telefone
+
+para contato em caso de emergência; b) Manter sempre fechadas e trancadas as portas de seu apartamento, principalmente quando ausentes; c) Somente abrir a porta às pessoas previamente identificadas através de interfone e/ou Funcionário
+
+designado pelo Síndico; d) Somente convidar para festas familiares e amigos de inteira confiança; e) Em casos de moléstias contagiosas, fica o morador obrigado a comunicar o fato imediatamente ao Síndico, a fim de que se possam providenciar as medidas necessárias, como determina o Regulamento da Inspetoria Nacional da Saúde Pública; f) E todas as demais medidas de bom senso. g) Respeitar o horário entre 08:00 e 18:00 horas, de segunda a sexta-feira, para ingressar no prédio com
+
+móveis e utensílios de casa (mudanças). h) Respeitar o horário entre 22:00 e 07:00 horas mantendo silêncio.
+
+## Capítulo IV - Dos Funcionários do Condomínio Art. 1º - Os funcionários do Condomínio estão subordinados ao Síndico e ao Conselho Fiscal e Sub-Síndicos, incumbindo-lhes a execução de todos os serviços necessários. Parágrafo único: A dispensa ou transferência de qualquer funcionário pelo sindico, deverá primeiramente passar pela maioria do Corpo Diretivo, a fim de obter esta autorização por escrito. Art. 2º - As reclamações de funcionários deverão ser encaminhadas ao Síndico e/ou Corpo Diretivo. Art. 3º - Todos os funcionários deverão ser tratados com urbanidade e respeito, para que possam desempenhar bem as suas funções, cabendo igual tratamento aos condôminos por parte dos funcionários. Art. 4º - Os funcionários deverão apresentar-se adequadamente vestidos e/ou uniformizados de acordo com a respectiva função, devendo manter estrita disciplina de trabalho. Art. 5º - Ficam os proprietários, proibidos de utilizarem os serviços dos empregados do Condomínio, para fins particulares, durante seu período de expediente. Art. 6 - Após a limpeza das áreas comuns, manter o registro fechado das mesmas para evitar desperdícios.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 4 de 15
+
+## Capítulo V - Das Correspondências Art. 1º - As correspondências trazidas pelo carteiro, ou por outro portador, serão recebidas pelo porteiro, e por contra recibo, se for o caso. Caberá ao condômino a responsabilidade de averiguar com freqüência, junto a sua caixa de correspondência, se há correspondências para si ou membros que co-habitem a sua unidade.
+
+### Art. 2º
+As correspondências que não couberem na caixa de correspondências situada no térreo de cada bloco ficarão na portaria para serem retiradas pelos condôminos. Art. 3º - Quando se tratar de correspondência de caráter judicial, o portador será identificado e encaminhado diretamente ao destinatário, sendo vedado o recebimento pelo porteiro. Art. 4º - Àqueles que não residem na unidade, deverão comunicar a Administração o seu domicilio e seu contato telefônico para recepção de correspondência. Parágrafo Único: Não o fazendo não poderá alegar em juízo ou fora dele a não recepção das correspondências.
+
+## Capítulo VI - Da Portaria e Porta de Entrada do Bloco Art. 1º - Por medida de segurança os portões (de pedestres e de veículos) que dão acesso ao Condomínio, serão mantidos permanentemente fechados. Art. 2º - A porta da entrada de cada bloco deverá permanecer trancada para segurança interna do Condomínio. Os moradores deverão utilizar suas chaves para sua abertura e fechamento. Art. 3º - É vedada a entrada na dependência do Condomínio, sem autorização do Síndico / Subsíndico, de corretores, agenciadores, cobradores, ofertantes de produtos e serviços, vendedores ambulantes, solicitantes e pedintes de qualquer natureza, assim como de pessoas com o fim de angariar donativos e misteres semelhantes, compradores de coisas usadas, jornais, garrafas, etc. Art. 4º - É proibido aos entregadores de mercadorias (lanches, pizza, remédios etc.) subirem aos apartamentos. Os condôminos serão avisados e deverão descer para recebê-los na portaria. Art. 5º - Os fornecedores de bens ou de serviços, e entregadores de móveis e eletrodomésticos, só poderão permanecer no Bloco, o tempo necessário ao desempenho de suas funções e entregas, desde que esteja acompanhado pelo proprietário da unidade autônoma e dentro do horário permitido. Art. 6º - É proibida a permanência de pessoas estranhas em qualquer dependência do Bloco e áreas comuns, quando desacompanhadas de pelo menos um morador do condomínio. Art. 7º - A Administradora deverá providenciar uma relação de todos os condôminos residentes no Condomínio, que permanecerá na portaria. Art. 8º - Pessoas estranhas ao Condomínio deverão dirigir-se à portaria, identificando-se ao porteiro, o qual anunciará ao ocupante da unidade autônoma, através do interfone, a visita ou fornecedor que deseja ser recebido. Parágrafo Primeiro: Os visitantes deverão aguardar do lado de fora da Portaria até que o Porteiro tenha obtido a necessária autorização. Parágrafo Segundo: Na ausência do morador, somente será permitida a entrada de visitante na respectiva unidade desde que autorizado por escrito pelo morador responsável que assumirá a responsabilidade por todos e quaisquer danos causados à sua unidade ou às áreas comuns do Condomínio.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 5 de 15
+
+## Capítulo VII - Da Locação e Cessão das Unidades
+
+### Art. 1º
+É expressamente proibido alugar, sublocar, usar, emprestar ou ceder, no todo ou em parte, qualquer unidade autônoma para outro fim que não seja estritamente residencial.
+
+### Art. 2º
+O Condomínio permite locações de unidades autônomas, desde que o proprietário observe os seguintes itens:
+
+a) Toda locação deverá ser previamente comunicada por escrito ao síndico juntamente com a cópia do
+
+contrato de locação.
+
+b) Deverão ser mencionados o período da locação, nome e número do RG de todas as pessoas que
+
+utilizarão a unidade, bem como a placa do veículo autorizado a entrar no Condomínio;
+
+c) O proprietário deverá entregar cópia do regulamento interno ao locatário, solicitando o expresso
+
+cumprimento de suas normas e disciplinas.
+
+Parágrafo Único: O proprietário que alugar ou ceder o seu apartamento, perderá o direito de utilizar-se das áreas comuns, a não ser que seja convidado por outro condômino ou morador. O direito de uso passará para o inquilino ou morador devidamente registrado.
+
+### Art. 3º
+É vedada a locação para fins de república.
+
+Art 4º - É permitida a locação de vaga de garagem exclusivamente para moradores do condomínio mediante apresentação de contrato de locação ou comodato, nos termos previstos na Convenção.
+
+## Capítulo VIII - Do Horário Art. 1º - No período entre 22:00 e 07:00 horas da manhã cumpre aos moradores e visitantes, respeitar o silêncio noturno, este estabelecido na Lei Municipal 01085 - 1962. Parágrafo Único: Guardar silêncio evitando a produção de ruídos que possam perturbar o sossego dos demais condôminos, mediante uso de aparelhos elétricos, sonoros, radiofônicos, instrumentos musicais, televisores, conversas em alto tom, gritarias, deslocamento de móveis, uso de furadeiras, martelos e etc. Art. 2º - Atividades sociais (festas, reuniões, aniversários, etc.) cuja duração ultrapassar às 22:00 horas, deverão ser restritas às dependências do salão de festas e espaço gourmet, exceto para as coberturas, desde que respeitem o silêncio, porém sem que hajam ruídos que possam incomodar aos demais condôminos; Art. 3º - Ruídos provenientes de obras somente serão permitidos se forem realizados em dias úteis das 08:00 às 17:00 horas e aos sábados das 08:00 às 12:00 horas (pequenos reparos). Aos domingos e feriados fica vetada a realização de obras a não ser em casos de emergência.
+
+## Capítulo IX - Da Coleta de Lixo e Limpeza Art. 1º - O lixo deverá ser acondicionado em sacos plásticos destinados a tal fim tomando as precauções necessárias para evitar vazamentos e depositados exclusivamente na lixeira existente no Condomínio. Ficando proibido descartar entulhos (ex: móveis velhos, restos de construção, etc.) na lixeira. Art. 2º - Garrafas, jornais, revistas, latas, plásticos, caixa de papelão e vidros quebrados, deverão ser depositados nos cestos de reciclagem de lixo. Art. 3º - É terminantemente proibida a colocação de sacos de lixo ou volumes nas portas dos apartamentos ou outras áreas de uso comum que não aquelas destinadas para tal fim.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 6 de 15
+
+Parágrafo Primeiro: É expressamente proibido, a bem da limpeza, da ordem e higiene, lançar papéis, cinzas ou pontas de cigarro e quaisquer outros objetos, ou detritos nas áreas comuns do Condomínio. Parágrafo Segundo: É proibido deixar brinquedos, bicicletas, caixas de papelão, de madeira, ou de qualquer outro material, sacos de lixo, garrafas e outros objetos nas áreas comuns, uma vez que obstruem a passagem de pedestre e ainda agridem o visual. Art. 4º - As partes comuns do Condomínio serão rigorosamente limpas, sendo obrigação dos moradores colaborarem na conservação desta limpeza. Art. 5º - É proibido estender, limpar, bater e sacudir roupas, tapetes, etc. nas janelas ou outro lugar visível na parte exterior da unidade, bem como executar quaisquer serviços domésticos nas áreas comuns do Condomínio.
+
+## Capítulo X - Da Utilização da Garagem As vagas da garagem estão estabelecidas para cada unidade, de acordo com o memorial descritivo presente no contrato de compra junto a MRV.
+
+### Art. 1o
+A garagem do Condomínio destina-se exclusivamente à guarda dos veículos pertencentes aos moradores devidamente registrados no cadastro do Condomínio.
+
+### Art. 2o
+Cada condômino terá direito exclusivamente ao número de vagas na garagem que esteja especificado em seu título de propriedade. Art. 3o - As motocicletas ocuparão o mesmo espaço físico da (s) vaga (s) de garagem de cada unidade, estacionando por inteiro dentro dos limites da vaga respectiva, de modo que não prejudiquem as condições do estacionamento, circulação e manobras de garagem.
+
+### Art. 4o
+No caso de locação de apartamento, o locatário terá direito à respectiva vaga, devendo o proprietário, transferir expressamente ao Locatário, as obrigações deste Regulamento.
+
+### Art. 5o
+É obrigatória o cadastramento dos veículos no relatório existente na portaria, cujas informações permaneceram para consulta dos porteiras e a denominação da respectiva garagem, a aquisição de controle remoto para o portão da garagem, quando disponível esse serviço, ficará as expensas do condômino, ficando vedado o acionamento de buzinas para chamar a atenção da portaria.
+
+### Art. 6o
+A velocidade permitida na garagem será de 20 Km/h.
+
+### Art. 7o
+É obrigatório o uso de farol no período noturno.
+
+### Art. 8o
+É liberada a entrada de deficientes visitantes, com a autorização dos condôminos, pela garagem, com termo de permissão de trânsito, registrado no livro próprio da portaria. Art. 9o - É proibido manter o portão do condomínio aberto mais do que o tempo necessário para o acesso às dependências do mesmo. Art. 10º - Todo o movimento de carros para entrada no condomínio terá preferência na entrada. A prioridade na entrada é por motivo de segurança. Art. 11º - A entrada de veículos de visitantes na garagem do condomínio somente será permitida em casos de emergência ou se tratar de pessoa portadora de deficiência de locomoção, mesmo assim, mediante autorização do síndico ou seu representante.
+
+### Art. 12o
+Somente será permitida a entrada do condômino que estiver com cartão de identificação, TAG ou qualquer outro dispositivo adotado, que deverá ser mantido no painel do veículo ou no para-brisa, havendo a troca de veículo, esta deverá ser comunicada no dia desta substituição, ficando esta responsabilidade a cargo do condômino.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 7 de 15
+
+### Art. 13o
+Será expressamente proibido:
+
+a) A guarda de móveis, caixas, garrafas, materiais de construção, entulhos, etc., tanto nas
+
+áreas de circulação quanto na área que delimita a vaga do Condômino. b) Crianças brincando, quer no espaço reservado aos veículos, quer nas áreas de circulação da
+
+garagem; c) Uso de patins, patinetes, skate, carrinhos, bicicletas e jogos de bola na garagem ou áreas
+
+comuns; d) A conservação de motores ligados além do tempo necessário para aquecimento; e) O uso excessivo de buzinas de veículos, exceto por motivos de segurança ou em casos
+
+emergenciais; f) O acesso de veículos de fornecedores / entregadores para carga e descarga em qualquer
+
+horário. g) Lavagem, pintura e lubrificação de veículos na garagem, inclusive se for para tirar neblina do
+
+pára-brisa; h) Consertos e reparos dos veículos na garagem, exceto pequenos reparos e em situações
+
+emergenciais; i) Locação ou comodato de vagas a pessoas que não sejam condôminos, moradores,
+
+locatários do Condomínio. j) A ocupação das vagas de condôminos que não possuem veículos, ou que estejam ausentes, mesmo temporariamente, a não ser quando haja a locação ou comodato, formalizados através de contratos, em casos de estacionamentos provisórios estarão recebendo este permissão de trânsito e anotação no respectivo livro. k) A ocupação das vagas fora dos limites estabelecidos pelas marcas delimitadoras das
+
+mesmas. Art. 10o - Qualquer dano causado por morador ou veículo a outro veículo será de inteira responsabilidade do causador do dano, devendo o responsável ressarcir o prejuízo causado na melhor forma acordada entre os interessados;
+
+### Art. 11o
+Os veículos devem ser revisados de modo a evitar derramamento de óleo e outros danos ao piso da garagem. Art. 12º - É vedada a guarda de bicicleta na garagem e espaço de área comum, exceto no período que não tivermos o bicicletário definido.
+
+## Capítulo XI - Regulamento de Mudanças Art.1º - As mudanças para dentro ou fora do edifício (totais ou parciais), devem ser notificadas através de formulário próprio e autorizadas com o mínimo de 24 horas de antecedência ao funcionário designado pela Administradora, que cientificará o interessado do disposto neste Regulamento; Art. 2º - O morador ou proprietário do apartamento interessado na mudança é o responsável por todo e qualquer dano ocasionado a terceiros e ao edifício, tais como: quebras ou manchas nas paredes, muros, soleira, portas, etc., da mesma forma, no que se refere à inutilização ou quebra parcial ou total de qualquer peça, móveis, utensílios, acessórios, máquinas, lustres, lâmpadas vidros, passadeiras, ferros, canos, etc.;
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 8 de 15
+
+### Art. 3º
+Ocorrendo qualquer destes estragos, o funcionário designado comunicará imediatamente os responsáveis pela mudança, avisando ao Síndico para as providências de ressarcimento dos prejuízos, nos termos do capítulo XV deste Regulamento. Art. 4º - Quando o transporte tiver que ser feito pelas fachadas e / ou escadas, será rigorosamente observado o disposto no artigo 2º deste capítulo, estendendo os danos a todos os apartamentos por onde a mudança transitou (batidas nas paredes, peitoris, portas, escadas, etc.); Art. 5º - O horário das mudanças será rigorosamente compreendido entre 08:00 e 18:00 horas, de Segunda a Sexta-feira. As exceções serão analisadas pelo Síndico. Art. 6º - O Condomínio e o Síndico não assumem qualquer responsabilidade por danos, acidentes ou roubos que possam ocorrer durante a mudança. Art. 7º - Os demais condôminos que tenham sofrido danos ou prejuízos ocasionados por uma mudança, deverão apresentar de imediato, sua reclamação no livro de ocorrências para futura deliberação pelo Síndico, solicitando-o a constatar o dano ou prejuízo, formalizar o ocorrido, a fim de que sejam tomadas as devidas providências junto aos responsáveis.
+
+a) Os condôminos deverão ficar cientes que fora do prazo não serão levadas em consideração às
+
+reclamações. Capítulo XII - Da utilização do Salão de Festas e Espaço Gourmet e Piscinas Art. 1º - A requisição do salão de festas e espaço gourmet é exclusiva dos condôminos, os moradores não poderão fazê-la para promoção de atividades sociais e sim festas de aniversários datas comemorativas de sua família RESIDENTE ou então para confraternizações organizadas pelos condôminos com aprovação do Síndico.
+
+. Art. 2º - O horário para utilização do salão de festa e espaço gourmet será impreterivelmente até às 22:00 horas. Art. 3º - A capacidade máxima do salão de festas será de 40 pessoas, sendo que os nomes dos convidados deverão ser informados por escrito à portaria, com antecedência mínima de 24 horas. Art. 4º - É terminantemente proibida a cessão do salão de festas e espaço gourmet:
+
+a) Para atividades políticas, religiosas, profissionais mercantis e jogos considerados "de azar" pela
+
+legislação pertinente; b) Para festividades de grande porte, assim compreendidas, aquelas cujo número de convidados seja incompatível com a área do conjunto destinada a tais eventos, impedindo por esse motivo, que os demais condôminos tenham livre acesso e circulação pelas outras áreas comuns do conjunto; e
+
+i. Para comemorações particulares dos moradores do Condomínio nas seguintes datas
+
+tradicionais, Véspera e dia de Natal; ii. Véspera e dia de Ano Novo; iii. Dias de Carnaval. Art. 5º - As reservas e requisições do salão de festas e/ou espaço gourmet deverão ser feitas através de formulário próprio, com antecedência de no máximo 60 (sessenta) e no mínimo 05 (cinco) dias. Havendo multiplicidade da reserva, prevalecerá a data mais antiga e só poderá ser feita por condôminos que estiverem adimplentes;
+
+### Art. 6o
+A cessão do salão de festas e espaço gourmet está condicionada à prévia assinatura por parte do requisitante, de Termo de Responsabilidade, onde ficará expressamente consignado haver recebido as referidas dependências em perfeitas condições, assumindo integralmente o ônus de quaisquer danos ou
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 9 de 15
+
+prejuízos causados ao salão ou seus imóveis e ornamentos, inclusive os causados por familiares, convidados, prepostos, pessoal contratado, serviçais ou outros ocupantes;
+
+### Art. 7o
+No dia seguinte da utilização, até às 10: 00 horas, o requisitante deverá entregar as chaves do salão na portaria do condomínio ao porteiro em exercício, bem como realizar vistoria no local no dia imediatamente útil no ato da limpeza, ocasião que serão conferidos móveis e ornamentos, além de vistoriada a área utilizada;
+
+### Art. 8o
+A constatação de prejuízos causados ao Condomínio implicará em ressarcimento dos danos ocasionados pelo requisitante nos termos do capítulo XV deste Regulamento; Art. 9o - A respeito dos prejuízos causados no salão, móveis e ornamentos, poderá ser reposto ou consertado por seu usuário no período de 05 dias úteis, sendo feito com a mesma qualidade.
+
+### Art. 10o
+Pela utilização do salão de festas e espaço gourmet será cobrada, a título de manutenção e conservação, a taxa correspondente a R$ 20,00 (vinte reais) pelo uso da churrasqueira e de R$ 30,00 (trinta reais) pelo uso do salão de festas, com reajuste anual pelo IGPM/FGV. A cobrança da referida taxa ocorrerá no pagamento das despesas ordinárias do mês subseqüente ao da utilização do salão, relativas à unidade do requisitante; O corpo síndico ajuizará o caráter e interesse condominial de reuniões e eventos, dispensando-os da taxa de utilização. Art. 11° - O condômino, morador e locatário, usuário do salão de festas e espaço gourmet, deverá orientar seus convidados no sentido de que não utilizem outras áreas comuns do Condomínio, evitem aglomerações na frente do bloco durante o período de utilização, assim como será responsável, em reprimir abusos e excessos e afastar pessoas cuja presença seja considerada inconveniente; e
+
+a) O uso de aparelhos sonoros deve ser de forma moderada, levando-se em consideração o direito ao
+
+sossego dos demais condôminos; Art. 12º - Do uso das PISCINAS (Além das disposições legais, ficam regulamentados os seguintes pontos)
+
+a) - O uso das piscinas é privativo dos moradores. É permitida a presença de babás na piscina infantil quando acompanhando filhos de moradores.
+
+b) - Só será permitido o uso da piscina após passagem pelo chuveiro existente no local e lava-pés, sempre em trajes adequados para banho.
+
+c) - Fica terminantemente proibido banhar-se fazendo uso de óleo para bronzear ou qualquer produto similar que possa prejudicar o funcionamento das bombas e filtros.
+
+d) - É vedado o uso de aparelhos sonoros na área da piscina, com volume excessivo.
+
+e) - Na área da piscina, é vedado almoçar e jantar. Permite-se no entanto, sanduíches, salgadinhos e bebidas, quando servidas em pratos e copos plásticos, não deixando restos no local.
+
+f) - É expressamente proibido o uso da piscina para promover festas de qualquer natureza.
+
+g) - É terminantemente proibida, a prática de jogos esportivos tais como: frescobol, peteca, bola ou qualquer outro que possa interferir com o direito de desfrutar da piscina em paz e segurança; são também proibidas pranchas e bóias que apresentem perigo aos demais usuários da piscina.
+
+h) - A piscina funcionará diariamente de 08:00 às 22:00hs, e de acordo com a legislação vigente. A piscina será interditada para manutenção e limpeza, sempre no primeiro dia útil de cada semana, ou em dias que necessitar de limpeza extra.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 10 de 15
+
+## Capítulo XIII - Das Fachadas e Áreas Comuns Art. 1º - É expressamente proibido mudar a forma externa e / ou cor da fachada e das paredes e esquadrias externas, seja frontal, lateral e fundo correspondente a cada unidade autônoma, bem como decorar paredes e esquadrias externas, salvo quando expressamente aprovado em Assembléia. Art. 2º - É expressamente proibido usar nas fachadas ou janelas das respectivas unidades autônomas, pingentes ou outros itens que provoquem ruídos nas janelas, toldos externos, bem como colocar ou permitir que se coloquem nesses locais letreiros ou cartazes de publicidade e instalar ar condicionado.
+
+### Art. 3o
+Bater, sacudir, escovar ou estender tapetes, capachos, cortinas, toalhas, lençóis, cobertores, peças do vestuário, passadeiras ou similares nas janelas, poços de ventilação ou áreas comuns em varais colocados fora dos limites da área de serviço; Art. 4º - Colocar vasos, antenas, fios de antenas, varais, enfeites, vidros, latas, utensílios e ou quaisquer outros objetos visíveis na parte externa do Condomínio; Art. 5º - Lavar janelas, persianas, vidros, banheiros, cozinhas ou área de serviço de forma que a água por excesso escorra pelas paredes externas do edifício ou nos apartamentos inferiores; Art. 6º - A colocação de grades de segurança será permitida desde que feita na parte interna do peitoril da janela e o modelo e material empregado sejam os aprovados em Assembléia. Fica também permitida a colocação de rede de proteção nas janelas, somente na cor branca. Art. 7º - É vedado aos moradores instalar aparelhos de rádio amador, PX ou similar em suas unidades autônomas. Art. 8º - É proibido pisar nos gramados dos jardins, arrancar plantas, colher flores, cortar galhos das árvores e dos arbustos dos jardins do Condomínio. Parágrafo Único: As benfeitorias nas partes comuns, principalmente nos jardins, serão planejadas e executadas, pelo síndico em conjunto com seus sub-síndicos.
+
+## Capítulo XIV - Normas que Estabelecem as Demais Proibições Além das proibições que constam na Convenção do Condomínio, é também terminantemente proibido:
+
+### Art. 1o
+Praticar nos apartamentos ou nas dependências comuns, todo e qualquer ato atentatório à moral e que possam prejudicar o valor e a categoria do Condomínio e o bem estar e a dignidade de seus moradores; Art. 2o - Conservar na unidade autônoma aparelhos que produzam ruídos inconvenientes ou substâncias fortemente odorosas, explosivas, voláteis ou inflamáveis, capazes de oferecer riscos de acidentes, danos ou prejuízos, ou que de forma alguma possa prejudicar a saúde e/ou segurança, tranqüilidade dos demais moradores, ou ainda que estejam contra as cláusulas do seguro, onerando-o; Art. 3º - Abrir as portas que dão acesso aos corredores para expelir fumaça ou odores de frituras e outros; Art. 4º - Fazer em sua unidade autônoma qualquer instalação elétrica e antena coletiva que importe em sobrecarga para o conjunto; Art. 5º - Cuspir, jogar lixo, objetos ou detritos de qualquer espécie, tais como: ponta de cigarros, embalagens, papéis, casca de frutas, etc., pela janela, vidros, escadarias, corredores e / ou qualquer outra área em comum; Art. 6º - Intervir de alguma forma nas redes gerais de água, luz, gás, esgotos, eletricidade e telefone sem aviso prévio, conhecimento e autorização do Síndico;
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 11 de 15
+
+Parágrafo Único: Nenhum condômino poderá ordenar aos empregados o desligamento de bombas ou injetores de água, ou chaves de energia elétrica do bloco, quando estiverem em funcionamento a qualquer hora do dia ou da noite, salvo em emergência. Art. 7º - Permitir às crianças brincarem nos halls sociais, corredores, garagem e escadas do edifício, assim como fazer ruídos ou de qualquer forma perturbar a tranqüilidade dos demais moradores; Art. 8º - Fazer uso exagerado de água mantendo inutilmente abertas as torneiras ou permitindo vazamentos evitáveis; Art. 9º - Lavar com ácido ou substâncias corrosivas as janelas, portas, maçanetas, metais dos banheiros, cozinhas, ralos, pias, etc.; Art. 10º - Fazer ou permitir a realização ou instalação de leilões, rifas, etc., ou qualquer outra atividade ou jogo de caráter ilegal, em quaisquer dependências ou partes do Condomínio; Art. 11º - A entrada nas dependências do Condomínio de ex-empregados que tenham sido demitidos e / ou despejados; Art. 12º - Deixar de consertar ou de solicitar o conserto de torneiras e bicos de gás que estejam com defeito ou causando gasto excessivo do líquido, ou ainda colocando em perigo a segurança dos moradores; Art. 13º - Usar botijões de gás nas unidades autônomas. Art. 14º - É terminantemente proibido provocar sujeira ou desordem nas dependências do Condomínio, mesmo em função de brincadeira das crianças; Art. 15º - Fica proibida a prática de brincadeiras que possam expor a riscos outras crianças ou condômino, ou provocar transtornos no relacionamento com vizinhos externos, sendo de responsabilidade dos pais a correta orientação de crianças e adolescentes para o fiel cumprimento desse item; Art. 16º - Provocar barulho nas áreas comuns após às 22:00 horas; Art. 17º - Riscar paredes, dependurar-se nos postes de luz, alambrados e grades em geral. Art. 18º - Proibida a colocação de placas Aluga-se / Vende-se nas diversas áreas externas do Condomínio. Poderá ser afixado, com a autorização do síndico, um único aviso (no quadro de avisos) com os dizeres “Aluga-se e Vende-se apto..., Maiores informações na portaria...”; onde o Porteiro terá uma lista com todos os dados necessários dos proprietários que queiram vender ou alugar sua unidade autônoma. Art. 19º - Proibida a saída do Condomínio de menores de 12 anos desacompanhados do responsável. Art. 20° - Proibido fumar nas áreas comuns fechadas do Condomínio, próximos a veículos e debaixo de janelas, sendo também proibido o descarte de cinzas e sobras de cigarros no chão do Condomínio. Art. 21° - Proibido lavar, encerar automóveis, motos, bicicletas ou qualquer outro tipo de veículo nas dependências do Condomínio. Art.22º - Transitar pelas áreas comuns do condomínio usando trajes de banho ou sem camisa.
+
+## Capítulo XV - Da Indenização por Danos Causados Art. 1o - Todo e qualquer dano causado por Condôminos, locatários, familiares, convidados, visitas, serviçais etc., em qualquer área comum do Condomínio, deverá ser inteiramente indenizado pelo Condômino implicado na ocorrência.
+
+### Art. 2o
+A avaliação dos prejuízos causados será feita sempre que possível, através de coleta de preços entre empresas habilitadas à execução dos serviços de reparos ou à reposição das instalações danificadas.
+
+a) O valor dos prejuízos causados será cobrado imediatamente depois de constatado e orçado os danos,
+
+devendo ser pago após a apresentação da respectiva cobrança;
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 12 de 15
+
+### Art. 3o
+Reserva-se o direito a cada Condômino penalizado, depois de efetuado o referido pagamento, interpor recursos, por escrito, ao Condomínio, o qual será decidido por ocasião da primeira Assembléia Geral, depois da ocorrência;
+
+### Art. 4o
+A recusa de pagamento implicará em sanções previstas na Lei, bem como na perda de direito em requerer a utilização do salão de festa e espaço gourmet, até que ocorra o pagamento da dívida.
+
+### Art. 5o
+Independentemente do ressarcimento dos prejuízos, o Condômino implicado poderá responder civilmente e individualmente pela ação e omissão havida, podendo ainda, ser multado por transgressão do Regulamento Interno, nos termos do capítulo XV deste Regulamento.
+
+## Capítulo XVI – Das Multas e Penalidades
+
+### Art. 1o
+As penalidades a que são suscetíveis os infratores são:
+
+a) Advertência ou repreensão; b) Multa.
+
+### Art. 2º
+O condômino que violar as disposições legais bem como as contidas neste regulamento (além de ser compelido a desfazer a obra ou abster-se do ato praticado ou ainda reparar os danos que causar) ficará sujeito a multa de 1/2 taxa ordinária do condomínio, vigente à época da infração, após carta de advertência, duplicando-se este valor em caso de reincidência.
+
+Parágrafo Único: A multa será imposta pelo Conselho Fiscal e cobrada pelo síndico juntamente com a contribuição, no vencimento imediatamente posterior, facultado ao interessado recorrer à Assembléia Geral. A imposição da multa será comunicada por escrito ao infrator ou quem por ele responsável dentro do vínculo de sua relação, não tendo efeito suspensivo o recurso eventualmente interposto.
+
+### Art. 3º
+O pagamento da multa não exime o infrator de sua responsabilidade civil pelos danos causados.
+
+### Art. 4º
+Os casos omissos neste regulamento, na Convenção Condominial ou na Lei de Condomínios, serão resolvidos pelo Conselho e Síndico e se necessário, pela Assembléia específica para tal fim.
+
+## Capítulo XVII – Do Fundo de Reserva Art. 1o - Fica criado o Fundo de Reserva, cobrável juntamente com as contribuições para as despesas comuns, a qual será constituída das seguintes parcelas: a) 5% da contribuição mensal de cada condômino; b) Juros moratórios e multas previstas sobre o fundo de reserva, e que venham ser cobrados dos
+
+condôminos, extra ou judicialmente; Art. 2o - Fica instituído o Fundo de Reserva para atender as seguintes situações:
+
+a) Obras de conservação e reformas não previstas no orçamento. b) Dar cobertura a eventuais contingências trabalhistas. c) Outras despesas aprovadas em Assembléia que porventura os recursos foram insuficientes pela
+
+inadimplência. Art.3o - Integralizará o Fundo de Reserva:
+
+a) A taxa sobre a cota de Condomínio, recolhidas mensalmente conforme Convenção;
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 13 de 15
+
+b) As receitas obtidas das cobranças de multas por infrações, ações judiciais, juros legais, taxas pela
+
+cessão do salão de festas, etc.; c) Eventuais saldos positivos acumulados no final de cada exercício, a critério do síndico e conselho. d) A remuneração obtida pelo capital que constitui o referido Fundo, em aplicações financeiras.
+
+### Art. 4o
+A administração, bem como a aplicação do saldo do Fundo de Reserva, será feita diretamente pelo Síndico, sendo obrigatória a apresentação de contas pela utilização dos referidos valores.
+
+## Capítulo XVIII – Das Obras e Reformas Art. 1º - As reformas ou obras que impliquem em modificações da rede de água, esgoto, eletricidade ou eletrônica e impermeabilização, somente poderão ser executadas por firmas devidamente credenciadas junto às entidades competentes, sendo vedada qualquer reforma que atinja as partes comuns do Condomínio e deverá ter prévia aprovação do Conselho. Parágrafo Único: Não é permitido fracionar a respectiva unidade autônoma para fim de aliená-la ou locá-la. Art. 2º - Quaisquer obras externas somente poderão ser realizadas mediante aprovação em Assembléia, com projeto de profissional devidamente inscrito no CREA, responsável por sua realização, assim como prévia apresentação de projeto, devidamente aprovada pela Prefeitura e aprovação por escrito do Síndico e Conselheiros Fiscais. Art. 3º - Conforme recomendações da Construtora MRV é proibido efetuar obras de grande porte nas áreas internas dos apartamentos, como remoção de paredes, entre outras; pois podem abalar as bases estruturais das unidades autônomas. Art. 4º - Os entulhos provenientes de obras, reformas e reparos das unidades autônomas serão depositados pelo condômino em caçambas locadas por sua conta, fora das dependências do condomínio. Parágrafo Único: Não será permitido a permanência ou o preparo de qualquer tipo de material em áreas comuns do Condomínio, caso ocorra, o condômino responsável arcará com todos os custos e multa conforme, Capítulo XV.
+
+## Capítulo XIX - Dos Animais Domésticos Art. 1º - Não é recomendável ter animais domésticos nas unidades autônomas, porém será tolerável, desde que sejam de pequeno porte e de raças que não apresentem perigo, a fim de não se colocar em risco a segurança, a saúde e o sossego dos moradores. Parágrafo Único: Os condôminos são responsáveis diretos pelo incômodo provocado aos demais moradores do residencial por qualquer animal sob sua guarda. Art. 2º - Não será permitida a permanência ou circulação de nenhuma espécie de animal, nas áreas comuns, salvo com coleira, focinheira e no colo, em companhia de pessoa responsável (acima de 12 anos), de forma que não incomodem as demais pessoas. Art. 3º - Em nenhuma hipótese ou circunstância será permitida a permanência ou circulação de animais nas áreas de divertimento infantil e salão de festas. Art. 4º - É terminantemente proibido animais utilizarem as áreas comuns para fazerem suas necessidades fisiológicas, ficando os proprietários responsáveis pela limpeza de sujeira proveniente de excrementos e urina nas áreas comuns do residencial. No caso de infração deste artigo, o condômino fica sujeito à advertência e multa, conforme descrito no Capítulo XV. Art. 5º - Os condôminos que tenham animais sob sua guarda deverão observar rigorosamente as normas sanitárias, submetendo-os, periodicamente, à vacinação adequada para cada espécie.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 14 de 15
+
+### Art. 6º
+É obrigatória a vacinação anual de cães e gatos contra raiva e, sempre que solicitado pelo Síndico, ficam os donos desses animais obrigados a exibir os atestados de vacinação dos mesmos.
+
+## Capítulo XX – Da Taxa de Condomínio Art. 1º - O prazo previsto para recolhimento do condomínio é até o décimo dia de cada mês, a ser definido pelos membros da comissão da administração. Após esta data, o recolhimento com atraso deverá ser recolhido com 2% (dois por cento) de multa. Art. 2º - Ultrapassando 01 (dia) dias da data prevista para recolhimento, serão cobrados juros de 1% (um por cento) ao mês, pro rata dia, mais atualização monetária. Art. 3º - No caso em que as taxas de condomínio não forem liquidadas no prazo de 30(trinta) dias da data de vencimento, serão as mesmas cobradas judicialmente extrajudicialmente, ficando o condômino, responsável por todas as despesas de honorários de 10% extrajudicial e 20% se forem necessário ajuizar ação de cobrança mais custas processuais.
+
+## Capítulo XXI - Do Playground Art. 1º - A área destinada à recreação infantil é de uso de crianças residentes no Residencial. Crianças não residentes poderão utilizar o espaço se acompanhadas das que residam, ficando os moradores responsáveis pelos atos dos visitantes. Art. 2º - É terminantemente proibido organizar jogos e brincadeiras fora do local para esse fim reservado. Art. 3º - Ficam os pais e responsáveis obrigados a impedir o acesso de menores portando brinquedos ou objetos suscetíveis de provocar cortes, perfurações, queimaduras ou que de qualquer modo que possam ameaçar a integridade física dos demais condôminos. Art. 4º - É expressamente proibida a presença de animais de qualquer espécie na área de divertimento infantil. Parágrafo único: O playground é limitado ao uso de crianças até 10 (dez) anos de idade. Art. 5º - Os jogos e brincadeiras infantis poderão ser praticados nos locais destinados para tal, entre 9:00 e 22:00 horas. Parágrafo Único: Deverão os pais ou responsáveis orientar os menores no sentido de serem obedientes ao horário fixado e de evitarem provocar barulho excessivo. Art. 6º - O Síndico poderá, por motivo superveniente, alterar o horário normal estabelecido para funcionamento da área de recreação, sendo modificação afixada no quadro de avisos. Art. 7º - O condômino responsável por dano material ás dependências da área de recreação, após apurado pelo Síndico o valor do prejuízo, estará obrigado a pagar o valor estipulado ao Condomínio, sujeitando-se, no caso de recusa, à cobrança judicial.
+
+## Capitulo XXII – Espaço Kids, Garage Band e Cyber Café Art. 1º - A utilização do espaço para a prática de brincadeiras de crianças, musica ou tocando instrumentos e área de café, será permitida entre 8:00 e 22:00 horas, observados os padrões sonoros para não causar incômodos aos moradores e só poderá ser utilizada pelos condôminos adimplentes. Art. 2º - É expressamente proibida a permanência de menores de 12 anos desacompanhados dos pais ou responsáveis.
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP
+
+Revisão Regulamento Interno
+
+0 Data 19/09/2011 Página 15 de 15
+
+### Art. 3º
+Para utilização dos equipamentos, o condômino deverá trazer uma toalha a fim de manter a higiene e conservação do mesmo. Parágrafo Único: O condomínio não disponibilizará instrutores, professores de educação, recrecionistas, médicos ou qualquer profissional qualificado para avaliar os padrões ou acompanhar os praticantes de dos eventos. Dessa forma, o condomínio se isenta de toda e qualquer responsabilidade quanto à integridade física dos usuários do espaço oferecido. Art. 4º - O usuário que causar dano a equipamento ou bens que guarnecem o local, fica obrigado a repará-lo e arcar com quaisquer prejuízos que venha a causar aos equipamentos.
+
+## Capítulo XXIII – Churrasqueiras Art.1º: Os condôminos proprietários dos apartamentos com área externa poderão instalar churrasqueiras desde que não interfiram no projeto arquitetônico do condomínio e que sejam obedecidas as regras dispostas nos parágrafos primeiro e segundo deste artigo. Parágrafo primeiro: A churrasqueira deve ficar a uma distância razoável das janelas e sacadas dos apartamentos vizinhos, a fim de evitar que a fumaça seja dirigida a estes apartamentos. Parágrafo segundo: Para instalação da churrasqueira é necessária a elaboração de um croqui, que deverá ser analisado por um Engenheiro Civil e também pelo síndico e conselheiros para autorização final. Art. 2º: Fica convencionado que a administradora do condomínio em conjunto com o síndico se responsabiliza a obter um parecer acerca da construção ou instalação de churrasqueira nas mencionadas áreas externas, junto ao corpo de bombeiros. Art 3º: É de responsabilidade do proprietário do apartamento “cobertura”, que possuir churrasqueira, a reparação de eventuais danos materiais ocorridos ao condomínio e/ou a terceiros, quando causados por irregularidades na construção/instalação da churrasqueira. Art. 4º. É proibida a instalação de churrasqueira nas áreas privativas internas das unidades térreas, bem como manter qualquer outro tipo de equipamento para a mesma finalidade, evitando fumaça, odores de churrascos, etc.
+
+NÃO SERÁ ACEITA EM QUALQUER HIPÓTESE, POR QUEM QUER QUE SEJA, ALEGAÇÃO DE DESCONHECIMENTO DAS NORMAS ESTABELECIDAS NESTE REGULAMENTO, SENDO QUE O MESMO ESTARÁ DISPONÍVEL NO SITE DA ADMINISTRADORA.
+
+WILMAR ALVES LIMA SÍNDICO
+
+Allure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP

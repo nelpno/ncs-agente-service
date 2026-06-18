@@ -1,0 +1,24 @@
+{
+  "condominio": "Monet",
+  "condominio_slug": "monet",
+  "endereco": "Avenida Cristóvão Colombo, 722 - Centro, Araraquara/SP",
+  "id_condominio_superlogica": 167,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-monet.md",
+      "chars": 72042,
+      "secoes_##": 0,
+      "artigos_###": 1
+    },
+    {
+      "arquivo": "convencao-monet.md",
+      "chars": 118665,
+      "secoes_##": 16,
+      "artigos_###": 71
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

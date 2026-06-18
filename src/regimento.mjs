@@ -49,6 +49,7 @@ export function classificarDoc(fileName) {
     return { docTipo: 'ata', docLabel: dataStr ? `ATA (${dataStr})` : 'ATA', ataData };
   }
   if (/conven/i.test(fileName)) return { docTipo: 'convencao', docLabel: 'Convenção', ataData: null };
+  if (/estatuto/i.test(fileName)) return { docTipo: 'estatuto', docLabel: 'Estatuto', ataData: null }; // associações usam Estatuto no lugar da Convenção
   return { docTipo: 'regimento-interno', docLabel: 'Regimento Interno', ataData: null };
 }
 

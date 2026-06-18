@@ -1,0 +1,24 @@
+{
+  "condominio": "Monte Carlo",
+  "condominio_slug": "monte-carlo",
+  "endereco": "Avenida Feijó, 769 - Centro, Araraquara/SP",
+  "id_condominio_superlogica": 147,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-monte-carlo.md",
+      "chars": 26448,
+      "secoes_##": 5,
+      "artigos_###": 51
+    },
+    {
+      "arquivo": "convencao-monte-carlo.md",
+      "chars": 25020,
+      "secoes_##": 11,
+      "artigos_###": 48
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

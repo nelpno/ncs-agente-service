@@ -1,0 +1,24 @@
+{
+  "condominio": "Tivoli",
+  "condominio_slug": "tivoli",
+  "endereco": "Rua José Maria Paixão, 441 - Araraquara/SP",
+  "id_condominio_superlogica": 164,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-tivoli.md",
+      "chars": 74783,
+      "secoes_##": 19,
+      "artigos_###": 182
+    },
+    {
+      "arquivo": "estatuto-tivoli.md",
+      "chars": 28652,
+      "secoes_##": 8,
+      "artigos_###": 61
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

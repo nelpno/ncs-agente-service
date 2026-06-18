@@ -1,0 +1,24 @@
+{
+  "condominio": "Vitta Pairás",
+  "condominio_slug": "vitta-pairas",
+  "endereco": "",
+  "id_condominio_superlogica": 184,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-vitta-pairas.md",
+      "chars": 52991,
+      "secoes_##": 0,
+      "artigos_###": 1
+    },
+    {
+      "arquivo": "convencao-vitta-pairas.md",
+      "chars": 110192,
+      "secoes_##": 16,
+      "artigos_###": 73
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

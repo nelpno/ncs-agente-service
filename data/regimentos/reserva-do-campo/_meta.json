@@ -1,0 +1,24 @@
+{
+  "condominio": "Reserva do Campo",
+  "condominio_slug": "reserva-do-campo",
+  "endereco": "Avenida Belmiro Rozatto, 590 - Araraquara/SP",
+  "id_condominio_superlogica": 181,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-reserva-do-campo.md",
+      "chars": 26518,
+      "secoes_##": 19,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "estatuto-reserva-do-campo.md",
+      "chars": 48151,
+      "secoes_##": 18,
+      "artigos_###": 104
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

@@ -1,0 +1,24 @@
+{
+  "condominio": "Moove Concept Home",
+  "condominio_slug": "moove",
+  "endereco": "Rua Imaculada Conceição, 3377 - Vila Yamada, Araraquara/SP",
+  "id_condominio_superlogica": 174,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-moove.md",
+      "chars": 59097,
+      "secoes_##": 0,
+      "artigos_###": 1
+    },
+    {
+      "arquivo": "convencao-moove.md",
+      "chars": 140927,
+      "secoes_##": 16,
+      "artigos_###": 71
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

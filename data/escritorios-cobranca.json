@@ -1,0 +1,398 @@
+{
+  "_fonte": "Fernando (WhatsApp 17/06/2026): duas planilhas — cobrança EXTRAJUDICIAL (tentativa de acordo: liga/zap/email) e JUDICIAL (esgotadas as tentativas, advogado processa com anuência do condomínio). Define o escritório responsável por condomínio.",
+  "_aviso": "NÃO substitui as garantidoras (garantidoras.json): nos 8 condos com garantidora a NCS nem gera boleto. Ordem de roteamento p/ +30d: garantidora? -> escritório (este arquivo) -> gerência da carteira.",
+  "_pendente_confirmar": "Attuale judicial: planilha traz nome CHAGAS & OLIVEIRA mas com telefone/email da KÁTIA KASAHARA. Linhas da planilha judicial rotuladas COBRANÇA EXTRAJUDICIAL (Casablanca, Studio Five, Salto Grande III, Spazio Aracaju) — provável erro de label. judicial=null significa que o condo não consta na planilha judicial (não chegou ao judicial ou usa o mesmo da extra).",
+  "_nao_wired": "Dado-fonte apenas; NÃO ligado ao runtime da Ana nem deployado. Espelha garantidoras.json para wiring futuro (Octadesk routing e/ou handoff da Ana).",
+  "_sem_id_superlogica": {
+    "nota": "Não encontrados nos 54 condos acessíveis ao token (provavelmente entre os 7 faltantes de 61 — conferir com Rodrigo).",
+    "condos": []
+  },
+  "escritorios": {
+    "ISABELA OSTE": {
+      "whatsapp": "(17) 99722-4239",
+      "email": "isabelaoste@hotmail.com"
+    },
+    "GRUPO NCS": {
+      "whatsapp": "(16) 2334-0020",
+      "email": "cobranca@gruponcs.net"
+    },
+    "EVERTON MARCHESE": {
+      "whatsapp": "(16) 99975-1188",
+      "email": null
+    },
+    "CHAGAS & OLIVEIRA": {
+      "whatsapp": "(16) 3214-5117",
+      "email": "contato@chagasoliveira.adv.br"
+    },
+    "KÁTIA KASAHARA": {
+      "whatsapp": "(16) 99731-0017",
+      "email": "contato@katiakasahara.adv.br"
+    },
+    "PERI LOPES": {
+      "whatsapp": "(16) 99712-5343",
+      "email": "perilopes@adv.oabsp.org.br"
+    },
+    "LEONARDO VIVEIRO": {
+      "whatsapp": "(16) 98139-7582",
+      "email": null
+    },
+    "DIRETORIA": {
+      "whatsapp": null,
+      "email": null
+    },
+    "MIGUEL CARRASCOZA": {
+      "whatsapp": "(16) 98163-8286",
+      "email": null
+    },
+    "ELIZABETE ALVES DE SOUZA": {
+      "whatsapp": "(16) 98122-2973",
+      "email": "elizabetesouza@adv.oabsp.org.br"
+    },
+    "Síndica": {
+      "whatsapp": null,
+      "email": null
+    },
+    "SERGIO POLTRONIERI": {
+      "whatsapp": "(16) 99702-6189",
+      "email": null
+    }
+  },
+  "condominios": [
+    {
+      "id": "112",
+      "nome_superlogica": "ACACIAS I",
+      "nome_planilha": "ASSOCIAÇÃO DE MORADORES DO JARDIM ACÁCIAS",
+      "extrajudicial": "ISABELA OSTE",
+      "judicial": "ISABELA OSTE"
+    },
+    {
+      "id": "41",
+      "nome_superlogica": "ALTOS DO JARAGUÁ",
+      "nome_planilha": "ASSOCIAÇÃO ALTOS DO JARAGUÁ",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "EVERTON MARCHESE"
+    },
+    {
+      "id": "191",
+      "nome_superlogica": "ALTO DA BOA VISTA",
+      "nome_planilha": "ASSOCIAÇÃO  ALTO DA BOA VISTA",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "189",
+      "nome_superlogica": "ANGELO SMIRNE.",
+      "nome_planilha": "CONDOMINIO EDIFICIO ANGELO SMIRNE",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "36",
+      "nome_superlogica": "ARISTOCRATA",
+      "nome_planilha": "CONDOMÍNIO EDIFICIO ARISTOCRATA",
+      "extrajudicial": "ISABELA OSTE",
+      "judicial": "ISABELA OSTE"
+    },
+    {
+      "id": "183",
+      "nome_superlogica": "ATLANTA",
+      "nome_planilha": "ASSOCIAÇÃO LOTEAMENTO ATLANTA",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "169",
+      "nome_superlogica": "ATTUALE",
+      "nome_planilha": "ATTUALE",
+      "extrajudicial": "KÁTIA KASAHARA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "14",
+      "nome_superlogica": "BARBIERI",
+      "nome_planilha": "CONDOMÍNIO  EDIFICIO BARBIERI I",
+      "extrajudicial": "PERI LOPES",
+      "judicial": "PERI LOPES"
+    },
+    {
+      "id": "58",
+      "nome_superlogica": "CASABLANCA",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL CASABLANCA",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "49",
+      "nome_superlogica": "CDHU 1 - CONDOMÍNIO 390 - 1AB",
+      "nome_planilha": "CONDOMÍNIO 390 - 1AB - CDHU1",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "31",
+      "nome_superlogica": "CITY CENTER",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO CITY CENTER",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "168",
+      "nome_superlogica": "COCISA 3",
+      "nome_planilha": "COCISA 3A/3B",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "100",
+      "nome_superlogica": "DOM PEDRO",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO DOM PEDRO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "125",
+      "nome_superlogica": "STUDIO FIVE",
+      "nome_planilha": "EDIFÍCIO STUDIO FIVE",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "101",
+      "nome_superlogica": "GARDEN PLACE",
+      "nome_planilha": "CONDOMINIO RESIDENCIAL GARDEN PLACE",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "121",
+      "nome_superlogica": "JATIÚCA",
+      "nome_planilha": "EDIFÍCIO JATIÚCA BLOCOS I E II",
+      "extrajudicial": "LEONARDO VIVEIRO",
+      "judicial": null
+    },
+    {
+      "id": "170",
+      "nome_superlogica": "LHARMONIE",
+      "nome_planilha": "LHARMONIE",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "179",
+      "nome_superlogica": "LUME",
+      "nome_planilha": "LUME",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "158",
+      "nome_superlogica": "MAGNOLIAS I",
+      "nome_planilha": "ASSOCIAÇÃO JARDIM MAGNOLIAS I",
+      "extrajudicial": "DIRETORIA",
+      "judicial": null
+    },
+    {
+      "id": "56",
+      "nome_superlogica": "MAYORCA",
+      "nome_planilha": "CONDOMÍNIO RESIDENCIAL MAYORCA",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "167",
+      "nome_superlogica": "MONET",
+      "nome_planilha": "MONET",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "147",
+      "nome_superlogica": "MONTE CARLO",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO MONTE CARLO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "MIGUEL CARRASCOZA"
+    },
+    {
+      "id": "174",
+      "nome_superlogica": "MOOVE",
+      "nome_planilha": "MOOVE CONCEPT HOME",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "119",
+      "nome_superlogica": "NASCENTE DO JARAGUÁ",
+      "nome_planilha": "ASSOCIAÇÃO NASCENTE DO JARAGUÁ",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "EVERTON MARCHESE"
+    },
+    {
+      "id": "123",
+      "nome_superlogica": "PAINEIRAS",
+      "nome_planilha": "CONDOMÍNIO RESIDENCIAL DAS PAINEIRAS",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "15",
+      "nome_superlogica": "PARK",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL PARK",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "105",
+      "nome_superlogica": "RESIDENCIAL PIEMONTE",
+      "nome_planilha": "ASSOCIAÇÃO DE MORADORES PIEMONTE",
+      "extrajudicial": "ISABELA OSTE",
+      "judicial": "ISABELA OSTE"
+    },
+    {
+      "id": "109",
+      "nome_superlogica": "PARQUE DOS TRILHOS",
+      "nome_planilha": "RESIDENCIAL PARQUE DOS TRILHOS",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "181",
+      "nome_superlogica": "RESERVA DO CAMPO",
+      "nome_planilha": "ASSOC DOS MORADORES - RESERVA DO CAMPO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": "ELIZABETE ALVES DE SOUZA"
+    },
+    {
+      "id": "126",
+      "nome_superlogica": "RIACHO DOCE",
+      "nome_planilha": "CONDOMÍNIO RESIDENCIAL RIACHO DOCE",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "23",
+      "nome_superlogica": "ROSEIRAS II",
+      "nome_planilha": "CONDOMÍNIO EDIFICIO ROSEIRAS II",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "145",
+      "nome_superlogica": "ROYAL GARDEN I",
+      "nome_planilha": "EDIFICIO ROYAL GARDEN I",
+      "extrajudicial": "Síndica",
+      "judicial": null
+    },
+    {
+      "id": "187",
+      "nome_superlogica": "CEDROS DO CAMPO",
+      "nome_planilha": "ASSOCIACAO DOS MORADORES  - CEDROS DO CAMPO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "185",
+      "nome_superlogica": "SALTO GRANDE I",
+      "nome_planilha": "ASSOCIACAO JARDIM SALTO GRANDE I",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "166",
+      "nome_superlogica": "SALTO GRANDE III",
+      "nome_planilha": "ASSOCIAÇÃO JARDIM SALTO GRANDE III",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "26",
+      "nome_superlogica": "SAN MARCO",
+      "nome_planilha": "CONDOMÍNIO EDIFÍCIO SAN MARCO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "129",
+      "nome_superlogica": "SEVILHA",
+      "nome_planilha": "CONDOMINIO RESIDENCIAL SEVILHA",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "43",
+      "nome_superlogica": "SHOPPING DO CARMO",
+      "nome_planilha": "CONDOMÍNIO MINI SHOPPING DO CARMO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "190",
+      "nome_superlogica": "HADDAD.",
+      "nome_planilha": "EDIFICIO HADDAD",
+      "extrajudicial": "SERGIO POLTRONIERI",
+      "judicial": "SERGIO POLTRONIERI"
+    },
+    {
+      "id": "192",
+      "nome_superlogica": "MARIO DE ANDRADE",
+      "nome_planilha": "EDIFICIO MARIO DE ANDRADE",
+      "extrajudicial": "Síndica",
+      "judicial": null
+    },
+    {
+      "id": "66",
+      "nome_superlogica": "SPAZIO ABBOCATO",
+      "nome_planilha": "SPAZIO ABBOCATO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    },
+    {
+      "id": "65",
+      "nome_superlogica": "SPAZIO ARACAJU",
+      "nome_planilha": "CONDOMÍNIO RESIDENCIAL SPAZIO ARACAJU",
+      "extrajudicial": "PERI LOPES",
+      "judicial": "PERI LOPES"
+    },
+    {
+      "id": "154",
+      "nome_superlogica": "SUMMERTIME",
+      "nome_planilha": "ASSOCIAÇÃO DE MORADORES DO CONDOMÍNIO SUMMERTIME",
+      "extrajudicial": "EVERTON MARCHESE",
+      "judicial": "EVERTON MARCHESE"
+    },
+    {
+      "id": "164",
+      "nome_superlogica": "TIVOLI",
+      "nome_planilha": "ASSOCIAÇÃO RESIDENCIAL TIVOLI",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "152",
+      "nome_superlogica": "TRIADE",
+      "nome_planilha": "EDIFICIO RESIDENCIAL TRIADE",
+      "extrajudicial": "KÁTIA KASAHARA",
+      "judicial": "KÁTIA KASAHARA"
+    },
+    {
+      "id": "178",
+      "nome_superlogica": "VANCOUVER",
+      "nome_planilha": "CONDOMINIO RESIDENCIAL VANCOUVER",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "78",
+      "nome_superlogica": "VIDA PLENA",
+      "nome_planilha": "RESIDENCIAL VIDA PLENA ARARAQUARA",
+      "extrajudicial": "CHAGAS & OLIVEIRA",
+      "judicial": "CHAGAS & OLIVEIRA"
+    },
+    {
+      "id": "118",
+      "nome_superlogica": "VILA RIO PRETO",
+      "nome_planilha": "RESIDENCIAL VILA RIO PRETO",
+      "extrajudicial": "GRUPO NCS",
+      "judicial": null
+    }
+  ]
+}

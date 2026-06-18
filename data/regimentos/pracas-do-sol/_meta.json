@@ -1,0 +1,24 @@
+{
+  "condominio": "Vitta Praças do Sol",
+  "condominio_slug": "pracas-do-sol",
+  "endereco": "",
+  "id_condominio_superlogica": 176,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-pracas-do-sol.md",
+      "chars": 51578,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "convencao-pracas-do-sol.md",
+      "chars": 113374,
+      "secoes_##": 16,
+      "artigos_###": 71
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

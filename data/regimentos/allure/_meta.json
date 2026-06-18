@@ -1,0 +1,24 @@
+{
+  "condominio": "Allure",
+  "condominio_slug": "allure",
+  "endereco": "",
+  "id_condominio_superlogica": 62,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-allure.md",
+      "chars": 44520,
+      "secoes_##": 22,
+      "artigos_###": 42
+    },
+    {
+      "arquivo": "convencao-allure.md",
+      "chars": 64421,
+      "secoes_##": 10,
+      "artigos_###": 37
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

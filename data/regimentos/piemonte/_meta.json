@@ -1,0 +1,24 @@
+{
+  "condominio": "Piemonte",
+  "condominio_slug": "piemonte",
+  "endereco": "Rua Ernesto Anuchi, 630 - Jd. Maggiore, Araraquara/SP",
+  "id_condominio_superlogica": 105,
+  "documentos": [
+    {
+      "arquivo": "regimento-interno-piemonte.md",
+      "chars": 35128,
+      "secoes_##": 8,
+      "artigos_###": 62
+    },
+    {
+      "arquivo": "estatuto-piemonte.md",
+      "chars": 24123,
+      "secoes_##": 17,
+      "artigos_###": 62
+    }
+  ],
+  "gerado_em": "2026-06-18",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}
