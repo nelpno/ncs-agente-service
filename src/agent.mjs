@@ -77,12 +77,13 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   // Cobre o blip intermitente "Desculpa, não consegui processar agora" sem reescrever o fallback. chat() só LÊ
   // session.messages (não muta), então re-chamar é idempotente.
   const callModel = async () => {
-    try {
-      return await chat({ messages: session.messages, tools: TOOLS });
-    } catch (e) {
-      await new Promise((r) => setTimeout(r, 500));
-      return await chat({ messages: session.messages, tools: TOOLS });
+    let lastErr;
+    for (let a = 0; a < 4; a++) { // gemini-3 em function-calling solta 400 transitório (thought_signature) que o llm.mjs NÃO re-tenta
+      try { return await chat({ messages: session.messages, tools: TOOLS }); }
+      catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 400 * (a + 1))); }
     }
+    console.warn('[blip] callModel esgotou retries:', lastErr?.message);
+    throw lastErr;
   };
   for (let i = 0; i < 8; i++) {
     const res = await callModel();
@@ -95,6 +96,7 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
       continue;
     }
     let reply = res.content || '';
+    if (process.env.DEBUG_LOOP) console.warn(`[loop] iter=${i} toolcalls=${res.tool_calls?.length || 0} contentLen=${(res.content || '').length}`);
     // robustez: o gemini-3 às vezes devolve resposta VAZIA após um tool-call (causa do blip "não consegui processar").
     // Nudge curto + pequeno backoff + até 3 tentativas costuma destravar a composição da resposta antes de desistir.
     if (!reply && !ctx.transferred && emptyRetries < 3) {

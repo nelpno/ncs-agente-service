@@ -7,6 +7,8 @@ import { config } from './config.mjs';
 export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3 }) {
   const body = { model: config.agentModel, messages, temperature, max_tokens: maxTokens };
   if (tools?.length) body.tools = tools;
+  // ⚠️ NÃO desligar o thinking globalmente (reasoning_effort:none/low): testado 21/06, melhora ~10% o blip do débito
+  // mas QUEBRA negociação/regimento/mudança (cenários que dependem de raciocínio de tool). Thinking completo é o melhor no geral.
   let lastErr;
   for (let i = 0; i <= retries; i++) {
     try {
