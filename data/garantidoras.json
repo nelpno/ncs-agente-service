@@ -1,18 +1,18 @@
 {
   "_fonte": "Fernando (WhatsApp 16/06/2026): GARANTIDORA.xlsx + Allure(automatico).xlsx. Regra: nos condomínios 'total', a cobrança (boleto normal, extrajudicial e judicial) é feita pela garantidora e a NCS NÃO consegue gerar pelo Superlógica. Allure = exceção: boleto normal a NCS gera; inadimplência (+31d vencido) e judicial vão para a garantidora.",
-  "_pendente_confirmar": "E-mail da TOTAL GARANTIDORA na planilha veio igual ao da BV (cobranca@bvgarantia.com.br) — provável copy-paste; deixado null. Confirmar com Fernando.",
+  "_resolvido_19jun": "Fernando (19/06/2026): e-mail TOTAL GARANTIDORA = contato@totalgarantidora.com.br; id Superlógica do VISTAS DO BOTANICO - CEDROS = 175 (cadastro 'Cedros'). 'Salto Grande IV Cedros do Campo' (id 187) é OUTRO condomínio.",
   "garantidoras": {
     "CONDINVEST": { "telefone": "(16) 3509-0303", "whatsapp": "16 3509-5858", "email": "boletos01@condinvest.com.br", "site": "https://condinvest.com.br/" },
     "GRUPO CDG": { "telefone": "(11) 3003-6274", "whatsapp": "19 3003-6274", "email": "boletos3@grupocdg.com.br", "site": "https://www.cdgsolution.com.br/" },
     "BV GARANTIA": { "telefone": "(41) 3232-4242", "whatsapp": "(41) 99224-4242", "email": "cobranca@bvgarantia.com.br", "site": "https://bvgarantia.com.br/" },
-    "TOTAL GARANTIDORA": { "telefone": "0800 888 2255", "whatsapp": "48 3035-6652", "email": null, "site": "https://www.totalgarantidora.com.br" },
+    "TOTAL GARANTIDORA": { "telefone": "0800 888 2255", "whatsapp": "48 3035-6652", "email": "contato@totalgarantidora.com.br", "site": "https://www.totalgarantidora.com.br" },
     "ASSISCON": { "telefone": "(16) 3610-1226", "whatsapp": "(41) 3073-0287", "email": "rp@assiscongarantias.com.br", "site": "https://www.assiscon.com.br/" },
     "INADIMPLENCIA ZERO": { "telefone": null, "whatsapp": "(11) 98706-1127", "email": "inadimplenciazero@superlogica.com", "site": null }
   },
   "condominios": [
     { "id": 182, "nome": "FLORES", "match": ["flores"], "garantidora": "CONDINVEST", "tipo": "total" },
     { "id": 188, "nome": "VITTA IPE ROXO", "match": ["ipe", "roxo"], "garantidora": "CONDINVEST", "tipo": "total" },
-    { "id": null, "nome": "VISTAS DO BOTANICO - CEDROS", "match": ["vistas", "botanico"], "garantidora": "CONDINVEST", "tipo": "total" },
+    { "id": 175, "nome": "VISTAS DO BOTANICO - CEDROS", "match": ["vistas", "botanico"], "garantidora": "CONDINVEST", "tipo": "total" },
     { "id": 177, "nome": "PARQUE AMARIGE", "match": ["amarige"], "garantidora": "GRUPO CDG", "tipo": "total" },
     { "id": 176, "nome": "VITTA PRACAS DO SOL", "match": ["pracas", "sol"], "garantidora": "BV GARANTIA", "tipo": "total" },
     { "id": 184, "nome": "PAIRAS", "match": ["pairas"], "garantidora": "TOTAL GARANTIDORA", "tipo": "total" },

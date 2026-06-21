@@ -1,8 +1,9 @@
 {
   "condominio": "Vistas do Botânico - Cedros",
   "condominio_slug": "vistas-botanico-cedros",
+  "aliases": ["Cedros"],
   "endereco": "",
-  "id_condominio_superlogica": null,
+  "id_condominio_superlogica": 175,
   "documentos": [
     {
       "arquivo": "regimento-interno-vistas-botanico-cedros.md",

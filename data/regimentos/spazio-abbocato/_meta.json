@@ -1,0 +1,25 @@
+{
+  "condominio": "Spazio Abbocato",
+  "condominio_slug": "spazio-abbocato",
+  "endereco": "Avenida Geraldo de Campos Barros, 60 - Araraquara/SP",
+  "id_condominio_superlogica": 66,
+  "documentos": [
+    {
+      "arquivo": "convencao-spazio-abbocato.md",
+      "chars": 33401,
+      "secoes_##": 9,
+      "artigos_###": 37
+    },
+    {
+      "arquivo": "regimento-interno-spazio-abbocato.md",
+      "chars": 38792,
+      "secoes_##": 23,
+      "artigos_###": 0
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content (PDF escaneado 2010, OCR). Revisão humana pendente.",
+  "nota": "Na extração foram OMITIDAS 2 tabelas puramente numéricas (quadro de unidades/frações ideais/áreas e quadro de vagas de garagem 01–116), substituídas por anotação entre colchetes no .md da Convenção — irrelevantes para o RAG por palavra-chave; conferir no PDF original se necessário para uso jurídico. Regimento Interno: artigos numerados como '1.'/'2.' (não 'Art.'), preservados no corpo (0 ### mas busca por keyword funciona)."
+}

@@ -1,0 +1,24 @@
+{
+  "condominio": "Mayorca",
+  "condominio_slug": "mayorca",
+  "endereco": "Rua Benedito Jesus Santos Miguel, 46, Araraquara - SP",
+  "id_condominio_superlogica": 56,
+  "documentos": [
+    {
+      "arquivo": "convencao-mayorca.md",
+      "chars": 20858,
+      "secoes_##": 10,
+      "artigos_###": 37
+    },
+    {
+      "arquivo": "regimento-interno-mayorca.md",
+      "chars": 11000,
+      "secoes_##": 7,
+      "artigos_###": 60
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

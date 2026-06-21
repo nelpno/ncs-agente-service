@@ -1,0 +1,243 @@
+{
+  "fonte": "Sistemas_de_Portaria_Condominios.xlsx — Fernando 19/06/2026",
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "observacao": "Mapa condominio -> sistema de portaria. A coluna 'cadastro' (Cadastravel/Sem acesso/Nao cadastramos/Verificar) e operacional INTERNA. Alguns condominios da lista podem nao ter administracao NCS (so portaria).",
+  "total": 39,
+  "condominios": [
+    {
+      "nome": "ABBOCATO",
+      "slug": "abbocato",
+      "sistema": "Portaria Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ACÁCIAS I",
+      "slug": "acacias-i",
+      "sistema": "Shielder",
+      "cadastro": "Sem acesso para cadastro"
+    },
+    {
+      "nome": "ALLURE",
+      "slug": "allure",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ALTO DA BOA VISTA",
+      "slug": "alto-da-boa-vista",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "AMARIGE",
+      "slug": "amarige",
+      "sistema": "GatWay",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ANGELO SMIRNE",
+      "slug": "angelo-smirne",
+      "sistema": "GatWay",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ARACAJU",
+      "slug": "aracaju",
+      "sistema": "Portaria Synnus",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ARISTOCRATA",
+      "slug": "aristocrata",
+      "sistema": "Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ATLANTA",
+      "slug": "atlanta",
+      "sistema": "Não Identificado",
+      "cadastro": "Verificar"
+    },
+    {
+      "nome": "ATTUALE",
+      "slug": "attuale",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "BARBIERI",
+      "slug": "barbieri",
+      "sistema": "Shielder",
+      "cadastro": "Não cadastramos"
+    },
+    {
+      "nome": "CASABLANCA",
+      "slug": "casablanca",
+      "sistema": "TW Virtua / Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "CEDROS",
+      "slug": "cedros",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "CITY CENTER",
+      "slug": "city-center",
+      "sistema": "Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "FIVE",
+      "slug": "five",
+      "sistema": "Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "FLORES",
+      "slug": "flores",
+      "sistema": "Não Identificado",
+      "cadastro": "Verificar"
+    },
+    {
+      "nome": "GARDEN PLACE",
+      "slug": "garden-place",
+      "sistema": "Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "HADDA",
+      "slug": "hadda",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "IPÊ ROXO",
+      "slug": "ipe-roxo",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "LUME",
+      "slug": "lume",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "LHARMONIE",
+      "slug": "lharmonie",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "MONET",
+      "slug": "monet",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "MONTE CARLO",
+      "slug": "monte-carlo",
+      "sistema": "TW Virtua / Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "MOOVE",
+      "slug": "moove",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "NASCENTES",
+      "slug": "nascentes",
+      "sistema": "GatWay",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "PARQUE DOS TRILHOS",
+      "slug": "parque-dos-trilhos",
+      "sistema": "TW Virtua / Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "PRAÇAS DO SOL",
+      "slug": "pracas-do-sol",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "RESERVA DO CAMPO",
+      "slug": "reserva-do-campo",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "PAIRÁS",
+      "slug": "pairas",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "RIACHO DOCE",
+      "slug": "riacho-doce",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "ROYAL",
+      "slug": "royal",
+      "sistema": "GatWay",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "SALTO GRANDE 3",
+      "slug": "salto-grande-3",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "SALTO GRANDE 1",
+      "slug": "salto-grande-1",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "SALTO GRANDE RESERVA DO CAMPO",
+      "slug": "salto-grande-reserva-do-campo",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "TIVOLI",
+      "slug": "tivoli",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "TRÍADE",
+      "slug": "triade",
+      "sistema": "Alarm System",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "VALE SUPREMO",
+      "slug": "vale-supremo",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "VANCOUVER",
+      "slug": "vancouver",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    },
+    {
+      "nome": "VIDA PLENA",
+      "slug": "vida-plena",
+      "sistema": "Shielder",
+      "cadastro": "Cadastrável"
+    }
+  ]
+}

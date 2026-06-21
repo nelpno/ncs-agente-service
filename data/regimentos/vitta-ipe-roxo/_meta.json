@@ -1,0 +1,19 @@
+{
+  "condominio": "Vitta Ipê Roxo",
+  "condominio_slug": "vitta-ipe-roxo",
+  "endereco": "",
+  "id_condominio_superlogica": 188,
+  "documentos": [
+    {
+      "arquivo": "convencao-vitta-ipe-roxo.md",
+      "chars": 111464,
+      "secoes_##": 16,
+      "artigos_###": 71
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "nota": "Condomínio com cobrança por garantidora externa (tipo total). Documento ingerido: Convenção. NÃO possui Regimento Interno separado."
+}

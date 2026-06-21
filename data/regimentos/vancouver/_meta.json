@@ -1,0 +1,24 @@
+{
+  "condominio": "Vancouver",
+  "condominio_slug": "vancouver",
+  "endereco": "Avenida Gumercindo Siqueira, 1.130, Jardim Magnólias, Araraquara - SP, CEP 14806-485",
+  "id_condominio_superlogica": 178,
+  "documentos": [
+    {
+      "arquivo": "convencao-vancouver.md",
+      "chars": 75769,
+      "secoes_##": 10,
+      "artigos_###": 156
+    },
+    {
+      "arquivo": "regimento-interno-vancouver.md",
+      "chars": 56055,
+      "secoes_##": 7,
+      "artigos_###": 102
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

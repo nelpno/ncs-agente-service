@@ -1,0 +1,24 @@
+{
+  "condominio": "Barbieri",
+  "condominio_slug": "barbieri",
+  "endereco": "Rua Dr. Waldo Barbieri, Vila Xavier, Araraquara - SP",
+  "id_condominio_superlogica": 14,
+  "documentos": [
+    {
+      "arquivo": "convencao-barbieri.md",
+      "chars": 27977,
+      "secoes_##": 9,
+      "artigos_###": 46
+    },
+    {
+      "arquivo": "regimento-interno-barbieri.md",
+      "chars": 22080,
+      "secoes_##": 9,
+      "artigos_###": 70
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

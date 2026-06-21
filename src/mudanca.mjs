@@ -19,7 +19,7 @@ const norm = (s) => (s || '')
 const REGRAS_GERAIS = {
   taxa: 'A mudança não tem taxa.',
   antecedencia: 'Avisar normalmente com no mínimo 24 horas de antecedência.',
-  como_agendar: 'Pelo formulário de solicitação de mudança (24h) ou com um atendente (seg a sex, 8h às 18h).',
+  como_agendar: 'Pelo formulário de solicitação de mudança (24h) ou com um atendente (seg a sex, 8h às 17h45).',
   confirmacao: 'Em ambos os casos é preciso aguardar a confirmação do agendamento — a administração envia um termo de autorização após conferir.',
 };
 

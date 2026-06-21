@@ -1,0 +1,24 @@
+{
+  "condominio": "Roseiras II",
+  "condominio_slug": "roseiras-ii",
+  "endereco": "Avenida José Zilioli, 61, Jardim Vale das Rosas, Araraquara-SP",
+  "id_condominio_superlogica": 23,
+  "documentos": [
+    {
+      "arquivo": "convencao-roseiras-ii.md",
+      "chars": 25864,
+      "secoes_##": 11,
+      "artigos_###": 39
+    },
+    {
+      "arquivo": "regimento-interno-roseiras-ii.md",
+      "chars": 15909,
+      "secoes_##": 5,
+      "artigos_###": 37
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

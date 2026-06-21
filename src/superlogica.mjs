@@ -123,6 +123,24 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
   };
 }
 
+// get_boleto_pdf_url: deriva a URL do PDF da 2ª via (link_segundavia com FaturaHtml→FaturaPdf — validado em
+// .tmp/test_link_pdf.js: FaturaPdf entrega application/pdf real ~360KB, URL pública; render=pdf NÃO funciona).
+// Reusa get_boleto_2via → mesma seleção do boleto + guards (garantidora 'total', vencido +30 dias). NÃO baixa nem
+// envia: só devolve a URL + dados (o download/envio fica no octadesk.mjs). Anti-troca já garantido pelo get_boleto_2via.
+export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
+  const b = await get_boleto_2via({ id_condominio, id_unidade });
+  if (!b.liberado || !b.link_segundavia) {
+    return { ok: false, motivo: b.motivo || 'sem_boleto', ...(b.garantidora ? { garantidora: b.garantidora } : {}) };
+  }
+  const pdf_url = b.link_segundavia.replace(/FaturaHtml/i, 'FaturaPdf');
+  if (!/FaturaPdf/i.test(pdf_url)) return { ok: false, motivo: 'url_pdf_indisponivel' };
+  const venc = String(b.dt_vencimento_recb || '').replace(/[^0-9A-Za-z]/g, '-');
+  return {
+    ok: true, pdf_url, filename: `boleto-${venc || 'segundavia'}.pdf`,
+    id_unidade_uni: b.id_unidade_uni, vencimento: b.dt_vencimento_recb, valor: b.vl_total_recb,
+  };
+}
+
 export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
   // Garantidora 'total': a NCS não enxerga a cobrança pelo Superlógica → não cravar adimplência; direcionar à garantidora.
   const gar = await garantidoraDe(id_condominio);

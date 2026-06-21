@@ -1,0 +1,25 @@
+{
+  "condominio": "Spazio Aracaju",
+  "condominio_slug": "spazio-aracaju",
+  "endereco": "Rua João Gurgel, 1.131 - Jardim do Carmo, Araraquara/SP - CEP 14800-180",
+  "id_condominio_superlogica": 65,
+  "documentos": [
+    {
+      "arquivo": "convencao-spazio-aracaju.md",
+      "chars": 30508,
+      "secoes_##": 10,
+      "artigos_###": 37
+    },
+    {
+      "arquivo": "regimento-interno-spazio-aracaju.md",
+      "chars": 12002,
+      "secoes_##": 6,
+      "artigos_###": 34
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content (PDF escaneado 2010, OCR). Revisão humana pendente.",
+  "nota": "Na extração foram OMITIDAS 2 tabelas puramente numéricas (quadro de unidades/frações ideais/áreas e quadro de vagas de garagem 01–48), substituídas por anotação entre colchetes no .md da Convenção — irrelevantes para o RAG por palavra-chave; conferir no PDF original se necessário para uso jurídico."
+}

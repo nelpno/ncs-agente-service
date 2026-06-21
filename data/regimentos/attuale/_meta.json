@@ -14,5 +14,6 @@
   "gerado_em": "2026-06-18",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "obs": "Attuale tem UM arquivo único contendo Convenção + Regimento Interno juntos (confirmado Fernando 19/06). Logo convencao-attuale.md inclui também o R.I.; o retriever rotula tudo como 'Convenção', mas o texto do R.I. está presente e é buscável."
 }

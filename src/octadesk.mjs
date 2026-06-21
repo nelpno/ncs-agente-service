@@ -18,6 +18,27 @@ async function octa(method, path, body) {
 export async function responder(chatId, texto) {
   return octa('POST', `/chat/${chatId}/messages`, { message: { text: texto }, type: 'text' });
 }
+// Envia um arquivo de uma URL pública como ANEXO no chat (baixa → base64 → POST /chat/{id}/messages).
+// Usado p/ o PDF da 2ª via do boleto: a URL do PDF é pública (Superlógica), mas o campo `url` do Octadesk exige
+// bucket próprio → mandamos em base64 (AttachmentSend: name+base64+mimeType, sem a restrição de bucket).
+// Aborta se o conteúdo não for PDF (evita mandar HTML como se fosse boleto).
+// ⚠️ Formato do corpo conforme a OpenAPI pública (type:'public'+body+attachments). A instância da NCS
+// (api002.octadesk.services) pode esperar outro envelope (ver responder() usa {message:{text},type:'text'}) —
+// CONFIRMAR no 1º teste real; se 400, alinhar o envelope com o que o /chat/{id}/messages aceita lá.
+export async function enviar_anexo_url({ chatId, sourceUrl, filename, mimeType = 'application/pdf', body = '' }) {
+  const r = await fetch(sourceUrl, { redirect: 'follow' });
+  if (!r.ok) throw new Error(`download anexo ${r.status}`);
+  const buf = Buffer.from(await r.arrayBuffer());
+  if (mimeType === 'application/pdf' && !buf.slice(0, 5).toString('latin1').startsWith('%PDF')) {
+    throw new Error('conteúdo baixado não é PDF');
+  }
+  const base64 = buf.toString('base64');
+  return octa('POST', `/chat/${chatId}/messages`, {
+    type: 'public',
+    ...(body ? { body } : {}),
+    attachments: [{ name: filename, base64, mimeType }],
+  });
+}
 // Marcar tag (PUT /chat/{id}/tags)
 export async function marcar_tag(chatId, tag) {
   return octa('PUT', `/chat/${chatId}/tags`, { tags: [tag] });

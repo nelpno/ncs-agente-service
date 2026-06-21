@@ -1,9 +1,66 @@
 {
-  "fonte": "WordPress REST - https://gruponcs.net/wp-json/wp/v2",
+  "fonte": "Site WordPress (wp-json) + documentos enviados pelo Fernando (Clube, Tickets, Formulários/links, Shielder)",
   "escopo": "BASE INSTITUCIONAL GLOBAL (igual p/ todos os condominios - NAO e por condominio)",
-  "gerado_em": "2026-06-14",
+  "gerado_em": "2026-06-21",
   "revisao_humana": "pendente",
+  "total": 13,
   "documentos": [
+    {
+      "slug": "app-area-condomino",
+      "titulo": "App \"Gruvi\" / Área do Condômino e prestação de contas",
+      "file": "app-area-condomino.md",
+      "chars": 2217,
+      "secoes": 5
+    },
+    {
+      "slug": "app-gruvi-funcionalidades",
+      "titulo": "App Gruvi — funcionalidades e dúvidas frequentes",
+      "file": "app-gruvi-funcionalidades.md",
+      "chars": 2727,
+      "secoes": 8
+    },
+    {
+      "slug": "app-portaria-shielder",
+      "titulo": "App de Portaria Shielder",
+      "file": "app-portaria-shielder.md",
+      "chars": 2904,
+      "secoes": 8
+    },
+    {
+      "slug": "clube-ncs-faq",
+      "titulo": "Clube NCS de Vantagens — FAQ",
+      "file": "clube-ncs-faq.md",
+      "chars": 3205,
+      "secoes": 10
+    },
+    {
+      "slug": "faq",
+      "titulo": "FAQ — Grupo NCS (perguntas frequentes dos moradores)",
+      "file": "faq.md",
+      "chars": 8184,
+      "secoes": 26
+    },
+    {
+      "slug": "formularios-e-canais",
+      "titulo": "Formulários e canais oficiais do Grupo NCS",
+      "file": "formularios-e-canais.md",
+      "chars": 5154,
+      "secoes": 12
+    },
+    {
+      "slug": "responsabilidades-adm-sindico",
+      "titulo": "Administradora x Síndico — quem cuida de quê",
+      "file": "responsabilidades-adm-sindico.md",
+      "chars": 3790,
+      "secoes": 4
+    },
+    {
+      "slug": "administracao",
+      "titulo": "Administracao de Condomínios e Associações",
+      "file": "site-administracao.md",
+      "chars": 1249,
+      "secoes": 1
+    },
     {
       "slug": "clube-ncs",
       "titulo": "Clube NCS",
@@ -19,6 +76,13 @@
       "secoes": 6
     },
     {
+      "slug": "sobre-nos",
+      "titulo": "Sobre Nós",
+      "file": "site-sobre-nos.md",
+      "chars": 1509,
+      "secoes": 1
+    },
+    {
       "slug": "terceirizacao-maodeobra",
       "titulo": "Terceirização de Mão de Obra",
       "file": "site-terceirizacao-maodeobra.md",
@@ -26,18 +90,11 @@
       "secoes": 1
     },
     {
-      "slug": "administracao",
-      "titulo": "Administracao de Condomínios e Associações",
-      "file": "site-administracao.md",
-      "chars": 1249,
-      "secoes": 1
-    },
-    {
-      "slug": "sobre-nos",
-      "titulo": "Sobre Nós",
-      "file": "site-sobre-nos.md",
-      "chars": 1509,
-      "secoes": 1
+      "slug": "tickets-abertura",
+      "titulo": "Abertura de Tickets (Chamados) na NCS",
+      "file": "tickets-abertura.md",
+      "chars": 1965,
+      "secoes": 4
     }
   ]
 }

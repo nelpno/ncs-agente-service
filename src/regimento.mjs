@@ -82,7 +82,8 @@ function loadIndex() {
     const dir = path.join(ROOT, slug);
     if (!fs.statSync(dir).isDirectory()) continue;
     let nome = slug;
-    try { const m = JSON.parse(fs.readFileSync(path.join(dir, '_meta.json'), 'utf8')); nome = m.condominio || slug; } catch {}
+    let aliases = [];
+    try { const m = JSON.parse(fs.readFileSync(path.join(dir, '_meta.json'), 'utf8')); nome = m.condominio || slug; aliases = Array.isArray(m.aliases) ? m.aliases : []; } catch {}
     const chunks = [];
     for (const f of fs.readdirSync(dir)) {
       if (!f.endsWith('.md')) continue;
@@ -104,7 +105,7 @@ function loadIndex() {
       }
       flush();
     }
-    _index[slug] = { nome, chunks };
+    _index[slug] = { nome, aliases, chunks };
   }
   return _index;
 }
@@ -123,7 +124,14 @@ function resolveCondo(index, condominio) {
   if (!condominio || !norm(condominio)) return { slug: null, motivo: 'condominio_nao_informado' };
   const c = norm(condominio);
   if (index[c]) return { slug: c };
-  const hit = slugs.filter((s) => norm(index[s].nome).includes(c) || c.includes(norm(index[s].nome)) || s.includes(c));
+  // nomes de match por condo = nome canônico + apelidos (ex.: nome do edifício × razão na Superlógica).
+  const nomesDe = (s) => [index[s].nome, ...(index[s].aliases || [])].map(norm).filter(Boolean);
+  // 1) match EXATO por nome/apelido tem prioridade sobre substring — evita que "Cedros" (175) case "Cedros do Campo" (187).
+  const exato = slugs.filter((s) => nomesDe(s).includes(c));
+  if (exato.length === 1) return { slug: exato[0] };
+  if (exato.length > 1) return { slug: null, motivo: 'condominio_ambiguo' };
+  // 2) fallback por substring (comportamento original), agora também sobre apelidos.
+  const hit = slugs.filter((s) => nomesDe(s).some((n) => n.includes(c) || c.includes(n)) || s.includes(c));
   if (hit.length === 1) return { slug: hit[0] };
   if (hit.length > 1) return { slug: null, motivo: 'condominio_ambiguo' };
   return { slug: null, motivo: 'condominio_sem_regimento' }; // informado, mas regimento ainda não cadastrado na base
