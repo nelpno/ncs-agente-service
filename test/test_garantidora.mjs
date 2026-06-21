@@ -25,10 +25,10 @@ ok(vistas && vistas.garantidora === 'CONDINVEST' && vistas.tipo === 'total', 'Vi
 ok(consultar_garantidora({ id_condominio: 179 }).tem === false, 'Lume(179) -> sem garantidora (tem:false)');
 ok(consultar_garantidora({}).tem === false, 'sem id/nome -> tem:false (não assume)');
 
-// 6) campos sensíveis: nunca inventar e-mail ausente (Total Garantidora veio null)
+// 6) Total Garantidora (Pairás 184) -> e-mail e whatsapp presentes (e-mail confirmado pelo Fernando 19/06)
 const pairas = consultar_garantidora({ id_condominio: 184 });
-ok(pairas.garantidora?.nome === 'TOTAL GARANTIDORA' && pairas.garantidora.email === null && pairas.garantidora.whatsapp,
-  'Pairás(184) -> TOTAL GARANTIDORA, e-mail null (não inventado), tem whatsapp');
+ok(pairas.garantidora?.nome === 'TOTAL GARANTIDORA' && pairas.garantidora.email === 'contato@totalgarantidora.com.br' && pairas.garantidora.whatsapp,
+  'Pairás(184) -> TOTAL GARANTIDORA, e-mail e whatsapp presentes');
 
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);
