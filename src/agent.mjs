@@ -76,17 +76,19 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   // (ex.: 400 de thought_signature, que o retry de 429/5xx do llm.mjs NÃO cobre) que somem na 2ª tentativa.
   // Cobre o blip intermitente "Desculpa, não consegui processar agora" sem reescrever o fallback. chat() só LÊ
   // session.messages (não muta), então re-chamar é idempotente.
-  const callModel = async () => {
+  const callModel = async (lowReasoning) => {
     let lastErr;
     for (let a = 0; a < 4; a++) { // gemini-3 em function-calling solta 400 transitório (thought_signature) que o llm.mjs NÃO re-tenta
-      try { return await chat({ messages: session.messages, tools: TOOLS }); }
+      try { return await chat({ messages: session.messages, tools: TOOLS, ...(lowReasoning ? { reasoningEffort: 'none' } : {}) }); }
       catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 400 * (a + 1))); }
     }
     console.warn('[blip] callModel esgotou retries:', lastErr?.message);
     throw lastErr;
   };
   for (let i = 0; i < 8; i++) {
-    const res = await callModel();
+    // após uma resposta VAZIA, re-tenta SEM thinking (reasoning_effort:none): os tools já rodaram, só falta compor o
+    // texto — desligar o thinking nessa hora destrava o vazio do gemini-3 sem prejudicar a seleção de tools.
+    const res = await callModel(emptyRetries > 0);
     if (res.tool_calls?.length) {
       // PRESERVAR extra_content (thought_signature do gemini-3): sem ele, o modelo perde o raciocínio e devolve
       // VAZIO na hora de compor a resposta após o tool-call (raiz do blip). Devolver a assinatura mata o blip.

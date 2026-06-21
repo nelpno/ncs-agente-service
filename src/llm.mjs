@@ -4,11 +4,13 @@ import { config } from './config.mjs';
 // maxTokens 1500 (não 900): o gemini-3-flash usa "thinking" que consome o orçamento e, com teto baixo, devolve
 // resposta VAZIA → cai no fallback "não consegui processar" (blip intermitente, ~1/3 em turnos com várias tools).
 // É um CAP, não alvo — não deixa a Ana mais verbosa; só evita truncar. Validado 21/06 (cenário de débito completo).
-export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3 }) {
+export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3, reasoningEffort } = {}) {
   const body = { model: config.agentModel, messages, temperature, max_tokens: maxTokens };
   if (tools?.length) body.tools = tools;
-  // ⚠️ NÃO desligar o thinking globalmente (reasoning_effort:none/low): testado 21/06, melhora ~10% o blip do débito
-  // mas QUEBRA negociação/regimento/mudança (cenários que dependem de raciocínio de tool). Thinking completo é o melhor no geral.
+  // reasoning_effort: NÃO desligar globalmente (testado 21/06: melhora o vazio mas QUEBRA negociação/regimento/mudança,
+  // que dependem do raciocínio p/ SELECIONAR tools). Mas o agent passa reasoningEffort:'none' SÓ na re-tentativa de
+  // resposta vazia (quando os tools já rodaram e só falta COMPOR o texto — aí o thinking só atrapalha e some o vazio).
+  if (reasoningEffort) body.reasoning_effort = reasoningEffort;
   let lastErr;
   for (let i = 0; i <= retries; i++) {
     try {
