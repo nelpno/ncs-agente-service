@@ -88,7 +88,9 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   for (let i = 0; i < 8; i++) {
     const res = await callModel();
     if (res.tool_calls?.length) {
-      session.messages.push({ role: 'assistant', content: res.content || null, tool_calls: res.tool_calls });
+      // PRESERVAR extra_content (thought_signature do gemini-3): sem ele, o modelo perde o raciocínio e devolve
+      // VAZIO na hora de compor a resposta após o tool-call (raiz do blip). Devolver a assinatura mata o blip.
+      session.messages.push({ role: 'assistant', content: res.content || null, tool_calls: res.tool_calls, ...(res.extra_content ? { extra_content: res.extra_content } : {}) });
       for (const tc of res.tool_calls) {
         const out = await runTool(tc.function?.name, safeParse(tc.function?.arguments || '{}'), ctx);
         session.messages.push({ role: 'tool', tool_call_id: tc.id, name: tc.function?.name, content: JSON.stringify(out) });

@@ -26,7 +26,9 @@ export async function chat({ messages, tools, temperature = 0.2, maxTokens = 150
       if (!r.ok) throw new Error(`OpenRouter ${r.status}: ${(await r.text()).slice(0, 200)}`);
       const j = await r.json();
       const m = j.choices?.[0]?.message || {};
-      return { content: m.content || '', tool_calls: m.tool_calls || null, usage: j.usage || {} };
+      // extra_content carrega o `thought_signature` do gemini-3: PRECISA voltar nas mensagens do assistant senão o
+      // modelo (thinking) "perde o fio" após um tool-call e devolve conteúdo VAZIO (raiz do blip "não consegui processar").
+      return { content: m.content || '', tool_calls: m.tool_calls || null, extra_content: m.extra_content || null, usage: j.usage || {} };
     } catch (e) { lastErr = e; if (i < retries) await sleep(800 * 2 ** i); }
   }
   throw lastErr;
