@@ -141,17 +141,23 @@ export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
   };
 }
 
+// get_inadimplencia: situação COMPLETA de débitos da unidade — usa `inadimplencia/index` (enxerga boletos ANTIGOS,
+// em cobrança e jurídico), NÃO só os recentes do `cobranca/index?status=pendentes` (esse era o PONTO CEGO que fazia a
+// Ana afirmar "só deve esse boleto" para quem devia dezenas de milhares). ⚠️ idUnidade é ignorado → filtro = UNIDADES[0]=.
+// Validado 21/06: ABV (191) tem 74 inadimplentes / R$457k; campos por unidade = qtd_cobrancas_em_aberto + total_original.
+// Retorna { status: 'inadimplente' (+qtd_cobrancas_em_aberto) | 'sem_debito_vencido' | 'gerido_por_garantidora' | 'indisponivel' }.
 export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
-  // Garantidora 'total': a NCS não enxerga a cobrança pelo Superlógica → não cravar adimplência; direcionar à garantidora.
   const gar = await garantidoraDe(id_condominio);
   if (gar && gar.tipo === 'total') return { status: 'gerido_por_garantidora', garantidora: gar.garantidora };
-  const data = await slGet('cobranca/index', { idCondominio: id_condominio, status: 'pendentes', 'UNIDADES[0]': id_unidade });
-  const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade));
-  const vencidos = itens.filter((b) => b.fl_inadimplente_recb == 1 || b.fl_inadimplente_recb === true);
-  if (vencidos.length) {
-    const r = { status: 'inadimplente', qtd: vencidos.length };
-    if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure inadimplente: cobrança pela Inadimplência Zero.
+  let data;
+  try { data = await slGet('inadimplencia/index', { idCondominio: id_condominio, apenasResumoInad: 1, 'UNIDADES[0]': id_unidade }); }
+  catch { return { status: 'indisponivel' }; } // erro na consulta → NÃO cravar adimplência; a Ana oferece humano/CND
+  const linhas = (Array.isArray(data) ? data : []).filter((u) => String(u.id_unidade_uni) === String(id_unidade)); // anti-troca
+  if (linhas.length) {
+    const qtd = Number(linhas[0].qtd_cobrancas_em_aberto) || null;
+    const r = { status: 'inadimplente', qtd_cobrancas_em_aberto: qtd };
+    if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure: cobrança pela Inadimplência Zero.
     return r;
   }
-  return { status: 'adimplente' };
+  return { status: 'sem_debito_vencido' }; // não consta na inadimplência (pode ter boleto A VENCER → get_boleto_2via)
 }

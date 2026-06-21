@@ -46,6 +46,16 @@ const SYN = {
   araraquara:['sede','endereco','localizacao'], qrcode:['qr','codigo','clube','escanear'],
   escanear:['qrcode','qr','clube'], delivery:['entrega','clube'], pet:['petshop','animal','clube'],
   restaurante:['alimentacao','comida','clube'], salao:['beleza','estetica','clube'],
+  // dívida / cobrança / negociação / CND — melhora o recall dos formulários financeiros (Negociação, CND)
+  debito:['divida','debitos','negociacao','parcelamento','cobranca','atraso','pendencia'],
+  debitos:['divida','debito','negociacao','parcelamento','cobranca'], divida:['debito','debitos','negociacao','parcelamento','atraso'],
+  dividas:['divida','debito','negociacao','parcelamento'], negociar:['negociacao','parcelamento','acordo','debito','divida'],
+  negociacao:['negociar','parcelamento','acordo','debito','divida'], parcelar:['parcelamento','negociacao','debito','divida'],
+  parcelamento:['parcelar','negociacao','acordo','debito'], acordo:['negociacao','parcelamento','debito'],
+  atraso:['atrasado','debito','divida','inadimplente','cobranca'], atrasado:['atraso','debito','inadimplente'],
+  inadimplente:['debito','divida','atraso','cobranca'], inadimplencia:['debito','divida','atraso','cobranca'],
+  cnd:['certidao','negativa','debito','quitacao','quitado'], certidao:['cnd','negativa','debito','quitacao'],
+  quitacao:['quitado','cnd','adimplente','negativa'], quitado:['quitacao','cnd','adimplente'],
 };
 
 let _index = null; // { chunks:[{ arquivo, doc, secao, texto, ntexto, nsecao }] }

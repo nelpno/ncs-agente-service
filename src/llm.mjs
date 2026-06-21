@@ -1,7 +1,10 @@
 // llm.mjs — chamada ao modelo via OpenRouter (OpenAI-compatible, com tool-calling).
 import { config } from './config.mjs';
 
-export async function chat({ messages, tools, temperature = 0.2, maxTokens = 900, retries = 3 }) {
+// maxTokens 1500 (não 900): o gemini-3-flash usa "thinking" que consome o orçamento e, com teto baixo, devolve
+// resposta VAZIA → cai no fallback "não consegui processar" (blip intermitente, ~1/3 em turnos com várias tools).
+// É um CAP, não alvo — não deixa a Ana mais verbosa; só evita truncar. Validado 21/06 (cenário de débito completo).
+export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3 }) {
   const body = { model: config.agentModel, messages, temperature, max_tokens: maxTokens };
   if (tools?.length) body.tools = tools;
   let lastErr;
