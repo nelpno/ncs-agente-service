@@ -7,10 +7,13 @@ import { config } from './config.mjs';
 export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3, reasoningEffort } = {}) {
   const body = { model: config.agentModel, messages, temperature, max_tokens: maxTokens };
   if (tools?.length) body.tools = tools;
-  // reasoning_effort: NÃO desligar globalmente (testado 21/06: melhora o vazio mas QUEBRA negociação/regimento/mudança,
-  // que dependem do raciocínio p/ SELECIONAR tools). Mas o agent passa reasoningEffort:'none' SÓ na re-tentativa de
-  // resposta vazia (quando os tools já rodaram e só falta COMPOR o texto — aí o thinking só atrapalha e some o vazio).
-  if (reasoningEffort) body.reasoning_effort = reasoningEffort;
+  // reasoning_effort: o agent passa 'none' SÓ na re-tentativa de vazio (gambiarra p/ destravar o gemini-3 após tool-call).
+  // 'none' é ESPECÍFICO do Gemini — modelos de reasoning da OpenAI rejeitam ("Reasoning is mandatory and cannot be disabled")
+  // → não enviar p/ não-Gemini. AGENT_REASONING_EFFORT (env, opcional) força um nível em TODAS as chamadas, p/ tuning/teste
+  // (ex.: GPT-5 mini em 'low' p/ cortar latência/custo). Default (env vazio) preserva o comportamento atual do Gemini.
+  let effort = process.env.AGENT_REASONING_EFFORT || reasoningEffort || null;
+  if (effort === 'none' && !/gemini/i.test(config.agentModel)) effort = null;
+  if (effort) body.reasoning_effort = effort;
   let lastErr;
   for (let i = 0; i <= retries; i++) {
     try {

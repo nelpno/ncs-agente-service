@@ -9,6 +9,7 @@ import * as REG from './regimento.mjs';
 import * as BG from './base_geral.mjs';
 import * as MUD from './mudanca.mjs';
 import * as PORT from './portaria.mjs';
+import * as GRUVI from './gruvi.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SYSTEM_PROMPT = fs.readFileSync(path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
@@ -22,6 +23,7 @@ const TOOLS = [
   { type: 'function', function: { name: 'consultar_base_geral', description: 'Consulta a BASE INSTITUCIONAL GLOBAL do Grupo NCS (igual para TODOS os condomínios): portfólio de serviços, Clube NCS e seus descontos/parceiros, projetos (Academia do Síndico, Momento com Síndico, Happy Hour), terceirização de mão de obra (portaria/limpeza/zeladoria), responsabilidade da administradora x do síndico, uso do app/área do condômino, e dados da empresa. NÃO use para regras de um condomínio específico (isso é consultar_regimento). Retorna {encontrou, trechos:[{fonte, texto}]}; CITE a fonte na resposta. Se encontrou=false, ofereça encaminhar a um humano — NUNCA invente.', parameters: { type: 'object', properties: { pergunta: { type: 'string', description: 'A dúvida do morador, em linguagem natural.' } }, required: ['pergunta'] } } },
   { type: 'function', function: { name: 'consultar_regra_mudanca', description: 'Consulta a REGRA DE MUDANÇA do condomínio da pessoa: horário permitido para mudança, se libera sábado, se é uma mudança por dia, e o procedimento (qual portaria/grupo de WhatsApp avisar, qual sistema cadastrar — Shielder/TW Virtua etc.). USE SEMPRE que a pessoa for agendar ou perguntar sobre mudança. Passe o condomínio identificado no resolver_cadastro. Retorna { encontrou, condominio, horario, procedimento, regras_gerais (mudança sem taxa, avisar com 24h de antecedência, agendar por formulário 24h ou atendente 8h às 17h45, aguardar termo de autorização) }. Se encontrou=false (condominio_nao_informado ou condominio_sem_regra), peça o condomínio ou ofereça confirmar o horário com a equipe — NUNCA invente horário. Para regras de CONVIVÊNCIA (animais, barulho, obras, áreas comuns) use consultar_regimento.', parameters: { type: 'object', properties: { condominio: { type: 'string', description: 'Nome ou slug do condomínio da pessoa (ex.: Lume). Use o condomínio identificado no resolver_cadastro; se ainda não souber, pergunte.' } }, required: ['condominio'] } } },
   { type: 'function', function: { name: 'consultar_sistema_portaria', description: 'Consulta QUAL sistema/app de PORTARIA o condomínio da pessoa usa (Shielder, GatWay, Synnus, Alarm System, TW Virtua). USE quando a pessoa perguntar sobre o aplicativo de portaria, controle de acesso, cadastro de visitante/dependente na portaria, ou "qual app eu uso pra portaria". Passe o condomínio identificado no resolver_cadastro. Retorna { encontrou, condominio, sistema, usa_shielder, sistema_conhecido, nota_geral }. Se usa_shielder=true, você PODE explicar o funcionamento do Shielder (o FAQ do Shielder vem de consultar_base_geral). Se for outro sistema (usa_shielder=false), informe qual é e oriente confirmar os detalhes com a portaria/equipe — NÃO explique o Shielder para quem não usa Shielder. Se sistema_conhecido=false ou encontrou=false, NÃO invente o sistema — ofereça confirmar com a equipe. Lembre: o financeiro (boletos) NUNCA é pela portaria; é pelo app Gruvi / Área do Condômino.', parameters: { type: 'object', properties: { condominio: { type: 'string', description: 'Nome ou slug do condomínio da pessoa (ex.: Vancouver). Use o condomínio identificado no resolver_cadastro; se ainda não souber, pergunte.' } }, required: ['condominio'] } } },
+  { type: 'function', function: { name: 'consultar_video_app', description: 'Acha o VÍDEO tutorial oficial do app Gruvi que ensina a fazer algo NO APLICATIVO (1º acesso/login, "não consigo entrar", cadastrar a facial, validar documento/e-mail, atualizar dados, pegar boleto, reservar área comum, cadastrar veículo, liberar visitante/prestador, falar com portaria/síndico, ver comunicados/documentos/encomendas/ocorrências, abrir solicitação, participar de assembleia etc.). USE quando a pessoa perguntar "como faço X no app/Gruvi", "não consigo entrar no app", "como cadastro a facial". Passe o assunto em linguagem natural. Retorna { encontrou, titulo, url }. Se encontrou=true, mande a URL CRUA dizendo que é o passo a passo em vídeo. Se encontrou=false, NÃO invente link — explique o que souber ou ofereça encaminhar. (Para REGRAS do condomínio use consultar_regimento; para o boleto em si use get_boleto_2via.)', parameters: { type: 'object', properties: { assunto: { type: 'string', description: 'O que a pessoa quer fazer no app, em texto livre (ex.: "cadastrar reconhecimento facial", "pegar boleto", "liberar visitante").' } }, required: ['assunto'] } } },
   { type: 'function', function: { name: 'marcar_tag', description: 'Marca uma tag na conversa (organização interna, ex.: 2a_via, mudanca, rh).', parameters: { type: 'object', properties: { tag: { type: 'string' } }, required: ['tag'] } } },
   { type: 'function', function: { name: 'transferir_humano', description: 'Encaminha a conversa para um atendente humano e encerra o atendimento automático. Use o motivo MAIS específico: agendamento_mudanca (pedido de mudança), cadastro_pendente (cadastrar inquilino/dependente ou trocar titularidade), boleto_mais_30_dias, cobranca, renegociacao, reclamacao, rh, assembleia_sindico, cadastro_nao_encontrado, pessoa_pediu_humano. Use fora_de_escopo/nao_resolvido só quando NENHUM outro servir. Sempre passe motivo e um resumo do caso.', parameters: { type: 'object', properties: { motivo: { type: 'string', enum: ['agendamento_mudanca', 'cadastro_pendente', 'boleto_mais_30_dias', 'cobranca', 'reclamacao', 'rh', 'renegociacao', 'assembleia_sindico', 'cadastro_nao_encontrado', 'pessoa_pediu_humano', 'fora_de_escopo', 'nao_resolvido'] }, resumo: { type: 'string' } }, required: ['motivo', 'resumo'] } } },
 ];
@@ -30,10 +32,13 @@ function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
 
 async function runToolReal(name, args, ctx) {
   switch (name) {
-    case 'resolver_cadastro': return await SL.resolver_cadastro(args);
-    case 'get_boleto_2via': return await SL.get_boleto_2via(args);
-    case 'get_inadimplencia': return await SL.get_inadimplencia(args);
+    // ctx.lastCondo rastreia o condomínio em foco (id + nome) p/ rotear a cobrança no handoff (ver transferir_humano).
+    // Setado pelas tools que recebem id_condominio explícito (sinal preciso) e pelo resolver quando há 1 única unidade.
+    case 'resolver_cadastro': { const r = await SL.resolver_cadastro(args); const us = r?.unidades || []; if (us.length === 1 && us[0].id_condominio) ctx.lastCondo = { id: String(us[0].id_condominio), nome: us[0].condominio }; return r; }
+    case 'get_boleto_2via': { if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome }; return await SL.get_boleto_2via(args); }
+    case 'get_inadimplencia': { if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome }; return await SL.get_inadimplencia(args); }
     case 'enviar_anexo_pdf': {
+      if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome };
       const info = await SL.get_boleto_pdf_url(args);
       if (!info.ok) return { enviado: false, motivo: info.motivo, ...(info.garantidora ? { garantidora: info.garantidora } : {}) };
       // Só envia de fato quando há chat real (WhatsApp). Na UI de teste (sem chatId) retorna simulado p/ exercitar o fluxo.
@@ -47,8 +52,9 @@ async function runToolReal(name, args, ctx) {
     case 'consultar_base_geral': return BG.consultar_base_geral(args);
     case 'consultar_regra_mudanca': return MUD.consultar_regra_mudanca(args);
     case 'consultar_sistema_portaria': return PORT.consultar_sistema_portaria(args);
+    case 'consultar_video_app': return GRUVI.buscar_video(args.assunto);
     case 'marcar_tag': { if (ctx.chatId) await OCTA.marcar_tag(ctx.chatId, args.tag); return { ok: true }; }
-    case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo }); return { transferido: true }; }
+    case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); return { transferido: true }; }
     default: return { erro: `tool desconhecida: ${name}` };
   }
 }

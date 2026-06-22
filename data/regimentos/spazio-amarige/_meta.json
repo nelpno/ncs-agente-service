@@ -3,7 +3,7 @@
   "condominio_slug": "spazio-amarige",
   "aliases": ["Parque Amarige"],
   "endereco": "Avenida Doutor Miguel Couto, 493, Araraquara - SP",
-  "id_condominio_superlogica": null,
+  "id_condominio_superlogica": 177,
   "documentos": [
     {
       "arquivo": "convencao-spazio-amarige.md",
@@ -22,5 +22,5 @@
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
   "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
-  "nota": "Não encontrado entre os 59 condôminos acessíveis pelo token Superlógica (existe 'PARQUE AMARIGE' id 177 — confirmar com Fernando se é o mesmo). sl_id pendente. ATENÇÃO: ambos os documentos extraídos do Drive trazem o título/cabeçalho 'PARQUE AMARIGE' (Av. Dr. Miguel Couto, 493 - Araraquara), o que reforça que Spazio Amarige = Parque Amarige (id 177)."
+  "nota": "Spazio Amarige = PARQUE AMARIGE (id 177, MRV, Av. Dr. Miguel Couto, 493 - Araraquara) — MESMO condomínio, nome diferente. CONFIRMADO por Fernando 22/06/2026. Os documentos do Drive trazem o cabeçalho 'PARQUE AMARIGE'; alias 'Parque Amarige' resolve o regimento, e a garantidora 177 (GRUPO CDG, tipo total) já cobre o financeiro."
 }
