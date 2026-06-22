@@ -4,6 +4,7 @@ import { config } from './src/config.mjs';
 import { getSession } from './src/memory.mjs';
 import { handleTurn } from './src/agent.mjs';
 import { responder } from './src/octadesk.mjs';
+import { sinalCobranca } from './src/cobranca.mjs';
 
 function readBody(req) { return new Promise((r) => { let d = ''; req.on('data', (c) => (d += c)); req.on('end', () => r(d)); }); }
 function json(res, code, obj) { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
@@ -88,8 +89,11 @@ const server = http.createServer(async (req, res) => {
     const session = getSession(sessionKey);
     const ctx = { chatId, fluxo, transferred: null };
     const { reply, transferred } = await handleTurn(session, text, ctx);
+    // detalhes do handoff p/ o fluxo do Octadesk rotear ao time certo: motivo + resumo (+ escritório de cobrança no roteamento).
+    let roteamento = null;
+    if (transferred?.motivo) { try { roteamento = sinalCobranca(transferred.motivo, { id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome })?.roteamento || null; } catch {} }
     if (reply && chatId) { try { await responder(chatId, reply); } catch (e) { console.warn('[webhook] responder falhou:', e.message); } }
-    return json(res, 200, { reply, transferred: !!transferred });
+    return json(res, 200, { reply, transferred: !!transferred, motivo: transferred?.motivo || null, resumo: transferred?.resumo || null, roteamento });
   } catch (e) {
     console.error('[srv] erro:', e.message);
     return json(res, 200, { reply: 'Tive um problema aqui, vou te encaminhar para um atendente.', erro: true });
