@@ -110,11 +110,15 @@ export function consultar_base_geral({ pergunta, k = 6 } = {}) {
   if (!pergunta || !norm(pergunta)) return { encontrou: false, motivo: 'pergunta_vazia', trechos: [] };
 
   const ts = termos(pergunta);
+  // matchers: termos curtos (<=3 chars) exigem PALAVRA INTEIRA (evita p.ex. "app" casar dentro de "hAPPy") —
+  // mesma defesa do regimento.mjs. ntexto/nsecao já são normalizados (palavras separadas por espaço).
+  const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
+  const tem = (hay, m) => (m.re ? m.re.test(hay) : hay.includes(m.t));
   const scored = index.chunks.map((c) => {
     let s = 0;
-    for (const t of ts) {
-      if (c.ntexto.includes(t)) s += 1;
-      if (c.nsecao.includes(t)) s += 2; // termo no título da seção pesa mais
+    for (const m of matchers) {
+      if (tem(c.ntexto, m)) s += 1;
+      if (tem(c.nsecao, m)) s += 2; // termo no título da seção pesa mais
     }
     return { c, s };
   }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, k);

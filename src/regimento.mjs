@@ -17,8 +17,8 @@ const STOP = new Set(('de a o que e do da em um para com nao uma os no se na por
 
 // sinônimos de domínio condominial → melhora o recall (pergunta usa palavra do morador, doc usa palavra jurídica)
 const SYN = {
-  cachorro:['animal','pet','cao'], cao:['animal','pet'], cachorra:['animal','pet'], gato:['animal','pet'],
-  bicho:['animal','pet'], pet:['animal'], animais:['animal','pet'], animal:['pet'],
+  cachorro:['animal','animais','pet','cao','caes','bicho'], cao:['animal','animais','pet','caes'], cachorra:['animal','animais','pet'], gato:['animal','animais','pet','gatos'],
+  bicho:['animal','animais','pet'], pet:['animal','animais'], animais:['animal','pet'], animal:['animais','pet'],
   barulho:['ruido','som','silencio','sossego','perturbacao','incomodo'], musica:['som','ruido'],
   som:['ruido','barulho'], festa:['som','ruido','convidado','festas'], silencio:['ruido','sossego','barulho'],
   mudanca:['mudanca','transporte'], mudar:['mudanca'], mudancas:['mudanca'],
@@ -34,6 +34,10 @@ const SYN = {
   academia:['fitness'], fitness:['academia'], crianca:['playground','recreacao','brinquedoteca','criancas'],
   criancas:['playground','recreacao'], coworking:['coworking','trabalho'], sauna:['sauna','relax'],
   tenis:['quadra'], quadra:['tenis'], mercado:['carrinho','feira'], lavar:['lavagem'],
+  fumar:['fumo','cigarro','fumante','tabaco'], cigarro:['fumar','fumo'], fumo:['fumar','cigarro'],
+  alugar:['locacao','aluguel','temporada','inquilino','destinacao'], aluguel:['locacao','alugar','temporada'],
+  temporada:['locacao','alugar','airbnb','hospedagem'], airbnb:['locacao','temporada','alugar','hospedagem'],
+  locacao:['alugar','aluguel','inquilino','destinacao'], hospedagem:['locacao','temporada','airbnb'],
 };
 
 let _index = null; // { slug: { nome, chunks:[{docLabel,docTipo,secao,texto,ntexto,nsecao,ataData}] } }
@@ -152,14 +156,20 @@ export function consultar_regimento({ condominio, pergunta, k = 6 } = {}) {
   if (!pergunta || !norm(pergunta)) return { encontrou: false, motivo: 'pergunta_vazia', trechos: [] };
 
   const ts = termos(pergunta);
+  // matchers: termos curtos (<=3 chars) exigem PALAVRA INTEIRA (evita "cao" ⊂ "convoCAÇÃO"/"instalaCAO");
+  // termos longos casam por substring (pega radical/plural). ntexto/nsecao já são normalizados (palavras separadas por espaço).
+  const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
+  const tem = (hay, m) => (m.re ? m.re.test(hay) : hay.includes(m.t));
   // 1) Ranqueia por relevância (score). Comparador TOTAL/transitivo: score desc, e como
   //    desempate puro a ATA mais recente sobe (não cria ciclo porque é só tie-break).
   const ranked = index[slug].chunks.map((c) => {
     let s = 0;
-    for (const t of ts) {
-      if (c.ntexto.includes(t)) s += 1;
-      if (c.nsecao.includes(t)) s += 2; // termo no título da seção pesa mais
+    for (const m of matchers) {
+      if (tem(c.ntexto, m)) s += 1;
+      if (tem(c.nsecao, m)) s += 2; // termo no título da seção pesa mais
     }
+    // ATA é deliberação pontual/cronológica: meia-pontuação p/ não dominar a Convenção/RI por casar termo no cabeçalho.
+    if (c.docTipo === 'ata') s *= 0.5;
     return { c, s };
   }).filter((x) => x.s > 0).sort((a, b) => {
     if (b.s !== a.s) return b.s - a.s;
