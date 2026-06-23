@@ -19,6 +19,21 @@ async function slGet(controllerAction, params = {}) {
   return r.json();
 }
 
+// _unidadeNoJuridico: a unidade está em PROCESSO JUDICIAL? Só a variante de `inadimplencia/index` SEM `apenasResumoInad`
+// traz o array `processos[]` (validado 22/06: ABV 191 u16394 → processos[0].fl_status_proc=6, e o link PÚBLICO da 2ª via
+// recusa "a unidade está no jurídico"). ⚠️ `fl_statusfin_uni=10` é "em cobrança/negativado" — MAIS amplo que jurídico
+// (há unidade com 10 e SEM processo) → NÃO serve de sinal; usamos `processos[]`. Conservador: qualquer processo presente
+// conta como jurídico (errar para o lado de encaminhar à cobrança é seguro; o oposto = risco jurídico). idUnidade ignorado → UNIDADES[0]=.
+// Em erro de consulta NÃO bloqueia (no_juridico:false) — o +30d/garantidora ainda protegem e o jurídico é a exceção.
+async function _unidadeNoJuridico({ id_condominio, id_unidade }) {
+  let data;
+  try { data = await slGet('inadimplencia/index', { idCondominio: id_condominio, 'UNIDADES[0]': id_unidade }); }
+  catch { return { erro: true, no_juridico: false }; }
+  const row = (Array.isArray(data) ? data : []).find((u) => String(u.id_unidade_uni) === String(id_unidade));
+  const qtd = Array.isArray(row?.processos) ? row.processos.length : 0;
+  return { no_juridico: qtd > 0, qtd_processos: qtd };
+}
+
 let _condosCache = null;
 async function listCondominios() {
   if (_condosCache) return _condosCache;
@@ -103,7 +118,13 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
   // Garantidora 'total': a NCS não gera boleto pelo Superlógica → direcionar à garantidora (nem consulta o sistema).
   const gar = await garantidoraDe(id_condominio);
   if (gar && gar.tipo === 'total') return { liberado: false, motivo: 'garantidora', garantidora: gar.garantidora };
-  const data = await slGet('cobranca/index', { idCondominio: id_condominio, status: 'pendentes', 'UNIDADES[0]': id_unidade });
+  // Unidade em PROCESSO JUDICIAL: o Superlógica BLOQUEIA a 2ª via pública ("a unidade está no jurídico") e pagar uma
+  // mensalidade avulsa não quita o débito em processo → encaminhar à cobrança, NUNCA self-service. (Em paralelo com a cobrança.)
+  const [jur, data] = await Promise.all([
+    _unidadeNoJuridico({ id_condominio, id_unidade }),
+    slGet('cobranca/index', { idCondominio: id_condominio, status: 'pendentes', 'UNIDADES[0]': id_unidade }),
+  ]);
+  if (jur.no_juridico) return { liberado: false, motivo: 'unidade_no_juridico', qtd_processos: jur.qtd_processos };
   const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade)); // anti-troca
   if (!itens.length) return { liberado: false, motivo: 'nenhum boleto pendente para esta unidade' };
   const b = itens.sort((a, z) => new Date(a.dt_vencimento_recb) - new Date(z.dt_vencimento_recb))[0];
@@ -145,7 +166,8 @@ export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
 // em cobrança e jurídico), NÃO só os recentes do `cobranca/index?status=pendentes` (esse era o PONTO CEGO que fazia a
 // Ana afirmar "só deve esse boleto" para quem devia dezenas de milhares). ⚠️ idUnidade é ignorado → filtro = UNIDADES[0]=.
 // Validado 21/06: ABV (191) tem 74 inadimplentes / R$457k; campos por unidade = qtd_cobrancas_em_aberto + total_original.
-// Retorna { status: 'inadimplente' (+qtd_cobrancas_em_aberto) | 'sem_debito_vencido' | 'gerido_por_garantidora' | 'indisponivel' }.
+// Retorna { status: 'inadimplente' (+qtd_cobrancas_em_aberto, +no_juridico/qtd_processos) | 'sem_debito_vencido' | 'gerido_por_garantidora' | 'indisponivel' }.
+// no_juridico:true = a unidade tem processo judicial aberto (a 2ª via self-service fica bloqueada → cobrança).
 export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
   const gar = await garantidoraDe(id_condominio);
   if (gar && gar.tipo === 'total') return { status: 'gerido_por_garantidora', garantidora: gar.garantidora };
@@ -155,7 +177,11 @@ export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
   const linhas = (Array.isArray(data) ? data : []).filter((u) => String(u.id_unidade_uni) === String(id_unidade)); // anti-troca
   if (linhas.length) {
     const qtd = Number(linhas[0].qtd_cobrancas_em_aberto) || null;
-    const r = { status: 'inadimplente', qtd_cobrancas_em_aberto: qtd };
+    // no_juridico: a unidade tem processo judicial aberto? Só checa o processo (1 chamada extra) quando há status
+    // financeiro especial — `fl_statusfin_uni` vazio NUNCA tem processo (validado 22/06). Evita a chamada no caso comum.
+    let jur = { no_juridico: false };
+    if (String(linhas[0].fl_statusfin_uni || '').trim()) jur = await _unidadeNoJuridico({ id_condominio, id_unidade });
+    const r = { status: 'inadimplente', qtd_cobrancas_em_aberto: qtd, no_juridico: !!jur.no_juridico, ...(jur.qtd_processos ? { qtd_processos: jur.qtd_processos } : {}) };
     if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure: cobrança pela Inadimplência Zero.
     return r;
   }
