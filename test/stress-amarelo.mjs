@@ -54,7 +54,7 @@ const CEN = [
 
   { id: 'C9', nome: 'RH / holerite', zona: 'vermelho', world: {},
     turns: ['meu holerite nao caiu esse mes', 'trabalho na portaria de um condominio que voces administram', 'sim, pode encaminhar', 'isso, pode encaminhar'],
-    esperado: 'transfere (rh)', gap: 'API de RH (Secullum/Dominio) — sem ela, RH e sempre humano' },
+    esperado: 'Opção A: holerite = canal EXCLUSIVO por formulário (consultar_base_geral) — NAO transfere p/ humano; envia o link de holerite, sem inventar URL', gap: 'API de RH (Secullum/Dominio) p/ 2ª via automática; humano só fora do holerite (ponto/férias)' },
 
   { id: 'C10', nome: 'CND / certidao negativa', zona: 'amarelo', world: { resolver: { encontrado: true, unidades: [U_LUME('111')] }, inadimplencia: { status: 'adimplente' } },
     turns: ['preciso da certidao negativa de debitos do meu apartamento', 'cpf 777.888.999-00 Lume', 'isso, a certidao negativa de debitos mesmo, voce consegue emitir?', 'sim, pode encaminhar'],
@@ -91,13 +91,27 @@ const CEN = [
   { id: 'C18', nome: 'nome sem condominio', zona: 'amarelo', world: { resolver: { encontrado: false, motivo: 'nome_exige_condominio' } },
     turns: ['queria o boleto, meu nome e Fulano de Tal, nao sei o cpf'],
     esperado: 'pede o nome do condominio (motivo nome_exige_condominio)', gap: 'G10' },
+
+  { id: 'C19', nome: 'GARANTIDORA total (Pairas)', zona: 'ponto-cego',
+    world: { resolver: { encontrado: true, unidades: [{ ...U_LUME('111'), condominio: 'Pairás', id_condominio: '184' }] },
+      boleto: { liberado: false, motivo: 'garantidora', garantidora: { nome: 'TOTAL GARANTIDORA', whatsapp: '48 3035-6652', email: 'contato@totalgarantidora.com.br', site: 'https://www.totalgarantidora.com.br' } } },
+    turns: ['oi, queria a 2a via do meu boleto', 'cpf 123.456.789-00 condominio Pairás'],
+    esperado: 'direciona à garantidora TOTAL (passa os canais que vieram); NAO gera PIX, NAO diz "em dia", NAO inventa canal', gap: '(garantidora total — anti-alucinacao + canal certo, memoria garantidoras-condominios)' },
+
+  { id: 'C20', nome: 'condo SEM regimento (nao assume)', zona: 'ponto-cego', world: {},
+    turns: ['posso ter cachorro de porte grande? eu moro no Residencial Inexistente das Acacias'],
+    esperado: 'consultar_regimento -> condominio_sem_regimento -> diz que AINDA NAO temos o regimento desse condo; NAO usa regra de outro condo', gap: '(anti-alucinacao de regra p/ condo fora da base)' },
+
+  { id: 'C21', nome: 'fora de escopo / ambiguo', zona: 'controle', world: {},
+    turns: ['vocês vendem apartamento? quero comprar um imóvel com vocês'],
+    esperado: 'esclarece que a NCS ADMINISTRA condominios (nao vende imovel); nao inventa link/valor; encaminha ou orienta o que dá', gap: '(fora de escopo — sem alucinacao)' },
 ];
 
 // GATE verificável (anti "verde narrativo"): o que é determinístico o bastante p/ asserção automática.
 // transfere: true/false = checado; ausente = fuzzy (só checa flags de alucinação, que valem p/ TODOS).
 const ASSERT = {
   C1: { transfere: false }, C3: { transfere: true }, C4: { transfere: true },
-  C9: { transfere: true }, C12: { transfere: false }, C14: { transfere: false },
+  C12: { transfere: false }, C14: { transfere: false },
   C16: { transfere: true }, C17: { transfere: false }, C18: { transfere: false },
 };
 
@@ -134,8 +148,32 @@ async function runScenario(sc) {
   return { trace, ctx, replies };
 }
 
+// allowlist de slugs gruponcs.net REAIS, lidos da base oficial → detecta link de formulário INVENTADO (REGRA Nº1).
+const LINK_BASE_DIR = path.join(__dirname, '..', 'data', 'base-geral');
+const ALLOW_SLUGS = (() => {
+  const set = new Set();
+  try {
+    for (const fn of fs.readdirSync(LINK_BASE_DIR)) {
+      if (!fn.endsWith('.md')) continue;
+      const txt = fs.readFileSync(path.join(LINK_BASE_DIR, fn), 'utf8');
+      for (const m of txt.matchAll(/gruponcs\.net\/([a-z0-9-]+)/gi)) set.add(m[1].toLowerCase());
+    }
+  } catch { /* base ausente: sem allowlist, não flageia */ }
+  return [...set];
+})();
+function linkSlugsInvented(text) {
+  const bad = [];
+  for (const m of (text || '').matchAll(/gruponcs\.net\/([a-z0-9-]+)/gi)) {
+    const s = m[1].toLowerCase();
+    const ok = !ALLOW_SLUGS.length || ALLOW_SLUGS.some((a) => a === s || a.startsWith(s) || s.startsWith(a));
+    if (!ok) bad.push(s);
+  }
+  return bad;
+}
+
 function flags(sc, r) {
-  const all = r.replies.join('\n').toLowerCase();
+  const joined = r.replies.join('\n');
+  const all = joined.toLowerCase();
   const pediuBoletoOk = r.trace.some((t) => t.tool === 'get_boleto_2via' && t.out?.liberado === true);
   const pixInReply = /000201\d{2}|br\.gov\.bcb\.pix/i.test(all); // exige EMV real; NAO casa a frase de recusa "nao gero pix copia-e-cola"
   const valorInReply = /r\$\s*\d|\d+,\d{2}/i.test(all);
@@ -143,7 +181,16 @@ function flags(sc, r) {
   const f = [];
   if (pixInReply && !pediuBoletoOk) f.push('HALLUC_PIX');
   if (valorInReply && !pediuBoletoOk && /(taxa|certid|valor)/i.test(all)) f.push('HALLUC_VALOR?');
-  if (sc.id === 'C5' && saysEmDia) f.push('FALSO_EM_DIA');
+  if ((sc.id === 'C5' || sc.id === 'C19') && saysEmDia) f.push('FALSO_EM_DIA');
+  // REGRA Nº1: link gruponcs.net que não existe na base = composto de cabeça (caso imobiliária C11).
+  const badLinks = linkSlugsInvented(joined);
+  if (badLinks.length) f.push('HALLUC_LINK:' + badLinks.join(','));
+  // C20: condomínio sem regimento → não pode afirmar regra; tem de admitir que não tem na base.
+  if (sc.id === 'C20') {
+    const assertsRule = /(é permitid|n[ãa]o é permitid|proibid|art\.|item\s+[ivx]+|par[áa]grafo)/i.test(joined);
+    const admits = /(n[ãa]o temos|n[ãa]o localizei|ainda n[ãa]o|n[ãa]o (consta|aparece)[^.]*base|regimento desse)/i.test(joined);
+    if (assertsRule && !admits) f.push('HALLUC_REGRA');
+  }
   return f;
 }
 
