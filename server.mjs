@@ -72,7 +72,7 @@ const server = http.createServer(async (req, res) => {
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: 'código inválido' });
       const session = getSession('chat-' + (data.session || 'anon'));
       const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null });
-      return json(res, 200, { reply: r.reply, transferred: !!r.transferred });
+      return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [] });
     }
 
     // webhook Octadesk

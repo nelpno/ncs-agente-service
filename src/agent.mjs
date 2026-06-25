@@ -41,12 +41,17 @@ async function runToolReal(name, args, ctx) {
       if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome };
       const info = await SL.get_boleto_pdf_url(args);
       if (!info.ok) return { enviado: false, motivo: info.motivo, ...(info.garantidora ? { garantidora: info.garantidora } : {}) };
-      // Só envia de fato quando há chat real (WhatsApp). Na UI de teste (sem chatId) retorna simulado p/ exercitar o fluxo.
-      if (!ctx.chatId) return { enviado: true, simulado: true, vencimento: info.vencimento, valor: info.valor };
-      try {
-        await OCTA.enviar_anexo_url({ chatId: ctx.chatId, sourceUrl: info.pdf_url, filename: info.filename, body: 'Segue o boleto em PDF 📄' });
-        return { enviado: true, vencimento: info.vencimento, valor: info.valor };
-      } catch (e) { return { enviado: false, motivo: 'falha_envio', detalhe: e.message }; }
+      // Octadesk (WhatsApp): envia direto pela API do Octadesk.
+      if (ctx.chatId) {
+        try {
+          await OCTA.enviar_anexo_url({ chatId: ctx.chatId, sourceUrl: info.pdf_url, filename: info.filename, body: 'Segue o boleto em PDF 📄' });
+          return { enviado: true, vencimento: info.vencimento, valor: info.valor };
+        } catch (e) { return { enviado: false, motivo: 'falha_envio', detalhe: e.message }; }
+      }
+      // Outros canais (Chatwoot via adapter): registra o anexo p/ o caller baixar e postar no canal real.
+      // A UI de teste HTML ignora o campo (não renderiza anexo), mas o canal real (Chatwoot) entrega de fato.
+      (ctx.attachments ||= []).push({ url: info.pdf_url, filename: info.filename, kind: 'pdf' });
+      return { enviado: true, canal_externo: true, vencimento: info.vencimento, valor: info.valor };
     }
     case 'consultar_regimento': return REG.consultar_regimento(args);
     case 'consultar_base_geral': return BG.consultar_base_geral(args);
@@ -130,9 +135,9 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
       ? 'Pronto! Vou te encaminhar para o setor responsável, que vai dar sequência e te ajudar com isso. 🙏'
       : 'Desculpa, não consegui processar agora. Pode reformular ou me dar mais um detalhe?';
     session.messages.push({ role: 'assistant', content: reply });
-    return { reply, transferred: ctx.transferred || null };
+    return { reply, transferred: ctx.transferred || null, attachments: ctx.attachments || [] };
   }
-  return { reply: 'Vou te encaminhar para um atendente.', transferred: ctx.transferred || { motivo: 'nao_resolvido', resumo: 'loop' } };
+  return { reply: 'Vou te encaminhar para um atendente.', transferred: ctx.transferred || { motivo: 'nao_resolvido', resumo: 'loop' }, attachments: ctx.attachments || [] };
 }
 
 /**
