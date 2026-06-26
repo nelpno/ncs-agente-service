@@ -10,6 +10,7 @@ import * as BG from './base_geral.mjs';
 import * as MUD from './mudanca.mjs';
 import * as PORT from './portaria.mjs';
 import * as GRUVI from './gruvi.mjs';
+import { agoraContextoTemporal } from './tempo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SYSTEM_PROMPT = fs.readFileSync(path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
@@ -81,6 +82,10 @@ const CONFIRM_RE = /(confirmar?|conferir)[^.!?]*(correto|certo|acrescentar|adici
  */
 export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool) {
   if (!session.messages.length) session.messages.push({ role: 'system', content: systemPrompt });
+  // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
+  // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
+  session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
+  session.messages.push({ role: 'system', content: agoraContextoTemporal() });
   session.messages.push({ role: 'user', content: userText });
   let nudges = 0, emptyRetries = 0;
   // Retry 1x da chamada ao modelo antes de desistir: o gemini-3-flash em function calling solta erros transitórios
