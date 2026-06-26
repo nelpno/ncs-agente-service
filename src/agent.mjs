@@ -13,7 +13,7 @@ import * as GRUVI from './gruvi.mjs';
 import { agoraContextoTemporal } from './tempo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SYSTEM_PROMPT = fs.readFileSync(path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
+const SYSTEM_PROMPT = fs.readFileSync(process.env.SYSTEM_PROMPT_PATH || path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
 
 const TOOLS = [
   { type: 'function', function: { name: 'resolver_cadastro', description: 'Identifica a(s) unidade(s) da pessoa. Prefira por CPF; se ela não tem/não sabe o CPF, busque por NOME + condomínio. Retorna { encontrado, criterio (cpf|telefone|nome_exato|nome_completo|nome_parcial), confianca (alta|media|baixa), unidades:[{id_unidade, identificacao (bloco/unidade), condominio, id_condominio, papel, nome, ex_morador}] }. confianca ALTA = CPF/telefone (é a própria pessoa) → pode prosseguir. confianca MEDIA/BAIXA = achou por NOME, pode ser homônimo → CONFIRME um 2º dado (a unidade/bloco, ou parte do CPF) ANTES de entregar boleto/valor/dado sensível. motivo nome_exige_condominio = peça o condomínio. Use antes de qualquer ação que dependa da unidade.', parameters: { type: 'object', properties: { cpf: { type: 'string', description: 'CPF da pessoa (com ou sem máscara).' }, nome: { type: 'string', description: 'Nome completo (use quando a pessoa não tem/sabe o CPF; exige o condomínio).' }, condominio: { type: 'string', description: 'Nome do condomínio. Obrigatório na busca por nome.' } } } } },

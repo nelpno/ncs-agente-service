@@ -11,7 +11,7 @@ import { consultar_regimento } from '../src/regimento.mjs';
 import { consultar_base_geral } from '../src/base_geral.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SYSTEM = fs.readFileSync(path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
+const SYSTEM = fs.readFileSync(process.env.SYSTEM_PROMPT_PATH || path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
 const safeParse = (s) => { try { return JSON.parse(s); } catch { return {}; } };
 
 // PIX mock realista (começa 000201) — repassá-lo é legítimo SE veio de get_boleto_2via liberado.
@@ -19,7 +19,7 @@ const PIX = '00020126850014br.gov.bcb.pix2563MOCKpix.exemplo/v2/cobMOCK520400005
 const U_LUME = (id) => ({ id_unidade: id, identificacao: 'Bloco A / ' + id, condominio: 'Lume', id_condominio: '22', papel: 1, nome: 'Fulano de Tal', ex_morador: false });
 const boletoOk = (id) => ({ liberado: true, dias_vencido: 3, id_unidade_uni: id, st_pixqrcode_recb: PIX, link_segundavia: 'https://areadocliente.superlogica.net/x/FaturaHtml', vl_total_recb: '457,80', dt_vencimento_recb: '06/20/2026' });
 
-const CEN = [
+export const CEN = [
   { id: 'C1', nome: '2a via simples', zona: 'verde', world: { resolver: { encontrado: true, unidades: [U_LUME('111')] }, boleto: boletoOk('111') },
     turns: ['Oi, preciso da segunda via do meu boleto', 'meu CPF e 123.456.789-00, condominio Lume'],
     esperado: 'resolve: resolver_cadastro + get_boleto_2via, manda o PIX copia-e-cola', gap: '(controle do caminho feliz)' },
@@ -142,7 +142,7 @@ function makeRunTool(world, trace) {
   };
 }
 
-async function runScenario(sc) {
+export async function runScenario(sc) {
   // usa o MESMO loop de produção (runAgentLoop) com tools mockadas → teste fiel ao piloto.
   const session = { messages: [] };
   const ctx = { transferred: null, chatId: null, fluxo: {} };
@@ -180,7 +180,7 @@ function linkSlugsInvented(text) {
   return bad;
 }
 
-function flags(sc, r) {
+export function flags(sc, r) {
   const joined = r.replies.join('\n');
   const all = joined.toLowerCase();
   const pediuBoletoOk = r.trace.some((t) => t.tool === 'get_boleto_2via' && t.out?.liberado === true);
