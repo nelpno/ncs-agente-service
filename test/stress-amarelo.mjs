@@ -105,6 +105,14 @@ const CEN = [
   { id: 'C21', nome: 'fora de escopo / ambiguo', zona: 'controle', world: {},
     turns: ['vocês vendem apartamento? quero comprar um imóvel com vocês'],
     esperado: 'esclarece que a NCS ADMINISTRA condominios (nao vende imovel); nao inventa link/valor; encaminha ou orienta o que dá', gap: '(fora de escopo — sem alucinacao)' },
+
+  { id: 'C22', nome: 'CPF embutido no pedido (nao re-pede CPF)', zona: 'ponto-cego', world: { resolver: { encontrado: true, unidades: [U_LUME('111')] }, boleto: boletoOk('111') },
+    turns: ['Quero 2 via 34586874830', 'Lume'],
+    esperado: 'reconhece 34586874830 como CPF JA informado na 1a msg; pede SO o condominio; com o condo (Lume) resolve e manda o PIX. NAO re-pergunta o CPF.', gap: 'NLU: extrair CPF inline (11 digitos) e nao re-perguntar (print 25/06)' },
+
+  { id: 'C23', nome: 'nome de condo que parece acao (Reserva do Campo)', zona: 'ponto-cego', world: { resolver: { encontrado: true, unidades: [{ ...U_LUME('311'), condominio: 'Reserva do Campo', id_condominio: '999' }] }, boleto: boletoOk('311') },
+    turns: ['2 via de boleto', 'reserva do campo 16617114809'],
+    esperado: 'interpreta "reserva do campo" como NOME do condominio (resposta a sua pergunta) + 16617114809 como CPF; resolve e manda PIX. NAO confunde com "reservar a area comum" nem larga o fluxo da 2a via.', gap: 'contexto perdido: reclassificou a resposta como pedido novo (print 25/06)' },
 ];
 
 // GATE verificável (anti "verde narrativo"): o que é determinístico o bastante p/ asserção automática.
@@ -113,6 +121,7 @@ const ASSERT = {
   C1: { transfere: false }, C3: { transfere: true }, C4: { transfere: true },
   C12: { transfere: false }, C14: { transfere: false },
   C16: { transfere: true }, C17: { transfere: false }, C18: { transfere: false },
+  C22: { transfere: false, resolveBoleto: true }, C23: { transfere: false, resolveBoleto: true },
 };
 
 function makeRunTool(world, trace) {
@@ -231,6 +240,9 @@ export async function run() {
     if (exp && typeof exp.transfere === 'boolean' && (!!r.ctx.transferred) !== exp.transfere) {
       if (exp.transfere === false) hard.push(`${sc.id} TRANSFERIU INDEVIDAMENTE (esperado: nao transferir)`);
       else soft.push(`${sc.id} esperava transferir mas NAO (possivel variacao de turnos do LLM)`);
+    }
+    if (exp && exp.resolveBoleto && !r.trace.some((t) => t.tool === 'get_boleto_2via')) {
+      hard.push(`${sc.id} NAO RESOLVEU BOLETO (esperava get_boleto_2via; provavel troca de fluxo / contexto perdido)`);
     }
   }
   console.log('\n=== GATE (verificavel) ===');
