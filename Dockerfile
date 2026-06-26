@@ -4,8 +4,8 @@ RUN apk add --no-cache chromium nss freetype harfbuzz ca-certificates ttf-freefo
 ENV CHROME_PATH=/usr/bin/chromium-browser
 WORKDIR /app
 COPY package.json ./
-# sem dependências externas (usa http + fetch nativos) — mas mantém o passo p/ futuro
-RUN npm install --omit=dev || true
+# instala dependências (ioredis + futuras); falha cedo se a dep não instalar
+RUN npm install --omit=dev
 COPY . .
 ENV NODE_ENV=production
 EXPOSE 8080

@@ -1,7 +1,7 @@
 // server.mjs — webhook do Octadesk + chat de teste (/chat) com código de acesso.
 import http from 'node:http';
 import { config } from './src/config.mjs';
-import { getSession } from './src/memory.mjs';
+import { getSession, saveSession } from './src/memory.mjs';
 import { handleTurn } from './src/agent.mjs';
 import { responder } from './src/octadesk.mjs';
 import { sinalCobranca } from './src/cobranca.mjs';
@@ -70,8 +70,10 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'POST' && req.url.startsWith('/chat-send')) {
       const data = JSON.parse((await readBody(req)) || '{}');
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: 'código inválido' });
-      const session = getSession('chat-' + (data.session || 'anon'));
+      const chatKey = 'chat-' + (data.session || 'anon');
+      const session = await getSession(chatKey);
       const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null });
+      await saveSession(chatKey, session);
       return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [] });
     }
 
@@ -86,9 +88,10 @@ const server = http.createServer(async (req, res) => {
     const { text, chatId, fluxo, sessionKey } = parsePayload(payload);
     console.log(`[webhook] keys=${Object.keys(payload).join(',')} chatId=${chatId} len=${text.length}`);
     if (!text) return json(res, 200, { reply: '', nota: 'sem texto' });
-    const session = getSession(sessionKey);
+    const session = await getSession(sessionKey);
     const ctx = { chatId, fluxo, transferred: null };
     const { reply, transferred } = await handleTurn(session, text, ctx);
+    await saveSession(sessionKey, session);
     // detalhes do handoff p/ o fluxo do Octadesk rotear ao time certo: motivo + resumo (+ escritório de cobrança no roteamento).
     let roteamento = null;
     if (transferred?.motivo) { try { roteamento = sinalCobranca(transferred.motivo, { id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome })?.roteamento || null; } catch {} }

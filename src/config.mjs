@@ -24,4 +24,7 @@ export const config = {
   chatPasscode: env.CHAT_PASSCODE || '',
   dryRunWrites: (env.DRY_RUN_WRITES || 'true') !== 'false',
   logPII: env.LOG_PII === 'true',
+  // Redis (memória persistente de sessão)
+  redisUrl: env.REDIS_URL || '',
+  sessionTtlS: parseInt(env.SESSION_TTL_S || '172800', 10),
 };

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { config } from "../src/config.mjs";   // REUSO: mesma leitura de env
-import { getSession } from "../src/memory.mjs"; // REUSO: sessão in-memory
+import { getSession, saveSession } from "../src/memory.mjs"; // REUSO: sessão persistente
 import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
 
@@ -35,8 +35,10 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST" && req.url.startsWith("/chat-send")) {
       const data = JSON.parse((await readBody(req)) || "{}");
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: "código inválido" });
-      const session = getSession("estag-" + (data.session || "anon"));
+      const estagKey = "estag-" + (data.session || "anon");
+      const session = await getSession(estagKey);
       const r = await handleTurn(session, data.message || "", {});
+      await saveSession(estagKey, session);
       return json(res, 200, { reply: r.reply, doc: r.doc || null });
     }
 

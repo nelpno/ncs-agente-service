@@ -23,8 +23,28 @@ services:
       - CHAT_PASSCODE=${CHAT_PASSCODE}
       - DRY_RUN_WRITES=true
       - LOG_PII=false
+      # Redis (memória persistente de sessão — opcional; fallback in-memory se ausente)
+      - REDIS_URL=${REDIS_URL:-}
+      - SESSION_TTL_S=${SESSION_TTL_S:-172800}
+    depends_on:
+      - redis
     expose:
       - "8080"
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  # Redis: memória de sessão persistente da Ana (sobrevive a redeploy e ao recontato de 62%).
+  # Fica na mesma rede da stack → hostname "redis" resolve. Volume nomeado persiste entre recriações.
+  redis:
+    image: redis:7-alpine
+    container_name: ncs-agente-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "volatile-ttl"]
+    volumes:
+      - ncs_agente_redis_data:/data
+    expose:
+      - "6379"
     logging:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
@@ -43,3 +63,6 @@ services:
     logging:
       driver: json-file
       options: { max-size: "10m", max-file: "3" }
+
+volumes:
+  ncs_agente_redis_data:

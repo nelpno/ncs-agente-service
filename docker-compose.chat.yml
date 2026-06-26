@@ -18,6 +18,9 @@ services:
       - SUPERLOGICA_BASE_URL=${SUPERLOGICA_BASE_URL:-https://api.superlogica.net/v2/condor}
       - SUPERLOGICA_APP_TOKEN=${SUPERLOGICA_APP_TOKEN}
       - SUPERLOGICA_ACCESS_TOKEN=${SUPERLOGICA_ACCESS_TOKEN}
+      # Redis (memória persistente de sessão — opcional; fallback in-memory se ausente)
+      - REDIS_URL=${REDIS_URL:-}
+      - SESSION_TTL_S=${SESSION_TTL_S:-172800}
     expose:
       - "8090"
     logging:
