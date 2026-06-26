@@ -41,10 +41,22 @@ const params=new URLSearchParams(location.search); const K=params.get('k')||'';
 let session='web-'+Math.random().toString(36).slice(2);
 const chat=document.getElementById('chat'), inp=document.getElementById('msg');
 function add(text,cls){const d=document.createElement('div');d.className='b '+cls;d.textContent=text;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;}
-function reset(){session='web-'+Math.random().toString(36).slice(2);chat.replaceChildren();add('Ambiente de teste do agente. Fale como um condomino. (Le dados reais; informe o condominio junto do CPF.)','sys');}
-async function send(){
+function reset(){session='web-'+Math.random().toString(36).slice(2);if(debTimer)clearTimeout(debTimer);debTimer=null;buf=[];waitMsg=null;chat.replaceChildren();add('Ambiente de teste do agente. Fale como um condomino. (Le dados reais; informe o condominio junto do CPF.) Empilhamento de baloes ativo (~'+(DEB/1000)+'s); ?deb=0 envia na hora.','sys');}
+const DEB=(parseInt(params.get('deb'))||8)*1000; // janela p/ empilhar baloes (s); ?deb=0 envia na hora
+let buf=[], debTimer=null, waitMsg=null;
+function send(){
   const t=inp.value.trim(); if(!t)return; inp.value='';
-  add(t,'me'); const typing=add('Ana esta digitando...','typing'); const t0=Date.now();
+  add(t,'me'); buf.push(t);
+  if(DEB<=0){flush();return;}
+  if(!waitMsg) waitMsg=add('(aguardando voce terminar...)','typing');
+  if(debTimer) clearTimeout(debTimer);
+  debTimer=setTimeout(flush,DEB);
+}
+async function flush(){
+  if(debTimer){clearTimeout(debTimer);debTimer=null;}
+  if(waitMsg){waitMsg.remove();waitMsg=null;}
+  const t=buf.join('\n'); buf=[]; if(!t)return;
+  const typing=add('Ana esta digitando...','typing'); const t0=Date.now();
   try{
     const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session,k:K})});
     const j=await r.json(); typing.remove();
