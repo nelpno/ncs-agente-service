@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import {
   gerarDocumento, carregarCondominio, listarInfracoes,
 } from "../../gerador/src/gerar-lib.mjs";
+import { gerarDeclaracaoQuitacao } from "../../gerador/src/declaracao-quitacao.mjs";
 import { resolver_condominio, resolver_morador } from "./superlogica.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -60,4 +61,29 @@ export async function gerar_documento(args = {}) {
   } catch (e) {
     return { ok: false, erro: e.message, infracoes_disponiveis: e.infracoes_disponiveis };
   }
+}
+
+/**
+ * Gera a DECLARAÇÃO DE QUITAÇÃO (CND). Por padrão a via INFORMATIVA (sem assinatura).
+ * Resolve condo→id e unidade→id_unidade no Superlógica; os GATES (inadimplente/jurídico/garantidora)
+ * vivem no motor (gerarDeclaracaoQuitacao) — só gera p/ quem está 100% em dia. Copia o PDF p/ SAIDA e
+ * devolve o link /doc (servido pelo server do Estagiário).
+ */
+export async function gerar_cnd({ condominio, unidade, bloco, tipo = "informativo" } = {}) {
+  try {
+    // CND não depende do catálogo (gerador/dados) — resolve o condo direto pelo nome no Superlógica,
+    // assim funciona para TODOS os condomínios (não só os que têm catálogo de infrações).
+    const cond = await resolver_condominio({ nome: condominio });
+    if (!cond.encontrado) return { ok: false, motivo: "condominio_nao_encontrado", detalhe: cond.motivo, opcoes: cond.opcoes };
+    const mor = await resolver_morador({ id_condominio: cond.id, unidade, bloco });
+    if (!mor.encontrado) return { ok: false, motivo: "unidade_nao_encontrada", detalhe: mor.motivo };
+    const id_unidade = mor.moradores?.[0]?.id_unidade;
+    if (!id_unidade) return { ok: false, motivo: "sem_id_unidade", detalhe: "não obtive o id da unidade no Superlógica" };
+    const r = await gerarDeclaracaoQuitacao({ id_condominio: cond.id, id_unidade, tipo });
+    if (!r.ok) return { ok: false, motivo: r.motivo, detalhe: r.detalhe, ...(r.qtd_cobrancas_em_aberto != null ? { qtd_cobrancas_em_aberto: r.qtd_cobrancas_em_aberto } : {}) };
+    fs.mkdirSync(SAIDA, { recursive: true });
+    const arquivo = path.basename(r.destino);
+    fs.copyFileSync(r.destino, path.join(SAIDA, arquivo));
+    return { ok: true, titulo: `Declaração de Quitação (${tipo}) — unidade ${unidade}`, arquivo, url: `/doc/${arquivo}`, condominio: r.dados?.condominio?.nome || cond.nome, morador: mor.moradores?.[0]?.nome || null, tipo };
+  } catch (e) { return { ok: false, motivo: "erro", detalhe: e.message }; }
 }

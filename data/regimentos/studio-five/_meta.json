@@ -17,13 +17,19 @@
       "chars": 31147,
       "secoes_##": 14,
       "artigos_###": 78
+    },
+    {
+      "arquivo": "convencao-studio-five.md",
+      "chars": 212912,
+      "secoes_##": 36,
+      "artigos_###": 49
     }
   ],
   "gerado_em": "2026-06-28",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (pasta Studio Five), enviado por Fernando 27/06/2026. Regimento registrado (2017) + 8 ATAs (AGO/AGE 2021-2026). Texto extraído via read_file_content (PDFs digitais). Convenção pendente (ver nota). Revisão humana pendente.",
-  "nota": "CONVENÇÃO PENDENTE: o único arquivo de Convenção no Drive é 'Convenção Registrada Five.zip' (27 MB), acima do limite de download de 10 MB do conector do Drive — não foi possível extrair o PDF interno. Pendência: reexportar o PDF da convenção solto (ou um ZIP <10 MB) para ingestão. Por ora o condo tem Regimento Interno + 8 ATAs.",
+  "fonte": "Drive Grupo NCS (pasta Studio Five), enviado por Fernando 27/06/2026. Regimento registrado (2017) + 8 ATAs (AGO/AGE 2021-2026), texto extraído via read_file_content (PDFs digitais). Convenção extraída do 'Convenção Registrada Five.zip' (PDF escaneado, 94 pág) via OCR Gemini (gemini-2.5-flash, thinking off) em 28/06/2026. Revisão humana pendente.",
+  "nota": "CONVENÇÃO INGERIDA (28/06/2026) via OCR Gemini sobre 94 páginas escaneadas do 'Convenção Registrada Five.zip'. 4 páginas (75, 81, 82, 83) bateram no filtro anti-recitação do Gemini (finish=RECITATION) no OCR de página inteira e foram recuperadas por OCR em faixas horizontais (page-tiling): p75/p83 completas; p81/p82 podem ter 1-2 linhas residuais cobertas pela sobreposição das faixas (conferir na revisão humana). Sem tabelas omitidas — frações ideais/áreas dos apartamentos transcritas como texto no preâmbulo de especificação.",
   "atas": {
     "status": "digital_concluido",
     "revisao_humana": "pendente",

@@ -59,6 +59,7 @@ export async function resolver_morador({ id_condominio, unidade, bloco } = {}) {
     papel: PAPEL_LABEL[r.id_label_tres] || "responsavel",
     papel_descricao: r.st_nometiporesp_tres,
     apartamento: [r.st_unidade_uni, r.st_bloco_uni].filter(Boolean).join(" "),
+    id_unidade: r.id_unidade_uni, // p/ tools que precisam do id da unidade (ex.: CND)
   }));
   return { encontrado: true, moradores };
 }

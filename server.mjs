@@ -5,6 +5,7 @@ import { getSession, saveSession } from './src/memory.mjs';
 import { handleTurn } from './src/agent.mjs';
 import { responder } from './src/octadesk.mjs';
 import { sinalCobranca } from './src/cobranca.mjs';
+import { servirPdf } from './src/cnd.mjs';
 
 function readBody(req) { return new Promise((r) => { let d = ''; req.on('data', (c) => (d += c)); req.on('end', () => r(d)); }); }
 function json(res, code, obj) { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
@@ -77,6 +78,14 @@ const server = http.createServer(async (req, res) => {
     // chat de teste (HTML)
     if (req.method === 'GET' && req.url.startsWith('/chat') && !req.url.startsWith('/chat-send')) {
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); return res.end(CHAT_HTML);
+    }
+    // CND informativo: serve o PDF gerado por token efêmero (o adapter do Chatwoot baixa essa URL p/ anexar)
+    if (req.method === 'GET' && req.url.startsWith('/cnd/')) {
+      const token = req.url.slice(5).split('?')[0];
+      const pdf = servirPdf(token);
+      if (!pdf) return json(res, 404, { erro: 'documento não encontrado ou expirado' });
+      res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename="declaracao-quitacao.pdf"' });
+      return res.end(pdf);
     }
     // chat-send (mesmo serviço, protegido por código)
     if (req.method === 'POST' && req.url.startsWith('/chat-send')) {

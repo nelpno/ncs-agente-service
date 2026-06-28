@@ -24,6 +24,12 @@ export const config = {
   chatPasscode: env.CHAT_PASSCODE || '',
   dryRunWrites: (env.DRY_RUN_WRITES || 'true') !== 'false',
   logPII: env.LOG_PII === 'true',
+  // URL pública do próprio serviço (p/ servir PDFs gerados — ex.: CND — que viram anexo baixável)
+  publicBase: env.PUBLIC_BASE_URL || 'https://ncs.dynamicagents.tech',
+  // Autentique (assinatura digital do CND OFICIAL) — env-gated; sandbox-first (não gasta crédito até virar a chave)
+  autentiqueToken: env.AUTENTIQUE_TOKEN || '',
+  autentiqueSandbox: (env.AUTENTIQUE_SANDBOX || 'true') !== 'false',
+  autentiqueEndpoint: env.AUTENTIQUE_ENDPOINT || 'https://api.autentique.com.br/v2/graphql',
   // Redis (memória persistente de sessão)
   redisUrl: env.REDIS_URL || '',
   sessionTtlS: parseInt(env.SESSION_TTL_S || '172800', 10),
