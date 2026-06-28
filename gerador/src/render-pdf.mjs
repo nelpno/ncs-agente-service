@@ -38,7 +38,7 @@ export function htmlParaPdf(html, destinoPdf) {
   for (let i = 0; i < navegadores.length && !ok; i++) {
     const pdfTmp = path.join(tmp, `doc-${i}.pdf`);
     const args = [
-      "--headless=new", "--disable-gpu", "--no-sandbox",
+      "--headless=new", "--disable-gpu", "--no-sandbox", "--no-pdf-header-footer",
       "--no-first-run", "--no-default-browser-check", "--disable-extensions",
       "--run-all-compositor-stages-before-draw", "--virtual-time-budget=8000",
       `--user-data-dir=${path.join(tmp, "ud-" + i)}`,

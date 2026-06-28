@@ -1,0 +1,58 @@
+{
+  "condominio": "Residencial Vida Plena Araraquara",
+  "condominio_slug": "vida-plena",
+  "aliases": ["Vida Plena", "Residencial Vida Plena"],
+  "endereco": "Avenida Doutor Leite de Moraes, 951, Vila Xavier – Araraquara/SP – CEP 14.810-120",
+  "cnpj": "15.299.298/0001-50",
+  "id_condominio_superlogica": 78,
+  "documentos": [],
+  "gerado_em": "2026-06-26",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "atas": {
+    "status": "digital_concluido",
+    "revisao_humana": "pendente",
+    "fonte": "6 ATAs do Residencial Vida Plena (PDFs digitais) extraídas via Google Drive read_file_content em 26/06/2026.",
+    "documentos": [
+      {
+        "arquivo": "ata-2024-06-26.md",
+        "tipo": "ata",
+        "subtipo": "AGO",
+        "data_br": "26/06/2024"
+      },
+      {
+        "arquivo": "ata-2024-08-21.md",
+        "tipo": "ata",
+        "subtipo": "AGE",
+        "data_br": "21/08/2024",
+        "nota": "Sorteio de vagas de garagem — resumida (tabela omitida)"
+      },
+      {
+        "arquivo": "ata-2025-04-16.md",
+        "tipo": "ata",
+        "subtipo": "AGO",
+        "data_br": "16/04/2025"
+      },
+      {
+        "arquivo": "ata-2025-08-14.md",
+        "tipo": "ata",
+        "subtipo": "AGE",
+        "data_br": "14/08/2025",
+        "nota": "Sorteio de vagas de garagem — resumida (tabela omitida)"
+      },
+      {
+        "arquivo": "ata-2025-11-26.md",
+        "tipo": "ata",
+        "subtipo": "AGO",
+        "data_br": "26/11/2025"
+      },
+      {
+        "arquivo": "ata-2026-03-20.md",
+        "tipo": "ata",
+        "subtipo": "AGO",
+        "data_br": "20/03/2026"
+      }
+    ]
+  },
+  "fonte": "ATAs do Residencial Vida Plena enviadas pelo Fernando via Google Drive. ID Superlógica 78 resolvido via condominios/get?id=-1 (match por nome 'RESIDENCIAL VIDA PLENA ARARAQUARA') em 26/06/2026."
+}

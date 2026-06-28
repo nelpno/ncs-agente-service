@@ -20,5 +20,16 @@
   "gerado_em": "2026-06-18",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "atas": {
+    "status": "digital_concluido",
+    "revisao_humana": "pendente",
+    "fonte": "4 ATAs do Moove Concept Home (PDFs digitais) extraídas via Google Drive read_file_content em 26/06/2026.",
+    "documentos": [
+      { "arquivo": "ata-2024-01-25.md", "tipo": "ata", "subtipo": "AGI", "data_br": "25/01/2024" },
+      { "arquivo": "ata-2024-03-12.md", "tipo": "ata", "subtipo": "AGE", "data_br": "12/03/2024" },
+      { "arquivo": "ata-2025-04-24.md", "tipo": "ata", "subtipo": "AGO", "data_br": "24/04/2025" },
+      { "arquivo": "ata-2026-01-20.md", "tipo": "ata", "subtipo": "AGO", "data_br": "20/01/2026" }
+    ]
+  }
 }
