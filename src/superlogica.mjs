@@ -46,33 +46,73 @@ async function listCondominios() {
 }
 
 // _match: função PURA (testável) — dado um responsável e os critérios de busca, devolve {criterio, score} ou null.
-// Ordem de confiança: CPF (própria pessoa) > telefone (número do titular) > nome (homônimo possível → confirmar).
+// Ordem de confiança: CPF > UNIDADE+NOME (apto restringe + nome confirma) > telefone > nome (homônimo → confirmar).
 const _digits = (s) => (s || '').replace(/\D/g, '');
 const _normNome = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
-export function _match(r, { cpfd, telTail, nomeN }) {
-  if (cpfd && _digits(r.st_cpf_con) === cpfd) return { criterio: 'cpf', score: 100 };
-  if (telTail) { const rt = _digits(r.st_telefone_con); if (rt.length >= 8 && rt.slice(-8) === telTail) return { criterio: 'telefone', score: 80 }; }
+const _normUni = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+
+// _parseUnidade: extrai { num, bloco } de texto livre ("Ap. 111 Torre 2", "apto 142", "Bloco 7 apartamento 401", "unidade 506").
+// num = número do apartamento/unidade (dígitos); bloco = torre/bloco/quadra (sem rótulo). Retorna null se não houver número.
+export function _parseUnidade(u) {
+  if (!u) return null;
+  const s = String(u);
+  let num = null, bloco = null;
+  let m = s.match(/\b(?:ap(?:arta?mento)?|apto|unidade|casa|sala|loja|n[ºo]\.?)\s*\.?\s*(\d{1,5})/i);
+  if (m) num = m[1];
+  m = s.match(/\b(?:bl(?:oco)?|torre|quadra|t)\s*\.?\s*([a-z0-9]{1,4})\b/i);
+  if (m) bloco = m[1].toLowerCase();
+  if (!num) { // sem rótulo de apto: pega o 1º número que não seja o do bloco
+    const nums = [...s.matchAll(/\b(\d{1,5})\b/g)].map((x) => x[1]);
+    num = nums.find((n) => n !== bloco) || null;
+  }
+  return num ? { num, bloco: bloco || null } : null;
+}
+
+export function _match(r, { cpfd, telTail, nomeN, unidadeQ }) {
+  const cands = [];
+  if (cpfd && _digits(r.st_cpf_con) === cpfd) cands.push({ criterio: 'cpf', score: 100 });
+  // UNIDADE + NOME: identificação forte e segura sem CPF (a unidade restringe a 1-3 pessoas; o nome confirma).
+  if (unidadeQ?.num) {
+    const ruNum = _digits(r.st_unidade_uni);
+    if (ruNum && ruNum === unidadeQ.num) {
+      const rb = _normUni(r.st_bloco_uni);
+      const blocoOk = !unidadeQ.bloco || (rb && (rb.includes(unidadeQ.bloco) || unidadeQ.bloco.includes(rb)));
+      let nomeOk = false;
+      if (nomeN) {
+        const rn = _normNome(r.st_nome_con);
+        const toks = nomeN.split(' ').filter((t) => t.length >= 3);
+        nomeOk = rn === nomeN || (toks.length >= 1 && toks.some((t) => rn.includes(t)));
+      }
+      if (nomeOk) cands.push({ criterio: 'unidade_nome', score: blocoOk ? 88 : 82 });
+      else cands.push({ criterio: 'unidade_fraca', score: 35 }); // só a unidade casa → sinal fraco, NÃO libera sozinho (LGPD)
+    }
+  }
+  if (telTail) { const rt = _digits(r.st_telefone_con); if (rt.length >= 8 && rt.slice(-8) === telTail) cands.push({ criterio: 'telefone', score: 80 }); }
   if (nomeN) {
     const rn = _normNome(r.st_nome_con);
-    if (rn === nomeN) return { criterio: 'nome_exato', score: 60 };
-    const toks = nomeN.split(' ').filter((t) => t.length >= 3);
-    if (toks.length >= 2 && toks.every((t) => rn.includes(t))) return { criterio: 'nome_completo', score: 50 };
-    if (rn.includes(nomeN) || nomeN.includes(rn)) return { criterio: 'nome_parcial', score: 30 };
+    if (rn === nomeN) cands.push({ criterio: 'nome_exato', score: 60 });
+    else {
+      const toks = nomeN.split(' ').filter((t) => t.length >= 3);
+      if (toks.length >= 2 && toks.every((t) => rn.includes(t))) cands.push({ criterio: 'nome_completo', score: 50 });
+      else if (rn.includes(nomeN) || nomeN.includes(rn)) cands.push({ criterio: 'nome_parcial', score: 30 });
+    }
   }
-  return null;
+  if (!cands.length) return null;
+  return cands.sort((a, b) => b.score - a.score)[0];
 }
 
 // resolver_cadastro: identidade por CPF, telefone do titular (do canal) ou nome+condomínio.
 // Retorna { encontrado, criterio, confianca, unidades:[{id_unidade, identificacao, condominio, id_condominio, papel, nome, ex_morador}] }
 // ou { encontrado:false, motivo }. confianca alta=cpf/telefone (própria pessoa); media/baixa=nome → o agente CONFIRMA antes de entregar dado sensível (LGPD).
-export async function resolver_cadastro({ cpf, nome, condominio, telefone } = {}) {
+export async function resolver_cadastro({ cpf, nome, condominio, telefone, unidade } = {}) {
   const cpfd = _digits(cpf);
   const teld = _digits(telefone);
   const telTail = teld.length >= 8 ? teld.slice(-8) : null;
   const nomeN = _normNome(nome);
-  if (!cpfd && !telTail && !nomeN) return { encontrado: false, motivo: 'sem_criterio' };
-  // busca SÓ por nome sem condomínio é proibida (homônimos espalhados em 54 condos) → exige o condomínio.
-  if (!cpfd && !telTail && nomeN && !condominio) return { encontrado: false, motivo: 'nome_exige_condominio' };
+  const unidadeQ = _parseUnidade(unidade);
+  if (!cpfd && !telTail && !nomeN && !unidadeQ) return { encontrado: false, motivo: 'sem_criterio' };
+  // busca SÓ por nome/unidade sem condomínio é proibida (homônimos/aptos repetidos em 54 condos) → exige o condomínio.
+  if (!cpfd && !telTail && (nomeN || unidadeQ) && !condominio) return { encontrado: false, motivo: 'nome_exige_condominio' };
 
   let condos = await listCondominios();
   if (condominio) {
@@ -80,7 +120,7 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone } = {}
     if (alvo.length) condos = alvo;
   }
 
-  const q = { cpfd, telTail, nomeN };
+  const q = { cpfd, telTail, nomeN, unidadeQ };
   const matches = [];
   const CONC = 8;
   async function scan(c) {
@@ -101,7 +141,7 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone } = {}
     await Promise.all(condos.slice(i, i + CONC).map(scan));
     if (condominio || matches.some((m) => m.score >= 80)) break;
   }
-  if (!matches.length) return { encontrado: false, unidades: [], motivo: (cpfd ? 'cpf' : telTail ? 'telefone' : 'nome') + '_nao_encontrado' };
+  if (!matches.length) return { encontrado: false, unidades: [], motivo: (cpfd ? 'cpf' : telTail ? 'telefone' : (unidadeQ && !nomeN) ? 'unidade' : 'nome') + '_nao_encontrado' };
 
   const best = Math.max(...matches.map((m) => m.score));
   const criterio = matches.find((m) => m.score === best).criterio;
