@@ -26,6 +26,15 @@ services:
       # Redis (memória persistente de sessão — opcional; fallback in-memory se ausente)
       - REDIS_URL=${REDIS_URL:-}
       - SESSION_TTL_S=${SESSION_TTL_S:-172800}
+      # Write-tools (motor de escritas — rollout DRY_RUN)
+      - AUDIT_LOG_PATH=${AUDIT_LOG_PATH:-/data/audit/escritas.jsonl}
+      - APPROVAL_PASSCODE=${APPROVAL_PASSCODE:-}
+      - APPROVAL_TTL_H=${APPROVAL_TTL_H:-}
+      - ADAPTER_NOTIFY_URL=${ADAPTER_NOTIFY_URL:-}
+      - SUPERLOGICA_WRITE_APP_TOKEN=${SUPERLOGICA_WRITE_APP_TOKEN:-}
+      - SUPERLOGICA_WRITE_ACCESS_TOKEN=${SUPERLOGICA_WRITE_ACCESS_TOKEN:-}
+    volumes:
+      - ncs_agente_audit_data:/data/audit
     depends_on:
       - redis
     expose:
@@ -66,3 +75,4 @@ services:
 
 volumes:
   ncs_agente_redis_data:
+  ncs_agente_audit_data:
