@@ -130,3 +130,29 @@ export async function resetSession(key) {
   }
   sessions.delete(key);
 }
+
+// --- KV genérico (reusa o mesmo client/fallback das sessões) ---
+const kvFallback = new Map(); // key -> { value, expires }
+export async function kvSet(key, value, ttlS) {
+  if (useRedis()) {
+    try { await redis.set(key, JSON.stringify(value), 'EX', ttlS); return; }
+    catch (err) { console.warn('[memory] kvSet Redis erro:', err.message, '— fallback Map'); }
+  }
+  kvFallback.set(key, { value, expires: Date.now() + ttlS * 1000 });
+}
+export async function kvGet(key) {
+  if (useRedis()) {
+    try { const raw = await redis.get(key); return raw ? JSON.parse(raw) : null; }
+    catch (err) { console.warn('[memory] kvGet Redis erro:', err.message, '— fallback Map'); }
+  }
+  const v = kvFallback.get(key);
+  if (!v || v.expires < Date.now()) { kvFallback.delete(key); return null; }
+  return v.value;
+}
+export async function kvDel(key) {
+  if (useRedis()) {
+    try { await redis.del(key); return; }
+    catch (err) { console.warn('[memory] kvDel Redis erro:', err.message); }
+  }
+  kvFallback.delete(key);
+}
