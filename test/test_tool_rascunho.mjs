@@ -16,6 +16,9 @@ try {
 
 process.env.DRY_RUN_WRITES = 'true';
 import { runToolReal, TOOLS } from '../src/agent.mjs';
+import { cadastroInquilino } from '../src/write/actions/cadastro_inquilino.mjs';
+cadastroInquilino.snapshot = async () => ([]);
+cadastroInquilino.checarConflito = async () => ({ conflito: false, candidatos: [] });
 let falhas = 0;
 const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falhas++; };
 
