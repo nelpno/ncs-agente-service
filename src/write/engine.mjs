@@ -9,8 +9,9 @@ export async function criarRascunho(acaoId, dados, ctx = {}) {
   if (!acao) return { ok: false, motivo: 'acao_desconhecida' };
   const v = acao.validar(dados);
   if (!v.ok) return { ok: false, motivo: 'invalido', erros: v.erros };
-  const conflito = acao.checarConflito ? await acao.checarConflito(ctx, dados) : null;
-  const snapshot = acao.snapshot ? await acao.snapshot(ctx, dados) : null;
+  const dryRun = process.env.DRY_RUN_WRITES === 'true';
+  const conflito = (!dryRun && acao.checarConflito) ? await acao.checarConflito(ctx, dados) : null;
+  const snapshot = (!dryRun && acao.snapshot) ? await acao.snapshot(ctx, dados) : null;
   const draft = await criarDraft({
     acao: acaoId, dados, snapshot, conflito,
     solicitante: ctx.solicitante || null, time: acao.timeAprovador || 'Atendimento geral',

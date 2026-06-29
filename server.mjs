@@ -95,7 +95,7 @@ const server = http.createServer(async (req, res) => {
       const session = await getSession(chatKey);
       const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null });
       await saveSession(chatKey, session);
-      return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [] });
+      return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [], drafts: r.drafts || [] });
     }
 
     // webhook Octadesk

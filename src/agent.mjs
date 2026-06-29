@@ -11,6 +11,8 @@ import * as MUD from './mudanca.mjs';
 import * as PORT from './portaria.mjs';
 import * as GRUVI from './gruvi.mjs';
 import * as CND from './cnd.mjs';
+import * as ENGINE from './write/engine.mjs';
+import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import { agoraContextoTemporal } from './tempo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +31,14 @@ const TOOLS = [
   { type: 'function', function: { name: 'enviar_cnd', description: 'Gera e envia a DECLARAÇÃO DE QUITAÇÃO DE DÉBITOS (CND) — via INFORMATIVA, SEM assinatura — como PDF no chat. Use quando a pessoa pedir "nada consta", "declaração de quitação", "CND", "comprovante de que estou em dia/quitado". Exige id_condominio e id_unidade (do resolver_cadastro). SÓ gera para quem está 100% em dia: se houver débito retorna { enviado:false, motivo:"inadimplente" } (direcione à Negociação de Débitos), processo judicial { motivo:"no_juridico" } (jurídico/cobrança), garantidora { motivo:"garantidora_ou_cego" } (canal da garantidora) ou { motivo:"indisponivel" } (ofereça atendente) — NUNCA afirme quitação quando não gerar. Esta é a via informativa (de conferência); a via OFICIAL assinada pelo síndico é solicitada à parte. Ao enviar, só confirme que mandou o PDF — não invente/transcreva o conteúdo.', parameters: { type: 'object', properties: { id_condominio: { type: 'string' }, id_unidade: { type: 'string' } }, required: ['id_condominio', 'id_unidade'] } } },
   { type: 'function', function: { name: 'marcar_tag', description: 'Marca uma tag na conversa (organização interna, ex.: 2a_via, mudanca, rh).', parameters: { type: 'object', properties: { tag: { type: 'string' } }, required: ['tag'] } } },
   { type: 'function', function: { name: 'transferir_humano', description: 'Encaminha a conversa para um atendente humano e encerra o atendimento automático. Use o motivo MAIS específico: agendamento_mudanca (pedido de mudança), cadastro_pendente (cadastrar inquilino/dependente ou trocar titularidade), boleto_mais_30_dias, cobranca, renegociacao, reclamacao, rh, assembleia_sindico, cadastro_nao_encontrado, pessoa_pediu_humano. Use fora_de_escopo/nao_resolvido só quando NENHUM outro servir. Sempre passe motivo e um resumo do caso.', parameters: { type: 'object', properties: { motivo: { type: 'string', enum: ['agendamento_mudanca', 'cadastro_pendente', 'boleto_mais_30_dias', 'cobranca', 'reclamacao', 'rh', 'renegociacao', 'assembleia_sindico', 'cadastro_nao_encontrado', 'pessoa_pediu_humano', 'fora_de_escopo', 'nao_resolvido'] }, resumo: { type: 'string' } }, required: ['motivo', 'resumo'] } } },
+  { type: 'function', function: { name: 'criar_rascunho_cadastro',
+    description: 'Prepara o cadastro de um inquilino/residente ou dependente numa unidade. NÃO grava: monta o pedido e envia para a equipe aprovar antes de entrar no sistema. Use quando o morador pede para cadastrar alguém.',
+    parameters: { type: 'object', properties: {
+      id_condominio: { type: 'string' }, id_unidade: { type: 'string' },
+      nome: { type: 'string' }, papel: { type: 'string', enum: ['inquilino', 'dependente'] },
+      data_entrada: { type: 'string', description: 'MM/DD/AAAA' },
+      email: { type: 'string' }, telefone: { type: 'string' }, cpf: { type: 'string' },
+    }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
 ];
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
@@ -74,6 +84,19 @@ async function runToolReal(name, args, ctx) {
     case 'consultar_video_app': return GRUVI.buscar_video(args.assunto);
     case 'marcar_tag': { if (ctx.chatId) await OCTA.marcar_tag(ctx.chatId, args.tag); return { ok: true }; }
     case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); return { transferido: true }; }
+    case 'criar_rascunho_cadastro': {
+      const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
+      const r = await ENGINE.criarRascunho('cadastro_inquilino', {
+        id_condominio: idc, id_unidade: String(args.id_unidade || ''),
+        nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
+        email: args.email, telefone: args.telefone, cpf: args.cpf,
+      }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
+      if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
+      (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
+        resumo: `Cadastro de ${args.nome} na unidade ${args.id_unidade}` });
+      return { criado: true, protocolo: r.draftId, aguardando_aprovacao: true,
+        aviso: r.conflito?.conflito ? 'já existe contato semelhante — a equipe vai conferir' : undefined };
+    }
     default: return { erro: `tool desconhecida: ${name}` };
   }
 }
@@ -157,9 +180,9 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
       ? 'Pronto! Vou te encaminhar para o setor responsável, que vai dar sequência e te ajudar com isso. 🙏'
       : 'Desculpa, não consegui processar agora. Pode reformular ou me dar mais um detalhe?';
     session.messages.push({ role: 'assistant', content: reply });
-    return { reply, transferred: ctx.transferred || null, attachments: ctx.attachments || [] };
+    return { reply, transferred: ctx.transferred || null, attachments: ctx.attachments || [], drafts: ctx.draft || [] };
   }
-  return { reply: 'Vou te encaminhar para um atendente.', transferred: ctx.transferred || { motivo: 'nao_resolvido', resumo: 'loop' }, attachments: ctx.attachments || [] };
+  return { reply: 'Vou te encaminhar para um atendente.', transferred: ctx.transferred || { motivo: 'nao_resolvido', resumo: 'loop' }, attachments: ctx.attachments || [], drafts: ctx.draft || [] };
 }
 
 /**
@@ -170,4 +193,4 @@ export async function handleTurn(session, userText, ctx) {
   return runAgentLoop(session, SYSTEM_PROMPT, userText, ctx, runToolReal);
 }
 
-export { TOOLS };
+export { TOOLS, runToolReal };
