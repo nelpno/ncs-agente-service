@@ -205,6 +205,18 @@ export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
   };
 }
 
+// responsaveis/index IGNORA idUnidade e devolve o condomínio inteiro → sempre filtrar.
+export function filtrarPorUnidade(lista, idUnidade) {
+  const alvo = String(idUnidade);
+  return (Array.isArray(lista) ? lista : []).filter((x) => String(x.id_unidade_uni) === alvo);
+}
+
+export async function responsaveisIndex(idCondominio, idUnidade) {
+  const data = await slGet('responsaveis/index', { idCondominio });
+  const lista = Array.isArray(data) ? data : (data?.data || data?.registros || []);
+  return idUnidade != null ? filtrarPorUnidade(lista, idUnidade) : lista;
+}
+
 // get_inadimplencia: situação COMPLETA de débitos da unidade — usa `inadimplencia/index` (enxerga boletos ANTIGOS,
 // em cobrança e jurídico), NÃO só os recentes do `cobranca/index?status=pendentes` (esse era o PONTO CEGO que fazia a
 // Ana afirmar "só deve esse boleto" para quem devia dezenas de milhares). ⚠️ idUnidade é ignorado → filtro = UNIDADES[0]=.
