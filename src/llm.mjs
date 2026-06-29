@@ -1,6 +1,12 @@
 // llm.mjs — chamada ao modelo via OpenRouter (OpenAI-compatible, com tool-calling).
 import { config } from './config.mjs';
 
+// Timeout por requisição ao modelo. SEM isto, um request "pendurado" no OpenRouter nunca resolve/rejeita → o turno
+// trava p/ sempre → /chat-send nunca responde → o adapter do Chatwoot não posta nada (= "parou de responder"/"bugou",
+// feedback do Fernando 28/06). Com AbortSignal.timeout, um stall vira erro → retry → no pior caso o server devolve o
+// fallback "tive um problema, vou te encaminhar". gpt-5.1 com reasoning pode demorar, por isso 75s (env LLM_TIMEOUT_MS).
+const LLM_TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS || 75000);
+
 // maxTokens 1500 (não 900): o gemini-3-flash usa "thinking" que consome o orçamento e, com teto baixo, devolve
 // resposta VAZIA → cai no fallback "não consegui processar" (blip intermitente, ~1/3 em turnos com várias tools).
 // É um CAP, não alvo — não deixa a Ana mais verbosa; só evita truncar. Validado 21/06 (cenário de débito completo).
@@ -26,6 +32,7 @@ export async function chat({ messages, tools, temperature = 0.2, maxTokens = 150
           'X-Title': 'NCS Agente',
         },
         body: JSON.stringify(body),
+        signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
       });
       if (r.status === 429 || r.status >= 500) { lastErr = new Error('HTTP ' + r.status); await sleep(800 * 2 ** i); continue; }
       if (!r.ok) throw new Error(`OpenRouter ${r.status}: ${(await r.text()).slice(0, 200)}`);

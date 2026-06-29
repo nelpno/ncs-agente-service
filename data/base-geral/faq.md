@@ -22,26 +22,26 @@ Pode acontecer de o cadastro estar no nome de outra pessoa da família (cônjuge
 ## Mudança
 
 ## Quero agendar a mudança do meu apartamento.
-Posso te ajudar. A mudança **não tem taxa**, e o pedido normalmente precisa ser avisado com pelo menos **24 horas de antecedência**. Cada condomínio tem suas regras (horário permitido, sábado, uma mudança por dia, qual portaria avisar) — eu consulto a regra do SEU condomínio e te informo. O agendamento é feito de duas formas: pelo **formulário de solicitação de mudança** (disponível 24h) ou com um **atendente** (segunda a sexta, 8h às 17h45). Nos dois casos, é preciso aguardar a confirmação do agendamento — a gente envia um **termo de autorização** depois de conferir.
+Posso te ajudar. A mudança **não tem taxa**, e recomendamos avisar com pelo menos **72 horas (3 dias) de antecedência**. Cada condomínio tem suas regras (horário permitido, sábado, uma mudança por dia) — eu consulto a regra do SEU condomínio e te informo. **Você não precisa avisar a portaria nem a zeladoria: quem comunica esses canais e faz o cadastro nos sistemas é a própria administração (NCS) — você só preenche o formulário e aguarda.** O agendamento é feito de duas formas: pelo **formulário de solicitação de mudança** (disponível 24h por dia no site) ou com um **atendente** (segunda a sexta, 8h às 17h45). Nos dois casos, é preciso aguardar a confirmação — a gente envia um **termo de autorização** depois de conferir.
 
 ## Quais são os horários e regras de mudança do meu condomínio?
-Isso varia por condomínio. Me diga seu condomínio (ou eu identifico pela sua unidade) que eu consulto e te passo o horário permitido, se libera no sábado, se é uma mudança por dia e o procedimento (qual grupo/portaria é avisado).
+Isso varia por condomínio. Me diga seu condomínio (ou eu identifico pela sua unidade) que eu consulto e te passo o horário permitido, se libera no sábado e se é uma mudança por dia. **Quem avisa a portaria/zeladoria é a administração (NCS) — você só preenche o formulário e aguarda o termo de autorização.**
 
 ## Cadastro de morador, inquilino e titularidade
 
 ## Aluguei meu imóvel, preciso cadastrar o inquilino.
-Eu registro a solicitação e encaminho pra equipe, que faz o cadastro depois de conferir a documentação. Para o cadastro de inquilino é necessário o **contrato de locação finalizado, com as assinaturas do proprietário e do inquilino** — autenticadas em cartório (se for assinatura manual) ou feitas por assinatura digital. O cadastro é solicitado pelo **formulário (24h)** ou com um **atendente (seg a sex, 8h às 17h45)**, e é preciso aguardar a confirmação da atualização no sistema.
+Eu registro a solicitação e encaminho pra equipe, que faz o cadastro depois de conferir a documentação. Para o cadastro de inquilino é necessário o **contrato de locação finalizado, com as assinaturas do proprietário e do inquilino** — autenticadas em cartório (se for assinatura manual) ou feitas por assinatura digital. O cadastro é solicitado pelo **formulário (disponível 24h por dia)** ou com um **atendente (seg a sex, 8h às 17h45)**, e é preciso aguardar a confirmação da atualização no sistema.
 
 ## Comprei uma unidade, quero passar o cadastro pro meu nome (titularidade).
-Eu registro o pedido e encaminho pra equipe, que valida a documentação antes de alterar — isso protege você e o antigo titular. Para a troca de titularidade é necessário: **escritura finalizada ou contrato de compra e venda, assinado por ambas as partes (vendedor e comprador)**, com reconhecimento de firma em cartório ou feito em plataforma de assinatura digital. Solicita-se pelo **formulário (24h)** ou com um **atendente (seg a sex, 8h às 17h45)**; aguarde a confirmação da atualização no sistema.
+Eu registro o pedido e encaminho pra equipe, que valida a documentação antes de alterar — isso protege você e o antigo titular. Para a troca de titularidade é necessário: **escritura finalizada ou contrato de compra e venda, assinado por ambas as partes (vendedor e comprador)**, com reconhecimento de firma em cartório ou feito em plataforma de assinatura digital. Solicita-se pelo **formulário (disponível 24h por dia)** ou com um **atendente (seg a sex, 8h às 17h45)**; aguarde a confirmação da atualização no sistema.
 
 ## Quero incluir um dependente (filho, familiar).
-Eu registro o pedido e encaminho. O cadastro de dependente é solicitado pelo **formulário (24h)** ou com um **atendente (seg a sex, 8h às 17h45)**, e parte dele pode ser presencial (por exemplo, biometria de acesso) — a equipe te orienta. Aguarde a confirmação da atualização no sistema.
+Eu registro o pedido e encaminho. O cadastro de dependente é solicitado pelo **formulário (disponível 24h por dia)** ou com um **atendente (seg a sex, 8h às 17h45)**, e parte dele pode ser presencial (por exemplo, biometria de acesso) — a equipe te orienta. Aguarde a confirmação da atualização no sistema.
 
 ## Documentos, certidões e taxas
 
 ## Preciso da certidão negativa de débitos (CND) da minha unidade.
-A CND é uma declaração formal de que as taxas condominiais da unidade estão quitadas até a data de emissão. Ela é emitida pela administradora e **assinada pelo síndico(a)**, e é enviada digitalmente. O sistema **emite a CND quando não há débitos em aberto**; havendo débito, a certidão negativa não é emitida. O **prazo de envio é de 24h a 72h**. A CND é solicitada pelo **formulário (24h)** — é um canal exclusivo, sem atendimento humano direto.
+A CND é uma declaração formal de que as taxas condominiais da unidade estão quitadas até a data de emissão. Ela é emitida pela administradora e **assinada pelo síndico(a)**, e é enviada digitalmente. O sistema **emite a CND quando não há débitos em aberto**; havendo débito, a certidão negativa não é emitida. O **prazo de envio é de 24h a 72h**. A CND é solicitada pelo **formulário (disponível 24h por dia)** — é um canal exclusivo, sem atendimento humano direto.
 
 ## Sou de uma imobiliária e quero saber o valor da taxa de condomínio de uma unidade.
 Eu consigo consultar o valor da taxa da unidade no sistema e te informar — me passe a identificação da unidade (condomínio e número). Os valores vêm sempre do sistema; eu não informo nada sem confirmar por lá.

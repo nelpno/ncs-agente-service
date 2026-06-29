@@ -115,6 +115,7 @@
     {
       "nome": "FIVE",
       "slug": "five",
+      "aliases": ["studio five", "studio 5", "studiofive", "studio five araraquara"],
       "horario": "SEGUNDA A SEXTA-FEIRA 08H00 ÀS 11H00 E DA 13H00 ÀS 17H00 E SÁBADOS DÀS 08H00 ÀS 11H00, SÓ PODE UMA MUDANÇA POR DIA, AVISAR COM 1 DIA DE ANTECEDENCIA.",
       "procedimento": "ENVIAR A AUTORIZAÇÃO E COMUNICADO PARA A ANA ZELADORA PELO WHATSAPP. ENVIAR EMAIL PARA A PORTARIA ALARM SYSTEM INFORMANDO NOVO CADASTRO OU DESOCUPAÇÃO."
     },

@@ -11,10 +11,13 @@ async function garantidoraDe(id_condominio) {
   return g.tem ? g : null;
 }
 
+// Timeout (env SL_TIMEOUT_MS, default 20s): sem isto um request lento da Superlógica trava o turno inteiro p/ sempre
+// (→ "parou de responder" no Chatwoot). Com AbortSignal.timeout, vira erro tratável (o agente compõe "não consegui consultar agora").
+const SL_TIMEOUT_MS = Number(process.env.SL_TIMEOUT_MS || 20000);
 async function slGet(controllerAction, params = {}) {
   const qs = new URLSearchParams(params).toString();
   const url = `${config.slBase}/${controllerAction}${qs ? '?' + qs : ''}`;
-  const r = await fetch(url, { headers: { app_token: config.slApp, access_token: config.slAccess, 'Content-Type': 'application/json' } });
+  const r = await fetch(url, { headers: { app_token: config.slApp, access_token: config.slAccess, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(SL_TIMEOUT_MS) });
   if (!r.ok) throw new Error(`Superlógica ${controllerAction} ${r.status}`);
   return r.json();
 }

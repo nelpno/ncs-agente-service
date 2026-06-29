@@ -8,8 +8,10 @@ function headers() {
   if (config.octaAgentEmail) h['octa-agent-email'] = config.octaAgentEmail;
   return h;
 }
+// Timeout (env OCTA_TIMEOUT_MS, default 20s): um POST pendurado no Octadesk não pode travar o turno p/ sempre.
+const OCTA_TIMEOUT_MS = Number(process.env.OCTA_TIMEOUT_MS || 20000);
 async function octa(method, path, body) {
-  const r = await fetch(`${config.octaBase}${path}`, { method, headers: headers(), body: body ? JSON.stringify(body) : undefined });
+  const r = await fetch(`${config.octaBase}${path}`, { method, headers: headers(), body: body ? JSON.stringify(body) : undefined, signal: AbortSignal.timeout(OCTA_TIMEOUT_MS) });
   const txt = await r.text();
   if (!r.ok) throw new Error(`Octadesk ${method} ${path} ${r.status}: ${txt.slice(0, 160)}`);
   try { return JSON.parse(txt); } catch { return txt; }
@@ -27,7 +29,7 @@ export async function responder(chatId, texto) {
 // (api002.octadesk.services) pode esperar outro envelope (ver responder() usa {message:{text},type:'text'}) —
 // CONFIRMAR no 1º teste real; se 400, alinhar o envelope com o que o /chat/{id}/messages aceita lá.
 export async function enviar_anexo_url({ chatId, sourceUrl, filename, mimeType = 'application/pdf', body = '' }) {
-  const r = await fetch(sourceUrl, { redirect: 'follow' });
+  const r = await fetch(sourceUrl, { redirect: 'follow', signal: AbortSignal.timeout(OCTA_TIMEOUT_MS) });
   if (!r.ok) throw new Error(`download anexo ${r.status}`);
   const buf = Buffer.from(await r.arrayBuffer());
   if (mimeType === 'application/pdf' && !buf.slice(0, 5).toString('latin1').startsWith('%PDF')) {
