@@ -87,6 +87,36 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename="declaracao-quitacao.pdf"' });
       return res.end(pdf);
     }
+    // Painel de aprovação (equipe) — protegido por passcode ?k=
+    if (req.method === 'GET' && req.url.startsWith('/aprovacao/')) {
+      const { renderPainel, passcodeOk } = await import('./src/write/painel.mjs');
+      const { getDraftByToken } = await import('./src/write/drafts.mjs');
+      const { getAction } = await import('./src/write/registry.mjs');
+      const u = new URL(req.url, 'http://x'); const token = u.pathname.slice('/aprovacao/'.length).split('/')[0];
+      const k = u.searchParams.get('k') || '';
+      if (!passcodeOk(k, config.approvalPasscode)) { res.writeHead(401, { 'Content-Type': 'text/html' }); return res.end('<p>Passcode inválido. Use ?k=…</p>'); }
+      const draft = await getDraftByToken(token);
+      if (!draft) { res.writeHead(404, { 'Content-Type': 'text/html' }); return res.end('<p>Rascunho não encontrado ou expirado.</p>'); }
+      const acao = getAction(draft.acao);
+      if (acao?.render) draft.render = acao.render(draft.dados, draft.snapshot);
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      return res.end(renderPainel(draft, k));
+    }
+    if (req.method === 'POST' && req.url.startsWith('/aprovacao/')) {
+      const { aprovarRascunho, rejeitarRascunho } = await import('./src/write/engine.mjs');
+      const { passcodeOk } = await import('./src/write/painel.mjs');
+      const u = new URL(req.url, 'http://x'); const parts = u.pathname.split('/'); const token = parts[2]; const op = parts[3];
+      const body = new URLSearchParams((await readBody(req)) || '');
+      if (!passcodeOk(body.get('k') || '', config.approvalPasscode)) return json(res, 401, { erro: 'passcode' });
+      const aprovador = body.get('aprovador') || 'equipe';
+      let out;
+      if (op === 'aprovar') out = await aprovarRascunho(token, { aprovador });
+      else if (op === 'rejeitar') out = await rejeitarRascunho(token, { aprovador, motivo: body.get('motivo') || '' });
+      else if (op === 'corrigir') { const correcoes = {}; for (const [kk, vv] of body) if (!['k', 'aprovador'].includes(kk)) correcoes[kk] = vv; out = await aprovarRascunho(token, { aprovador, correcoes }); }
+      else return json(res, 404, { erro: 'op' });
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      return res.end(`<p>${out.ok ? 'Pronto: ' + (out.gravado ? 'gravado' + (out.dryRun ? ' (simulação)' : '') : out.rejeitado ? 'rejeitado' : 'ok') : 'Falhou: ' + (out.motivo || '')}</p>`);
+    }
     // chat-send (mesmo serviço, protegido por código)
     if (req.method === 'POST' && req.url.startsWith('/chat-send')) {
       const data = JSON.parse((await readBody(req)) || '{}');
