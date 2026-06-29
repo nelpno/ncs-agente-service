@@ -1,6 +1,6 @@
 // drafts.mjs — rascunhos de escrita pendentes de aprovação. Persistência via KV (Redis+fallback).
 import crypto from 'node:crypto';
-import { kvGet, kvSet, kvDel } from '../memory.mjs';
+import { kvGet, kvSet } from '../memory.mjs';
 import { config } from '../config.mjs';
 
 const PREFIX_ID = 'draft:id:';
@@ -79,17 +79,4 @@ export async function updateDraft(id, patch) {
   await kvSet(PREFIX_ID + id, next, restanteS);
   await kvSet(PREFIX_TOK + next.token, id, restanteS);
   return next;
-}
-
-/**
- * Apaga draft (índices + doc).
- * @param {string} id
- * @returns {Promise<void>}
- */
-export async function deleteDraft(id) {
-  const draft = await getDraft(id);
-  if (draft) {
-    await kvDel(PREFIX_TOK + draft.token);
-  }
-  await kvDel(PREFIX_ID + id);
 }
