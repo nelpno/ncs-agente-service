@@ -22,8 +22,8 @@ Comprova a regularidade financeira da unidade (compra e venda, financiamento, es
 ## Negociação de débitos
 Para unidades com débitos condominiais em aberto (normalmente vencidos há mais de 30 dias). Formulário (disponível 24h por dia): https://gruponcs.net/ticket-solicitacao-negociacao-debitos — ou atendente (8h–17h45). Encaminhado à equipe financeira/cobrança; não é aprovação automática; juros, multas, correção e honorários podem compor a negociação.
 
-## Abertura de chamados — condôminos
-Canal oficial para reclamações, sugestões, dúvidas e solicitações sobre o condomínio ou a administradora (áreas comuns, manutenção, elétrica/hidráulica, barulho, garagem, segurança, financeiro etc.). Formulário (disponível 24h por dia): https://gruponcs.net/abertura-chamado-condominos/ — ou atendente (8h–17h45). Gera protocolo e atualizações por e-mail.
+## Abertura de chamados — condôminos (ocorrências, obra, manutenção, vazamento, infiltração)
+Canal oficial para registrar QUALQUER ocorrência, reclamação, sugestão, dúvida ou solicitação sobre o condomínio ou a administradora: obra, manutenção, reparo, conserto, vazamento, infiltração, elétrica/hidráulica, barulho, garagem, segurança, áreas comuns, ocorrência interna do condomínio, ocorrência com a NCS, financeiro etc. **É também o canal para quando não há um formulário específico para o assunto, ou quando a informação não foi localizada.** Formulário (disponível 24h por dia): https://gruponcs.net/abertura-chamado-condominos/ — ou atendente no horário do escritório (8h–17h45). Gera protocolo e o solicitante acompanha tudo pelo número do ticket por e-mail.
 
 ## Holerite (2ª via — colaboradores)
 Para colaboradores da NCS Terceirização e funcionários orgânicos dos condomínios administrados. Formulário (disponível 24h por dia): https://gruponcs.net/holerite-solicitacao — **exclusivo por ticket**. Encaminhado ao RH; o documento é entregue só ao próprio colaborador ou representante legal.
