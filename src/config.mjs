@@ -33,4 +33,11 @@ export const config = {
   // Redis (memória persistente de sessão)
   redisUrl: env.REDIS_URL || '',
   sessionTtlS: parseInt(env.SESSION_TTL_S || '172800', 10),
+  // --- Motor de escritas ---
+  auditLogPath: env.AUDIT_LOG_PATH || './.data/audit/escritas.jsonl',
+  approvalPasscode: env.APPROVAL_PASSCODE || env.CHAT_PASSCODE || '',
+  approvalTtlH: parseInt(env.APPROVAL_TTL_H || '72', 10),
+  slWriteApp: env.SUPERLOGICA_WRITE_APP_TOKEN || '',
+  slWriteAccess: env.SUPERLOGICA_WRITE_ACCESS_TOKEN || '',
+  adapterNotifyUrl: env.ADAPTER_NOTIFY_URL || '',
 };
