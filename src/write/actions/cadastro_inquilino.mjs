@@ -1,5 +1,7 @@
 // cadastro_inquilino.mjs — WriteAction #1. Cadastra inquilino/residente ou dependente numa unidade.
 import { registerAction } from '../registry.mjs';
+import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
+import { slPut as _slPut } from '../../superlogica_write.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
@@ -38,6 +40,59 @@ export const cadastroInquilino = {
   timeAprovador: 'Recepção',
   validar,
   montarPayload,
-  // checarConflito, snapshot, gravar, render → Task 9
 };
 registerAction(cadastroInquilino);
+
+const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').trim();
+
+async function snapshot(ctx, d, io = {}) {
+  const respIndex = io.responsaveisIndex || _respIndex;
+  return respIndex(d.id_condominio, d.id_unidade);
+}
+
+async function checarConflito(ctx, d, io = {}) {
+  const atuais = await snapshot(ctx, d, io);
+  const candidatos = atuais.filter((c) =>
+    (d.cpf && String(c.st_cpfcnpj_con || '').replace(/\D/g, '') === String(d.cpf).replace(/\D/g, '')) ||
+    (!d.cpf && norm(c.st_nome_con) === norm(d.nome))
+  );
+  return { conflito: candidatos.length > 0, detalhe: candidatos.length ? 'já existe contato semelhante na unidade' : '', candidatos };
+}
+
+async function gravar(payload, { dados, io = {} } = {}) {
+  const put = io.slPut || _slPut;
+  const res = await put('unidades/post', payload);
+  if (!res.ok) return { ok: false, resposta: res.resposta, status: res.status };
+  // ID do contato criado é indocumentado → reler e casar (match não único → registra candidatos, não adivinha)
+  let idCriado = null, candidatosId = [];
+  if (!res.dryRun && dados) {
+    try {
+      const depois = await (io.responsaveisIndex || _respIndex)(dados.id_condominio, dados.id_unidade);
+      candidatosId = depois.filter((c) =>
+        (dados.cpf && String(c.st_cpfcnpj_con || '').replace(/\D/g, '') === String(dados.cpf).replace(/\D/g, '')) ||
+        norm(c.st_nome_con) === norm(dados.nome)
+      ).map((c) => c.id_contato_con);
+      idCriado = candidatosId.length === 1 ? candidatosId[0] : null;
+    } catch {}
+  }
+  return { ok: true, dryRun: !!res.dryRun, resposta: res.resposta, idCriado, candidatosId };
+}
+
+function render(d, snap) {
+  return {
+    campos: [
+      { label: 'Condomínio', valor: d.id_condominio },
+      { label: 'Unidade', valor: d.id_unidade },
+      { label: 'Nome', valor: d.nome },
+      { label: 'Papel', valor: d.papel === 'dependente' ? 'Dependente' : 'Inquilino/Residente' },
+      { label: 'Entrada', valor: d.data_entrada },
+      { label: 'E-mail', valor: d.email || '—' },
+      { label: 'Telefone', valor: d.telefone || '—' },
+      { label: 'CPF', valor: d.cpf || '—' },
+    ],
+    diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${d.id_unidade}` }],
+    snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
+  };
+}
+
+Object.assign(cadastroInquilino, { checarConflito, snapshot, gravar, render });
