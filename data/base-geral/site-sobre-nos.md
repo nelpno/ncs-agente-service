@@ -10,4 +10,13 @@ Ao longo dos anos, usamos nossa tradição e experiencia, aprimorando nossos ser
 
 O Grupo NCS tem a certificação da LGPD (Lei Geral de Proteção de Dados), garantindo que nossas práticas estão em conformidade com as normas de proteção e privacidade de dados pessoais. Essa certificação traz inúmeros benefícios, como aumentar a confiança de nossos clientes, assegurar a segurança das informações, além de fortalecer nossa reputação como uma empresa comprometida com a ética e a responsabilidade no tratamento de dados.
 
+## Site oficial, aviso de privacidade e LGPD
+Para informações institucionais sobre a empresa (quem somos, serviços, contato) o canal é o **site oficial do Grupo NCS**: https://gruponcs.net
+- Página "Sobre Nós" (a empresa): https://gruponcs.net/sobre-nos/
+- **Aviso de Privacidade** (política/aviso de privacidade, tratamento de dados pessoais): https://gruponcs.net/aviso-de-privacidade/
+- **LGPD** (Lei Geral de Proteção de Dados, certificação e conformidade): https://gruponcs.net/lgpd/
+- Termos de Uso: https://gruponcs.net/termos-uso/
+
+Quando a pessoa pedir o site, o aviso/política de privacidade, informações sobre a empresa ou sobre a LGPD, envie o link correspondente acima — não é preciso encaminhar para um humano.
+
 Entre em Contato

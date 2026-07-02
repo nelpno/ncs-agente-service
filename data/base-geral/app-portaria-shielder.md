@@ -3,7 +3,9 @@
 # App de Portaria Shielder
 
 ## O que é e para quem vale
-O Shielder é um aplicativo de **portaria/controle de acesso** usado pela **maioria** dos condomínios administrados pelo Grupo NCS (não por todos — alguns usam outros sistemas, como GatWay, Synnus, Alarm System ou TW Virtua). Antes de orientar pelo Shielder, é preciso ter certeza de que o condomínio da pessoa usa esse sistema; na dúvida, confirme com a portaria/equipe. Ele facilita a gestão e a comunicação dentro do condomínio: acesso ao regimento interno, reserva de áreas comuns, controle de entrada e visitantes e comunicados.
+O Shielder é um **aplicativo de GESTÃO da portaria/controle de acesso** usado pela **maioria** dos condomínios administrados pelo Grupo NCS (não por todos — alguns usam outros sistemas, como GatWay, Synnus, Alarm System ou TW Virtua). Antes de orientar pelo Shielder, é preciso ter certeza de que o condomínio da pessoa usa esse sistema; na dúvida, confirme com a portaria/equipe. Ele facilita a gestão e a comunicação dentro do condomínio: acesso ao regimento interno, reserva de áreas comuns, controle de entrada e visitantes e comunicados.
+
+**⚠️ Usar Shielder NÃO significa "portaria virtual".** O Shielder (como GatWay, Synnus etc.) é apenas o **app/software de gestão** — ele **não** diz se a portaria do condomínio é **humana** (porteiro presencial), **virtual/remota** ou **híbrida**. Isso é o **modelo de operação** de cada condomínio (ex.: o Allure tem portaria **humana 24h** e usa o app Shielder para gestão). Nunca deduza "humana/virtual" a partir do app: esse dado vem da ferramenta de sistema de portaria (campo tipo_portaria), não da existência do Shielder.
 
 ## Financeiro NÃO é pelo Shielder
 O Shielder **não** tem função financeira (boletos, 2ª via, valores). A parte financeira é feita pelo aplicativo do Grupo NCS — **Área do Condômino / Gruvi**.

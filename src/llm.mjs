@@ -11,7 +11,17 @@ const LLM_TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS || 75000);
 // resposta VAZIA → cai no fallback "não consegui processar" (blip intermitente, ~1/3 em turnos com várias tools).
 // É um CAP, não alvo — não deixa a Ana mais verbosa; só evita truncar. Validado 21/06 (cenário de débito completo).
 export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3, reasoningEffort } = {}) {
-  const body = { model: config.agentModel, messages, temperature, max_tokens: maxTokens };
+  // API DIRETA da OpenAI (api.openai.com) difere do OpenRouter: os modelos gpt-5.x exigem `max_completion_tokens`
+  // (rejeitam `max_tokens`) e SÓ aceitam `temperature=1` (default) — enviar temperature=0.2 dá HTTP 400. O OpenRouter
+  // normalizava os dois. Detecta pelo base URL e monta o body no formato certo. (Migração OpenRouter→OpenAI, 02/07.)
+  const openaiDirect = /(^|\/\/)api\.openai\.com/i.test(config.openrouterBase);
+  const body = { model: config.agentModel, messages };
+  if (openaiDirect) {
+    body.max_completion_tokens = maxTokens; // não enviar temperature: gpt-5.x só aceita o default (1)
+  } else {
+    body.temperature = temperature;
+    body.max_tokens = maxTokens;
+  }
   if (tools?.length) body.tools = tools;
   // reasoning_effort: o agent passa 'none' SÓ na re-tentativa de vazio (gambiarra p/ destravar o gemini-3 após tool-call).
   // 'none' é ESPECÍFICO do Gemini — modelos de reasoning da OpenAI rejeitam ("Reasoning is mandatory and cannot be disabled")
@@ -35,7 +45,7 @@ export async function chat({ messages, tools, temperature = 0.2, maxTokens = 150
         signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
       });
       if (r.status === 429 || r.status >= 500) { lastErr = new Error('HTTP ' + r.status); await sleep(800 * 2 ** i); continue; }
-      if (!r.ok) throw new Error(`OpenRouter ${r.status}: ${(await r.text()).slice(0, 200)}`);
+      if (!r.ok) throw new Error(`LLM ${r.status}: ${(await r.text()).slice(0, 200)}`);
       const j = await r.json();
       const m = j.choices?.[0]?.message || {};
       // extra_content carrega o `thought_signature` do gemini-3: PRECISA voltar nas mensagens do assistant senão o

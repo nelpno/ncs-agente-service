@@ -26,7 +26,7 @@ function loadIndex() {
   try { data = JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch { return _index; }
   for (const c of (data.condominios || [])) {
     const slug = c.slug || norm(c.nome).replace(/\s+/g, '-');
-    _index[slug] = { nome: c.nome, sistema: c.sistema || '' };
+    _index[slug] = { nome: c.nome, sistema: c.sistema || '', tipo_portaria: c.tipo_portaria || '' };
   }
   return _index;
 }
@@ -51,7 +51,7 @@ function resolveCondo(index, condominio) {
 }
 
 // Nota geral de portaria (vale p/ todos): o app de portaria cuida de acesso/visitantes/reservas; o FINANCEIRO é pelo Gruvi.
-const NOTA_GERAL = 'O sistema de portaria cuida de controle de acesso, visitantes e (em alguns condomínios) reservas. A parte financeira (boletos, 2ª via) NÃO é pela portaria — é pelo app Gruvi / Área do Condômino.';
+const NOTA_GERAL = 'O sistema/app (Shielder, GatWay, Synnus, Alarm System, TW Virtua) é a ferramenta de GESTÃO da portaria (controle de acesso, visitantes, reservas) — ele NÃO define se a portaria é humana ou virtual. Se a portaria é humana, virtual ou híbrida está no campo tipo_portaria. A parte financeira (boletos, 2ª via) NÃO é pela portaria — é pelo app Gruvi / Área do Condômino.';
 
 /**
  * consultar_sistema_portaria({ condominio })
@@ -77,10 +77,14 @@ export function consultar_sistema_portaria({ condominio } = {}) {
   const nsist = norm(c.sistema);
   const usa_shielder = nsist.includes('shielder');
   const sistema_conhecido = !!nsist && !nsist.includes('nao identificado');
+  const ntipo = norm(c.tipo_portaria);
+  const tipo_conhecido = !!ntipo; // Humana | Virtual | Híbrida
   return {
     encontrou: true,
     condominio: c.nome,
-    sistema: c.sistema,
+    sistema: c.sistema,          // app de GESTÃO (Shielder/GatWay/...)
+    tipo_portaria: c.tipo_portaria || null, // modelo de operação: Humana | Virtual | Híbrida — INDEPENDENTE do sistema
+    tipo_conhecido,
     usa_shielder,
     sistema_conhecido,
     nota_geral: NOTA_GERAL,

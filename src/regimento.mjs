@@ -31,7 +31,9 @@ const SYN = {
   penalidade:['multa','advertencia'], advertencia:['penalidade','multa'], lixo:['lixo','residuo'],
   visita:['visitante','hospede','convidado'], visitante:['hospede','convidado'], convidado:['visitante','hospede'],
   bicicleta:['bike','bicicleta'], bike:['bicicleta'], horario:['horario','hora','horas'], hora:['horario'],
-  academia:['fitness'], fitness:['academia'], crianca:['playground','recreacao','brinquedoteca','criancas'],
+  academia:['fitness','ginastica','ginasio','musculacao'], fitness:['academia','ginastica','musculacao'],
+  ginastica:['academia','fitness','musculacao','ginasio'], ginasio:['academia','fitness','ginastica'], musculacao:['academia','fitness','ginastica'],
+  crianca:['playground','recreacao','brinquedoteca','criancas'],
   criancas:['playground','recreacao'], coworking:['coworking','trabalho'], sauna:['sauna','relax'],
   tenis:['quadra'], quadra:['tenis'], mercado:['carrinho','feira'], lavar:['lavagem'],
   fumar:['fumo','cigarro','fumante','tabaco'], cigarro:['fumar','fumo'], fumo:['fumar','cigarro'],
@@ -160,12 +162,21 @@ export function consultar_regimento({ condominio, pergunta, k = 6 } = {}) {
   // termos longos casam por substring (pega radical/plural). ntexto/nsecao já são normalizados (palavras separadas por espaço).
   const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
   const tem = (hay, m) => (m.re ? m.re.test(hay) : hay.includes(m.t));
+  // Peso por FREQUÊNCIA (com teto) no corpo do chunk: o trecho que fala MAIS do tema sobe.
+  // Corrige empates entre vários artigos do mesmo capítulo (ex.: a sala de ginástica tem
+  // vários artigos com score +1; só o que menciona "ginástica" 2x — o do horário — deve subir).
+  const conta = (hay, m) => {
+    if (m.re) return m.re.test(hay) ? 1 : 0; // termo curto: palavra inteira, presença 0/1
+    let n = 0, i = 0;
+    while ((i = hay.indexOf(m.t, i)) !== -1) { n++; i += m.t.length; }
+    return n > 3 ? 3 : n; // teto 3 p/ não deixar 1 termo repetido dominar
+  };
   // 1) Ranqueia por relevância (score). Comparador TOTAL/transitivo: score desc, e como
   //    desempate puro a ATA mais recente sobe (não cria ciclo porque é só tie-break).
   const ranked = index[slug].chunks.map((c) => {
     let s = 0;
     for (const m of matchers) {
-      if (tem(c.ntexto, m)) s += 1;
+      s += conta(c.ntexto, m);      // frequência (com teto) no corpo
       if (tem(c.nsecao, m)) s += 2; // termo no título da seção pesa mais
     }
     // ATA é deliberação pontual/cronológica: meia-pontuação p/ não dominar a Convenção/RI por casar termo no cabeçalho.
@@ -202,6 +213,8 @@ export function consultar_regimento({ condominio, pergunta, k = 6 } = {}) {
     encontrou: true,
     condominio: index[slug].nome,
     contem_ata: temAta,
+    // Nota que a Ana DEVE reproduzir ao fim de toda resposta baseada em regimento/convenção (pedido do Fernando 02/07).
+    nota_rodape: 'Essa consulta foi realizada nas regras (RI/Convenção), lembrando que pode ter ocorrido mudança/alterações devido às assembleias.',
     ...(temAta ? { aviso_ata: 'Há deliberação(ões) de assembleia entre os trechos. ATAs são cronológicas: vale a mais recente. Na dúvida, sugerir confirmar a regra vigente com a administração.' } : {}),
     trechos: scored.map(({ c }) => ({
       fonte: `${c.docLabel} — ${c.secao}`,

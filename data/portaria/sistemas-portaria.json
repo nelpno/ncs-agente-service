@@ -1,243 +1,243 @@
 {
-  "fonte": "Sistemas_de_Portaria_Condominios.xlsx — Fernando 19/06/2026",
-  "gerado_em": "2026-06-21",
+  "fonte": "Sistemas_de_Portaria_Condominios 02.07.26.xlsx — Fernando 02/07/2026",
+  "gerado_em": "2026-07-02",
   "revisao_humana": "pendente",
-  "observacao": "Mapa condominio -> sistema de portaria. A coluna 'cadastro' (Cadastravel/Sem acesso/Nao cadastramos/Verificar) e operacional INTERNA. Alguns condominios da lista podem nao ter administracao NCS (so portaria).",
+  "observacao": "Mapa condominio -> sistema de portaria (app de GESTAO: Shielder/GatWay/Synnus/Alarm System/TW Virtua) e tipo_portaria (Humana/Virtual/Hibrida = modelo de operacao do condominio). IMPORTANTE: o sistema/app NAO define se a portaria e humana ou virtual — sao dados independentes.",
   "total": 39,
   "condominios": [
     {
       "nome": "ABBOCATO",
       "slug": "abbocato",
       "sistema": "Portaria Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "ACÁCIAS I",
       "slug": "acacias-i",
       "sistema": "Shielder",
-      "cadastro": "Sem acesso para cadastro"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "ALLURE",
       "slug": "allure",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "ALTO DA BOA VISTA",
       "slug": "alto-da-boa-vista",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "AMARIGE",
       "slug": "amarige",
       "sistema": "GatWay",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "ANGELO SMIRNE",
       "slug": "angelo-smirne",
       "sistema": "GatWay",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "ARACAJU",
       "slug": "aracaju",
       "sistema": "Portaria Synnus",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "ARISTOCRATA",
       "slug": "aristocrata",
       "sistema": "Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "ATLANTA",
       "slug": "atlanta",
       "sistema": "Não Identificado",
-      "cadastro": "Verificar"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "ATTUALE",
       "slug": "attuale",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "BARBIERI",
       "slug": "barbieri",
       "sistema": "Shielder",
-      "cadastro": "Não cadastramos"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "CASABLANCA",
       "slug": "casablanca",
       "sistema": "TW Virtua / Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "CEDROS",
       "slug": "cedros",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "CITY CENTER",
       "slug": "city-center",
       "sistema": "Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "FIVE",
       "slug": "five",
       "sistema": "Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "FLORES",
       "slug": "flores",
       "sistema": "Não Identificado",
-      "cadastro": "Verificar"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "GARDEN PLACE",
       "slug": "garden-place",
       "sistema": "Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Híbrida"
     },
     {
       "nome": "HADDA",
       "slug": "hadda",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "IPÊ ROXO",
       "slug": "ipe-roxo",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "LUME",
       "slug": "lume",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "LHARMONIE",
       "slug": "lharmonie",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "MONET",
       "slug": "monet",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "MONTE CARLO",
       "slug": "monte-carlo",
       "sistema": "TW Virtua / Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "MOOVE",
       "slug": "moove",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "NASCENTES",
       "slug": "nascentes",
       "sistema": "GatWay",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "PARQUE DOS TRILHOS",
       "slug": "parque-dos-trilhos",
       "sistema": "TW Virtua / Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "PRAÇAS DO SOL",
       "slug": "pracas-do-sol",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "RESERVA DO CAMPO",
       "slug": "reserva-do-campo",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "PAIRÁS",
       "slug": "pairas",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "RIACHO DOCE",
       "slug": "riacho-doce",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "ROYAL",
       "slug": "royal",
       "sistema": "GatWay",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "SALTO GRANDE 3",
       "slug": "salto-grande-3",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "SALTO GRANDE 1",
       "slug": "salto-grande-1",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "SALTO GRANDE RESERVA DO CAMPO",
       "slug": "salto-grande-reserva-do-campo",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "TIVOLI",
       "slug": "tivoli",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "TRÍADE",
       "slug": "triade",
       "sistema": "Alarm System",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Virtual"
     },
     {
       "nome": "VALE SUPREMO",
       "slug": "vale-supremo",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "VANCOUVER",
       "slug": "vancouver",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     },
     {
       "nome": "VIDA PLENA",
       "slug": "vida-plena",
       "sistema": "Shielder",
-      "cadastro": "Cadastrável"
+      "tipo_portaria": "Humana"
     }
   ]
 }
