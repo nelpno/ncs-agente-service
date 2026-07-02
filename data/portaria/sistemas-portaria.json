@@ -90,10 +90,11 @@
       "tipo_portaria": "Virtual"
     },
     {
-      "nome": "FIVE",
+      "nome": "STUDIO FIVE",
       "slug": "five",
       "sistema": "Alarm System",
-      "tipo_portaria": "Virtual"
+      "tipo_portaria": "Virtual",
+      "aliases": ["Studio 5", "Five", "Studio Five"]
     },
     {
       "nome": "FLORES",

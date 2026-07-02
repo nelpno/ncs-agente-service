@@ -26,7 +26,7 @@ function loadIndex() {
   try { data = JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch { return _index; }
   for (const c of (data.condominios || [])) {
     const slug = c.slug || norm(c.nome).replace(/\s+/g, '-');
-    _index[slug] = { nome: c.nome, sistema: c.sistema || '', tipo_portaria: c.tipo_portaria || '' };
+    _index[slug] = { nome: c.nome, sistema: c.sistema || '', tipo_portaria: c.tipo_portaria || '', aliases: Array.isArray(c.aliases) ? c.aliases : [] };
   }
   return _index;
 }
@@ -37,10 +37,13 @@ function resolveCondo(index, condominio) {
   if (!condominio || !norm(condominio)) return { slug: null, motivo: 'condominio_nao_informado' };
   const c = norm(condominio);
   if (index[c]) return { slug: c };
-  const hit = slugs.filter((s) => {
-    const nm = norm(index[s].nome);
-    return nm === c || nm.includes(c) || c.includes(nm) || norm(s.replace(/-/g, ' ')).includes(c);
-  });
+  const nomesDe = (s) => [index[s].nome, ...(index[s].aliases || [])].map(norm).filter(Boolean);
+  // 1) match EXATO por nome/apelido tem prioridade (resolve "Studio 5"→FIVE e evita ambiguidade por substring).
+  const exato = slugs.filter((s) => nomesDe(s).includes(c));
+  if (exato.length === 1) return { slug: exato[0] };
+  if (exato.length > 1) return { slug: null, motivo: 'condominio_ambiguo', candidatos: exato.map((s) => index[s].nome) };
+  // 2) fallback por substring (nome/apelido/slug).
+  const hit = slugs.filter((s) => nomesDe(s).some((n) => n.includes(c) || c.includes(n)) || norm(s.replace(/-/g, ' ')).includes(c));
   if (hit.length === 1) return { slug: hit[0] };
   if (hit.length > 1) {
     const exact = hit.filter((s) => norm(index[s].nome) === c);
