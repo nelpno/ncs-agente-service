@@ -13,7 +13,10 @@ const norm = (s) => (s || '')
   .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 
-const STOP = new Set(('de a o que e do da em um para com nao uma os no se na por mais as dos como mas ao ele das tem seu sua ou ser quando muito ha nos ja esta eu tambem so pelo pela ate isso ela entre era depois sem mesmo aos seus quem nas me esse eles voce essa num nem suas meu minha numa pelos elas qual lhe deles essas esses pra posso pode quero gostaria oi ola tem ter aqui meu sobre qual quais').split(' '));
+// STOP inclui genéricos de "como funciona/uso/horário de X" — palavras que aparecem em quase todo artigo do
+// regimento e POLUEM o ranking por substring (ex.: "funcionamento", "uso"), roubando as vagas do trecho temático
+// (a pessoa quer a regra da ACADEMIA; "funcionamento"/"uso" só diluem). O termo do ambiente (academia/piscina) resolve.
+const STOP = new Set(('de a o que e do da em um para com nao uma os no se na por mais as dos como mas ao ele das tem seu sua ou ser quando muito ha nos ja esta eu tambem so pelo pela ate isso ela entre era depois sem mesmo aos seus quem nas me esse eles voce essa num nem suas meu minha numa pelos elas qual lhe deles essas esses pra posso pode quero gostaria oi ola tem ter aqui meu sobre qual quais funcionamento funciona funcionar funcionando utilizar utilizacao utiliza uso usar usando').split(' '));
 
 // sinônimos de domínio condominial → melhora o recall (pergunta usa palavra do morador, doc usa palavra jurídica)
 const SYN = {
@@ -30,7 +33,7 @@ const SYN = {
   obra:['reforma','servico'], reforma:['obra','servico'], multa:['penalidade','advertencia','sancao'],
   penalidade:['multa','advertencia'], advertencia:['penalidade','multa'], lixo:['lixo','residuo'],
   visita:['visitante','hospede','convidado'], visitante:['hospede','convidado'], convidado:['visitante','hospede'],
-  bicicleta:['bike','bicicleta'], bike:['bicicleta'], horario:['horario','hora','horas'], hora:['horario'],
+  bicicleta:['bike','bicicleta'], bike:['bicicleta'], horario:['horario','horas'], hora:['horario','horas'],
   academia:['fitness','ginastica','ginasio','musculacao'], fitness:['academia','ginastica','musculacao'],
   ginastica:['academia','fitness','musculacao','ginasio'], ginasio:['academia','fitness','ginastica'], musculacao:['academia','fitness','ginastica'],
   crianca:['playground','recreacao','brinquedoteca','criancas'],
@@ -148,7 +151,7 @@ function resolveCondo(index, condominio) {
  * Retorna trechos do regimento/convenção DO CONDOMÍNIO INFORMADO relevantes à pergunta.
  * O agente redige a resposta CITANDO a fonte; se encontrou=false, oferece encaminhar a um humano.
  */
-export function consultar_regimento({ condominio, pergunta, k = 6 } = {}) {
+export function consultar_regimento({ condominio, pergunta, k = 8 } = {}) {
   const index = loadIndex();
   const disponiveis = Object.values(index).map((v) => v.nome);
   if (!Object.keys(index).length) return { encontrou: false, motivo: 'base de regimentos vazia', trechos: [] };
