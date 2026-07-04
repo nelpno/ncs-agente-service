@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { chat } from "../../src/llm.mjs";        // REUSO: mesmo cliente LLM da Ana
 import * as REG from "../../src/regimento.mjs";  // REUSO: achar o artigo (isolado por condo)
 import * as DOC from "./documentos.mjs";                         // NOVO: motor de geração de PDF
+import * as REL from "./relatorio.mjs";                          // NOVO: relatório de prestação de contas
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SYSTEM_PROMPT = fs.readFileSync(path.join(__dirname, "..", "spec", "system-prompt.md"), "utf8");
@@ -32,6 +33,7 @@ const TOOLS = [
       data_documento: { type: "string", description: "Ex.: '13 de junho de 2026'. Se não informado, use hoje." },
     }, required: ["condominio", "tipo", "infracao_id", "destinatario", "relato", "data_documento"] } } },
   { type: "function", function: { name: "gerar_cnd", description: "Gera a DECLARAÇÃO DE QUITAÇÃO DE DÉBITOS (CND) de uma unidade — por padrão a via INFORMATIVA (sem assinatura). Use quando pedirem 'CND', 'nada consta', 'declaração de quitação' ou 'comprovante de quitação' de um morador/unidade. Informe o condomínio + número da unidade (e bloco, se houver). SÓ gera para unidade 100% em dia: se voltar ok:false (motivo inadimplente / no_juridico / garantidora_ou_cego / indisponivel), explique e NÃO afirme quitação. Devolve o link do PDF. A via OFICIAL assinada pelo síndico (Autentique) é uma etapa à parte.", parameters: { type: "object", properties: { condominio: { type: "string" }, unidade: { type: "string", description: "Número do apartamento, ex.: '132'." }, bloco: { type: "string", description: "Bloco/torre, se houver." }, tipo: { type: "string", enum: ["informativo"], description: "Por ora só 'informativo'." } }, required: ["condominio", "unidade"] } } },
+  { type: "function", function: { name: "gerar_relatorio_prestacao_contas", description: "Gera o PDF do RELATÓRIO DE PRESTAÇÃO DE CONTAS mensal de um condomínio: receitas x despesas por categoria, previsto x realizado com alertas de estouro de orçamento, movimentação de caixa (saldo inicial/entradas/saídas/final), inadimplência e um resumo executivo em linguagem simples. Use quando pedirem 'prestação de contas', 'relatório do mês', 'fechamento do mês', 'balancete resumido' ou 'como fechou o mês' de um condomínio. Informe o condomínio e, se souber, o mês (nome ou número) e o ano; se o mês não for dito, usa o último mês fechado. Devolve o link do PDF. É um relatório de APOIO à gestão (não substitui a prestação de contas oficial).", parameters: { type: "object", properties: { condominio: { type: "string" }, mes: { type: "string", description: "Mês de referência: número 1-12 ou o nome (ex.: 'junho'). Opcional — se omitido, usa o último mês fechado." }, ano: { type: "integer", description: "Ano de referência (ex.: 2026). Opcional." } }, required: ["condominio"] } } },
 ];
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
@@ -48,6 +50,11 @@ async function runTool(name, args, ctx) {
     }
     case "gerar_cnd": {
       const out = await DOC.gerar_cnd(args);
+      if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };
+      return out;
+    }
+    case "gerar_relatorio_prestacao_contas": {
+      const out = await REL.gerar_relatorio_prestacao_contas(args);
       if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };
       return out;
     }
