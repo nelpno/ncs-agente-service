@@ -7,6 +7,7 @@ import { config } from "../src/config.mjs";   // REUSO: mesma leitura de env
 import { getSession, saveSession } from "../src/memory.mjs"; // REUSO: sessão persistente
 import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
+import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs"; // Fase 2: anexos (foto/print/PDF)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CHAT_HTML = fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8");
@@ -40,7 +41,14 @@ const server = http.createServer(async (req, res) => {
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: "código inválido" });
       const estagKey = "estag-" + (data.session || "anon");
       const session = await getSession(estagKey);
-      const r = await handleTurn(session, data.message || "", {});
+      let msg = data.message || "";
+      // Fase 2 (multimodal): se veio um anexo (foto da ocorrência / print / PDF), o Gemini lê o
+      // conteúdo e a descrição entra como texto no loop (que é text-only). Anti-alucinação: base factual.
+      if (data.anexo && typeof data.anexo === "string" && data.anexo.startsWith("data:")) {
+        const vis = await descreverAnexo(data.anexo);
+        msg = montarMensagemComAnexo(msg, vis);
+      }
+      const r = await handleTurn(session, msg, {});
       await saveSession(estagKey, session);
       return json(res, 200, { reply: r.reply, doc: r.doc || null });
     }

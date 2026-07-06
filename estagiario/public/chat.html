@@ -107,6 +107,17 @@
     background:linear-gradient(160deg,var(--gold-l),var(--gold));color:var(--navy-d);font-size:20px;font-weight:800;
     box-shadow:0 4px 12px rgba(201,162,39,.4);transition:.15s}
   #send:hover{transform:scale(1.06)}#send:disabled{opacity:.5;cursor:default;transform:none}
+  /* Botão de anexo (foto, print ou PDF) */
+  #clip{flex:none;width:48px;height:48px;border:1.5px solid var(--line);border-radius:50%;cursor:pointer;
+    background:#fff;color:var(--navy);font-size:20px;transition:.15s;display:flex;align-items:center;justify-content:center}
+  #clip:hover{border-color:var(--gold);background:var(--gold-soft)}
+  #clip:disabled{opacity:.5;cursor:default}
+  /* Chip do arquivo selecionado (acima da barra) */
+  .attbar{max-width:860px;margin:0 auto 8px;display:flex}
+  .attchip{display:inline-flex;align-items:center;gap:8px;background:var(--gold-soft);border:1px solid var(--gold);
+    color:var(--navy);border-radius:20px;padding:6px 10px 6px 12px;font-size:13px;font-weight:600;max-width:100%}
+  .attchip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px}
+  .attchip .x{cursor:pointer;font-weight:800;color:var(--navy-l);border:none;background:transparent;font-size:16px;line-height:1;padding:0 2px}
   .foot-note{max-width:860px;margin:8px auto 0;text-align:center;font-size:11px;color:var(--muted)}
 </style>
 </head>
@@ -158,16 +169,42 @@
   </div>
 
   <footer>
+    <div class="attbar" id="attbar" style="display:none"></div>
     <div class="inbar">
+      <input type="file" id="file" accept="image/*,application/pdf" hidden>
+      <button id="clip" onclick="document.getElementById('file').click()" title="Anexar foto da ocorrência, print da conversa ou PDF">📎</button>
       <textarea id="msg" rows="1" placeholder="Ex.: morador do 132 fez barulho de novo, já levou notificação mês passado…" autocomplete="off"></textarea>
       <button id="send" onclick="send()" title="Enviar">➤</button>
     </div>
-    <div class="foot-note">As minutas são para conferência e assinatura do síndico. Conteúdo interno do Grupo NCS.</div>
+    <div class="foot-note">Você pode anexar a foto da ocorrência ou o print da conversa. As minutas são para conferência e assinatura do síndico. Conteúdo interno do Grupo NCS.</div>
   </footer>
 
 <script>
 const params=new URLSearchParams(location.search); const K=params.get('k')||'';
 const scroll=document.getElementById('scroll'), hero=document.getElementById('hero'), inp=document.getElementById('msg'), btn=document.getElementById('send');
+const clip=document.getElementById('clip'), fileInp=document.getElementById('file'), attbar=document.getElementById('attbar');
+
+// Anexo pendente (foto da ocorrência, print da conversa ou PDF) — vira base64 e vai junto no envio.
+let pendingFile=null; // {dataUrl, name}
+const MAX_MB=18;
+fileInp.addEventListener('change',function(){
+  const f=fileInp.files&&fileInp.files[0]; if(!f){return;}
+  if(f.size>MAX_MB*1024*1024){alert('Arquivo muito grande (máximo '+MAX_MB+' MB). Tente uma foto menor.');fileInp.value='';return;}
+  const rd=new FileReader();
+  rd.onload=function(){pendingFile={dataUrl:rd.result,name:f.name};showAtt();};
+  rd.onerror=function(){alert('Não consegui ler esse arquivo. Tente outro.');};
+  rd.readAsDataURL(f);
+});
+function showAtt(){
+  attbar.replaceChildren();
+  const chip=document.createElement('div');chip.className='attchip';
+  const ic=document.createElement('span');ic.textContent='📎';
+  const nm=document.createElement('span');nm.className='nm';nm.textContent=pendingFile.name;
+  const x=document.createElement('button');x.className='x';x.textContent='×';x.title='Remover anexo';x.onclick=clearAtt;
+  chip.appendChild(ic);chip.appendChild(nm);chip.appendChild(x);
+  attbar.appendChild(chip);attbar.style.display='flex';
+}
+function clearAtt(){pendingFile=null;fileInp.value='';attbar.replaceChildren();attbar.style.display='none';}
 
 // memória: mantém a MESMA sessão ao recarregar a página (conversa continua); "Nova conversa" começa do zero.
 function newSession(){return 'web-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
@@ -210,21 +247,28 @@ function addDoc(doc){
 
 function reset(){
   session=newSession();localStorage.setItem('ncs_chat_session',session);
+  clearAtt();
   scroll.replaceChildren();scroll.appendChild(hero);hero.style.display='';scroll.classList.add('welcome');
 }
 
 async function send(){
-  const t=inp.value.trim(); if(!t)return;
-  inp.value='';autosize();hero.style.display='none';scroll.classList.remove('welcome');btn.disabled=true;
-  add(t,'me'); const tp=typing(); const t0=Date.now();
+  const t=inp.value.trim(); const file=pendingFile;
+  if(!t && !file)return;
+  inp.value='';autosize();hero.style.display='none';scroll.classList.remove('welcome');btn.disabled=true;clip.disabled=true;
+  if(t) add(t,'me');
+  if(file) add('📎 '+file.name,'me');
+  clearAtt();
+  const tp=typing();
   try{
-    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session,k:K})});
+    const payload={message:t,session,k:K};
+    if(file) payload.anexo=file.dataUrl;
+    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const j=await r.json(); tp.remove();
     if(r.status===401){add('Código de acesso inválido. Use o link completo que você recebeu.','sys');return;}
     add(j.reply||'(sem resposta)','bot');
     if(j.doc) addDoc(j.doc);
   }catch(e){tp.remove();add('Tive um problema de conexão. Pode tentar de novo?','sys');}
-  finally{btn.disabled=false;inp.focus();}
+  finally{btn.disabled=false;clip.disabled=false;inp.focus();}
 }
 inp.focus();
 </script>
