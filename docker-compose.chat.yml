@@ -18,6 +18,8 @@ services:
       - SUPERLOGICA_BASE_URL=${SUPERLOGICA_BASE_URL:-https://api.superlogica.net/v2/condor}
       - SUPERLOGICA_APP_TOKEN=${SUPERLOGICA_APP_TOKEN}
       - SUPERLOGICA_ACCESS_TOKEN=${SUPERLOGICA_ACCESS_TOKEN}
+      # Gemini (Fase 2 multimodal): visão/OCR de anexos (foto da ocorrência, print, PDF)
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
       # Redis (memória persistente de sessão — opcional; fallback in-memory se ausente)
       - REDIS_URL=${REDIS_URL:-}
       - SESSION_TTL_S=${SESSION_TTL_S:-172800}
