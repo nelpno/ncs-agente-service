@@ -96,3 +96,90 @@ export async function textoExecutivo(m, { chat, log } = {}) {
     return resumoDeterministico(m);
   }
 }
+
+// ---------------------------------------------------------------------------
+// PERÍODO (jan→mai) — resumo executivo consolidado
+// ---------------------------------------------------------------------------
+function fatosPeriodo(m) {
+  return {
+    condominio: m.condominio?.nome, periodo: m.periodo.label, meses: m.periodo.nMeses,
+    receitas_total: m.receitas.total, receitas_media_mensal: Math.round(m.receitas.media),
+    despesas_total: m.despesas.total, despesas_media_mensal: Math.round(m.despesas.media),
+    resultado_acumulado: m.resultado.valor, resultado_medio_mensal: Math.round(m.resultado.media),
+    meses_com_superavit: m.resultado.mesesPositivos, meses_com_deficit: m.resultado.mesesNegativos,
+    resultado_por_mes: m.porMes.map(x => ({ mes: x.mesNome, resultado: Math.round(x.resultado) })),
+    maiores_despesas_acumuladas: m.despesas.categorias.slice(0, 5).map(c => ({ categoria: c.descricao, total: c.valor })),
+    alertas_estouro: m.alertas.map(a => ({ categoria: a.categoria, acima_pct: Number(a.excedentePct.toFixed(1)) })),
+    caixa_saldo_final: m.caixa.saldoFinal,
+    inadimplencia: { unidades: m.inadimplencia.qtd, total: m.inadimplencia.total },
+  };
+}
+
+export function resumoDeterministicoPeriodo(m) {
+  const p = [];
+  const res = m.resultado;
+  p.push(`No período de ${m.periodo.label} (${m.periodo.nMeses} meses), o condomínio ${m.condominio?.nome || ''} teve receitas de ${brl(m.receitas.total)} ` +
+    `e despesas de ${brl(m.despesas.total)}, com ${res.tipo === 'superavit' ? 'superávit' : 'déficit'} acumulado de ${brl(Math.abs(res.valor))} ` +
+    `(média de ${brl(m.resultado.media)} por mês).`);
+  p.push(`O resultado foi positivo em ${res.mesesPositivos} de ${m.periodo.nMeses} meses. ` +
+    `As maiores despesas do período foram ${m.despesas.categorias.slice(0, 3).map(c => c.descricao).join(', ')}. ` +
+    `O caixa fechou o período em ${brl(m.caixa.saldoFinal)}` +
+    (m.inadimplencia.qtd ? ` e há ${brl(m.inadimplencia.total)} em inadimplência (${m.inadimplencia.qtd} unidades).` : ' e não há inadimplência registrada.'));
+  return { resumo: p.join(' '), fonte: 'deterministico' };
+}
+
+const SYS_PERIODO = 'Você é um contador que escreve o resumo executivo de um período (vários meses) da prestação de contas de um condomínio para o SÍNDICO, que NÃO é técnico. ' +
+  'Use SOMENTE os números do bloco FATOS (não invente nem recalcule). Escreva 2 parágrafos curtos em português claro: ' +
+  '(1) como o período fechou no total (receitas, despesas, resultado acumulado e média mensal); ' +
+  '(2) a TENDÊNCIA ao longo dos meses (melhorou ou piorou, quantos meses fecharam positivos) e o que mais pesou nas despesas. Sem markdown, sem títulos, sem bullet. Valores em R$.';
+
+export async function textoExecutivoPeriodo(m, { chat, log } = {}) {
+  const user = 'FATOS (JSON):\n' + JSON.stringify(fatosPeriodo(m), null, 1);
+  if (typeof chat === 'function') {
+    try {
+      const res = await chat({ messages: [{ role: 'system', content: SYS_PERIODO }, { role: 'user', content: user }], maxTokens: 900 });
+      const txt = (res?.content || '').trim();
+      if (!txt) throw new Error('vazio');
+      return { resumo: txt, fonte: 'llm:chat' };
+    } catch (e) { log?.(`[texto-periodo] chat falhou (${e.message}) → fallback`); return resumoDeterministicoPeriodo(m); }
+  }
+  return resumoDeterministicoPeriodo(m);
+}
+
+// ---------------------------------------------------------------------------
+// RECOMENDAÇÃO (advisory) — consultor de gestão sobre os números do período
+// ---------------------------------------------------------------------------
+export function recomendacaoDeterministica(m) {
+  const p = [];
+  const deficitRecorrente = m.resultado.mesesNegativos >= Math.ceil(m.periodo.nMeses / 2);
+  if (m.resultado.valor < 0 || deficitRecorrente) {
+    p.push(`O resultado acumulado é ${m.resultado.valor < 0 ? 'deficitário' : 'apertado'} (${brl(m.resultado.media)}/mês em média). ` +
+      `Vale a assembleia avaliar um reajuste da taxa condominial e/ou a revisão das maiores despesas.`);
+  } else {
+    p.push(`O período fechou equilibrado (superávit médio de ${brl(m.resultado.media)}/mês). A recomendação é manter a taxa atual e monitorar as despesas.`);
+  }
+  const top = m.despesas.categorias.slice(0, 2).map(c => c.descricao).join(' e ');
+  if (top) p.push(`As despesas que mais pesam (${top}) são as primeiras a revisar caso se busque redução de custos.`);
+  if (m.alertas.length) p.push(`Categorias acima do orçado no período: ${m.alertas.map(a => a.categoria).join(', ')} — merecem atenção.`);
+  if (m.inadimplencia.qtd) p.push(`A inadimplência (${brl(m.inadimplencia.total)} em ${m.inadimplencia.qtd} unidades) reduz o caixa disponível; intensificar a régua de cobrança ajuda o equilíbrio.`);
+  p.push('Estas são sugestões de apoio à gestão — a decisão final é do síndico/assembleia.');
+  return { resumo: p.join(' '), fonte: 'deterministico' };
+}
+
+const SYS_RECOM = 'Você é um consultor de gestão condominial. A partir dos NÚMEROS já apurados de um condomínio (bloco FATOS), escreva uma RECOMENDAÇÃO objetiva para o síndico. ' +
+  'Regras: use só os números dos FATOS (não invente valores). Aborde, quando fizer sentido: (a) equilíbrio receitas×despesas e se cabe reajuste da taxa ou manter; ' +
+  '(b) 1 a 2 categorias de despesa a revisar para reduzir custo; (c) inadimplência; (d) tendência. ' +
+  'Seja concreto e prático (3 a 5 frases ou tópicos curtos). SEMPRE termine deixando claro que é uma SUGESTÃO de apoio e que a decisão é do síndico/assembleia. Português claro, sem jargão, sem markdown pesado.';
+
+export async function textoRecomendacao(m, { chat, log } = {}) {
+  const user = 'FATOS (JSON):\n' + JSON.stringify(fatosPeriodo(m), null, 1);
+  if (typeof chat === 'function') {
+    try {
+      const res = await chat({ messages: [{ role: 'system', content: SYS_RECOM }, { role: 'user', content: user }], maxTokens: 1000 });
+      const txt = (res?.content || '').trim();
+      if (!txt) throw new Error('vazio');
+      return { resumo: txt, fonte: 'llm:chat' };
+    } catch (e) { log?.(`[recomendacao] chat falhou (${e.message}) → fallback`); return recomendacaoDeterministica(m); }
+  }
+  return recomendacaoDeterministica(m);
+}

@@ -110,4 +110,5 @@ export function agregar(snap, opts) {
   };
 }
 
-export { MESES };
+// helpers reusados pelo relatório de PERÍODO (periodo.mjs) — mesma lógica, sem duplicar
+export { MESES, categorias, topo, ehReceita, ehDespesa, previstoDeConta, aggCaixa };

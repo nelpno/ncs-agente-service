@@ -1,5 +1,6 @@
 // Template HTML branded NCS (navy #1a3a5c / dourado #c9a227) do relatório de prestação de contas.
 // Todos os números vêm do modelo agregado; o texto executivo é a única parte redigida por LLM.
+import { svgPrevistoRealizado } from './graficos.mjs';
 const NAVY = '#1a3a5c', GOLD = '#c9a227', INK = '#243141', MUT = '#6b7684', LINE = '#e4e8ee', BG = '#f6f8fb';
 
 const brl = v => v == null ? '—' : Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -40,8 +41,8 @@ export function renderHTML(m, textoExec) {
       <ul>${m.alertas.map(a => `<li><b>${esc(a.categoria)}</b>: gasto de ${brl(a.realizado)} contra previsão de ${brl(a.previsto)} — <b style="color:#b3261e">${pct(a.excedentePct)}</b></li>`).join('')}</ul>
     </div>` : `<div class="okbox">✓ Nenhuma categoria de despesa ultrapassou a previsão orçamentária no mês.</div>`);
 
-  const receitaComPrev = m.receitas.categorias.some(c => false); // receita não traz previsto por categoria (só total)
   const inad = m.inadimplencia;
+  const grafPrev = P ? svgPrevistoRealizado(m.orcamentoDespesas) : ''; // gráfico previsto × realizado (só quando há orçamento confiável)
 
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <style>
@@ -65,6 +66,7 @@ export function renderHTML(m, textoExec) {
   .mini { font-size: 12px; margin-top: 3px; }
   .execbox { background:#fbfcfe; border:1px solid ${LINE}; border-left:4px solid ${NAVY}; border-radius:6px; padding: 12px 16px; margin-top: 8px; }
   .execbox p { margin: 0 0 8px; } .execbox p:last-child { margin: 0; }
+  .chartbox { border:1px solid ${LINE}; border-radius:8px; padding:10px 12px 4px; margin-top:8px; page-break-inside:avoid; }
   table { width:100%; border-collapse: collapse; margin-top: 4px; }
   th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid ${LINE}; }
   thead th { background:${NAVY}; color:#fff; font-size: 10.5px; text-transform: uppercase; letter-spacing:.4px; font-weight:600; }
@@ -102,6 +104,7 @@ export function renderHTML(m, textoExec) {
   <div class="execbox">${paras(textoExec.resumo)}</div>
 
   <h2>${P ? 'Despesas por categoria — realizado × previsto' : 'Despesas por categoria'}</h2>
+  ${grafPrev ? `<div class="chartbox">${grafPrev}</div>` : ''}
   <table>
     <thead><tr><th>Categoria</th><th class="num">Realizado</th>${P ? '<th class="num">Previsto</th><th class="num">Desvio</th>' : ''}</tr></thead>
     <tbody>${m.orcamentoDespesas.map(c => linhaCat(c, P)).join('')}</tbody>

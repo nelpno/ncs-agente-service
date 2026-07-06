@@ -19,12 +19,15 @@ const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "GET" && req.url === "/health") return json(res, 200, { ok: true, service: "chat-ncs", model: config.agentModel });
 
-    // download da minuta gerada
+    // download da minuta/relatório gerado (PDF inline ou Word para baixar/editar)
     if (req.method === "GET" && req.url.startsWith("/doc/")) {
       const name = path.basename(decodeURIComponent(req.url.slice(5).split("?")[0]));
       const fp = path.join(SAIDA, name);
-      if (!name.endsWith(".pdf") || !fs.existsSync(fp)) return json(res, 404, { erro: "não encontrado" });
-      res.writeHead(200, { "Content-Type": "application/pdf", "Content-Disposition": `inline; filename="${name}"` });
+      const isDoc = name.endsWith(".doc");
+      if ((!name.endsWith(".pdf") && !isDoc) || !fs.existsSync(fp)) return json(res, 404, { erro: "não encontrado" });
+      const ct = isDoc ? "application/msword" : "application/pdf";
+      const disp = isDoc ? "attachment" : "inline"; // .doc: baixa para abrir editável no Word
+      res.writeHead(200, { "Content-Type": ct, "Content-Disposition": `${disp}; filename="${name}"` });
       return res.end(fs.readFileSync(fp));
     }
 
