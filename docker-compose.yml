@@ -10,6 +10,9 @@ services:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - OPENROUTER_BASE_URL=${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}
       - AGENT_MODEL=${AGENT_MODEL:-google/gemini-2.5-flash}
+      # Reserva cross-provider (llm.mjs): se a OpenAI cair (sem crédito / 429), cai pro Gemini (billing separado)
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - FALLBACK_MODEL=${FALLBACK_MODEL:-gemini-2.5-flash}
       # Octadesk
       - OCTADESK_BASE_URL=${OCTADESK_BASE_URL:-https://o222276-30e.api002.octadesk.services}
       - OCTADESK_API_KEY=${OCTADESK_API_KEY}
