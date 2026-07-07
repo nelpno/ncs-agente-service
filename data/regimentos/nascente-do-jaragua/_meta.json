@@ -1,0 +1,18 @@
+{
+  "condominio": "Nascente do Jaraguá",
+  "condominio_slug": "nascente-do-jaragua",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "estatuto-nascente-do-jaragua.md",
+      "chars": 24363,
+      "secoes_##": 32,
+      "artigos_###": 60
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

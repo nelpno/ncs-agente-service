@@ -1,0 +1,31 @@
+{
+  "condominio": "Salto Grande I",
+  "condominio_slug": "salto-grande-i",
+  "endereco": "Rua 1, nº100, Jardim Salto Grande, Araraquara-SP, CEP 14.800-000",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "estatuto-salto-grande-i.md",
+      "chars": 23969,
+      "secoes_##": 28,
+      "artigos_###": 61
+    },
+    {
+      "arquivo": "regimento-interno-salto-grande-i.md",
+      "chars": 53914,
+      "secoes_##": 7,
+      "artigos_###": 47
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "aliases": [
+    "Salto Grande I",
+    "Jardim Salto Grande I",
+    "Associação Jardim Salto Grande I",
+    "Loteamento Jardim Salto Grande I"
+  ],
+  "nota": "Associação (loteamento fechado), não condomínio. ATENÇÃO: existe também 'Salto Grande III' (condomínio separado) — não confundir."
+}

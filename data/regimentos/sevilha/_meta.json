@@ -1,0 +1,18 @@
+{
+  "condominio": "Condomínio Residencial Sevilha",
+  "condominio_slug": "sevilha",
+  "endereco": "Rua Benedito Jesus Santos Miguel, 16 - Araraquara/SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-sevilha.md",
+      "chars": 22181,
+      "secoes_##": 19,
+      "artigos_###": 47
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

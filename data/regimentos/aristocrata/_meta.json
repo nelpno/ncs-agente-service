@@ -1,0 +1,24 @@
+{
+  "condominio": "Aristocrata",
+  "condominio_slug": "aristocrata",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-aristocrata.md",
+      "chars": 25835,
+      "secoes_##": 10,
+      "artigos_###": 40
+    },
+    {
+      "arquivo": "regulamento-interno-aristocrata.md",
+      "chars": 28585,
+      "secoes_##": 18,
+      "artigos_###": 73
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

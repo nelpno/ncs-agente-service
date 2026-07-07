@@ -1,0 +1,31 @@
+{
+  "condominio": "Salto Grande III",
+  "condominio_slug": "salto-grande-iii",
+  "endereco": "Rua Lilia Elisa Eberle Lupo, nº 501, Jardim Salto Grande, Araraquara-SP, CEP 14.803-886",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "estatuto-salto-grande-iii.md",
+      "chars": 24432,
+      "secoes_##": 29,
+      "artigos_###": 60
+    },
+    {
+      "arquivo": "regimento-interno-salto-grande-iii.md",
+      "chars": 40120,
+      "secoes_##": 15,
+      "artigos_###": 76
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "aliases": [
+    "Salto Grande III",
+    "Jardim Salto Grande III",
+    "Associação Jardim Salto Grande III",
+    "Salto Grande 3"
+  ],
+  "nota": "Existe também 'Salto Grande I' como condomínio separado — não confundir. Este é especificamente o 'III'."
+}

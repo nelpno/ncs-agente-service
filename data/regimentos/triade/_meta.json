@@ -1,0 +1,24 @@
+{
+  "condominio": "Tríade",
+  "condominio_slug": "triade",
+  "endereco": "Avenida Mauá, 707, Araraquara-SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-triade.md",
+      "chars": 27220,
+      "secoes_##": 16,
+      "artigos_###": 46
+    },
+    {
+      "arquivo": "regulamento-interno-triade.md",
+      "chars": 37789,
+      "secoes_##": 10,
+      "artigos_###": 59
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

@@ -1,0 +1,24 @@
+{
+  "condominio": "Residencial Vila Rio Preto",
+  "condominio_slug": "vila-rio-preto",
+  "endereco": "Rua São José do Rio Preto, n. 719 - Jardim América - Araraquara/SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-vila-rio-preto.md",
+      "chars": 58889,
+      "secoes_##": 13,
+      "artigos_###": 60
+    },
+    {
+      "arquivo": "regimento-interno-vila-rio-preto.md",
+      "chars": 6802,
+      "secoes_##": 4,
+      "artigos_###": 1
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

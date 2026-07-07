@@ -1,0 +1,36 @@
+{
+  "condominio": "Acácias I",
+  "condominio_slug": "acacias-i",
+  "endereco": "Rua das Magnólias, 250, Araraquara/SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "estatuto-acacias-i.md",
+      "chars": 31665,
+      "secoes_##": 8,
+      "artigos_###": 63
+    },
+    {
+      "arquivo": "regimento-interno-acacias-i.md",
+      "chars": 8862,
+      "secoes_##": 18,
+      "artigos_###": 37
+    },
+    {
+      "arquivo": "regras-convivencia-acacias-i.md",
+      "chars": 35284,
+      "secoes_##": 5,
+      "artigos_###": 14
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "aliases": [
+    "Jardim Acácias",
+    "AMJA",
+    "Acácias I",
+    "Acacias I"
+  ]
+}

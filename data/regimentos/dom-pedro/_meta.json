@@ -1,0 +1,31 @@
+{
+  "condominio": "Condomínio Edifício Dom Pedro",
+  "condominio_slug": "dom-pedro",
+  "endereco": "Av. Pedro Aranha do Amaral, 735, São José, Araraquara/SP - CEP 14800-490",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-dom-pedro.md",
+      "chars": 39792,
+      "secoes_##": 20,
+      "artigos_###": 57
+    },
+    {
+      "arquivo": "regimento-interno-dom-pedro.md",
+      "chars": 5205,
+      "secoes_##": 2,
+      "artigos_###": 4
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "aliases": [
+    "SMART DOM PEDRO",
+    "Dom Pedro",
+    "D. Pedro",
+    "Condominio Edificio D. Pedro"
+  ],
+  "nota": "Regimento Interno (PDF, 2 páginas) é de 07/03/2022 — PENDENTE confirmar com o Fernando se é a versão vigente. A Convenção (DOCX) foi enviada em 02/07/2026 e é o texto integral clássico (Lei 4.591/64, 60 artigos). O Regimento de 2022 NÃO é um regimento completo padrão — é um documento curto que cita artigos 4/5/6/8 da própria Convenção e acrescenta 3 deliberações pontuais (horário de mudança 08h-17h30, permissão de animais de pequeno porte, regras de reforma)."
+}

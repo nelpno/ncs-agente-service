@@ -1,0 +1,24 @@
+{
+  "condominio": "Jatiúca",
+  "condominio_slug": "jatiuca",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-jatiuca.md",
+      "chars": 32377,
+      "secoes_##": 11,
+      "artigos_###": 49
+    },
+    {
+      "arquivo": "regimento-interno-jatiuca.md",
+      "chars": 16204,
+      "secoes_##": 9,
+      "artigos_###": 44
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

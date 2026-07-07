@@ -1,0 +1,29 @@
+{
+  "condominio": "Summertime",
+  "condominio_slug": "summertime",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "estatuto-summertime.md",
+      "chars": 23220,
+      "secoes_##": 19,
+      "artigos_###": 57
+    },
+    {
+      "arquivo": "regimento-interno-summertime.md",
+      "chars": 34283,
+      "secoes_##": 13,
+      "artigos_###": 127
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "aliases": [
+    "Summertime",
+    "Associação de Moradores do Condomínio Summertime"
+  ],
+  "nota": "O Regimento Interno estava arquivado por engano na pasta do RIACHO DOCE no Drive (arquivo trocado); foi realocado para cá, seu condomínio correto (o texto cita 'Associação de Moradores do Condomínio Summertime'). Riacho Doce segue sem o regimento próprio."
+}

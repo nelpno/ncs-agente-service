@@ -1,0 +1,24 @@
+{
+  "condominio": "Parque dos Trilhos",
+  "condominio_slug": "parque-dos-trilhos",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-parque-dos-trilhos.md",
+      "chars": 34614,
+      "secoes_##": 21,
+      "artigos_###": 46
+    },
+    {
+      "arquivo": "regulamento-interno-parque-dos-trilhos.md",
+      "chars": 66026,
+      "secoes_##": 18,
+      "artigos_###": 50
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

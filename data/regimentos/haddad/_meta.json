@@ -1,0 +1,18 @@
+{
+  "condominio": "Edifício Haddad",
+  "condominio_slug": "haddad",
+  "endereco": "Rua Vicente Satriani, 316, Jardim São Jorge, Araraquara, SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-haddad.md",
+      "chars": 64934,
+      "secoes_##": 19,
+      "artigos_###": 51
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

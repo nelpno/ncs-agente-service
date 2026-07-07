@@ -1,0 +1,24 @@
+{
+  "condominio": "Vale Supremo",
+  "condominio_slug": "vale-supremo",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-vale-supremo.md",
+      "chars": 48476,
+      "secoes_##": 15,
+      "artigos_###": 77
+    },
+    {
+      "arquivo": "regimento-interno-vale-supremo.md",
+      "chars": 11137,
+      "secoes_##": 8,
+      "artigos_###": 60
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

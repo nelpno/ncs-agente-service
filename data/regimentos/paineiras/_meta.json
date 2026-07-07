@@ -1,0 +1,24 @@
+{
+  "condominio": "Paineiras",
+  "condominio_slug": "paineiras",
+  "endereco": "",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-paineiras.md",
+      "chars": 20663,
+      "secoes_##": 20,
+      "artigos_###": 43
+    },
+    {
+      "arquivo": "regimento-interno-paineiras.md",
+      "chars": 3152,
+      "secoes_##": 0,
+      "artigos_###": 12
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+}

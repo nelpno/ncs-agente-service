@@ -1,0 +1,19 @@
+{
+  "condominio": "Edifício Mario de Andrade",
+  "condominio_slug": "mario-de-andrade",
+  "endereco": "Rua Humaitá / Avenida Espanha, Araraquara-SP",
+  "id_condominio_superlogica": null,
+  "documentos": [
+    {
+      "arquivo": "convencao-mario-de-andrade.md",
+      "chars": 34725,
+      "secoes_##": 18,
+      "artigos_###": 44
+    }
+  ],
+  "gerado_em": "2026-06-21",
+  "revisao_humana": "pendente",
+  "uso_juridico_liberado": false,
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
+  "nota": "Sem Regimento Interno na pasta do Drive — a própria Convenção (Art. 6/8/12) registra que o Regulamento Interno ainda não foi elaborado."
+}
