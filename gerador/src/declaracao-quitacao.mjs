@@ -90,6 +90,24 @@ async function getRealDeps() {
     if (!r.ok) throw new Error(`Superlógica condominios/get ${r.status}`);
     return r.json();
   };
+  // Resolve o RÓTULO REAL da unidade (nº do apartamento + bloco) por id_unidade_uni.
+  // Usa responsaveis/index (mesmo endpoint do resolver_morador) — NUNCA imprime o id interno.
+  _realDeps._slGetUnidadeLabel = async (id_condominio, id_unidade) => {
+    const qs = new URLSearchParams({ idCondominio: id_condominio, itensPorPagina: 500 }).toString();
+    const r = await fetch(`${config.slBase}/responsaveis/index?${qs}`, {
+      headers: {
+        app_token: config.slApp,
+        access_token: config.slAccess,
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!r.ok) throw new Error(`Superlógica responsaveis/index ${r.status}`);
+    const data = await r.json();
+    const arr = Array.isArray(data) ? data : (data && data.data) || [];
+    const row = arr.find((x) => String(x.id_unidade_uni) === String(id_unidade));
+    if (!row) return null;
+    return [row.st_unidade_uni, row.st_bloco_uni].filter(Boolean).join(' ').trim() || null;
+  };
   return _realDeps;
 }
 
@@ -124,13 +142,17 @@ async function getDadosCondominio(id_condominio, _slGetCondo) {
 // e esperamos que o campo de texto já venha do chamador (ou buscamos no Superlógica).
 // Para manter simples sem precisar de CPF: buscamos em responsaveis/index do condo.
 
-async function getIdentificacaoUnidade(id_condominio, id_unidade, _slGetCondo) {
-  // Tenta condominios/get só para nomear — a unidade vem pelo id_unidade.
-  // Como responsaveis/index exige idCondominio (não exportado diretamente aqui),
-  // retornamos uma string segura baseada no id_unidade. O chamador pode
-  // passar id_unidade já como texto "Bloco A / Apto 12" se souber.
-  // Formato padrão: "Unidade <id_unidade>"
-  return `Unidade ${id_unidade}`;
+export async function getIdentificacaoUnidade(id_condominio, id_unidade, slGetUnidadeLabel) {
+  // Resolve o NÚMERO REAL do apartamento (st_unidade_uni + bloco) via Superlógica.
+  // NUNCA retorna o id interno da unidade — esse era o bug: a CND saía com "Unidade 997"
+  // (id_unidade_uni) em vez do apartamento real "12" (st_unidade_uni).
+  if (typeof slGetUnidadeLabel === 'function') {
+    try {
+      const label = await slGetUnidadeLabel(id_condominio, id_unidade);
+      if (label) return label; // ex.: "12" ou "12 A"
+    } catch { /* cai no fallback: o chamador decide um texto seguro (não inventa apto) */ }
+  }
+  return null;
 }
 
 // ---- Principal ---------------------------------------------------------------
@@ -171,7 +193,7 @@ export async function gerarDeclaracaoQuitacao(
       : async () => null
   );
   const _getIdUnidade = deps.getIdentificacaoUnidade ?? (
-    async () => getIdentificacaoUnidade(id_condominio, id_unidade, null)
+    async () => getIdentificacaoUnidade(id_condominio, id_unidade, real ? real._slGetUnidadeLabel : null)
   );
 
   // ----- GATE 1: Garantidora tipo 'total' (inclui Flores 182) -----
@@ -227,9 +249,12 @@ export async function gerarDeclaracaoQuitacao(
     return { ok: false, motivo: 'dado_ausente', detalhe: 'Não foi possível obter nome do condomínio no Superlógica. Abortando para evitar alucinação.' };
   }
 
+  // Prioridade: nº real resolvido do Superlógica (autoritativo, por id_unidade) >
+  //   texto passado pelo chamador (ex.: Estagiário já resolveu o apto) > fallback seguro
+  //   que NÃO se disfarça de nº de apartamento.
   let unidadeTexto;
-  try { unidadeTexto = identificacaoUnidade || await _getIdUnidade(); }
-  catch { unidadeTexto = `Unidade ${id_unidade}`; }
+  try { unidadeTexto = await _getIdUnidade(); } catch { unidadeTexto = null; }
+  if (!unidadeTexto) unidadeTexto = identificacaoUnidade || `unidade (ref. interna ${id_unidade})`;
 
   // ----- RENDER + PDF -----
   const html = renderDeclaracaoHTML({

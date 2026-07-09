@@ -5,6 +5,7 @@ import path from "node:path";
 import url from "node:url";
 import { renderHTML } from "./template.mjs";
 import { htmlParaPdf } from "./render-pdf.mjs";
+import { htmlParaWord } from "./render-word.mjs";
 
 export const RAIZ = path.dirname(path.dirname(url.fileURLToPath(import.meta.url)));
 
@@ -94,16 +95,20 @@ export function slug(s) {
     .replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
 }
 
-/** gerarDocumento({ ocorrencia, destino?, raiz?, cadastro? }) -> { destino, titulo }
- *  cadastro (do Superlógica) é opcional; sem ele, usa o bloco fixo do catálogo (CLI/fallback). */
-export function gerarDocumento({ ocorrencia, destino, raiz = RAIZ, cadastro }) {
+/** gerarDocumento({ ocorrencia, destino?, raiz?, cadastro?, formato? }) -> { destino, titulo, formato }
+ *  cadastro (do Superlógica) é opcional; sem ele, usa o bloco fixo do catálogo (CLI/fallback).
+ *  formato: 'pdf' (default) ou 'word'/'doc' → .doc editável (equipe apara o excesso + edita o relato). */
+export function gerarDocumento({ ocorrencia, destino, raiz = RAIZ, cadastro, formato }) {
   const dados = carregarCondominio(ocorrencia.condominio, raiz);
   const doc = montarDoc(dados, ocorrencia, cadastro);
   const html = renderHTML(doc);
+  const word = /^(word|doc|docx)$/i.test(formato || "");
   if (!destino) {
-    const nome = `${slug(ocorrencia.condominio)}_${ocorrencia.tipo}_${slug(ocorrencia.infracao_id)}_ap${slug(ocorrencia.destinatario.apartamento)}.pdf`;
+    const ext = word ? "doc" : "pdf";
+    const nome = `${slug(ocorrencia.condominio)}_${ocorrencia.tipo}_${slug(ocorrencia.infracao_id)}_ap${slug(ocorrencia.destinatario.apartamento)}.${ext}`;
     destino = path.join(raiz, "saida", nome);
   }
-  htmlParaPdf(html, destino);
-  return { destino, titulo: doc.titulo };
+  if (word) fs.writeFileSync(destino, htmlParaWord(html), "utf8");
+  else htmlParaPdf(html, destino);
+  return { destino, titulo: doc.titulo, formato: word ? "word" : "pdf" };
 }

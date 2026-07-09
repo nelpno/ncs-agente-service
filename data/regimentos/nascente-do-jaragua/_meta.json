@@ -9,10 +9,17 @@
       "chars": 24363,
       "secoes_##": 32,
       "artigos_###": 60
+    },
+    {
+      "arquivo": "regimento-interno-nascente-do-jaragua.md",
+      "chars": 14607,
+      "secoes_##": 5,
+      "artigos_###": 39
     }
   ],
-  "gerado_em": "2026-06-21",
+  "gerado_em": "2026-07-09",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+  "fonte": "Drive Grupo NCS, pasta NOVOS (reenviado por Fernando 08/07/2026). Estatuto aprovado em 2004; Regimento Interno aprovado em AGE de 09/12/2004. Texto via Google Drive read_file_content. Revisão humana pendente.",
+  "nota": "Regimento Interno ingerido em 08/07/2026 (novo; antes só havia o Estatuto). AVISO: o ESTATUTO SOCIAL veio com o texto EMBARALHADO na origem (falha de exportação/tabela — frases fora de ordem, ex.: Artigo 1º). A versão da pasta NOVOS apresenta o MESMO defeito, então NÃO há versão limpa disponível ainda — pendente Fernando reenviar uma cópia limpa do Estatuto. O Regimento Interno saiu legível (apenas o Artigo 1º tem leve embaralhamento)."
 }

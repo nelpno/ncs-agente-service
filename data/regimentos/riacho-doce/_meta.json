@@ -12,13 +12,14 @@
     },
     {
       "arquivo": "regimento-interno-riacho-doce.md",
-      "chars": 34647,
-      "secoes_##": 0,
-      "artigos_###": 0
+      "chars": 33203,
+      "secoes_##": 14,
+      "artigos_###": 35
     }
   ],
-  "gerado_em": "2026-06-21",
+  "gerado_em": "2026-07-09",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+  "fonte": "Convenção: Drive Grupo NCS (enviada 03/07/2026). Regimento Interno: Drive Grupo NCS, pasta NOVOS (arquivo 'REGIMENTO INTERNO (1)', reenviado por Fernando 08/07/2026; aprovado em AGE de 18/01/2024). Texto via Google Drive read_file_content. Revisão humana pendente.",
+  "nota": "Regimento Interno CORRETO ingerido em 08/07/2026 (pasta NOVOS do Drive; aprovado em AGE de 18/01/2024). Corrige o histórico: o arquivo antes existente na pasta do Riacho Doce era, na verdade, o regimento do Summertime (já realocado para o slug 'summertime'). A Convenção clássica (Lei 4.591/64) permanece a mesma já ingerida."
 }

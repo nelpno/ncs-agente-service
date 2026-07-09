@@ -46,6 +46,10 @@ export async function gerar_documento(args = {}) {
   try {
     const ocorrencia = { ...args, marca_revisao: args.marca_revisao !== false };
     const dados = carregarCondominio(ocorrencia.condominio);
+    // Advertência/multa: Word EDITÁVEL por padrão (pedido do Fernando 08/07) — a equipe apaga os
+    // artigos que não se aplicam e acrescenta o relato do síndico antes de finalizar. PDF só se pedirem.
+    const formato = /^(pdf)$/i.test(args.formato || "") ? "pdf" : "word";
+    const word = formato === "word";
     let cadastro;
     try {
       const cond = await resolver_condominio({ nome: nomeSL(dados, ocorrencia.condominio) });
@@ -54,10 +58,11 @@ export async function gerar_documento(args = {}) {
 
     fs.mkdirSync(SAIDA, { recursive: true });
     const stamp = Date.now().toString(36);
-    const arquivo = `${slugId(ocorrencia.condominio)}_${slugId(ocorrencia.tipo)}_${slugId(ocorrencia.infracao_id || "doc")}_${stamp}.pdf`;
+    const ext = word ? "doc" : "pdf";
+    const arquivo = `${slugId(ocorrencia.condominio)}_${slugId(ocorrencia.tipo)}_${slugId(ocorrencia.infracao_id || "doc")}_${stamp}.${ext}`;
     const destino = path.join(SAIDA, arquivo);
-    const { titulo } = gerarDocumento({ ocorrencia, destino, cadastro });
-    return { ok: true, titulo, arquivo, url: `/doc/${arquivo}`, cadastro_fonte: cadastro ? "superlogica" : "catalogo" };
+    const { titulo, formato: fmt } = gerarDocumento({ ocorrencia, destino, cadastro, formato });
+    return { ok: true, titulo, arquivo, url: `/doc/${arquivo}`, formato: fmt, cadastro_fonte: cadastro ? "superlogica" : "catalogo" };
   } catch (e) {
     return { ok: false, erro: e.message, infracoes_disponiveis: e.infracoes_disponiveis };
   }
@@ -79,7 +84,10 @@ export async function gerar_cnd({ condominio, unidade, bloco, tipo = "informativ
     if (!mor.encontrado) return { ok: false, motivo: "unidade_nao_encontrada", detalhe: mor.motivo };
     const id_unidade = mor.moradores?.[0]?.id_unidade;
     if (!id_unidade) return { ok: false, motivo: "sem_id_unidade", detalhe: "não obtive o id da unidade no Superlógica" };
-    const r = await gerarDeclaracaoQuitacao({ id_condominio: cond.id, id_unidade, tipo });
+    // Passa o nº real do apartamento (st_unidade_uni + bloco) que o resolver_morador já obteve —
+    // backup de resiliência caso a resolução dentro do gerador falhe (evita imprimir o id interno).
+    const identificacaoUnidade = mor.moradores?.[0]?.apartamento || null;
+    const r = await gerarDeclaracaoQuitacao({ id_condominio: cond.id, id_unidade, identificacaoUnidade, tipo });
     if (!r.ok) return { ok: false, motivo: r.motivo, detalhe: r.detalhe, ...(r.qtd_cobrancas_em_aberto != null ? { qtd_cobrancas_em_aberto: r.qtd_cobrancas_em_aberto } : {}) };
     fs.mkdirSync(SAIDA, { recursive: true });
     const arquivo = path.basename(r.destino);

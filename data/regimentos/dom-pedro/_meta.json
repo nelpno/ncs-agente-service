@@ -5,6 +5,12 @@
   "id_condominio_superlogica": null,
   "documentos": [
     {
+      "arquivo": "ata-2022-11-03-pets.md",
+      "chars": 2957,
+      "secoes_##": 2,
+      "artigos_###": 0
+    },
+    {
       "arquivo": "convencao-dom-pedro.md",
       "chars": 39792,
       "secoes_##": 20,
@@ -17,7 +23,7 @@
       "artigos_###": 4
     }
   ],
-  "gerado_em": "2026-06-21",
+  "gerado_em": "2026-07-09",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
   "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
@@ -27,5 +33,5 @@
     "D. Pedro",
     "Condominio Edificio D. Pedro"
   ],
-  "nota": "Regimento Interno (PDF, 2 páginas) é de 07/03/2022 — PENDENTE confirmar com o Fernando se é a versão vigente. A Convenção (DOCX) foi enviada em 02/07/2026 e é o texto integral clássico (Lei 4.591/64, 60 artigos). O Regimento de 2022 NÃO é um regimento completo padrão — é um documento curto que cita artigos 4/5/6/8 da própria Convenção e acrescenta 3 deliberações pontuais (horário de mudança 08h-17h30, permissão de animais de pequeno porte, regras de reforma)."
+  "nota": "Convenção original (Lei 4.591/64, 60 artigos, enviada 02/07/2026) PROÍBE animais. Regimento Interno curto (07/03/2022) e, sobretudo, a ATA da AGE de 03/11/2022 (ata-2022-11-03-pets.md) PASSARAM A PERMITIR animais de pequeno e médio porte — esta é a regra VIGENTE de pets (documento mais recente, posterior à Convenção). O Regimento de 2022 também trata de horário de mudança (08h-17h30) e regras de reforma."
 }
