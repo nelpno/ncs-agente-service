@@ -14,9 +14,17 @@ import * as CND from './cnd.mjs';
 import * as ENGINE from './write/engine.mjs';
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import { agoraContextoTemporal } from './tempo.mjs';
+import { podarHistorico } from './history.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SYSTEM_PROMPT = fs.readFileSync(process.env.SYSTEM_PROMPT_PATH || path.join(__dirname, '..', 'spec', 'system-prompt.md'), 'utf8');
+
+// F4 — poda de histórico atrás da env HIST_CAP (rollback por env, sem rebuild de imagem).
+// Ausente / "0" / "off" = DESLIGADO (comportamento de hoje). Um número liga a poda com esse
+// teto de mensagens. keepTurns=2: os 2 últimos turnos mantêm o resultado de tool verbatim.
+const HIST_CAP_RAW = process.env.HIST_CAP;
+const HIST_ON = !!HIST_CAP_RAW && HIST_CAP_RAW !== '0' && HIST_CAP_RAW.toLowerCase() !== 'off';
+const HIST_CAP_N = HIST_ON ? (parseInt(HIST_CAP_RAW, 10) || 40) : 0;
 
 const TOOLS = [
   { type: 'function', function: { name: 'resolver_cadastro', description: 'Identifica a(s) unidade(s) da pessoa. Prefira por CPF; se ela não tem/não sabe o CPF, busque por NOME + UNIDADE (bloco e apartamento) + condomínio — nome + unidade dá confiança ALTA (o apartamento restringe e o nome confirma). Retorna { encontrado, criterio (cpf|unidade_nome|telefone|nome_exato|nome_completo|nome_parcial), confianca (alta|media|baixa), unidades:[{id_unidade, identificacao (bloco/unidade), condominio, id_condominio, papel, nome, ex_morador}] }. confianca ALTA = CPF/telefone/unidade+nome (é a própria pessoa) → pode prosseguir. confianca MEDIA/BAIXA = achou só por NOME (homônimo possível) ou só pela unidade → CONFIRME um 2º dado (a unidade/bloco, ou parte do CPF) ANTES de entregar boleto/valor/dado sensível. motivo nome_exige_condominio = peça o condomínio. Use antes de qualquer ação que dependa da unidade.', parameters: { type: 'object', properties: { cpf: { type: 'string', description: 'CPF da pessoa (com ou sem máscara).' }, nome: { type: 'string', description: 'Nome completo (use quando a pessoa não tem/sabe o CPF).' }, condominio: { type: 'string', description: 'Nome do condomínio. Obrigatório na busca por nome/unidade.' }, unidade: { type: 'string', description: 'Unidade da pessoa (bloco/torre e apartamento, ex.: "Bloco 7 ap 401", "apto 142 torre 2"). Combine com nome quando não há CPF.' } } } } },
@@ -121,6 +129,10 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
   // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
   session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
+  // F4 — poda o histórico ANTES de montar o turno (só quando HIST_CAP está ligado). Roda sobre a
+  // conversa JÁ COMPLETA (antes do novo user): stub de tool antigo + cap por turnos. Identidade,
+  // user msgs, extra_content e resolver_cadastro ficam intactos (ver history.mjs). No-op se desligado.
+  if (HIST_ON) session.messages = podarHistorico(session.messages, { cap: HIST_CAP_N, keepTurns: 2 });
   // Contexto temporal DENTRO da msg do user (não como system separado): mantém o prefixo [system+histórico]
   // 100% estável entre turnos → cache da OpenAI não quebra na fronteira do turno. A 1ª linha (filter acima) segue
   // limpando mensagens temporais legadas de sessões Redis criadas antes desta mudança.
@@ -143,6 +155,12 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
     // após uma resposta VAZIA, re-tenta SEM thinking (reasoning_effort:none): os tools já rodaram, só falta compor o
     // texto — desligar o thinking nessa hora destrava o vazio do gemini-3 sem prejudicar a seleção de tools.
     const res = await callModel(emptyRetries > 0);
+    // Observabilidade de custo (env-gated, default OFF — igual a DEBUG_LOOP): imprime tokens de prompt
+    // e CACHED por chamada. cached_tokens vem na própria resposta (não exige a admin key da Usage API).
+    if (process.env.LOG_USAGE && res.usage) {
+      console.warn(`[usage] iter=${i} prompt=${res.usage.prompt_tokens} cached=${res.usage.prompt_tokens_details?.cached_tokens ?? '?'} completion=${res.usage.completion_tokens}`);
+      (globalThis.__USAGE__ ||= []).push({ prompt: res.usage.prompt_tokens || 0, cached: res.usage.prompt_tokens_details?.cached_tokens || 0, completion: res.usage.completion_tokens || 0 });
+    }
     if (res.tool_calls?.length) {
       // PRESERVAR extra_content (thought_signature do gemini-3): sem ele, o modelo perde o raciocínio e devolve
       // VAZIO na hora de compor a resposta após o tool-call (raiz do blip). Devolver a assinatura mata o blip.
