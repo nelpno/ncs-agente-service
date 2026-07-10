@@ -4,6 +4,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import crypto from "node:crypto";
 import { config } from "../src/config.mjs";
 import { getSession, saveSession } from "../src/memory.mjs";
 import { handleTurn } from "./src/agent.mjs";
@@ -17,9 +18,12 @@ import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CHAT_HTML = fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8");
-const LOGIN_HTML = fs.readFileSync(path.join(__dirname, "public", "login.html"), "utf8");
-const ADMIN_HTML = fs.readFileSync(path.join(__dirname, "public", "admin.html"), "utf8");
+// cache-busting: versiona os links de /assets pelo hash do app.css → mudança de visual aparece na hora (sem limpar cache)
+const ASSET_VER = crypto.createHash("md5").update(fs.readFileSync(path.join(__dirname, "public", "app.css"))).digest("hex").slice(0, 10);
+const ver = (s) => s.replace(/(\/assets\/[\w.-]+)/g, `$1?v=${ASSET_VER}`);
+const CHAT_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8"));
+const LOGIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "login.html"), "utf8"));
+const ADMIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "admin.html"), "utf8"));
 const PORT = parseInt(process.env.PORT || "8090", 10);
 const COOKIE = "ncs_sess";
 const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
@@ -45,7 +49,7 @@ function readBody(req, maxBytes = 1_000_000) {
   });
 }
 function json(res, code, obj) { res.writeHead(code, { "Content-Type": "application/json" }); res.end(JSON.stringify(obj)); }
-function html(res, code, s) { res.writeHead(code, { "Content-Type": "text/html; charset=utf-8" }); res.end(s); }
+function html(res, code, s) { res.writeHead(code, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" }); res.end(s); }
 function redirect(res, to) { res.writeHead(302, { Location: to }); res.end(); }
 
 function parseCookies(req) {
@@ -95,7 +99,7 @@ const server = http.createServer(async (req, res) => {
       const ct = TYPES[path.extname(name).toLowerCase()];
       const fp = path.join(__dirname, "public", name);
       if (!ct || !fs.existsSync(fp)) return json(res, 404, { erro: "não encontrado" });
-      res.writeHead(200, { "Content-Type": ct, "Cache-Control": "public, max-age=86400" });
+      res.writeHead(200, { "Content-Type": ct, "Cache-Control": "public, max-age=31536000, immutable" });
       return res.end(fs.readFileSync(fp));
     }
     if (req.method === "GET" && (url === "/login" || url === "/ativar")) return html(res, 200, LOGIN_HTML);
