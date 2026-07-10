@@ -123,7 +123,7 @@ const server = http.createServer(async (req, res) => {
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: 'código inválido' });
       const chatKey = 'chat-' + (data.session || 'anon');
       const session = await getSession(chatKey);
-      const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null });
+      const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null, cacheKey: chatKey });
       await saveSession(chatKey, session);
       return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [], drafts: r.drafts || [] });
     }
@@ -140,7 +140,7 @@ const server = http.createServer(async (req, res) => {
     console.log(`[webhook] keys=${Object.keys(payload).join(',')} chatId=${chatId} len=${text.length}`);
     if (!text) return json(res, 200, { reply: '', nota: 'sem texto' });
     const session = await getSession(sessionKey);
-    const ctx = { chatId, fluxo, transferred: null };
+    const ctx = { chatId, fluxo, transferred: null, cacheKey: sessionKey };
     const { reply, transferred } = await handleTurn(session, text, ctx);
     await saveSession(sessionKey, session);
     // detalhes do handoff p/ o fluxo do Octadesk rotear ao time certo: motivo + resumo (+ escritório de cobrança no roteamento).

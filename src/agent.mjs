@@ -145,7 +145,7 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   const callModel = async (lowReasoning) => {
     let lastErr;
     for (let a = 0; a < 4; a++) { // gemini-3 em function-calling solta 400 transitório (thought_signature) que o llm.mjs NÃO re-tenta
-      try { return await chat({ messages: session.messages, tools: TOOLS, ...(lowReasoning ? { reasoningEffort: 'none' } : {}) }); }
+      try { return await chat({ messages: session.messages, tools: TOOLS, cacheKey: ctx?.cacheKey, ...(lowReasoning ? { reasoningEffort: 'none' } : {}) }); }
       catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 400 * (a + 1))); }
     }
     console.warn('[blip] callModel esgotou retries:', lastErr?.message);

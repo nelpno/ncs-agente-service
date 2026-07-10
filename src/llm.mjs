@@ -16,13 +16,18 @@ const FB_BASE = process.env.FALLBACK_BASE_URL || 'https://generativelanguage.goo
 const FB_MODEL = process.env.FALLBACK_MODEL || 'gemini-2.5-flash';
 
 // Uma tentativa (com N attempts internos) contra UM provedor. Monta o body no formato certo por base URL.
-async function callProvider({ base, key, model, messages, tools, maxTokens, temperature, reasoningEffort, attempts }) {
+async function callProvider({ base, key, model, messages, tools, maxTokens, temperature, reasoningEffort, cacheKey, attempts }) {
   // API DIRETA da OpenAI difere do resto: gpt-5.x exige `max_completion_tokens` (rejeita `max_tokens`) e SÓ aceita
   // `temperature=1` (default) — enviar temperature=0.2 dá HTTP 400. Gemini/OpenRouter usam max_tokens + temperature.
   const openaiDirect = /(^|\/\/)api\.openai\.com/i.test(base);
   const body = { model, messages };
   if (openaiDirect) {
     body.max_completion_tokens = maxTokens; // não enviar temperature: gpt-5.x só aceita o default (1)
+    // prompt_cache_key: aumenta a "stickiness" de roteamento do cache de prefixo da OpenAI (mesma chave → mesmo backend
+    // → reusa o KV do prefixo system+tools). Chave POR CONVERSA (não global): a doc limita ~15 req/min por chave, e uma
+    // conversa fica abaixo disso; o prefixo do bot (config.promptCacheKey) evita colisão Ana×Estagiário na mesma conta.
+    const ck = [config.promptCacheKey, cacheKey].filter(Boolean).join(':');
+    if (ck) body.prompt_cache_key = ck;
   } else {
     body.temperature = temperature;
     // maxTokens é um CAP (não alvo): thinking do gemini consome orçamento e, com teto baixo, devolve resposta VAZIA.
@@ -59,16 +64,16 @@ async function callProvider({ base, key, model, messages, tools, maxTokens, temp
   throw lastErr;
 }
 
-export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3, reasoningEffort } = {}) {
+export async function chat({ messages, tools, temperature = 0.2, maxTokens = 1500, retries = 3, reasoningEffort, cacheKey } = {}) {
   // AGENT_REASONING_EFFORT (env) força um nível em TODAS as chamadas (tuning); o agent passa 'none' SÓ na re-tentativa de vazio do gemini-3.
   const primaryEffort = process.env.AGENT_REASONING_EFFORT || reasoningEffort || null;
   try {
-    return await callProvider({ base: config.openrouterBase, key: config.openrouterKey, model: config.agentModel, messages, tools, maxTokens, temperature, reasoningEffort: primaryEffort, attempts: retries + 1 });
+    return await callProvider({ base: config.openrouterBase, key: config.openrouterKey, model: config.agentModel, messages, tools, maxTokens, temperature, reasoningEffort: primaryEffort, cacheKey, attempts: retries + 1 });
   } catch (primErr) {
     if (!FB_KEY) throw primErr; // sem reserva configurada → comportamento antigo (erro → msg graciosa)
     console.warn('[fallback] primário (' + config.agentModel + ') falhou: ' + primErr.message + ' — usando reserva ' + FB_MODEL);
     try {
-      const out = await callProvider({ base: FB_BASE, key: FB_KEY, model: FB_MODEL, messages, tools, maxTokens, temperature, reasoningEffort: null, attempts: 2 });
+      const out = await callProvider({ base: FB_BASE, key: FB_KEY, model: FB_MODEL, messages, tools, maxTokens, temperature, reasoningEffort: null, cacheKey, attempts: 2 });
       return { ...out, fallback: FB_MODEL };
     } catch (fbErr) {
       console.error('[fallback] reserva (' + FB_MODEL + ') também falhou: ' + fbErr.message);

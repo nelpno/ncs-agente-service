@@ -10,6 +10,8 @@ export const config = {
   openrouterKey: req('OPENROUTER_API_KEY'),
   openrouterBase: env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
   agentModel: env.AGENT_MODEL || 'google/gemini-2.5-flash',
+  // Prefixo do bot p/ o prompt_cache_key da OpenAI (a chave final é "<prefixo>:<sessão>"). Vazio = não envia.
+  promptCacheKey: env.PROMPT_CACHE_KEY || '',
   // Octadesk
   octaBase: env.OCTADESK_BASE_URL || 'https://o222276-30e.api002.octadesk.services',
   octaKey: req('OCTADESK_API_KEY'),
