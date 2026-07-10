@@ -10,12 +10,15 @@ import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
-import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso } from "./src/usuarios.mjs";
+import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar } from "./src/usuarios.mjs";
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
+import { sbSelect } from "./src/db.mjs";
+import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CHAT_HTML = fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8");
 const LOGIN_HTML = fs.readFileSync(path.join(__dirname, "public", "login.html"), "utf8");
+const ADMIN_HTML = fs.readFileSync(path.join(__dirname, "public", "admin.html"), "utf8");
 const PORT = parseInt(process.env.PORT || "8090", 10);
 const COOKIE = "ncs_sess";
 const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
@@ -63,6 +66,18 @@ function mesmaOrigem(req) {
   const src = req.headers.origin || req.headers.referer;
   if (!src) return true;
   try { return new URL(src).host === req.headers.host; } catch { return false; }
+}
+function proto(req) { return req.headers["x-forwarded-proto"] || "https"; }
+function linkConvite(req, token) { return `${proto(req)}://${req.headers.host}/ativar?t=${token}`; }
+// Lê TODAS as interações do período (pagina de 1000 em 1000 — PostgREST limita por página).
+async function fetchInteracoes(desde) {
+  const all = [];
+  for (let offset = 0; offset <= 200000; offset += 1000) {
+    const rows = await sbSelect("interacoes", `criado_em=gte.${encodeURIComponent(desde)}&select=*&order=criado_em.desc&limit=1000&offset=${offset}`);
+    all.push(...rows);
+    if (rows.length < 1000) break;
+  }
+  return all;
 }
 
 const server = http.createServer(async (req, res) => {
@@ -168,12 +183,55 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { reply: turno.reply, doc: turno.doc || null });
     }
 
-    // ---------- ADMIN (só papel=admin) ----------
+    // ---------- ADMIN (owner + admin) ----------
     if (url === "/admin" || url.startsWith("/api/admin")) {
-      if (sess.papel !== "admin") return json(res, 403, { erro: "acesso restrito" });
-      if (req.method === "GET" && url === "/admin")
-        return html(res, 200, "<!doctype html><meta charset=utf-8><title>Admin NCS</title><p style='font-family:sans-serif;padding:40px'>Painel em construção (Chunk 5).</p>");
-      return json(res, 404, { erro: "not found" }); // endpoints reais no Chunk 5
+      if (!["owner", "admin"].includes(sess.papel)) return json(res, 403, { erro: "acesso restrito" });
+      const isOwner = sess.papel === "owner"; // só o dono vê o custo em R$
+
+      if (req.method === "GET" && url === "/admin") return html(res, 200, ADMIN_HTML);
+
+      if (req.method === "GET" && url === "/api/admin/metricas") {
+        const qs = new URLSearchParams(req.url.split("?")[1] || "");
+        const now = new Date();
+        const desde = qs.get("desde") || new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
+        const rows = await fetchInteracoes(desde);
+        const usersRaw = await listar();
+        const nomes = {}, papeis = {};
+        usersRaw.forEach((u) => { nomes[u.id] = u.nome; papeis[u.id] = u.papel; });
+        const resumo = resumoPeriodo(rows, process.env);
+        if (!isOwner) delete resumo.custoBRL; // admin cliente não vê o total em R$
+        const equipe = usersRaw.map((u) => ({ id: u.id, nome: u.nome, email: u.email, papel: u.papel, ativo: u.ativo, ultimo_acesso: u.ultimo_acesso, convitePendente: !!u.convite_token_hash }));
+        return json(res, 200, { desde, isOwner, resumo, tags: porTag(rows), condominios: porCondominio(rows), pessoas: porPessoa(rows, process.env, { comCusto: isOwner, nomes, papeis }), equipe });
+      }
+
+      if (req.method === "POST" && url === "/api/admin/usuarios") {
+        if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+        const d = JSON.parse((await readBody(req, 64_000)) || "{}");
+        const nome = (d.nome || "").trim();
+        const email = (d.email || "").trim().toLowerCase();
+        const papel = d.papel === "admin" ? "admin" : "funcionario"; // owner só nasce por seed
+        if (!nome || !email) return json(res, 400, { erro: "Nome e e-mail são obrigatórios." });
+        if (await porEmail(email)) return json(res, 409, { erro: "Já existe alguém com esse e-mail." });
+        const { usuario, token } = await criarComConvite({ nome, email, papel });
+        return json(res, 200, { ok: true, id: usuario.id, link: linkConvite(req, token) });
+      }
+
+      const m = url.match(/^\/api\/admin\/usuarios\/([0-9a-fA-F-]{36})\/(reenviar|desativar|ativar)$/);
+      if (req.method === "POST" && m) {
+        if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+        const [, id, acao] = m;
+        const target = await porId(id);
+        if (!target) return json(res, 404, { erro: "usuário não encontrado" });
+        if (target.papel === "owner" && !isOwner) return json(res, 403, { erro: "só o dono gerencia o dono" });
+        if (acao === "desativar") {
+          if (id === sess.uid) return json(res, 400, { erro: "Você não pode desativar a si mesmo." });
+          await desativar(id); return json(res, 200, { ok: true });
+        }
+        if (acao === "ativar") { await reativar(id); return json(res, 200, { ok: true }); }
+        if (acao === "reenviar") { return json(res, 200, { ok: true, link: linkConvite(req, await regenerarConvite(id)) }); }
+      }
+
+      return json(res, 404, { erro: "not found" });
     }
 
     return json(res, 404, { erro: "not found" });
