@@ -6,15 +6,15 @@ process.env.SESSION_SECRET = "test-secret-please-change";
 const auth = await import("../src/auth.mjs");
 let ok = 0;
 
-// --- senha (scrypt) ---
+// --- senha (scrypt ASSÍNCRONO) ---
 {
-  const a = auth.hashSenha("abc");
-  const b = auth.hashSenha("abc");
+  const a = await auth.hashSenha("abc");
+  const b = await auth.hashSenha("abc");
   assert.notStrictEqual(a.hash, b.hash, "salt aleatório → hashes distintos");
   assert.notStrictEqual(a.salt, b.salt);
-  assert.ok(auth.verificarSenha("abc", a.hash, a.salt), "senha correta → true");
-  assert.ok(!auth.verificarSenha("errada", a.hash, a.salt), "senha errada → false");
-  assert.ok(!auth.verificarSenha("abc", null, null), "sem hash/salt → false (não lança)");
+  assert.ok(await auth.verificarSenha("abc", a.hash, a.salt), "senha correta → true");
+  assert.ok(!(await auth.verificarSenha("errada", a.hash, a.salt)), "senha errada → false");
+  assert.ok(!(await auth.verificarSenha("abc", null, null)), "sem hash/salt → false (não lança)");
   ok++;
 }
 
@@ -47,17 +47,31 @@ let ok = 0;
   ok++;
 }
 
-// --- rate-limit (por email, em memória) ---
+// --- rate-limit por email: backoff progressivo (S6) ---
 {
   const email = "rate@test.com";
   auth.resetRate(email);
-  for (let i = 0; i < 5; i++) {
-    assert.ok(auth.rateLogin(email), `tentativa ${i + 1} permitida`);
-    auth.registrarFalha(email);
-  }
-  assert.ok(!auth.rateLogin(email), "6ª bloqueada após 5 falhas");
+  // as 2 primeiras falhas (free tier) não penalizam; a 3ª aciona o backoff (until no futuro)
+  assert.ok(auth.rateLogin(email), "1ª permitida");
+  auth.registrarFalha(email); // fails=1
+  assert.ok(auth.rateLogin(email), "2ª permitida (free tier)");
+  auth.registrarFalha(email); // fails=2 (fim do free tier)
+  assert.ok(auth.rateLogin(email), "3ª ainda permitida (free tier)");
+  auth.registrarFalha(email); // fails=3 → backoff
+  assert.ok(!auth.rateLogin(email), "bloqueada após exceder o free tier (backoff progressivo)");
   auth.resetRate(email);
   assert.ok(auth.rateLogin(email), "resetRate libera");
+  ok++;
+}
+
+// --- rate-limit por IP (janela deslizante, checado antes do scrypt; S1) ---
+{
+  const ip = "203.0.113.9"; // LOGIN_IP_MAX default = 30/min
+  let permitidas = 0;
+  for (let i = 0; i < 35; i++) if (auth.rateLoginIp(ip)) permitidas++;
+  assert.strictEqual(permitidas, 30, "IP limitado a 30/min");
+  assert.ok(!auth.rateLoginIp(ip), "IP acima do teto → bloqueado");
+  assert.ok(auth.rateLoginIp(""), "sem IP → não bloqueia (o limite por-email ainda vale)");
   ok++;
 }
 
@@ -85,10 +99,10 @@ let ok = 0;
   ok++;
 }
 
-// --- anti-enumeração: verificarSenhaDummy sempre false e nunca lança ---
+// --- anti-enumeração: verificarSenhaDummy sempre false e nunca lança (async) ---
 {
-  assert.strictEqual(auth.verificarSenhaDummy("qualquer"), false);
-  assert.strictEqual(auth.verificarSenhaDummy(""), false);
+  assert.strictEqual(await auth.verificarSenhaDummy("qualquer"), false);
+  assert.strictEqual(await auth.verificarSenhaDummy(""), false);
   ok++;
 }
 
@@ -99,4 +113,4 @@ let ok = 0;
   ok++;
 }
 
-console.log(`test_auth: ${ok}/7 OK`);
+console.log(`test_auth: ${ok}/8 OK`);

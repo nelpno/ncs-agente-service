@@ -3,23 +3,28 @@
 // Convite: token de uso único (guarda só o hash). Rate-limit de login por e-mail (em memória).
 // Papel/validade vêm SEMPRE do banco a cada request (cookie carrega só uid/exp/sv).
 import crypto from "node:crypto";
+import { promisify } from "node:util";
 
-// ---------- senha (scrypt) ----------
-export function hashSenha(senha, salt = crypto.randomBytes(16).toString("hex")) {
-  const hash = crypto.scryptSync(senha, salt, 64).toString("hex");
+// scrypt ASSÍNCRONO (S1): a versão *Sync trava o event-loop enquanto deriva a chave →
+// um flood de /login (variando e-mail) congela o processo inteiro. A async cede o loop.
+const scrypt = promisify(crypto.scrypt);
+
+// ---------- senha (scrypt async) ----------
+export async function hashSenha(senha, salt = crypto.randomBytes(16).toString("hex")) {
+  const hash = (await scrypt(senha, salt, 64)).toString("hex");
   return { hash, salt };
 }
-export function verificarSenha(senha, hash, salt) {
+export async function verificarSenha(senha, hash, salt) {
   if (!hash || !salt) return false;
-  const h = crypto.scryptSync(senha, salt, 64);
+  const h = await scrypt(senha, salt, 64);
   const hb = Buffer.from(hash, "hex");
-  return h.length === hb.length && crypto.timingSafeEqual(h, hb);
+  return h.length === hb.length && crypto.timingSafeEqual(h, hb); // comprimento + bytes
 }
 // Anti-enumeração por timing: gasta o MESMO scrypt quando o usuário não existe/sem senha,
 // pra o /login não distinguir e-mail cadastrado de inexistente pelo tempo de resposta.
-const _DUMMY = hashSenha("x", "0".repeat(32));
-export function verificarSenhaDummy(senha) {
-  try { verificarSenha(senha, _DUMMY.hash, _DUMMY.salt); } catch { /* nunca lança */ }
+const _DUMMY = await hashSenha("x", "0".repeat(32)); // top-level await (ESM): 1 scrypt no import
+export async function verificarSenhaDummy(senha) {
+  try { await verificarSenha(senha, _DUMMY.hash, _DUMMY.salt); } catch { /* nunca lança */ }
   return false;
 }
 
@@ -60,10 +65,14 @@ export function novoConvite(dias = 7) {
   };
 }
 
-// ---------- rate-limit de login (por e-mail, em memória) ----------
-// 5 falhas → backoff de 15 min. Reinicia no redeploy (aceitável). Erro de login é uniforme (anti-enumeração).
-const RL_MAX = 5;
-const RL_JANELA_MS = 15 * 60 * 1000;
+// ---------- rate-limit de login por e-mail (backoff progressivo, em memória) ----------
+// S6: sem hard-lock de 15 min. As primeiras falhas (RL_FREE) não penalizam; depois a espera
+// cresce exponencialmente por falha (teto RL_MAX_MS) → dificulta brute-force SEM virar um
+// DoS de lockout de conta conhecida. resetRate() zera no sucesso. Reinicia no redeploy (ok).
+// Erro de login é uniforme (anti-enumeração).
+const RL_FREE = 2;                 // primeiras falhas sem espera
+const RL_BASE_MS = 2000;           // base do backoff (2ª falha penalizada = 2s)
+const RL_MAX_MS = 15 * 60 * 1000;  // teto da espera por-falha
 const TENTATIVAS = new Map(); // email -> { fails, until }
 export function rateLogin(email) {
   const rec = TENTATIVAS.get((email || "").toLowerCase());
@@ -73,11 +82,32 @@ export function registrarFalha(email) {
   const e = (email || "").toLowerCase();
   const rec = TENTATIVAS.get(e) || { fails: 0, until: 0 };
   rec.fails++;
-  if (rec.fails >= RL_MAX) rec.until = Date.now() + RL_JANELA_MS;
+  if (rec.fails > RL_FREE) {
+    const espera = Math.min(RL_BASE_MS * 2 ** (rec.fails - RL_FREE - 1), RL_MAX_MS);
+    rec.until = Date.now() + espera;
+  }
   TENTATIVAS.set(e, rec);
 }
 export function resetRate(email) {
   TENTATIVAS.delete((email || "").toLowerCase());
+}
+
+// ---------- rate-limit de login por IP (janela deslizante curta) ----------
+// S1: trava o flood que VARIA o e-mail pra escapar do limite por-conta. Checado ANTES do scrypt.
+// O IP vem do X-Forwarded-For (Caddy à frente) — ver clientIp() no server.mjs.
+const IP_MAX = Number(process.env.LOGIN_IP_MAX || 30); // tentativas por minuto por IP
+const IP_JANELA_MS = 60 * 1000;
+const IP_HITS = new Map(); // ip -> number[] (timestamps na janela)
+export function rateLoginIp(ip) {
+  if (!ip) return true; // sem IP identificável não bloqueia (o limite por-email ainda vale)
+  const now = Date.now();
+  const arr = (IP_HITS.get(ip) || []).filter((t) => now - t < IP_JANELA_MS);
+  arr.push(now);
+  IP_HITS.set(ip, arr);
+  if (IP_HITS.size > 5000) { // limpeza oportunista p/ o Map não crescer sem limite
+    for (const [k, v] of IP_HITS) if (!v.some((t) => now - t < IP_JANELA_MS)) IP_HITS.delete(k);
+  }
+  return arr.length <= IP_MAX;
 }
 
 // ---------- guarda de sessão ----------

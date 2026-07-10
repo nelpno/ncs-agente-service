@@ -35,6 +35,12 @@ create table if not exists interacoes (
 create index if not exists interacoes_usuario_data on interacoes (usuario_id, criado_em);
 create index if not exists interacoes_data on interacoes (criado_em);
 
+-- Retenção (LGPD, S3): o serviço purga automaticamente as linhas de `interacoes` com
+-- criado_em anterior a RETENCAO_DIAS (env, default 180) — sweep ~30s após o boot e a cada 24h
+-- (server.mjs → purgarInteracoesAntigas, DELETE via PostgREST). CPF é mascarado (***) em
+-- pergunta/resposta ANTES da gravação (registro.mjs → mascararCpf). O índice interacoes_data
+-- (criado_em) sustenta o filtro `criado_em < corte` da purga.
+
 -- Hardening: deny-all. service_role bypassa RLS; ninguém mais lê/escreve.
 alter table usuarios enable row level security;
 alter table interacoes enable row level security;

@@ -39,7 +39,7 @@ export async function criarComConvite({ nome, email, papel = "funcionario" }, db
 
 // Define a senha no 1º acesso: grava hash+salt, invalida o convite, incrementa sessao_versao.
 export async function ativar(id, senha, db = realDb) {
-  const { hash, salt } = hashSenha(senha);
+  const { hash, salt } = await hashSenha(senha);
   const atual = await porId(id, db);
   const sv = (Number(atual?.sessao_versao) || 1) + 1;
   return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, {
@@ -77,9 +77,17 @@ export async function tocarUltimoAcesso(id, db = realDb) {
   return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, { ultimo_acesso: new Date().toISOString() });
 }
 
+// Logout que REVOGA de verdade (S7): incrementa sessao_versao → a guarda de sessão passa a
+// rejeitar TODOS os cookies antigos daquela pessoa (inclusive um roubado). Desloga em todos os dispositivos.
+export async function incrementarSessaoVersao(id, db = realDb) {
+  const atual = await porId(id, db);
+  const sv = (Number(atual?.sessao_versao) || 1) + 1;
+  return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, { sessao_versao: sv });
+}
+
 // Cria a pessoa JÁ ATIVA com senha (bootstrap de admin, estilo Chatwoot — sem convite/link).
 export async function criarComSenha({ nome, email, papel = "funcionario", senha }, db = realDb) {
-  const { hash, salt } = hashSenha(senha);
+  const { hash, salt } = await hashSenha(senha);
   return db.sbInsert("usuarios", { nome, email: normEmail(email), papel, senha_hash: hash, senha_salt: salt, ativo: true });
 }
 

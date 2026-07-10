@@ -14,10 +14,10 @@
   .login-help.err{color:var(--crit)}
   .login-help.ok{color:var(--good)}
   .login-card{max-width:min(92vw,410px)}
+  .field-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 </head>
 <body data-screen="login">
-  <button class="theme-toggle" id="theme" title="Alternar tema">🌙</button>
   <section class="screen" id="s-login">
     <div class="login-bg">
       <svg viewBox="0 0 400 400" fill="none">
@@ -41,21 +41,27 @@
         <label for="senha" id="senhaLabel">Senha</label>
         <div class="input">
           <input type="password" id="senha" placeholder="Sua senha" autocomplete="current-password" required>
-          <button type="button" class="eye" id="eye" title="Mostrar/ocultar">👁</button>
+          <button type="button" class="eye" id="eye" title="Mostrar/ocultar" aria-label="Mostrar senha">👁</button>
         </div>
       </div>
       <button type="submit" class="btn-primary" id="go">Entrar</button>
       <div class="login-help" id="msg"></div>
       <p class="login-foot">Uso interno · Grupo NCS · Administração de condomínios</p>
+      <p class="login-foot" id="forgot">Esqueceu a senha? Peça um novo link ao administrador.</p>
     </form>
   </section>
+  <button class="theme-toggle" id="theme" title="Alternar tema" aria-label="Alternar tema">🌙</button>
 <script>
 (function(){
   var root=document.documentElement;
   // padrão claro; escuro só se a pessoa escolheu (lembrado)
   root.setAttribute('data-theme', localStorage.getItem('ncs_theme')==='dark'?'dark':'light');
   var tb=document.getElementById('theme');
-  function icon(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
+  function icon(){
+    var dark=root.getAttribute('data-theme')==='dark';
+    tb.textContent=dark?'☀️':'🌙';
+    tb.setAttribute('aria-label',dark?'Mudar para tema claro':'Mudar para tema escuro');
+  }
   icon();
   tb.onclick=function(){
     var dark=root.getAttribute('data-theme')==='dark';
@@ -64,13 +70,18 @@
     icon();
   };
 
-  var token=new URLSearchParams(location.search).get('t');
+  var token=new URLSearchParams(location.hash.slice(1)).get('t') || new URLSearchParams(location.search).get('t');
   var ativar=!!token;
   if(ativar){
     document.getElementById('title').textContent='Criar sua senha';
     document.getElementById('sub').textContent='Bem-vindo(a)! Defina a senha do seu acesso para continuar.';
-    document.getElementById('emailField').style.display='none';
-    document.getElementById('email').required=false;
+    document.getElementById('emailField').classList.add('field-hidden');
+    var emailHid=document.getElementById('email');
+    emailHid.required=false;
+    emailHid.readOnly=true;
+    emailHid.tabIndex=-1;
+    var forgotEl=document.getElementById('forgot');
+    if(forgotEl) forgotEl.style.display='none';
     document.getElementById('senhaLabel').textContent='Escolha uma senha (mínimo 8 caracteres)';
     document.getElementById('senha').placeholder='Crie uma senha';
     document.getElementById('senha').autocomplete='new-password';
@@ -78,7 +89,10 @@
   }
 
   document.getElementById('eye').onclick=function(){
-    var s=document.getElementById('senha');s.type=s.type==='password'?'text':'password';
+    var s=document.getElementById('senha');
+    var mostrar=s.type==='password';
+    s.type=mostrar?'text':'password';
+    this.setAttribute('aria-label',mostrar?'Ocultar senha':'Mostrar senha');
   };
 
   var msg=document.getElementById('msg'), go=document.getElementById('go');

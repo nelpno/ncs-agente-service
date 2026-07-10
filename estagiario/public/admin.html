@@ -6,22 +6,29 @@
 <title>Painel — NCS</title>
 <link rel="stylesheet" href="/assets/app.css">
 <style>
-  .barrow{display:flex;align-items:center;gap:10px;margin:9px 0}
-  .barrow .bnm{width:120px;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .barrow .btrack{flex:1;height:16px;border-radius:8px;background:var(--lime-soft);overflow:hidden}
-  .barrow .bfill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--lime),var(--olive))}
-  .barrow .bn{width:34px;text-align:right;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .brow{display:flex;align-items:center;gap:10px;margin:9px 0}
+  .brow .bnm{width:120px;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brow .btrack{flex:1;height:16px;border-radius:8px;background:var(--lime-soft);overflow:hidden}
+  .brow .bfill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--lime),var(--olive))}
+  .brow .bn{width:34px;text-align:right;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
   .p-empty{color:var(--muted);font-size:13px;padding:8px 2px}
-  .addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .addrow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 18px}
   .addrow input,.addrow select{padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font-size:13.5px;font-family:inherit}
   .addrow input.nm{flex:1;min-width:120px}.addrow input.em{flex:2;min-width:160px}
-  .linkbox{margin-top:12px;background:var(--lime-soft);border:1px dashed var(--olive);border-radius:10px;padding:10px 12px;font-size:13px;display:none;align-items:center;gap:10px}
-  .linkbox code{flex:1;word-break:break-all;color:var(--olive)}
+  .linkbox{margin:12px 18px 16px;background:var(--lime-soft);border:1px dashed var(--olive);border-radius:10px;padding:10px 12px;font-size:13px;display:none;align-items:center;gap:10px}
+  .linkbox code{flex:1;word-break:break-all;color:var(--olive-ink)}
   .minibtn{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;margin-left:5px}
   .minibtn:hover{border-color:var(--olive);color:var(--olive)}
   .tt{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;border:none;background:transparent;color:var(--muted);cursor:pointer}
   .tt:hover{background:var(--surface-2);color:var(--ink)}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  .forbidden{text-align:center;padding:60px 16px;color:var(--muted)}
+  .forbidden .ttl{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
+  .load-err{grid-column:1/-1;text-align:center;padding:24px 8px;color:var(--muted)}
+  @media(pointer:coarse){
+    .minibtn{min-height:40px;padding:10px 14px}
+    .tt{min-width:40px;min-height:40px}
+  }
 </style>
 </head>
 <body data-screen="painel">
@@ -43,7 +50,7 @@
         <div class="side-user">
           <div class="avatar" id="av">–</div>
           <div class="who"><div class="nm" id="uname">—</div><div class="rl" id="urole"></div></div>
-          <button class="gear" id="sair" title="Sair">⎋</button>
+          <button class="gear" id="sair" title="Sair" aria-label="Sair">⎋</button>
         </div>
       </aside>
       <div class="main">
@@ -52,10 +59,10 @@
           <h2>Painel de uso</h2>
           <div class="grow"></div>
           <span class="pill" id="periodo">…</span>
-          <button class="tt" id="theme" title="Tema">🌙</button>
+          <button class="tt" id="theme" title="Tema" aria-label="Alternar tema">🌙</button>
         </div>
         <div class="painel-scroll">
-          <div class="painel-inner">
+          <div class="painel-inner" id="painelInner">
             <div class="kpis" id="kpis"></div>
             <div class="grid2">
               <div class="card" style="grid-column:1/-1"><div class="card-h"><h3>Uso por pessoa</h3></div><div id="pessoas"></div></div>
@@ -105,7 +112,7 @@ function bars(node,items,key){
   if(!items.length){node.appendChild(el('div',{class:'p-empty',text:'Sem dados no período.'}));return;}
   var max=Math.max.apply(null,items.map(function(i){return i.n;}))||1;
   items.slice(0,8).forEach(function(i){
-    node.appendChild(el('div',{class:'barrow'},[
+    node.appendChild(el('div',{class:'brow'},[
       el('div',{class:'bnm',text:i[key]}),
       el('div',{class:'btrack'},[el('div',{class:'bfill',style:'width:'+Math.round(i.n/max*100)+'%'})]),
       el('div',{class:'bn',text:i.n})
@@ -113,10 +120,25 @@ function bars(node,items,key){
   });
 }
 
+function showLoadError(){
+  var kEl=document.getElementById('kpis');clear(kEl);
+  kEl.appendChild(el('div',{class:'load-err'},[
+    el('div',{text:'Não foi possível carregar os dados.'}),
+    el('button',{class:'btn-primary',style:'width:auto;padding:9px 18px;margin-top:12px',text:'Tentar de novo',on:function(){load();}})
+  ]));
+}
+function showForbidden(){
+  document.getElementById('periodo').textContent='Sem permissão';
+  var pi=document.getElementById('painelInner');clear(pi);
+  pi.appendChild(el('div',{class:'forbidden'},[
+    el('div',{class:'ttl',text:'Você não tem acesso a esta área'}),
+    el('a',{href:'/chat',class:'btn-ghost',style:'display:inline-block;width:auto;padding:9px 18px;text-decoration:none',text:'Voltar ao chat'})
+  ]));
+}
 function load(){
   fetch('/api/admin/metricas',{headers:{'Accept':'application/json'}}).then(function(r){
     if(r.status===401){location.href='/login';return null;}
-    if(r.status===403){document.getElementById('periodo').textContent='Sem permissão';return null;}
+    if(r.status===403){showForbidden();return null;}
     return r.json();
   }).then(function(d){
     if(!d)return;
@@ -160,22 +182,23 @@ function load(){
       var acts=el('td',{style:'text-align:right'});
       if(u.papel!=='owner'){
         if(u.convitePendente||!u.ativo)acts.appendChild(el('button',{class:'minibtn',text:'Reenviar link',on:function(){reenviar(u.id);}}));
-        acts.appendChild(u.ativo?el('button',{class:'minibtn',text:'Desativar',on:function(){setAtivo(u.id,'desativar');}}):el('button',{class:'minibtn',text:'Reativar',on:function(){setAtivo(u.id,'ativar');}}));
+        acts.appendChild(u.ativo?el('button',{class:'minibtn',text:'Desativar',on:function(){if(!confirm('Desativar o acesso de '+u.nome+'?'))return;setAtivo(u.id,'desativar');}}):el('button',{class:'minibtn',text:'Reativar',on:function(){setAtivo(u.id,'ativar');}}));
       }
       etb.appendChild(el('tr',null,[el('td',{text:u.nome}),el('td',{text:u.email}),el('td',{text:PAPEL[u.papel]||'—'}),el('td',null,[pill]),acts]));
     });
     eEl.appendChild(el('table',null,[el('thead',null,[eh]),etb]));
-  });
+  }).catch(function(){showLoadError();});
 }
 function showLink(link){document.getElementById('linkval').textContent=link;document.getElementById('linkbox').style.display='flex';}
 document.getElementById('copybtn').onclick=function(){var b=this;navigator.clipboard.writeText(document.getElementById('linkval').textContent).then(function(){b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar';},1500);});};
 document.getElementById('addbtn').onclick=function(){
   var nome=document.getElementById('a_nome').value.trim(),email=document.getElementById('a_email').value.trim(),papel=document.getElementById('a_papel').value;
   if(!nome||!email){alert('Preencha nome e e-mail.');return;}
+  var btn=this;btn.disabled=true;
   fetch('/api/admin/usuarios',{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin},body:JSON.stringify({nome:nome,email:email,papel:papel})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){
     if(!x.ok){alert(x.j.erro||'Não deu para criar.');return;}
     document.getElementById('a_nome').value='';document.getElementById('a_email').value='';showLink(x.j.link);load();
-  });
+  }).then(function(){btn.disabled=false;},function(){btn.disabled=false;});
 };
 function reenviar(id){fetch('/api/admin/usuarios/'+id+'/reenviar',{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)showLink(x.j.link);else alert(x.j.erro||'Falhou.');});}
 function setAtivo(id,acao){fetch('/api/admin/usuarios/'+id+'/'+acao,{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)load();else alert(x.j.erro||'Falhou.');});}

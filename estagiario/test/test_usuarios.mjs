@@ -70,7 +70,7 @@ function mkdb(overrides = {}) {
   assert.ok(upd, "houve update");
   const patch = upd[3];
   assert.ok(patch.senha_hash && patch.senha_salt, "hash+salt gravados");
-  assert.ok(verificarSenha("senha-secreta", patch.senha_hash, patch.senha_salt), "senha confere");
+  assert.ok(await verificarSenha("senha-secreta", patch.senha_hash, patch.senha_salt), "senha confere");
   assert.strictEqual(patch.convite_token_hash, null, "convite invalidado");
   assert.strictEqual(patch.sessao_versao, 5, "sessao_versao 4→5");
   ok++;
@@ -119,7 +119,7 @@ function mkdb(overrides = {}) {
   assert.strictEqual(row.ativo, true);
   assert.strictEqual(row.email, "super@gruponcs.net");
   assert.ok(row.senha_hash && row.senha_salt, "senha gravada");
-  assert.ok(verificarSenha("senhaBootstrap1", row.senha_hash, row.senha_salt), "senha confere");
+  assert.ok(await verificarSenha("senhaBootstrap1", row.senha_hash, row.senha_salt), "senha confere");
   assert.strictEqual(row.convite_token_hash, undefined, "sem convite (login direto)");
   ok++;
 }

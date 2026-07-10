@@ -10,8 +10,8 @@ import { getSession, saveSession } from "../src/memory.mjs";
 import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
-import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
-import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar } from "./src/usuarios.mjs";
+import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, rateLoginIp, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
+import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao } from "./src/usuarios.mjs";
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
 import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
@@ -73,16 +73,44 @@ function mesmaOrigem(req) {
   try { return new URL(src).host === req.headers.host; } catch { return false; }
 }
 function proto(req) { return req.headers["x-forwarded-proto"] || "https"; }
-function linkConvite(req, token) { return `${proto(req)}://${req.headers.host}/ativar?t=${token}`; }
-// Lê TODAS as interações do período (pagina de 1000 em 1000 — PostgREST limita por página).
+// S2: token no FRAGMENTO (#t=) — o browser NÃO envia o fragmento ao servidor → fica fora do log do Caddy/Referer.
+// O login.html lê de location.hash (fallback ?t=) e o POST /ativar segue com {token} no body.
+function linkConvite(req, token) { return `${proto(req)}://${req.headers.host}/ativar#t=${token}`; }
+// IP do cliente atrás do Caddy: 1º IP do X-Forwarded-For (o mais à esquerda = cliente original).
+function clientIp(req) {
+  const xff = req.headers["x-forwarded-for"];
+  if (xff) return String(xff).split(",")[0].trim();
+  return (req.socket && req.socket.remoteAddress) || "";
+}
+// Teto de memória (S4): no MÁXIMO ROW_CAP linhas por chamada do painel (evita OOM).
+const ROW_CAP = 50000;
+const RETENCAO_MAX_DIAS = 180; // janela máxima do painel (clampa `desde`)
+// Lê as interações do período (pagina de 1000 em 1000 — PostgREST limita por página), até ROW_CAP.
 async function fetchInteracoes(desde) {
   const all = [];
-  for (let offset = 0; offset <= 200000; offset += 1000) {
+  for (let offset = 0; offset < ROW_CAP; offset += 1000) {
     const rows = await sbSelect("interacoes", `criado_em=gte.${encodeURIComponent(desde)}&select=*&order=criado_em.desc&limit=1000&offset=${offset}`);
     all.push(...rows);
     if (rows.length < 1000) break;
   }
   return all;
+}
+// Purga de retenção (S3/LGPD): apaga interações mais velhas que RETENCAO_DIAS (default 180).
+// db.mjs não tem delete → fetch DELETE direto ao PostgREST reusando a env do db.mjs. Best-effort (try/catch).
+async function purgarInteracoesAntigas() {
+  const base = process.env.SUPABASE_URL, key = process.env.SUPABASE_SERVICE_KEY;
+  if (!base || !key) return;
+  const dias = Number(process.env.RETENCAO_DIAS || 180);
+  const corte = new Date(Date.now() - dias * 86400 * 1000).toISOString();
+  try {
+    const r = await fetch(`${base}/rest/v1/interacoes?criado_em=lt.${encodeURIComponent(corte)}`, {
+      method: "DELETE",
+      headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: "return=minimal" },
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!r.ok) { console.error("[chat-ncs] purga LGPD:", r.status); return; }
+    console.log(`[chat-ncs] purga LGPD: removidas interações anteriores a ${corte} (retenção ${dias}d)`);
+  } catch (e) { console.error("[chat-ncs] purga LGPD:", e.message); }
 }
 
 const server = http.createServer(async (req, res) => {
@@ -106,14 +134,16 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "POST" && url === "/login") {
       if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+      // Rate-limit por IP ANTES de qualquer scrypt (S1) — trava o flood que varia o e-mail. 429 uniforme.
+      if (!rateLoginIp(clientIp(req))) return json(res, 429, { erro: "Muitas tentativas. Aguarde um momento e tente de novo." });
       const d = JSON.parse((await readBody(req, 64_000)) || "{}");
       const email = (d.email || "").trim().toLowerCase();
       const senha = d.senha || "";
-      if (!rateLogin(email)) return json(res, 429, { erro: "Muitas tentativas. Tente de novo em 15 minutos." });
+      if (!rateLogin(email)) return json(res, 429, { erro: "Muitas tentativas. Aguarde um momento e tente de novo." });
       const u = await porEmail(email);
       const okUser = !!(u && u.ativo && u.senha_hash);
-      // scrypt roda nos DOIS caminhos (dummy quando não existe) → resposta E tempo uniformes (anti-enumeração)
-      const senhaOk = okUser ? verificarSenha(senha, u.senha_hash, u.senha_salt) : verificarSenhaDummy(senha);
+      // scrypt (agora ASYNC) roda nos DOIS caminhos (dummy quando não existe) → resposta E tempo uniformes (anti-enumeração)
+      const senhaOk = okUser ? await verificarSenha(senha, u.senha_hash, u.senha_salt) : await verificarSenhaDummy(senha);
       if (!okUser || !senhaOk) {
         registrarFalha(email);
         return json(res, 401, { erro: "E-mail ou senha inválidos." });
@@ -152,6 +182,9 @@ const server = http.createServer(async (req, res) => {
     setSessCookie(res, assinarCookie({ uid: sess.uid, exp: Date.now() + COOKIE_MAXAGE_S * 1000, sv: sess.sv }));
 
     if (req.method === "POST" && url === "/logout") {
+      // S7: revoga de verdade — incrementa sessao_versao ANTES de limpar o cookie → derruba cookies roubados
+      // (efeito colateral aceito: desloga a pessoa em todos os dispositivos). Best-effort: nunca trava o logout.
+      try { await incrementarSessaoVersao(sess.uid); } catch (e) { console.error("[chat-ncs] logout sv:", e.message); }
       res.setHeader("Set-Cookie", `${COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`);
       return json(res, 200, { ok: true });
     }
@@ -187,7 +220,7 @@ const server = http.createServer(async (req, res) => {
           const vis = await descreverAnexo(data.anexo);
           msg = montarMensagemComAnexo(msg, vis);
         }
-        turno = await handleTurn(session, msg, {});
+        turno = await handleTurn(session, msg, { cacheKey: estagKey });
         await saveSession(estagKey, session);
       } catch (e) {
         erro = true;
@@ -214,7 +247,13 @@ const server = http.createServer(async (req, res) => {
       if (req.method === "GET" && url === "/api/admin/metricas") {
         const qs = new URLSearchParams(req.url.split("?")[1] || "");
         const now = new Date();
-        const desde = qs.get("desde") || new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
+        // Teto de janela (S4): default = 1º do mês; clampa `desde` a no máx RETENCAO_MAX_DIAS atrás
+        // (impede o painel de varrer anos de histórico e estourar memória junto com o ROW_CAP).
+        const piso = Date.now() - RETENCAO_MAX_DIAS * 86400 * 1000;
+        let desdeMs = Date.parse(qs.get("desde"));
+        if (Number.isNaN(desdeMs)) desdeMs = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1);
+        if (desdeMs < piso) desdeMs = piso;
+        const desde = new Date(desdeMs).toISOString();
         const rows = await fetchInteracoes(desde);
         const usersRaw = await listar();
         const nomes = {}, papeis = {};
@@ -245,7 +284,8 @@ const server = http.createServer(async (req, res) => {
         if (!target) return json(res, 404, { erro: "usuário não encontrado" });
         if (target.papel === "owner" && !isOwner) return json(res, 403, { erro: "só o dono gerencia o dono" });
         if (acao === "desativar") {
-          if (id === sess.uid) return json(res, 400, { erro: "Você não pode desativar a si mesmo." });
+          // S5: UUID é case-insensitive — compara normalizado p/ não driblar o guard com hex maiúsculo
+          if (id.toLowerCase() === sess.uid.toLowerCase()) return json(res, 400, { erro: "Você não pode desativar a si mesmo." });
           await desativar(id); return json(res, 200, { ok: true });
         }
         if (acao === "ativar") { await reativar(id); return json(res, 200, { ok: true }); }
@@ -263,3 +303,8 @@ const server = http.createServer(async (req, res) => {
   }
 });
 server.listen(PORT, () => console.log(`[chat-ncs] ouvindo :${PORT} | modelo ${config.agentModel} | auth=on`));
+
+// Retenção LGPD (S3): purga de interações antigas — 1× ~30s após o boot e depois a cada 24h.
+// .unref() p/ os timers não segurarem o processo. Best-effort (a função engole o próprio erro).
+setTimeout(purgarInteracoesAntigas, 30_000).unref();
+setInterval(purgarInteracoesAntigas, 24 * 3600 * 1000).unref();
