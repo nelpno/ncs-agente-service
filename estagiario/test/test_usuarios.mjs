@@ -110,4 +110,27 @@ function mkdb(overrides = {}) {
   ok++;
 }
 
-console.log(`test_usuarios: ${ok}/8 OK`);
+// criarComSenha: usuário JÁ ativo, com hash+salt válidos, email lowercase, papel dado (bootstrap admin)
+{
+  const db = mkdb();
+  await u.criarComSenha({ nome: "Nelson", email: "SUPER@Gruponcs.net", papel: "owner", senha: "senhaBootstrap1" }, db);
+  const row = db.rec[0][2];
+  assert.strictEqual(row.papel, "owner");
+  assert.strictEqual(row.ativo, true);
+  assert.strictEqual(row.email, "super@gruponcs.net");
+  assert.ok(row.senha_hash && row.senha_salt, "senha gravada");
+  assert.ok(verificarSenha("senhaBootstrap1", row.senha_hash, row.senha_salt), "senha confere");
+  assert.strictEqual(row.convite_token_hash, undefined, "sem convite (login direto)");
+  ok++;
+}
+
+// listar: monta select com os campos do painel
+{
+  const db = mkdb({ selectRows: [{ id: "u1", nome: "A", papel: "admin" }] });
+  const rows = await u.listar(db);
+  assert.strictEqual(rows.length, 1);
+  assert.ok(db.rec[0][2].includes("select="), "select de campos");
+  ok++;
+}
+
+console.log(`test_usuarios: ${ok}/10 OK`);

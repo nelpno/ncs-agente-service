@@ -3,7 +3,7 @@
 // Regras de invalidação de sessão: reset de senha / reativação / reenvio de convite
 // incrementam `sessao_versao` → derrubam cookies antigos daquela pessoa.
 import * as realDb from "./db.mjs";
-import { hashSenha, novoConvite, hashToken } from "./auth.mjs";
+import { hashSenha, novoConvite } from "./auth.mjs";
 
 const enc = encodeURIComponent;
 const normEmail = (e) => (e || "").trim().toLowerCase();
@@ -75,4 +75,18 @@ export async function regenerarConvite(id, db = realDb) {
 
 export async function tocarUltimoAcesso(id, db = realDb) {
   return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, { ultimo_acesso: new Date().toISOString() });
+}
+
+// Cria a pessoa JÁ ATIVA com senha (bootstrap de admin, estilo Chatwoot — sem convite/link).
+export async function criarComSenha({ nome, email, papel = "funcionario", senha }, db = realDb) {
+  const { hash, salt } = hashSenha(senha);
+  return db.sbInsert("usuarios", { nome, email: normEmail(email), papel, senha_hash: hash, senha_salt: salt, ativo: true });
+}
+
+// Lista a equipe para o painel (sem expor o hash do convite — vira boolean no endpoint).
+export async function listar(db = realDb) {
+  return db.sbSelect(
+    "usuarios",
+    "select=id,nome,email,papel,ativo,ultimo_acesso,convite_token_hash,convite_expira,criado_em&order=criado_em.asc",
+  );
 }
