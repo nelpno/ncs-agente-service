@@ -180,7 +180,7 @@
   </footer>
 
 <script>
-const params=new URLSearchParams(location.search); const K=params.get('k')||'';
+// acesso agora é por sessão (cookie httpOnly) — sem código na URL
 const scroll=document.getElementById('scroll'), hero=document.getElementById('hero'), inp=document.getElementById('msg'), btn=document.getElementById('send');
 const clip=document.getElementById('clip'), fileInp=document.getElementById('file'), attbar=document.getElementById('attbar');
 
@@ -260,16 +260,19 @@ async function send(){
   clearAtt();
   const tp=typing();
   try{
-    const payload={message:t,session,k:K};
+    const payload={message:t,session};
     if(file) payload.anexo=file.dataUrl;
     const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(r.status===401){tp.remove();sessionStorage.setItem('ncs_pending_text',t);location.href='/login';return;}
     const j=await r.json(); tp.remove();
-    if(r.status===401){add('Código de acesso inválido. Use o link completo que você recebeu.','sys');return;}
     add(j.reply||'(sem resposta)','bot');
     if(j.doc) addDoc(j.doc);
   }catch(e){tp.remove();add('Tive um problema de conexão. Pode tentar de novo?','sys');}
   finally{btn.disabled=false;clip.disabled=false;inp.focus();}
 }
+// se a sessão caiu no meio e voltamos do login, restaura o texto que a pessoa tinha digitado
+var _pt=sessionStorage.getItem('ncs_pending_text');
+if(_pt){inp.value=_pt;sessionStorage.removeItem('ncs_pending_text');autosize();}
 inp.focus();
 </script>
 </body>

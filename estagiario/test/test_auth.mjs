@@ -71,6 +71,7 @@ let ok = 0;
   assert.strictEqual(s.papel, "admin");
   assert.strictEqual(s.nome, "Nelson");
   assert.strictEqual(s.uid, "u1");
+  assert.strictEqual(s.sv, 3, "sv volta do banco (p/ renovar cookie)");
   // inativo → null
   assert.strictEqual(await auth.carregarSessao(cookieOk, async () => ({ ...u, ativo: false })), null);
   // sessao_versao diferente (cookie velho, sv=2) → null

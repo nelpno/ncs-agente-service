@@ -1,49 +1,128 @@
-// server.mjs — Chat NCS (assistente interno): porta SEPARADA da Ana, com código próprio, + download do PDF.
+// server.mjs — Chat NCS (assistente interno). Agora com LOGIN por usuário:
+// TODAS as rotas exigem sessão (cookie httpOnly assinado), inclusive /doc/ (antes aberto).
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { config } from "../src/config.mjs";   // REUSO: mesma leitura de env
-import { getSession, saveSession } from "../src/memory.mjs"; // REUSO: sessão persistente
+import { config } from "../src/config.mjs";
+import { getSession, saveSession } from "../src/memory.mjs";
 import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
-import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs"; // Fase 2: anexos (foto/print/PDF)
+import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
+import { carregarSessao, verificarSenha, assinarCookie, rateLogin, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
+import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso } from "./src/usuarios.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CHAT_HTML = fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8");
+const LOGIN_HTML = fs.readFileSync(path.join(__dirname, "public", "login.html"), "utf8");
 const PORT = parseInt(process.env.PORT || "8090", 10);
+const COOKIE = "ncs_sess";
+const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
 
 function readBody(req) { return new Promise((r) => { let d = ""; req.on("data", (c) => (d += c)); req.on("end", () => r(d)); }); }
 function json(res, code, obj) { res.writeHead(code, { "Content-Type": "application/json" }); res.end(JSON.stringify(obj)); }
+function html(res, code, s) { res.writeHead(code, { "Content-Type": "text/html; charset=utf-8" }); res.end(s); }
+function redirect(res, to) { res.writeHead(302, { Location: to }); res.end(); }
+
+function parseCookies(req) {
+  const out = {};
+  (req.headers.cookie || "").split(";").forEach((p) => {
+    const i = p.indexOf("=");
+    if (i > 0) out[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim());
+  });
+  return out;
+}
+function setSessCookie(res, value, maxAgeS = COOKIE_MAXAGE_S) {
+  res.setHeader("Set-Cookie", `${COOKIE}=${encodeURIComponent(value)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${maxAgeS}`);
+}
+function cookieDe(u) {
+  return assinarCookie({ uid: u.id, exp: Date.now() + COOKIE_MAXAGE_S * 1000, sv: Number(u.sessao_versao) });
+}
+// CSRF: nos POSTs, se veio Origin/Referer, o host tem que bater. Sem eles (curl/e2e), SameSite=Lax cobre o browser.
+function mesmaOrigem(req) {
+  const src = req.headers.origin || req.headers.referer;
+  if (!src) return true;
+  try { return new URL(src).host === req.headers.host; } catch { return false; }
+}
 
 const server = http.createServer(async (req, res) => {
   try {
-    if (req.method === "GET" && req.url === "/health") return json(res, 200, { ok: true, service: "chat-ncs", model: config.agentModel });
+    const url = req.url.split("?")[0];
 
-    // download da minuta/relatório gerado (PDF inline ou Word para baixar/editar)
-    if (req.method === "GET" && req.url.startsWith("/doc/")) {
-      const name = path.basename(decodeURIComponent(req.url.slice(5).split("?")[0]));
+    // ---------- rotas PÚBLICAS ----------
+    if (req.method === "GET" && url === "/health") return json(res, 200, { ok: true, service: "chat-ncs", model: config.agentModel });
+    if (req.method === "GET" && (url === "/login" || url === "/ativar")) return html(res, 200, LOGIN_HTML);
+
+    if (req.method === "POST" && url === "/login") {
+      if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+      const d = JSON.parse((await readBody(req)) || "{}");
+      const email = (d.email || "").trim().toLowerCase();
+      const senha = d.senha || "";
+      if (!rateLogin(email)) return json(res, 429, { erro: "Muitas tentativas. Tente de novo em 15 minutos." });
+      const u = await porEmail(email);
+      if (!u || !u.ativo || !u.senha_hash || !verificarSenha(senha, u.senha_hash, u.senha_salt)) {
+        registrarFalha(email);
+        return json(res, 401, { erro: "E-mail ou senha inválidos." }); // uniforme (anti-enumeração)
+      }
+      resetRate(email);
+      await tocarUltimoAcesso(u.id);
+      setSessCookie(res, cookieDe(u));
+      return json(res, 200, { ok: true, nome: u.nome, papel: u.papel });
+    }
+
+    if (req.method === "POST" && url === "/ativar") {
+      if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+      const d = JSON.parse((await readBody(req)) || "{}");
+      const token = (d.token || "").trim();
+      const senha = d.senha || "";
+      if (senha.length < 8) return json(res, 400, { erro: "A senha precisa ter ao menos 8 caracteres." });
+      const u = await porTokenConvite(hashToken(token));
+      if (!u || !u.convite_token_hash || !u.convite_expira || new Date(u.convite_expira).getTime() < Date.now()) {
+        return json(res, 400, { erro: "Convite inválido ou expirado. Peça um novo link ao administrador." });
+      }
+      await ativar(u.id, senha);          // grava senha, zera o convite, incrementa sessao_versao
+      const fresh = await porId(u.id);    // pega a sessao_versao já incrementada p/ o cookie
+      await tocarUltimoAcesso(u.id);
+      setSessCookie(res, cookieDe(fresh));
+      return json(res, 200, { ok: true, nome: u.nome });
+    }
+
+    // ---------- GUARDA (tudo abaixo exige sessão) ----------
+    const sess = await carregarSessao(parseCookies(req)[COOKIE], porId);
+    const isPage = req.method === "GET" && (url === "/" || url === "/chat" || url === "/admin");
+    if (!sess) {
+      if (isPage) return redirect(res, "/login");
+      return json(res, 401, { erro: "não autenticado" }); // API (/chat-send, /doc/, /api/*) → 401
+    }
+    // slide: renova a validade do cookie a cada request autenticado
+    setSessCookie(res, assinarCookie({ uid: sess.uid, exp: Date.now() + COOKIE_MAXAGE_S * 1000, sv: sess.sv }));
+
+    if (req.method === "POST" && url === "/logout") {
+      res.setHeader("Set-Cookie", `${COOKIE}=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0`);
+      return json(res, 200, { ok: true });
+    }
+
+    // download da minuta/relatório gerado — AGORA protegido por sessão (era aberto)
+    if (req.method === "GET" && url.startsWith("/doc/")) {
+      const name = path.basename(decodeURIComponent(url.slice(5)));
       const fp = path.join(SAIDA, name);
       const isDoc = name.endsWith(".doc");
       if ((!name.endsWith(".pdf") && !isDoc) || !fs.existsSync(fp)) return json(res, 404, { erro: "não encontrado" });
       const ct = isDoc ? "application/msword" : "application/pdf";
-      const disp = isDoc ? "attachment" : "inline"; // .doc: baixa para abrir editável no Word
+      const disp = isDoc ? "attachment" : "inline";
       res.writeHead(200, { "Content-Type": ct, "Content-Disposition": `${disp}; filename="${name}"` });
       return res.end(fs.readFileSync(fp));
     }
 
-    if (req.method === "GET" && (req.url === "/" || (req.url.startsWith("/chat") && !req.url.startsWith("/chat-send")))) {
-      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" }); return res.end(CHAT_HTML);
-    }
+    if (req.method === "GET" && (url === "/" || url === "/chat")) return html(res, 200, CHAT_HTML);
 
-    if (req.method === "POST" && req.url.startsWith("/chat-send")) {
+    if (req.method === "POST" && url === "/chat-send") {
+      if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
       const data = JSON.parse((await readBody(req)) || "{}");
-      if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: "código inválido" });
-      const estagKey = "estag-" + (data.session || "anon");
+      // chave por USUÁRIO + conversa (o uid vem do cookie, nunca do front)
+      const estagKey = `estag-${sess.uid}-${data.session || "default"}`;
       const session = await getSession(estagKey);
       let msg = data.message || "";
-      // Fase 2 (multimodal): se veio um anexo (foto da ocorrência / print / PDF), o Gemini lê o
-      // conteúdo e a descrição entra como texto no loop (que é text-only). Anti-alucinação: base factual.
       if (data.anexo && typeof data.anexo === "string" && data.anexo.startsWith("data:")) {
         const vis = await descreverAnexo(data.anexo);
         msg = montarMensagemComAnexo(msg, vis);
@@ -53,10 +132,18 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { reply: r.reply, doc: r.doc || null });
     }
 
+    // ---------- ADMIN (só papel=admin) ----------
+    if (url === "/admin" || url.startsWith("/api/admin")) {
+      if (sess.papel !== "admin") return json(res, 403, { erro: "acesso restrito" });
+      if (req.method === "GET" && url === "/admin")
+        return html(res, 200, "<!doctype html><meta charset=utf-8><title>Admin NCS</title><p style='font-family:sans-serif;padding:40px'>Painel em construção (Chunk 5).</p>");
+      return json(res, 404, { erro: "not found" }); // endpoints reais no Chunk 5
+    }
+
     return json(res, 404, { erro: "not found" });
   } catch (e) {
     console.error("[chat-ncs] erro:", e.message);
     return json(res, 200, { reply: "Tive um problema aqui. Pode tentar de novo?", erro: true });
   }
 });
-server.listen(PORT, () => console.log(`[chat-ncs] ouvindo :${PORT} | modelo ${config.agentModel} | chat=${config.chatPasscode ? "on" : "off"}`));
+server.listen(PORT, () => console.log(`[chat-ncs] ouvindo :${PORT} | modelo ${config.agentModel} | auth=on`));

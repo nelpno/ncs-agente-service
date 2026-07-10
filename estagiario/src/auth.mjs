@@ -81,5 +81,5 @@ export async function carregarSessao(cookie, buscarPorId) {
   const u = await buscarPorId(o.uid);
   if (!u || !u.ativo) return null;
   if (Number(u.sessao_versao) !== Number(o.sv)) return null; // reset/reativação derruba cookies antigos
-  return { uid: u.id, papel: u.papel, nome: u.nome };
+  return { uid: u.id, papel: u.papel, nome: u.nome, sv: Number(u.sessao_versao) };
 }
