@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chat } from "../../src/llm.mjs";        // REUSO: mesmo cliente LLM da Ana
+import { config } from "../../src/config.mjs";   // p/ saber o modelo (log de custo por turno)
 import * as REG from "../../src/regimento.mjs";  // REUSO: achar o artigo (isolado por condo)
 import * as BG from "../../src/base_geral.mjs";  // REUSO: base institucional (Gruvi, links, responsabilidades) — dúvida de morador
 import * as MUD from "../../src/mudanca.mjs";    // REUSO: regra de mudança por condo — dúvida de morador
@@ -89,8 +90,12 @@ async function runTool(name, args, ctx) {
   }
 }
 
-/** handleTurn(session, userText, ctx) -> { reply, doc } */
+/** handleTurn(session, userText, ctx) -> { reply, doc, usage, toolsUsed }
+ * usage = tokens deste turno (LOCAL — nunca global, p/ não misturar custo entre pessoas/turnos concorrentes).
+ * toolsUsed = [{name, args}] das tools chamadas (base p/ a tag determinística + condomínio do log).
+ * ctx._chat: seam de teste (default = o chat real do llm.mjs). */
 export async function handleTurn(session, userText, ctx = {}) {
+  const llm = ctx._chat || chat;
   if (!session.messages.length) {
     session.messages.push({ role: "system", content: SYSTEM_PROMPT });
   }
@@ -98,21 +103,30 @@ export async function handleTurn(session, userText, ctx = {}) {
   // o prefixo [system+histórico] fica estável entre turnos (não quebra o cache) e a data está
   // sempre correta, mesmo numa sessão que atravessa a virada do dia (Redis, TTL 48h).
   session.messages.push({ role: "user", content: `(Hoje é ${hojeExtenso()}.) ${userText}` });
+  const usage = { prompt: 0, completion: 0, cached: 0, modelo: config.agentModel };
+  const toolsUsed = [];
   for (let i = 0; i < 8; i++) {
-    const res = await chat({ messages: session.messages, tools: TOOLS, maxTokens: 1100 });
+    const res = await llm({ messages: session.messages, tools: TOOLS, maxTokens: 1100 });
+    const u = res.usage || {};
+    usage.prompt += u.prompt_tokens || 0;
+    usage.completion += u.completion_tokens || 0;
+    usage.cached += u.prompt_tokens_details?.cached_tokens || 0;
+    if (res.fallback) usage.modelo = res.fallback; // caiu pra reserva (Gemini) neste turno
     if (res.tool_calls?.length) {
       session.messages.push({ role: "assistant", content: res.content || null, tool_calls: res.tool_calls });
       for (const tc of res.tool_calls) {
-        const out = await runTool(tc.function?.name, safeParse(tc.function?.arguments || "{}"), ctx);
+        const args = safeParse(tc.function?.arguments || "{}");
+        toolsUsed.push({ name: tc.function?.name, args });
+        const out = await runTool(tc.function?.name, args, ctx);
         session.messages.push({ role: "tool", tool_call_id: tc.id, name: tc.function?.name, content: JSON.stringify(out) });
       }
       continue;
     }
     const reply = res.content || "Pode me dar mais um detalhe?";
     session.messages.push({ role: "assistant", content: reply });
-    return { reply, doc: ctx.lastDoc || null };
+    return { reply, doc: ctx.lastDoc || null, usage, toolsUsed };
   }
-  return { reply: "Tive dificuldade em concluir — pode revisar os dados e tentar de novo?", doc: ctx.lastDoc || null };
+  return { reply: "Tive dificuldade em concluir — pode revisar os dados e tentar de novo?", doc: ctx.lastDoc || null, usage, toolsUsed };
 }
 
 export { TOOLS };

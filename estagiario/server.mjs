@@ -11,6 +11,7 @@ import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, assinarCookie, rateLogin, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
 import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso } from "./src/usuarios.mjs";
+import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CHAT_HTML = fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8");
@@ -121,15 +122,28 @@ const server = http.createServer(async (req, res) => {
       const data = JSON.parse((await readBody(req)) || "{}");
       // chave por USUÁRIO + conversa (o uid vem do cookie, nunca do front)
       const estagKey = `estag-${sess.uid}-${data.session || "default"}`;
-      const session = await getSession(estagKey);
-      let msg = data.message || "";
-      if (data.anexo && typeof data.anexo === "string" && data.anexo.startsWith("data:")) {
-        const vis = await descreverAnexo(data.anexo);
-        msg = montarMensagemComAnexo(msg, vis);
+      const t0 = Date.now();
+      let turno, erro = false;
+      try {
+        const session = await getSession(estagKey);
+        let msg = data.message || "";
+        if (data.anexo && typeof data.anexo === "string" && data.anexo.startsWith("data:")) {
+          const vis = await descreverAnexo(data.anexo);
+          msg = montarMensagemComAnexo(msg, vis);
+        }
+        turno = await handleTurn(session, msg, {});
+        await saveSession(estagKey, session);
+      } catch (e) {
+        erro = true;
+        console.error("[chat-ncs] turno:", e.message);
+        turno = { reply: "Tive um problema aqui. Pode tentar de novo?", doc: null, usage: {}, toolsUsed: [] };
       }
-      const r = await handleTurn(session, msg, {});
-      await saveSession(estagKey, session);
-      return json(res, 200, { reply: r.reply, doc: r.doc || null });
+      // registra o turno SEMPRE (incl. erro=true/latência); nunca deixa o log derrubar a resposta
+      try {
+        const userText = data.message || (data.anexo ? "[anexo]" : "");
+        await gravarInteracao(montarInteracao({ sess, sessionId: estagKey, userText, turno, tMs: Date.now() - t0, erro }));
+      } catch (e) { console.error("[chat-ncs] registro:", e.message); }
+      return json(res, 200, { reply: turno.reply, doc: turno.doc || null });
     }
 
     // ---------- ADMIN (só papel=admin) ----------
