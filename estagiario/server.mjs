@@ -86,6 +86,17 @@ const server = http.createServer(async (req, res) => {
 
     // ---------- rotas PÚBLICAS ----------
     if (req.method === "GET" && url === "/health") return json(res, 200, { ok: true, service: "chat-ncs", model: config.agentModel });
+
+    // assets visuais (css/fonte/logo) — públicos, path-safe (basename + extensão whitelist)
+    if (req.method === "GET" && url.startsWith("/assets/")) {
+      const name = path.basename(decodeURIComponent(url.slice(8).split("?")[0]));
+      const TYPES = { ".css": "text/css", ".png": "image/png", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".js": "application/javascript", ".jpg": "image/jpeg", ".ico": "image/x-icon" };
+      const ct = TYPES[path.extname(name).toLowerCase()];
+      const fp = path.join(__dirname, "public", name);
+      if (!ct || !fs.existsSync(fp)) return json(res, 404, { erro: "não encontrado" });
+      res.writeHead(200, { "Content-Type": ct, "Cache-Control": "public, max-age=86400" });
+      return res.end(fs.readFileSync(fp));
+    }
     if (req.method === "GET" && (url === "/login" || url === "/ativar")) return html(res, 200, LOGIN_HTML);
 
     if (req.method === "POST" && url === "/login") {
@@ -201,7 +212,7 @@ const server = http.createServer(async (req, res) => {
         const resumo = resumoPeriodo(rows, process.env);
         if (!isOwner) delete resumo.custoBRL; // admin cliente não vê o total em R$
         const equipe = usersRaw.map((u) => ({ id: u.id, nome: u.nome, email: u.email, papel: u.papel, ativo: u.ativo, ultimo_acesso: u.ultimo_acesso, convitePendente: !!u.convite_token_hash }));
-        return json(res, 200, { desde, isOwner, resumo, tags: porTag(rows), condominios: porCondominio(rows), pessoas: porPessoa(rows, process.env, { comCusto: isOwner, nomes, papeis }), equipe });
+        return json(res, 200, { desde, isOwner, me: { nome: sess.nome, papel: sess.papel }, resumo, tags: porTag(rows), condominios: porCondominio(rows), pessoas: porPessoa(rows, process.env, { comCusto: isOwner, nomes, papeis }), equipe });
       }
 
       if (req.method === "POST" && url === "/api/admin/usuarios") {

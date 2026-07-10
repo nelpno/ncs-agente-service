@@ -4,116 +4,87 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Painel — NCS</title>
+<link rel="stylesheet" href="/assets/app.css">
 <style>
-  :root{
-    --olive:#8f8a00; --olive-d:#726d00; --lime:#aeb830; --lime-soft:#eef0d8;
-    --bg:#f4f5ee; --card:#ffffff; --ink:#2a2a1e; --muted:#6b6b5a; --line:#e2e3d5;
-    --shadow:0 6px 22px rgba(90,88,20,.10);
-  }
-  :root[data-theme="dark"]{
-    --olive:#bcc766; --olive-d:#aeb830; --lime:#bcc766; --lime-soft:#2c2d1e;
-    --bg:#16160f; --card:#20201a; --ink:#ececdf; --muted:#a3a390; --line:#33332a;
-    --shadow:0 6px 22px rgba(0,0,0,.4);
-  }
-  *{box-sizing:border-box;font-family:'Segoe UI',system-ui,Roboto,Arial,sans-serif}
-  html,body{margin:0}
-  body{background:var(--bg);color:var(--ink);min-height:100vh}
-  header{background:linear-gradient(135deg,var(--olive),var(--olive-d));color:#fff;padding:14px 22px;display:flex;align-items:center;gap:12px}
-  .logo{width:42px;height:42px;border-radius:11px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-weight:800;border:1.5px solid rgba(255,255,255,.35)}
-  header .t{flex:1;font-size:18px;font-weight:700;display:flex;align-items:center;gap:9px}
-  header .who{font-size:12.5px;opacity:.9}
-  .hbtn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);padding:7px 13px;border-radius:20px;cursor:pointer;font-weight:600;font-size:13px}
-  main{max-width:1060px;margin:0 auto;padding:22px 18px 40px}
-  .period{color:var(--muted);font-size:13px;margin:0 0 14px}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:22px}
-  @media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
-  .kpi{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--olive);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow)}
-  .kpi .v{font-size:26px;font-weight:800;color:var(--olive-d)}
-  .kpi .l{font-size:12.5px;color:var(--muted);margin-top:3px}
-  h2{font-size:15px;margin:22px 0 10px;color:var(--olive-d)}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
-  th{color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+  .barrow{display:flex;align-items:center;gap:10px;margin:9px 0}
+  .barrow .bnm{width:120px;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .barrow .btrack{flex:1;height:16px;border-radius:8px;background:var(--lime-soft);overflow:hidden}
+  .barrow .bfill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--lime),var(--olive))}
+  .barrow .bn{width:34px;text-align:right;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .p-empty{color:var(--muted);font-size:13px;padding:8px 2px}
+  .addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .addrow input,.addrow select{padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font-size:13.5px;font-family:inherit}
+  .addrow input.nm{flex:1;min-width:120px}.addrow input.em{flex:2;min-width:160px}
+  .linkbox{margin-top:12px;background:var(--lime-soft);border:1px dashed var(--olive);border-radius:10px;padding:10px 12px;font-size:13px;display:none;align-items:center;gap:10px}
+  .linkbox code{flex:1;word-break:break-all;color:var(--olive)}
+  .minibtn{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;margin-left:5px}
+  .minibtn:hover{border-color:var(--olive);color:var(--olive)}
+  .tt{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+  .tt:hover{background:var(--surface-2);color:var(--ink)}
   td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-  td.right{text-align:right}
-  .bar{display:flex;align-items:center;gap:9px;margin:7px 0}
-  .bar .nm{width:130px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .bar .track{flex:1;background:var(--lime-soft);border-radius:6px;height:16px;overflow:hidden}
-  .bar .fill{height:100%;background:linear-gradient(90deg,var(--lime),var(--olive));border-radius:6px}
-  .bar .n{width:34px;text-align:right;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--lime-soft);color:var(--olive-d)}
-  .pill.off{background:#f2dede;color:#a3402f}
-  .pill.hd{background:rgba(255,255,255,.16);color:#fff}
-  .actbtn{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 9px;cursor:pointer;font-size:12px;margin-left:5px}
-  .actbtn:hover{border-color:var(--olive);color:var(--olive-d)}
-  .addrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .addrow input,.addrow select{padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:13.5px;font-family:inherit}
-  .addrow input.nm{flex:1;min-width:130px}.addrow input.em{flex:2;min-width:170px}
-  .addbtn{background:linear-gradient(150deg,var(--lime),var(--olive));color:#25260c;border:none;border-radius:9px;padding:9px 15px;font-weight:800;cursor:pointer;font-size:13.5px}
-  .linkbox{margin-top:11px;background:var(--lime-soft);border:1px dashed var(--olive);border-radius:9px;padding:10px 12px;font-size:13px;display:none;align-items:center;gap:10px}
-  .linkbox code{flex:1;word-break:break-all;color:var(--olive-d)}
-  .foot{color:var(--muted);font-size:11.5px;margin-top:26px;text-align:center}
-  .empty{color:var(--muted);font-size:13px;padding:8px 0}
 </style>
 </head>
-<body>
-  <header>
-    <div class="logo">NCS</div>
-    <div class="t">Painel de uso <span id="scopeTag" class="pill hd"></span></div>
-    <div class="who" id="who"></div>
-    <button class="hbtn" id="theme" title="Tema">🌙</button>
-    <button class="hbtn" id="sair">Sair</button>
-  </header>
-  <main>
-    <p class="period" id="period">Carregando…</p>
-    <div class="kpis" id="kpis"></div>
-
-    <h2>Uso por pessoa</h2>
-    <div class="card"><div id="pessoas"></div></div>
-
-    <div class="grid2">
-      <div><h2>Principais demandas</h2><div class="card" id="tags"></div></div>
-      <div><h2>Condomínios mais ativos</h2><div class="card" id="condos"></div></div>
-    </div>
-
-    <h2>Equipe</h2>
-    <div class="card">
-      <div id="equipe"></div>
-      <div class="addrow">
-        <input class="nm" id="a_nome" placeholder="Nome">
-        <input class="em" id="a_email" type="email" placeholder="e-mail">
-        <select id="a_papel"><option value="funcionario">Funcionário</option><option value="admin">Admin</option></select>
-        <button class="addbtn" id="addbtn">+ Gerar link de convite</button>
+<body data-screen="painel">
+  <section class="screen" id="s-painel">
+    <div class="app">
+      <aside class="side">
+        <div class="side-brand">
+          <img src="/assets/side-logo.png" alt="NCS">
+          <span class="wm"><span class="g">Grupo</span><span class="n">NCS</span><span class="role">Estagiário</span></span>
+        </div>
+        <a class="newchat" href="/chat">💬 Ir para o chat</a>
+        <div class="side-lbl">Gestão</div>
+        <div class="side-nav">
+          <a class="nav-item" href="/chat"><span class="ic">💬</span> Chat</a>
+          <a class="nav-item on" href="/admin"><span class="ic">📊</span> Painel de uso</a>
+        </div>
+        <div style="flex:1"></div>
+        <div class="side-user">
+          <div class="avatar" id="av">–</div>
+          <div class="who"><div class="nm" id="uname">—</div><div class="rl" id="urole"></div></div>
+          <button class="gear" id="sair" title="Sair">⎋</button>
+        </div>
+      </aside>
+      <div class="main">
+        <div class="topbar">
+          <h2>Painel de uso</h2>
+          <div class="grow"></div>
+          <span class="pill" id="periodo">…</span>
+          <button class="tt" id="theme" title="Tema">🌙</button>
+        </div>
+        <div class="painel-scroll">
+          <div class="painel-inner">
+            <div class="kpis" id="kpis"></div>
+            <div class="grid2">
+              <div class="card" style="grid-column:1/-1"><div class="card-h"><h3>Uso por pessoa</h3></div><div id="pessoas"></div></div>
+              <div class="card"><div class="card-h"><h3>Principais demandas</h3></div><div id="tags"></div></div>
+              <div class="card"><div class="card-h"><h3>Condomínios mais ativos</h3></div><div id="condos"></div></div>
+              <div class="card" style="grid-column:1/-1">
+                <div class="card-h"><h3>Equipe</h3><div class="grow"></div><span class="hint">funcionários entram pelo link de convite</span></div>
+                <div id="equipe"></div>
+                <div class="addrow">
+                  <input class="nm" id="a_nome" placeholder="Nome">
+                  <input class="em" id="a_email" type="email" placeholder="e-mail">
+                  <select id="a_papel"><option value="funcionario">Funcionário</option><option value="admin">Admin</option></select>
+                  <button class="btn-primary" style="width:auto;padding:9px 16px;margin:0" id="addbtn">+ Gerar link de convite</button>
+                </div>
+                <div class="linkbox" id="linkbox"><code id="linkval"></code><button class="minibtn" id="copybtn">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="linkbox" id="linkbox"><code id="linkval"></code><button class="actbtn" id="copybtn">Copiar</button></div>
     </div>
-
-    <p class="foot">Interações registradas para auditoria interna · custo estimado a partir do consumo de tokens.</p>
-  </main>
+  </section>
 <script>
-// ---- helpers de DOM (sem innerHTML: textContent é seguro contra XSS de nome/e-mail) ----
-function el(tag, props, kids){
-  var e=document.createElement(tag);
-  if(props) for(var k in props){ if(k==='class')e.className=props[k]; else if(k==='text')e.textContent=props[k]; else if(k==='style')e.setAttribute('style',props[k]); else if(k==='on')e.onclick=props[k]; else e.setAttribute(k,props[k]); }
-  (kids||[]).forEach(function(c){ if(c!=null) e.appendChild(typeof c==='object'?c:document.createTextNode(String(c))); });
-  return e;
-}
-function clear(n){ while(n.firstChild) n.removeChild(n.firstChild); }
-
-// ---- tema: claro por padrão, escuro só se escolhido (lembrado) ----
+function el(tag,props,kids){var e=document.createElement(tag);if(props)for(var k in props){if(k==='class')e.className=props[k];else if(k==='text')e.textContent=props[k];else if(k==='style')e.setAttribute('style',props[k]);else if(k==='on')e.onclick=props[k];else e.setAttribute(k,props[k]);}(kids||[]).forEach(function(c){if(c!=null)e.appendChild(typeof c==='object'?c:document.createTextNode(String(c)));});return e;}
+function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
 (function(){
   var root=document.documentElement;
-  if(localStorage.getItem('ncs_theme')==='dark') root.setAttribute('data-theme','dark');
-  function icon(){document.getElementById('theme').textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
-  icon();
-  document.getElementById('theme').onclick=function(){
-    if(root.getAttribute('data-theme')==='dark'){root.removeAttribute('data-theme');localStorage.setItem('ncs_theme','light');}
-    else{root.setAttribute('data-theme','dark');localStorage.setItem('ncs_theme','dark');}
-    icon();
-  };
+  root.setAttribute('data-theme',localStorage.getItem('ncs_theme')==='dark'?'dark':'light');
+  var tb=document.getElementById('theme');
+  function icon(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}icon();
+  tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
 })();
 document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
 
@@ -121,17 +92,17 @@ var IS_OWNER=false;
 var PAPEL={owner:'Dono',admin:'Admin',funcionario:'Funcionário'};
 function brl(v){return 'R$ '+(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function quando(iso){if(!iso)return '—';var d=new Date(iso);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+function iniciais(n){return (n||'?').split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();}
 
-function bars(node, items, key){
+function bars(node,items,key){
   clear(node);
-  if(!items.length){ node.appendChild(el('div',{class:'empty',text:'Sem dados no período.'})); return; }
+  if(!items.length){node.appendChild(el('div',{class:'p-empty',text:'Sem dados no período.'}));return;}
   var max=Math.max.apply(null,items.map(function(i){return i.n;}))||1;
   items.slice(0,8).forEach(function(i){
-    var fill=el('div',{class:'fill',style:'width:'+Math.round(i.n/max*100)+'%'});
-    node.appendChild(el('div',{class:'bar'},[
-      el('div',{class:'nm',text:i[key]}),
-      el('div',{class:'track'},[fill]),
-      el('div',{class:'n',text:i.n})
+    node.appendChild(el('div',{class:'barrow'},[
+      el('div',{class:'bnm',text:i[key]}),
+      el('div',{class:'btrack'},[el('div',{class:'bfill',style:'width:'+Math.round(i.n/max*100)+'%'})]),
+      el('div',{class:'bn',text:i.n})
     ]));
   });
 }
@@ -139,34 +110,33 @@ function bars(node, items, key){
 function load(){
   fetch('/api/admin/metricas',{headers:{'Accept':'application/json'}}).then(function(r){
     if(r.status===401){location.href='/login';return null;}
-    if(r.status===403){document.getElementById('period').textContent='Sem permissão para ver o painel.';return null;}
+    if(r.status===403){document.getElementById('periodo').textContent='Sem permissão';return null;}
     return r.json();
   }).then(function(d){
     if(!d)return;
     IS_OWNER=d.isOwner;
-    document.getElementById('scopeTag').textContent=IS_OWNER?'Dono':'Admin';
-    document.getElementById('period').textContent='Período: desde '+new Date(d.desde).toLocaleDateString('pt-BR');
+    if(d.me){document.getElementById('uname').textContent=d.me.nome||'—';document.getElementById('urole').textContent=PAPEL[d.me.papel]||'';document.getElementById('av').textContent=iniciais(d.me.nome);}
+    document.getElementById('periodo').textContent='Desde '+new Date(d.desde).toLocaleDateString('pt-BR');
 
-    // KPIs
     var kpis=[['Interações',d.resumo.interacoes]];
-    if(IS_OWNER) kpis.push(['Custo estimado',brl(d.resumo.custoBRL)]);
+    if(IS_OWNER)kpis.push(['Custo estimado',brl(d.resumo.custoBRL)]);
     kpis.push(['Documentos gerados',d.resumo.documentos]);
     kpis.push(['Pessoas ativas',d.resumo.pessoasAtivas]);
-    var kEl=document.getElementById('kpis'); clear(kEl);
-    kpis.forEach(function(x){ kEl.appendChild(el('div',{class:'kpi'},[el('div',{class:'v',text:x[1]}),el('div',{class:'l',text:x[0]})])); });
+    var kEl=document.getElementById('kpis');clear(kEl);
+    kpis.forEach(function(x){kEl.appendChild(el('div',{class:'kpi'},[el('div',{class:'k-lbl',text:x[0]}),el('div',{class:'k-val',text:x[1]})]));});
 
-    // uso por pessoa
-    var pEl=document.getElementById('pessoas'); clear(pEl);
-    if(!d.pessoas.length){ pEl.appendChild(el('div',{class:'empty',text:'Ninguém usou ainda no período.'})); }
+    var pEl=document.getElementById('pessoas');clear(pEl);
+    if(!d.pessoas.length){pEl.appendChild(el('div',{class:'p-empty',text:'Ninguém usou ainda no período.'}));}
     else{
-      var cols=[{t:'Pessoa'},{t:'Função'},{t:'Dias ativos',num:1},{t:'Interações',num:1},{t:'Docs',num:1}];
-      if(IS_OWNER) cols.push({t:'Custo',num:1});
+      var cols=[{t:'Pessoa'},{t:'Dias ativos',num:1},{t:'Interações',num:1},{t:'Docs',num:1}];
+      if(IS_OWNER)cols.push({t:'Custo',num:1});
       cols.push({t:'Última atividade'});
-      var htr=el('tr'); cols.forEach(function(c){ htr.appendChild(el('th',{class:c.num?'num':'',text:c.t})); });
+      var htr=el('tr');cols.forEach(function(c){htr.appendChild(el('th',{class:c.num?'num':'',text:c.t}));});
       var tb=el('tbody');
       d.pessoas.forEach(function(p){
-        var cells=[el('td',{text:p.nome||'—'}),el('td',{text:PAPEL[p.papel]||'—'}),el('td',{class:'num',text:p.diasAtivos}),el('td',{class:'num',text:p.interacoes}),el('td',{class:'num',text:p.documentos})];
-        if(IS_OWNER) cells.push(el('td',{class:'num',text:brl(p.custoBRL)}));
+        var person=el('td',null,[el('div',{class:'person'},[el('div',{class:'av',text:iniciais(p.nome)}),el('div',null,[document.createTextNode(p.nome||'—'),el('div',{class:'rl',text:PAPEL[p.papel]||''})])])]);
+        var cells=[person,el('td',{class:'num',text:p.diasAtivos}),el('td',{class:'num',text:p.interacoes}),el('td',{class:'num',text:p.documentos})];
+        if(IS_OWNER)cells.push(el('td',{class:'num',text:brl(p.custoBRL)}));
         cells.push(el('td',{text:quando(p.ultimaAtividade)}));
         tb.appendChild(el('tr',null,cells));
       });
@@ -176,36 +146,33 @@ function load(){
     bars(document.getElementById('tags'),d.tags,'tag');
     bars(document.getElementById('condos'),d.condominios,'condominio');
 
-    // equipe
-    var eEl=document.getElementById('equipe'); clear(eEl);
-    var eh=el('tr'); ['Nome','E-mail','Função','Status',''].forEach(function(t){ eh.appendChild(el('th',{text:t})); });
+    var eEl=document.getElementById('equipe');clear(eEl);
+    var eh=el('tr');['Nome','E-mail','Função','Status',''].forEach(function(t){eh.appendChild(el('th',{text:t}));});
     var etb=el('tbody');
     d.equipe.forEach(function(u){
-      var pill = !u.ativo ? el('span',{class:'pill off',text:'Inativo'}) : (u.convitePendente?el('span',{class:'pill',text:'Convite pendente'}):el('span',{class:'pill',text:'Ativo'}));
-      var acts=el('td',{class:'right'});
+      var pill=!u.ativo?el('span',{class:'pill',text:'Inativo'}):(u.convitePendente?el('span',{class:'chip',text:'Convite pendente'}):el('span',{class:'chip',text:'Ativo'}));
+      var acts=el('td',{style:'text-align:right'});
       if(u.papel!=='owner'){
-        if(u.convitePendente||!u.ativo) acts.appendChild(el('button',{class:'actbtn',text:'Reenviar link',on:function(){reenviar(u.id);}}));
-        acts.appendChild(u.ativo?el('button',{class:'actbtn',text:'Desativar',on:function(){setAtivo(u.id,'desativar');}}):el('button',{class:'actbtn',text:'Reativar',on:function(){setAtivo(u.id,'ativar');}}));
+        if(u.convitePendente||!u.ativo)acts.appendChild(el('button',{class:'minibtn',text:'Reenviar link',on:function(){reenviar(u.id);}}));
+        acts.appendChild(u.ativo?el('button',{class:'minibtn',text:'Desativar',on:function(){setAtivo(u.id,'desativar');}}):el('button',{class:'minibtn',text:'Reativar',on:function(){setAtivo(u.id,'ativar');}}));
       }
       etb.appendChild(el('tr',null,[el('td',{text:u.nome}),el('td',{text:u.email}),el('td',{text:PAPEL[u.papel]||'—'}),el('td',null,[pill]),acts]));
     });
     eEl.appendChild(el('table',null,[el('thead',null,[eh]),etb]));
   });
 }
-
-function showLink(link){ document.getElementById('linkval').textContent=link; document.getElementById('linkbox').style.display='flex'; }
-document.getElementById('copybtn').onclick=function(){ var b=this; navigator.clipboard.writeText(document.getElementById('linkval').textContent).then(function(){ b.textContent='Copiado!'; setTimeout(function(){b.textContent='Copiar';},1500); }); };
+function showLink(link){document.getElementById('linkval').textContent=link;document.getElementById('linkbox').style.display='flex';}
+document.getElementById('copybtn').onclick=function(){var b=this;navigator.clipboard.writeText(document.getElementById('linkval').textContent).then(function(){b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar';},1500);});};
 document.getElementById('addbtn').onclick=function(){
-  var nome=document.getElementById('a_nome').value.trim(), email=document.getElementById('a_email').value.trim(), papel=document.getElementById('a_papel').value;
+  var nome=document.getElementById('a_nome').value.trim(),email=document.getElementById('a_email').value.trim(),papel=document.getElementById('a_papel').value;
   if(!nome||!email){alert('Preencha nome e e-mail.');return;}
-  fetch('/api/admin/usuarios',{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin},body:JSON.stringify({nome:nome,email:email,papel:papel})}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(x){
+  fetch('/api/admin/usuarios',{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin},body:JSON.stringify({nome:nome,email:email,papel:papel})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){
     if(!x.ok){alert(x.j.erro||'Não deu para criar.');return;}
-    document.getElementById('a_nome').value='';document.getElementById('a_email').value='';
-    showLink(x.j.link); load();
+    document.getElementById('a_nome').value='';document.getElementById('a_email').value='';showLink(x.j.link);load();
   });
 };
-function reenviar(id){ fetch('/api/admin/usuarios/'+id+'/reenviar',{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(x){ if(x.ok)showLink(x.j.link); else alert(x.j.erro||'Falhou.'); }); }
-function setAtivo(id,acao){ fetch('/api/admin/usuarios/'+id+'/'+acao,{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(x){ if(x.ok)load(); else alert(x.j.erro||'Falhou.'); }); }
+function reenviar(id){fetch('/api/admin/usuarios/'+id+'/reenviar',{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)showLink(x.j.link);else alert(x.j.erro||'Falhou.');});}
+function setAtivo(id,acao){fetch('/api/admin/usuarios/'+id+'/'+acao,{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)load();else alert(x.j.erro||'Falhou.');});}
 load();
 </script>
 </body>

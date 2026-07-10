@@ -4,93 +4,66 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Entrar — NCS</title>
+<link rel="stylesheet" href="/assets/app.css">
 <style>
-  /* Padrão CLARO. Escuro só quando a pessoa escolhe (data-theme="dark", lembrado). */
-  :root{
-    --olive:#8f8a00; --olive-d:#726d00; --lime:#aeb830; --lime-soft:#eef0d8;
-    --bg:#f4f5ee; --card:#ffffff; --ink:#2a2a1e; --muted:#6b6b5a; --line:#e2e3d5;
-    --shadow:0 10px 34px rgba(90,88,20,.12);
-  }
-  :root[data-theme="dark"]{
-    --olive:#bcc766; --olive-d:#aeb830; --lime:#bcc766; --lime-soft:#2c2d1e;
-    --bg:#16160f; --card:#20201a; --ink:#ececdf; --muted:#a3a390; --line:#33332a;
-    --shadow:0 10px 34px rgba(0,0,0,.5);
-  }
-  *{box-sizing:border-box;font-family:'Segoe UI',system-ui,Roboto,Arial,sans-serif}
-  html,body{margin:0;height:100%}
-  body{background:var(--bg);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
-  /* arcos concêntricos (marca) ao fundo */
-  body::before{content:"";position:absolute;width:900px;height:900px;border-radius:50%;
-    border:60px solid var(--lime-soft);top:-380px;right:-300px;opacity:.6;z-index:0}
-  body::after{content:"";position:absolute;width:600px;height:600px;border-radius:50%;
-    border:44px solid var(--lime-soft);bottom:-320px;left:-260px;opacity:.5;z-index:0}
-
-  .theme{position:absolute;top:16px;right:18px;z-index:3;background:var(--card);border:1px solid var(--line);
-    color:var(--ink);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:17px;box-shadow:var(--shadow)}
-
-  .card{position:relative;z-index:2;background:var(--card);border:1px solid var(--line);border-radius:20px;
-    box-shadow:var(--shadow);width:100%;max-width:400px;padding:34px 30px 28px}
-  .logo{width:62px;height:62px;border-radius:16px;margin:0 auto 14px;
-    background:linear-gradient(150deg,var(--olive),var(--olive-d));display:flex;align-items:center;justify-content:center;
-    color:#fff;font-weight:800;font-size:20px;letter-spacing:.5px;box-shadow:0 6px 16px rgba(114,109,0,.35)}
-  h1{font-size:21px;text-align:center;margin:0 0 4px;font-weight:700}
-  .sub{text-align:center;color:var(--muted);font-size:13.5px;margin:0 0 22px;line-height:1.45}
-
-  label{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin:0 0 6px}
-  .field{margin-bottom:15px}
-  .inwrap{position:relative}
-  input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:15px;
-    background:var(--bg);color:var(--ink);outline:none;transition:.15s;font-family:inherit}
-  input:focus{border-color:var(--olive);box-shadow:0 0 0 3px rgba(143,138,0,.14)}
-  .eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;
-    font-size:16px;color:var(--muted);padding:4px}
-  button.go{width:100%;margin-top:6px;padding:12px;border:none;border-radius:11px;cursor:pointer;
-    background:linear-gradient(150deg,var(--lime),var(--olive));color:#25260c;font-weight:800;font-size:15px;
-    box-shadow:0 6px 16px rgba(143,138,0,.3);transition:.15s}
-  button.go:hover{transform:translateY(-1px)}button.go:disabled{opacity:.55;cursor:default;transform:none}
-  .msg{margin-top:14px;font-size:13px;text-align:center;min-height:18px}
-  .msg.err{color:#b23a2e}.msg.ok{color:var(--olive-d)}
-  .foot{margin-top:20px;text-align:center;font-size:11.5px;color:var(--muted);line-height:1.5}
+  /* tema CLARO por padrão; escuro só se escolhido (data-theme explícito vence o @media do app.css) */
+  .theme-toggle{position:fixed;top:16px;right:18px;z-index:60;width:38px;height:38px;border-radius:50%;
+    display:grid;place-items:center;font-size:16px;border:1px solid var(--line);background:var(--surface);
+    color:var(--muted);box-shadow:var(--shadow-sm);transition:.15s}
+  .theme-toggle:hover{color:var(--ink)}
+  .login-help.err{color:var(--crit)}
+  .login-help.ok{color:var(--good)}
+  .login-card{max-width:min(92vw,410px)}
 </style>
 </head>
-<body>
-  <button class="theme" id="theme" title="Alternar tema">🌙</button>
-  <form class="card" id="form" autocomplete="on">
-    <div class="logo">NCS</div>
-    <h1 id="title">Entrar</h1>
-    <p class="sub" id="sub">Acesso interno da equipe do Grupo NCS.</p>
-
-    <div class="field" id="emailField">
-      <label for="email">E-mail</label>
-      <input type="email" id="email" placeholder="voce@gruponcs.net" autocomplete="username" required>
+<body data-screen="login">
+  <button class="theme-toggle" id="theme" title="Alternar tema">🌙</button>
+  <section class="screen" id="s-login">
+    <div class="login-bg">
+      <svg viewBox="0 0 400 400" fill="none">
+        <g stroke-linecap="round" fill="none">
+          <circle cx="200" cy="200" r="170" stroke="var(--olive-brand)" stroke-width="16" stroke-dasharray="620 450"/>
+          <circle cx="200" cy="200" r="140" stroke="var(--lime)" stroke-width="16" stroke-dasharray="500 380" stroke-dashoffset="120"/>
+          <circle cx="200" cy="200" r="110" stroke="#c9cbb6" stroke-width="14" stroke-dasharray="360 330" stroke-dashoffset="60"/>
+          <circle cx="200" cy="200" r="10" fill="var(--olive-brand)"/>
+        </g>
+      </svg>
     </div>
-    <div class="field">
-      <label for="senha" id="senhaLabel">Senha</label>
-      <div class="inwrap">
-        <input type="password" id="senha" placeholder="Sua senha" autocomplete="current-password" required>
-        <button type="button" class="eye" id="eye" title="Mostrar/ocultar">👁</button>
+    <form class="login-card" id="form" autocomplete="on">
+      <img class="logo" src="/assets/logo.png" alt="Grupo NCS">
+      <h1 id="title">Entrar</h1>
+      <p class="sub" id="sub">Acesso interno da equipe do Grupo NCS.</p>
+      <div class="field" id="emailField">
+        <label for="email">E-mail</label>
+        <div class="input"><input type="email" id="email" placeholder="voce@gruponcs.net" autocomplete="username" required></div>
       </div>
-    </div>
-    <button type="submit" class="go" id="go">Entrar</button>
-    <div class="msg" id="msg"></div>
-    <div class="foot">Uso interno · Grupo NCS · Administração de condomínios</div>
-  </form>
-
+      <div class="field">
+        <label for="senha" id="senhaLabel">Senha</label>
+        <div class="input">
+          <input type="password" id="senha" placeholder="Sua senha" autocomplete="current-password" required>
+          <button type="button" class="eye" id="eye" title="Mostrar/ocultar">👁</button>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" id="go">Entrar</button>
+      <div class="login-help" id="msg"></div>
+      <p class="login-foot">Uso interno · Grupo NCS · Administração de condomínios</p>
+    </form>
+  </section>
 <script>
 (function(){
-  // ---- tema: padrão CLARO; só vai pro escuro se a pessoa escolheu antes ----
   var root=document.documentElement;
-  if(localStorage.getItem('ncs_theme')==='dark') root.setAttribute('data-theme','dark');
-  function syncIcon(){document.getElementById('theme').textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
-  syncIcon();
-  document.getElementById('theme').onclick=function(){
+  // padrão claro; escuro só se a pessoa escolheu (lembrado)
+  root.setAttribute('data-theme', localStorage.getItem('ncs_theme')==='dark'?'dark':'light');
+  var tb=document.getElementById('theme');
+  function icon(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
+  icon();
+  tb.onclick=function(){
     var dark=root.getAttribute('data-theme')==='dark';
-    if(dark){root.removeAttribute('data-theme');localStorage.setItem('ncs_theme','light');}
-    else{root.setAttribute('data-theme','dark');localStorage.setItem('ncs_theme','dark');}
-    syncIcon();
+    root.setAttribute('data-theme',dark?'light':'dark');
+    localStorage.setItem('ncs_theme',dark?'light':'dark');
+    icon();
   };
 
-  // ---- modo: login (padrão) ou ativação (?t=<token>) ----
   var token=new URLSearchParams(location.search).get('t');
   var ativar=!!token;
   if(ativar){
@@ -104,19 +77,17 @@
     document.getElementById('go').textContent='Criar senha e entrar';
   }
 
-  // ---- mostrar/ocultar senha ----
   document.getElementById('eye').onclick=function(){
     var s=document.getElementById('senha');s.type=s.type==='password'?'text':'password';
   };
 
-  // ---- submit ----
   var msg=document.getElementById('msg'), go=document.getElementById('go');
-  function show(t,cls){msg.textContent=t;msg.className='msg '+(cls||'');}
+  function show(t,cls){msg.textContent=t;msg.className='login-help '+(cls||'');}
   document.getElementById('form').addEventListener('submit',async function(e){
     e.preventDefault();
     var senha=document.getElementById('senha').value;
     if(ativar && senha.length<8){show('A senha precisa ter ao menos 8 caracteres.','err');return;}
-    go.disabled=true;show('...');
+    go.disabled=true;show('…');
     try{
       var url=ativar?'/ativar':'/login';
       var body=ativar?{token:token,senha:senha}:{email:document.getElementById('email').value.trim(),senha:senha};

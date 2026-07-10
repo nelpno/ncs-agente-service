@@ -4,273 +4,169 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chat NCS — Assistente interno</title>
+<link rel="stylesheet" href="/assets/app.css">
 <style>
-  :root{
-    --navy:#1a3a5c; --navy-d:#12283f; --navy-l:#27517d;
-    --gold:#c9a227; --gold-l:#e6c659; --gold-soft:#f7eecb;
-    --bg:#eef2f7; --card:#ffffff; --ink:#1b2733; --muted:#6b7a8d; --line:#dde5ee;
-    --me:#e7eefb; --ok:#e9f6ec; --ok-b:#bfe3c7;
-    --shadow:0 6px 22px rgba(20,40,65,.10);
-  }
-  *{box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif}
-  html,body{margin:0;height:100%}
-  body{background:var(--bg);color:var(--ink);height:100vh;display:flex;flex-direction:column}
-
-  /* Cabeçalho */
-  header{
-    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-d) 100%);
-    color:#fff;padding:14px 22px;display:flex;align-items:center;gap:14px;
-    box-shadow:0 2px 14px rgba(18,40,63,.25);position:relative;z-index:2;
-  }
-  .brand{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
-  .logo{
-    width:46px;height:46px;border-radius:11px;flex:none;
-    background:linear-gradient(160deg,#214c79,#12283f);
-    border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
-    font-weight:800;letter-spacing:.5px;color:#fff;font-size:15px;
-    box-shadow:0 3px 10px rgba(0,0,0,.25), inset 0 0 0 3px rgba(255,255,255,.04);
-  }
-  .logo b{color:var(--gold-l)}
-  .titles{display:flex;flex-direction:column;line-height:1.15;min-width:0}
-  .titles .t{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
-  .titles .t .tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-    background:rgba(201,162,39,.18);color:var(--gold-l);border:1px solid rgba(201,162,39,.4);
-    padding:2px 7px;border-radius:20px}
-  .titles .s{font-size:12.5px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .hbtn{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.22);
-    padding:8px 14px;border-radius:22px;cursor:pointer;font-weight:600;font-size:13px;transition:.15s}
-  .hbtn:hover{background:rgba(255,255,255,.2)}
-
-  /* Área central */
-  #scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px}
-  #scroll::-webkit-scrollbar{width:9px}#scroll::-webkit-scrollbar-thumb{background:#c2cfdd;border-radius:8px}
-  /* boas-vindas: centraliza o hero verticalmente (sem o vazio no meio); some quando a conversa começa */
-  #scroll.welcome .hero{margin:auto}
-
-  /* HERO (boas-vindas + capacidades) */
-  .hero{max-width:760px;margin:6px auto 0;width:100%}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .hero h1{font-size:23px;margin:6px 0 4px;color:var(--navy)}
-  .hero h1 .wave{color:var(--gold)}
-  .hero p.lead{margin:0 0 18px;color:var(--muted);font-size:15px;line-height:1.5}
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  @media(max-width:680px){.cards{grid-template-columns:1fr}}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px;
-    box-shadow:var(--shadow);transition:.18s;border-top:3px solid var(--gold)}
-  .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(20,40,65,.14)}
-  .card .ic{width:40px;height:40px;border-radius:10px;background:var(--gold-soft);
-    display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
-  .card h3{margin:0 0 5px;font-size:15px;color:var(--navy)}
-  .card p{margin:0;font-size:13px;color:var(--muted);line-height:1.45}
-
-  .conv{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;justify-content:center}
-  .conv .pill{font-size:12px;color:var(--navy);background:#fff;border:1px solid var(--line);
-    padding:5px 12px;border-radius:20px;font-weight:600}
-  .conv .pill b{color:var(--gold)}
-
-  .ex-title{margin:18px 0 8px;font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:700;text-align:center}
-  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
-  .chip{background:#fff;border:1px solid var(--line);border-radius:22px;padding:9px 15px;cursor:pointer;
-    font-size:13.5px;color:var(--navy);transition:.15s;box-shadow:0 1px 3px rgba(20,40,65,.05)}
-  .chip:hover{border-color:var(--gold);background:var(--gold-soft);transform:translateY(-1px)}
-  .chip::before{content:"›";color:var(--gold);font-weight:800;margin-right:7px}
-
-  /* Mensagens */
-  .row{display:flex;width:100%;max-width:860px;margin:0 auto}
-  .b{max-width:80%;padding:11px 15px;border-radius:14px;white-space:pre-wrap;line-height:1.45;font-size:15px;
-    box-shadow:0 1px 2px rgba(20,40,65,.08);animation:fade .25s ease}
-  .me{margin-left:auto;background:var(--me);border-bottom-right-radius:5px;color:#14203a}
-  .bot{margin-right:auto;background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}
-  .sys{margin:2px auto;font-size:12px;color:var(--muted);background:transparent}
-  .typing{margin-right:auto;color:var(--muted);font-style:italic;font-size:14px;display:flex;gap:5px;align-items:center}
-  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:bl 1s infinite}
-  .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-  @keyframes bl{0%,80%,100%{opacity:.3}40%{opacity:1}}
-
-  /* Cartão da minuta gerada */
-  .doc{margin-right:auto;max-width:80%;background:var(--ok);border:1px solid var(--ok-b);border-radius:14px;
-    padding:14px 16px;box-shadow:var(--shadow)}
-  .doc .dh{display:flex;align-items:center;gap:10px;font-weight:700;color:#1f6f3f;font-size:14px}
-  .doc .dh .di{width:34px;height:34px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid var(--ok-b)}
-  .doc a.dl{display:inline-block;margin-top:10px;background:var(--navy);color:#fff;text-decoration:none;
-    padding:9px 16px;border-radius:9px;font-weight:600;font-size:13.5px;transition:.15s}
-  .doc a.dl:hover{background:var(--navy-l)}
-  .doc small{display:block;margin-top:9px;color:#4a6b53;font-size:12px}
-
-  /* Rodapé de entrada */
-  footer{padding:12px 16px 14px;background:#fff;border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(20,40,65,.05)}
-  .inbar{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
-  textarea{flex:1;padding:12px 16px;border:1.5px solid var(--line);border-radius:24px;font-size:15px;outline:none;
-    resize:none;max-height:130px;line-height:1.4;transition:.15s;font-family:inherit}
-  textarea:focus{border-color:var(--navy-l);box-shadow:0 0 0 3px rgba(39,81,125,.12)}
-  #send{flex:none;width:48px;height:48px;border:none;border-radius:50%;cursor:pointer;
-    background:linear-gradient(160deg,var(--gold-l),var(--gold));color:var(--navy-d);font-size:20px;font-weight:800;
-    box-shadow:0 4px 12px rgba(201,162,39,.4);transition:.15s}
-  #send:hover{transform:scale(1.06)}#send:disabled{opacity:.5;cursor:default;transform:none}
-  /* Botão de anexo (foto, print ou PDF) */
-  #clip{flex:none;width:48px;height:48px;border:1.5px solid var(--line);border-radius:50%;cursor:pointer;
-    background:#fff;color:var(--navy);font-size:20px;transition:.15s;display:flex;align-items:center;justify-content:center}
-  #clip:hover{border-color:var(--gold);background:var(--gold-soft)}
-  #clip:disabled{opacity:.5;cursor:default}
-  /* Chip do arquivo selecionado (acima da barra) */
-  .attbar{max-width:860px;margin:0 auto 8px;display:flex}
-  .attchip{display:inline-flex;align-items:center;gap:8px;background:var(--gold-soft);border:1px solid var(--gold);
-    color:var(--navy);border-radius:20px;padding:6px 10px 6px 12px;font-size:13px;font-weight:600;max-width:100%}
-  .attchip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px}
-  .attchip .x{cursor:pointer;font-weight:800;color:var(--navy-l);border:none;background:transparent;font-size:16px;line-height:1;padding:0 2px}
-  .foot-note{max-width:860px;margin:8px auto 0;text-align:center;font-size:11px;color:var(--muted)}
+  .tt{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+  .tt:hover{background:var(--surface-2);color:var(--ink)}
+  .welcome{max-width:640px;margin:22px auto 0;padding:0 8px}
+  .welcome h3{font-size:19px;margin-bottom:6px}
+  .welcome p{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.5}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip-ex{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:13.5px;color:var(--olive-ink)}
+  .chip-ex:hover{border-color:var(--lime);background:var(--lime-soft)}
+  .attchip{display:inline-flex;align-items:center;gap:8px;background:var(--lime-soft);border:1px solid var(--lime);color:var(--olive-ink);border-radius:999px;padding:6px 10px 6px 12px;font-size:13px;font-weight:600;max-width:100%}
+  .attchip .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px}
+  .attchip .x{cursor:pointer;font-weight:800;color:var(--olive);border:none;background:transparent;font-size:16px;line-height:1;padding:0 2px}
+  .typing{color:var(--muted);font-style:italic}
 </style>
 </head>
-<body>
-  <header>
-    <div class="brand">
-      <div class="logo">N<b>C</b>S</div>
-      <div class="titles">
-        <div class="t">Chat NCS <span class="tag">Interno</span></div>
-        <div class="s">Assistente da equipe · minutas para o síndico assinar</div>
+<body data-screen="chat">
+  <section class="screen" id="s-chat">
+    <div class="app">
+      <aside class="side">
+        <div class="side-brand">
+          <img src="/assets/side-logo.png" alt="NCS">
+          <span class="wm"><span class="g">Grupo</span><span class="n">NCS</span><span class="role">Estagiário</span></span>
+        </div>
+        <button class="newchat" id="newchat">＋ Nova conversa</button>
+        <div class="side-lbl">Conversas</div>
+        <div class="conv-list" id="convlist"></div>
+        <div style="flex:1"></div>
+        <div class="side-user">
+          <div class="avatar" id="av">–</div>
+          <div class="who"><div class="nm" id="uname">Equipe NCS</div><div class="rl">Assistente interno</div></div>
+          <button class="gear" id="sair" title="Sair">⎋</button>
+        </div>
+      </aside>
+      <div class="main">
+        <div class="topbar">
+          <h2>Assistente interno</h2>
+          <span class="chip"><span class="dot"></span>minutas p/ o síndico assinar</span>
+          <div class="grow"></div>
+          <button class="tt" id="theme" title="Tema">🌙</button>
+        </div>
+        <div class="chat-scroll" id="scroll">
+          <div class="thread" id="thread">
+            <div class="welcome" id="welcome">
+              <h3>Olá! Sou o assistente interno do NCS.</h3>
+              <p>Descreva a situação que eu preparo a <b>notificação</b> ou a <b>multa</b> citando o artigo do regimento, gero relatórios de prestação de contas e respondo dúvidas do morador. Você confere e o síndico assina.</p>
+              <div class="chips" id="chips"></div>
+            </div>
+          </div>
+        </div>
+        <div class="composer-wrap">
+          <div class="attbar" id="attbar" style="display:none;max-width:760px;margin:0 auto 8px"></div>
+          <div class="composer">
+            <input type="file" id="file" accept="image/*,application/pdf" hidden>
+            <button class="clip" id="clip" title="Anexar foto/print/PDF">📎</button>
+            <textarea id="msg" rows="1" placeholder="Descreva a ocorrência…"></textarea>
+            <button class="snd" id="send" title="Enviar">➤</button>
+          </div>
+        </div>
       </div>
     </div>
-    <button class="hbtn" onclick="reset()">＋ Nova conversa</button>
-  </header>
-
-  <div id="scroll" class="welcome">
-    <div class="hero" id="hero">
-      <h1><span class="wave">Olá!</span> Sou o assistente interno do NCS.</h1>
-      <p class="lead">Me conte a situação em poucas palavras que eu preparo a <b>notificação</b> ou a <b>multa</b> — identifico a infração, cito o artigo certo do regimento e entrego o <b>PDF pronto</b>. Você confere e o síndico assina.</p>
-
-      <div class="cards">
-        <div class="card">
-          <div class="ic">📄</div>
-          <h3>Multas e notificações</h3>
-          <p>Descreva a ocorrência. Eu classifico a infração, cito o artigo e gero o documento padronizado em segundos.</p>
-        </div>
-        <div class="card">
-          <div class="ic">📖</div>
-          <h3>Dúvidas do regimento</h3>
-          <p>Pergunte o que diz o regimento daquele condomínio. Respondo citando o artigo — sem inventar regra.</p>
-        </div>
-        <div class="card">
-          <div class="ic">✅</div>
-          <h3>Pronto pra assinar</h3>
-          <p>Sai sem erro de valor nem de digitação, no mesmo padrão de sempre. É só revisar e assinar.</p>
-        </div>
-      </div>
-
-      <div class="conv">
-        <span class="pill"><b>⚡</b> Em segundos, não em minutos</span>
-        <span class="pill"><b>🏢</b> Por condomínio</span>
-        <span class="pill"><b>🔒</b> Uso interno da equipe</span>
-        <span class="pill"><b>🧠</b> Lembra a conversa</span>
-      </div>
-
-      <div class="ex-title">Comece por um exemplo</div>
-      <div class="chips" id="chips"></div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="attbar" id="attbar" style="display:none"></div>
-    <div class="inbar">
-      <input type="file" id="file" accept="image/*,application/pdf" hidden>
-      <button id="clip" onclick="document.getElementById('file').click()" title="Anexar foto da ocorrência, print da conversa ou PDF">📎</button>
-      <textarea id="msg" rows="1" placeholder="Ex.: morador do 132 fez barulho de novo, já levou notificação mês passado…" autocomplete="off"></textarea>
-      <button id="send" onclick="send()" title="Enviar">➤</button>
-    </div>
-    <div class="foot-note">Você pode anexar a foto da ocorrência ou o print da conversa. As minutas são para conferência e assinatura do síndico. Conteúdo interno do Grupo NCS.</div>
-  </footer>
-
+  </section>
 <script>
-// acesso agora é por sessão (cookie httpOnly) — sem código na URL
-const scroll=document.getElementById('scroll'), hero=document.getElementById('hero'), inp=document.getElementById('msg'), btn=document.getElementById('send');
-const clip=document.getElementById('clip'), fileInp=document.getElementById('file'), attbar=document.getElementById('attbar');
+function el(tag,props,kids){var e=document.createElement(tag);if(props)for(var k in props){if(k==='class')e.className=props[k];else if(k==='text')e.textContent=props[k];else if(k==='style')e.setAttribute('style',props[k]);else if(k==='on')e.onclick=props[k];else e.setAttribute(k,props[k]);}(kids||[]).forEach(function(c){if(c!=null)e.appendChild(typeof c==='object'?c:document.createTextNode(String(c)));});return e;}
+function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
+(function(){
+  var root=document.documentElement;
+  root.setAttribute('data-theme',localStorage.getItem('ncs_theme')==='dark'?'dark':'light');
+  var tb=document.getElementById('theme');
+  function icon(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}icon();
+  tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
+})();
+document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
 
-// Anexo pendente (foto da ocorrência, print da conversa ou PDF) — vira base64 e vai junto no envio.
-let pendingFile=null; // {dataUrl, name}
-const MAX_MB=18;
-fileInp.addEventListener('change',function(){
-  const f=fileInp.files&&fileInp.files[0]; if(!f){return;}
-  if(f.size>MAX_MB*1024*1024){alert('Arquivo muito grande (máximo '+MAX_MB+' MB). Tente uma foto menor.');fileInp.value='';return;}
-  const rd=new FileReader();
-  rd.onload=function(){pendingFile={dataUrl:rd.result,name:f.name};showAtt();};
-  rd.onerror=function(){alert('Não consegui ler esse arquivo. Tente outro.');};
-  rd.readAsDataURL(f);
-});
-function showAtt(){
-  attbar.replaceChildren();
-  const chip=document.createElement('div');chip.className='attchip';
-  const ic=document.createElement('span');ic.textContent='📎';
-  const nm=document.createElement('span');nm.className='nm';nm.textContent=pendingFile.name;
-  const x=document.createElement('button');x.className='x';x.textContent='×';x.title='Remover anexo';x.onclick=clearAtt;
-  chip.appendChild(ic);chip.appendChild(nm);chip.appendChild(x);
-  attbar.appendChild(chip);attbar.style.display='flex';
+var scroll=document.getElementById('scroll'),thread=document.getElementById('thread'),welcome=document.getElementById('welcome');
+var inp=document.getElementById('msg'),btn=document.getElementById('send'),clip=document.getElementById('clip'),fileInp=document.getElementById('file'),attbar=document.getElementById('attbar');
+var convlist=document.getElementById('convlist');
+
+// conversas (id + título) no localStorage — mostra na sidebar; troca reinicia a visão (o backend guarda o contexto por convId)
+function loadConvs(){try{return JSON.parse(localStorage.getItem('ncs_convs')||'[]');}catch(e){return [];}}
+function saveConvs(c){localStorage.setItem('ncs_convs',JSON.stringify(c.slice(0,30)));}
+function newId(){return 'c-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
+var convs=loadConvs();
+var session=localStorage.getItem('ncs_active_conv');
+if(!session){session=newId();localStorage.setItem('ncs_active_conv',session);}
+function renderConvs(){
+  clear(convlist);
+  convs.forEach(function(c){
+    convlist.appendChild(el('button',{class:'conv-item'+(c.id===session?' on':''),on:function(){switchConv(c.id);}},[
+      el('div',{class:'ttl',text:c.title||'Conversa'}),
+    ]));
+  });
 }
-function clearAtt(){pendingFile=null;fileInp.value='';attbar.replaceChildren();attbar.style.display='none';}
+function touchConv(title){
+  var f=convs.find(function(c){return c.id===session;});
+  if(!f){f={id:session,title:title};convs.unshift(f);}else if(!f.title&&title){f.title=title;}
+  saveConvs(convs);renderConvs();
+}
+function switchConv(id){session=id;localStorage.setItem('ncs_active_conv',id);resetView();renderConvs();}
+function resetView(){clear(thread);thread.appendChild(welcome);welcome.style.display='';clearAtt();}
+document.getElementById('newchat').onclick=function(){session=newId();localStorage.setItem('ncs_active_conv',session);resetView();renderConvs();};
+renderConvs();
 
-// memória: mantém a MESMA sessão ao recarregar a página (conversa continua); "Nova conversa" começa do zero.
-function newSession(){return 'web-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
-let session=localStorage.getItem('ncs_chat_session');
-if(!session){session=newSession();localStorage.setItem('ncs_chat_session',session);}
+var EXEMPLOS=["Multa de barulho, 2ª reincidência, no Vancouver","Notificação de varal na sacada","O que o regimento diz sobre horário de reforma?","Prestação de contas do Lume de maio"];
+var chipsEl=document.getElementById('chips');
+EXEMPLOS.forEach(function(t){chipsEl.appendChild(el('div',{class:'chip-ex',text:t,on:function(){inp.value=t;autosize();inp.focus();send();}}));});
 
-const EXEMPLOS=[
-  "Multa de barulho, 2ª reincidência, no Vancouver",
-  "Notificação de varal na sacada",
-  "Lavaram o carro na garagem do condomínio",
-  "O que o regimento diz sobre horário de reforma?"
-];
-const chipsEl=document.getElementById('chips');
-EXEMPLOS.forEach(function(t){
-  const c=document.createElement('div');c.className='chip';c.textContent=t;
-  c.onclick=function(){inp.value=t;autosize();inp.focus();send();};
-  chipsEl.appendChild(c);
+var pendingFile=null;var MAX_MB=18;
+fileInp.addEventListener('change',function(){
+  var f=fileInp.files&&fileInp.files[0];if(!f)return;
+  if(f.size>MAX_MB*1024*1024){alert('Arquivo muito grande (máx '+MAX_MB+' MB).');fileInp.value='';return;}
+  var rd=new FileReader();rd.onload=function(){pendingFile={dataUrl:rd.result,name:f.name};showAtt();};rd.readAsDataURL(f);
 });
+clip.onclick=function(){fileInp.click();};
+function showAtt(){clear(attbar);attbar.appendChild(el('div',{class:'attchip'},[el('span',{text:'📎'}),el('span',{class:'nm',text:pendingFile.name}),el('button',{class:'x',text:'×',title:'Remover',on:clearAtt})]));attbar.style.display='flex';}
+function clearAtt(){pendingFile=null;fileInp.value='';clear(attbar);attbar.style.display='none';}
 
-function autosize(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,130)+'px';}
+function autosize(){inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,140)+'px';}
 inp.addEventListener('input',autosize);
 inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
 
-function rowAdd(node){const r=document.createElement('div');r.className='row';r.appendChild(node);scroll.appendChild(r);scroll.scrollTop=scroll.scrollHeight;return r;}
-function add(text,cls){const d=document.createElement('div');d.className='b '+cls;d.textContent=text;return rowAdd(d);}
-function typing(){const d=document.createElement('div');d.className='b typing';
-  const sp=document.createElement('span');sp.textContent='Escrevendo';d.appendChild(sp);
-  for(let i=0;i<3;i++){const dt=document.createElement('span');dt.className='dot';d.appendChild(dt);}
-  return rowAdd(d);}
-function addDoc(doc){
-  const d=document.createElement('div');d.className='doc';
-  const h=document.createElement('div');h.className='dh';
-  const ic=document.createElement('div');ic.className='di';ic.textContent='📄';
-  const tt=document.createElement('span');tt.textContent='Minuta gerada — '+(doc.titulo||'documento');
-  h.appendChild(ic);h.appendChild(tt);
-  const a=document.createElement('a');a.className='dl';a.href=doc.url;a.target='_blank';a.textContent='Abrir / baixar PDF';
-  const s=document.createElement('small');s.textContent='Confira os dados e o síndico assina antes de enviar.';
-  d.appendChild(h);d.appendChild(a);d.appendChild(s);rowAdd(d);
+function addMsg(text,who){
+  welcome.style.display='none';
+  var av=who==='me'?el('div',{class:'who-av',text:'Eu'}):el('img',{class:'who-av',src:'/assets/side-logo.png',alt:'Ana'});
+  var bubble=el('div',{class:'bubble',text:text});
+  var row=el('div',{class:'msg '+who},[av,bubble]);
+  thread.appendChild(row);scroll.scrollTop=scroll.scrollHeight;return bubble;
 }
-
-function reset(){
-  session=newSession();localStorage.setItem('ncs_chat_session',session);
-  clearAtt();
-  scroll.replaceChildren();scroll.appendChild(hero);hero.style.display='';scroll.classList.add('welcome');
+function addTyping(){
+  welcome.style.display='none';
+  var b=el('div',{class:'bubble typing',text:'Escrevendo…'});
+  var row=el('div',{class:'msg ai'},[el('img',{class:'who-av',src:'/assets/side-logo.png',alt:'Ana'}),b]);
+  thread.appendChild(row);scroll.scrollTop=scroll.scrollHeight;return row;
+}
+function addDoc(doc){
+  var card=el('div',{class:'doc-card'},[
+    el('div',{class:'dh'},[el('div',{class:'di',text:'📄'}),el('div',null,[el('div',{class:'dt',text:'Minuta — '+(doc.titulo||'documento')}),el('div',{class:'ds',text:'Confira os dados; o síndico assina.'})])]),
+    el('a',{class:'btn-primary',style:'display:inline-block;width:auto;padding:9px 16px;margin-top:10px;text-decoration:none',href:doc.url,target:'_blank',text:'Abrir / baixar'})
+  ]);
+  var row=el('div',{class:'msg ai'},[el('img',{class:'who-av',src:'/assets/side-logo.png',alt:'Ana'}),el('div',{class:'bubble'},[card])]);
+  thread.appendChild(row);scroll.scrollTop=scroll.scrollHeight;
 }
 
 async function send(){
-  const t=inp.value.trim(); const file=pendingFile;
-  if(!t && !file)return;
-  inp.value='';autosize();hero.style.display='none';scroll.classList.remove('welcome');btn.disabled=true;clip.disabled=true;
-  if(t) add(t,'me');
-  if(file) add('📎 '+file.name,'me');
+  var t=inp.value.trim(),file=pendingFile;
+  if(!t&&!file)return;
+  inp.value='';autosize();btn.disabled=true;clip.disabled=true;
+  if(t)addMsg(t,'me');
+  if(file)addMsg('📎 '+file.name,'me');
+  touchConv(t||(file?file.name:''));
   clearAtt();
-  const tp=typing();
+  var tp=addTyping();
   try{
-    const payload={message:t,session};
-    if(file) payload.anexo=file.dataUrl;
-    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    var payload={message:t,session:session};if(file)payload.anexo=file.dataUrl;
+    var r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(r.status===401){tp.remove();sessionStorage.setItem('ncs_pending_text',t);location.href='/login';return;}
-    const j=await r.json(); tp.remove();
-    add(j.reply||'(sem resposta)','bot');
-    if(j.doc) addDoc(j.doc);
-  }catch(e){tp.remove();add('Tive um problema de conexão. Pode tentar de novo?','sys');}
+    var j=await r.json();tp.remove();
+    addMsg(j.reply||'(sem resposta)','ai');
+    if(j.doc)addDoc(j.doc);
+  }catch(e){tp.remove();addMsg('Tive um problema de conexão. Pode tentar de novo?','ai');}
   finally{btn.disabled=false;clip.disabled=false;inp.focus();}
 }
-// se a sessão caiu no meio e voltamos do login, restaura o texto que a pessoa tinha digitado
+btn.onclick=send;
 var _pt=sessionStorage.getItem('ncs_pending_text');
 if(_pt){inp.value=_pt;sessionStorage.removeItem('ncs_pending_text');autosize();}
 inp.focus();
