@@ -33,6 +33,9 @@
         <div class="side-lbl">Conversas</div>
         <div class="conv-list" id="convlist"></div>
         <div style="flex:1"></div>
+        <div class="side-nav" id="navgestao" style="display:none;margin-bottom:8px">
+          <a class="nav-item" href="/admin"><span class="ic">📊</span> Painel de uso</a>
+        </div>
         <div class="side-user">
           <div class="avatar" id="av">–</div>
           <div class="who"><div class="nm" id="uname">Equipe NCS</div><div class="rl">Assistente interno</div></div>
@@ -79,6 +82,13 @@ function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
   tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
 })();
 document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
+// perfil do usuário logado + acesso ao painel (o link só aparece p/ owner/admin)
+fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():null;}).then(function(me){
+  if(!me)return;
+  if(me.nome){document.getElementById('uname').textContent=me.nome;
+    document.getElementById('av').textContent=(me.nome.split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('')||'–').toUpperCase();}
+  if(me.papel==='owner'||me.papel==='admin')document.getElementById('navgestao').style.display='flex';
+}).catch(function(){});
 // menu ☰ (mobile): abre/fecha a barra lateral como gaveta
 var _app=document.querySelector('.app');
 document.getElementById('menu').onclick=function(){_app.classList.toggle('drawer-open');};

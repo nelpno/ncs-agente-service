@@ -156,6 +156,9 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { ok: true });
     }
 
+    // "quem sou eu" — o chat usa pra decidir se mostra o link do Painel; devolve só nome/papel do próprio usuário
+    if (req.method === "GET" && url === "/api/me") return json(res, 200, { nome: sess.nome, papel: sess.papel });
+
     // download da minuta/relatório gerado — AGORA protegido por sessão (era aberto)
     if (req.method === "GET" && url.startsWith("/doc/")) {
       const name = path.basename(decodeURIComponent(url.slice(5)));
