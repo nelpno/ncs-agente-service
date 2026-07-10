@@ -15,6 +15,13 @@ export function verificarSenha(senha, hash, salt) {
   const hb = Buffer.from(hash, "hex");
   return h.length === hb.length && crypto.timingSafeEqual(h, hb);
 }
+// Anti-enumeração por timing: gasta o MESMO scrypt quando o usuário não existe/sem senha,
+// pra o /login não distinguir e-mail cadastrado de inexistente pelo tempo de resposta.
+const _DUMMY = hashSenha("x", "0".repeat(32));
+export function verificarSenhaDummy(senha) {
+  try { verificarSenha(senha, _DUMMY.hash, _DUMMY.salt); } catch { /* nunca lança */ }
+  return false;
+}
 
 // ---------- cookie HMAC ----------
 const SECRET = () => process.env.SESSION_SECRET || "";
@@ -30,7 +37,8 @@ export function verificarCookie(cookie) {
   const [p, sig] = cookie.split(".");
   if (!p || !sig) return null;
   const good = hmac(p);
-  if (sig.length !== good.length || !crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(good))) return null;
+  const sigBuf = Buffer.from(sig), goodBuf = Buffer.from(good); // comparar em BYTES (evita RangeError com char multibyte)
+  if (sigBuf.length !== goodBuf.length || !crypto.timingSafeEqual(sigBuf, goodBuf)) return null;
   try {
     const o = JSON.parse(Buffer.from(p, "base64url").toString());
     return o.exp && o.exp > Date.now() ? o : null;

@@ -85,4 +85,18 @@ let ok = 0;
   ok++;
 }
 
-console.log(`test_auth: ${ok}/5 OK`);
+// --- anti-enumeração: verificarSenhaDummy sempre false e nunca lança ---
+{
+  assert.strictEqual(auth.verificarSenhaDummy("qualquer"), false);
+  assert.strictEqual(auth.verificarSenhaDummy(""), false);
+  ok++;
+}
+
+// --- cookie com assinatura multibyte não estoura (fecha em null) ---
+{
+  assert.strictEqual(auth.verificarCookie("abc.café"), null);
+  assert.strictEqual(auth.verificarCookie("p." + "é".repeat(10)), null);
+  ok++;
+}
+
+console.log(`test_auth: ${ok}/7 OK`);

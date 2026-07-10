@@ -6,9 +6,10 @@ import * as realDb from "./db.mjs";
 import { hashSenha, novoConvite, hashToken } from "./auth.mjs";
 
 const enc = encodeURIComponent;
+const normEmail = (e) => (e || "").trim().toLowerCase();
 
 export async function porEmail(email, db = realDb) {
-  const rows = await db.sbSelect("usuarios", `email=eq.${enc(email)}&limit=1`);
+  const rows = await db.sbSelect("usuarios", `email=eq.${enc(normEmail(email))}&limit=1`);
   return rows[0] || null;
 }
 
@@ -27,7 +28,7 @@ export async function criarComConvite({ nome, email, papel = "funcionario" }, db
   const cv = novoConvite();
   const usuario = await db.sbInsert("usuarios", {
     nome,
-    email,
+    email: normEmail(email), // sempre lowercase (o /login normaliza igual) → sem conta que não loga / duplicada por case
     papel,
     ativo: true,
     convite_token_hash: cv.tokenHash,

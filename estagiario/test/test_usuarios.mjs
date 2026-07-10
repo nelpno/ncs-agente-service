@@ -99,4 +99,15 @@ function mkdb(overrides = {}) {
   ok++;
 }
 
-console.log(`test_usuarios: ${ok}/7 OK`);
+// e-mail normalizado (lowercase+trim) na criação e no filtro do porEmail (senão admin com maiúscula não loga)
+{
+  const db = mkdb();
+  await u.criarComConvite({ nome: "Z", email: "  Fulano@GRUPONCS.NET " }, db);
+  assert.strictEqual(db.rec[0][2].email, "fulano@gruponcs.net", "email lowercase+trim na criação");
+  const db2 = mkdb({ selectRows: [] });
+  await u.porEmail("Outro@X.COM", db2);
+  assert.ok(db2.rec[0][2].includes("email=eq.outro%40x.com"), "porEmail filtra em lowercase");
+  ok++;
+}
+
+console.log(`test_usuarios: ${ok}/8 OK`);
