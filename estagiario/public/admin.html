@@ -27,6 +27,7 @@
 <body data-screen="painel">
   <section class="screen" id="s-painel">
     <div class="app">
+      <div class="drawer-backdrop" id="backdrop"></div>
       <aside class="side">
         <div class="side-brand">
           <img src="/assets/side-logo.png" alt="NCS">
@@ -47,6 +48,7 @@
       </aside>
       <div class="main">
         <div class="topbar">
+          <button class="menu-btn" id="menu" title="Menu" aria-label="Menu">☰</button>
           <h2>Painel de uso</h2>
           <div class="grow"></div>
           <span class="pill" id="periodo">…</span>
@@ -87,6 +89,10 @@ function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
   tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
 })();
 document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
+// menu ☰ (mobile): gaveta da barra lateral
+var _app=document.querySelector('.app');
+document.getElementById('menu').onclick=function(){_app.classList.toggle('drawer-open');};
+document.getElementById('backdrop').onclick=function(){_app.classList.remove('drawer-open');};
 
 var IS_OWNER=false;
 var PAPEL={owner:'Dono',admin:'Admin',funcionario:'Funcionário'};

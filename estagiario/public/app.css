@@ -284,3 +284,13 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 @media(max-width:720px){.app{grid-template-columns:1fr}.side{display:none}.kpis{grid-template-columns:repeat(2,1fr)}}
+
+/* --- Mobile: barra lateral vira GAVETA deslizante (botão ☰) --- */
+.menu-btn{display:none}
+.drawer-backdrop{display:none}
+@media(max-width:720px){
+  .menu-btn{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--olive-ink);font-size:19px;cursor:pointer;margin-right:4px;flex:none}
+  .app .side{display:flex;position:fixed;top:0;left:0;bottom:0;width:min(84vw,300px);z-index:120;transform:translateX(-100%);transition:transform .22s ease;box-shadow:0 0 44px rgba(0,0,0,.4)}
+  .app.drawer-open .side{transform:translateX(0)}
+  .app.drawer-open .drawer-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.44);z-index:110}
+}

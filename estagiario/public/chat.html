@@ -23,6 +23,7 @@
 <body data-screen="chat">
   <section class="screen" id="s-chat">
     <div class="app">
+      <div class="drawer-backdrop" id="backdrop"></div>
       <aside class="side">
         <div class="side-brand">
           <img src="/assets/side-logo.png" alt="NCS">
@@ -40,6 +41,7 @@
       </aside>
       <div class="main">
         <div class="topbar">
+          <button class="menu-btn" id="menu" title="Menu" aria-label="Menu">☰</button>
           <h2>Assistente interno</h2>
           <span class="chip"><span class="dot"></span>minutas p/ o síndico assinar</span>
           <div class="grow"></div>
@@ -77,6 +79,11 @@ function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
   tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
 })();
 document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
+// menu ☰ (mobile): abre/fecha a barra lateral como gaveta
+var _app=document.querySelector('.app');
+document.getElementById('menu').onclick=function(){_app.classList.toggle('drawer-open');};
+document.getElementById('backdrop').onclick=function(){_app.classList.remove('drawer-open');};
+function closeDrawer(){_app.classList.remove('drawer-open');}
 
 var scroll=document.getElementById('scroll'),thread=document.getElementById('thread'),welcome=document.getElementById('welcome');
 var inp=document.getElementById('msg'),btn=document.getElementById('send'),clip=document.getElementById('clip'),fileInp=document.getElementById('file'),attbar=document.getElementById('attbar');
@@ -102,9 +109,9 @@ function touchConv(title){
   if(!f){f={id:session,title:title};convs.unshift(f);}else if(!f.title&&title){f.title=title;}
   saveConvs(convs);renderConvs();
 }
-function switchConv(id){session=id;localStorage.setItem('ncs_active_conv',id);resetView();renderConvs();}
+function switchConv(id){session=id;localStorage.setItem('ncs_active_conv',id);resetView();renderConvs();closeDrawer();}
 function resetView(){clear(thread);thread.appendChild(welcome);welcome.style.display='';clearAtt();}
-document.getElementById('newchat').onclick=function(){session=newId();localStorage.setItem('ncs_active_conv',session);resetView();renderConvs();};
+document.getElementById('newchat').onclick=function(){session=newId();localStorage.setItem('ncs_active_conv',session);resetView();renderConvs();closeDrawer();};
 renderConvs();
 
 var EXEMPLOS=["Multa de barulho, 2ª reincidência, no Vancouver","Notificação de varal na sacada","O que o regimento diz sobre horário de reforma?","Prestação de contas do Lume de maio"];
