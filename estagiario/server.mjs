@@ -12,6 +12,7 @@ import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
 import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar } from "./src/usuarios.mjs";
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
+import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
 
@@ -189,7 +190,9 @@ const server = http.createServer(async (req, res) => {
       // registra o turno SEMPRE (incl. erro=true/latência); nunca deixa o log derrubar a resposta
       try {
         const userText = data.message || (data.anexo ? "[anexo]" : "");
-        await gravarInteracao(montarInteracao({ sess, sessionId: estagKey, userText, turno, tMs: Date.now() - t0, erro }));
+        const row = montarInteracao({ sess, sessionId: estagKey, userText, turno, tMs: Date.now() - t0, erro });
+        const id = await gravarInteracao(row);
+        if (id && !erro && row.tag === null) classificarAsync(id, userText).catch(() => {}); // resíduo sem tool → tag async
       } catch (e) { console.error("[chat-ncs] registro:", e.message); }
       return json(res, 200, { reply: turno.reply, doc: turno.doc || null });
     }
