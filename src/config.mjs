@@ -27,7 +27,7 @@ export const config = {
   dryRunWrites: (env.DRY_RUN_WRITES || 'true') !== 'false',
   logPII: env.LOG_PII === 'true',
   // URL pública do próprio serviço (p/ servir PDFs gerados — ex.: CND — que viram anexo baixável)
-  publicBase: env.PUBLIC_BASE_URL || 'https://ncs.dynamicagents.tech',
+  publicBase: env.PUBLIC_BASE_URL || 'https://ana.gruponcs.net',
   // Autentique (assinatura digital do CND OFICIAL) — env-gated; sandbox-first (não gasta crédito até virar a chave)
   autentiqueToken: env.AUTENTIQUE_TOKEN || '',
   autentiqueSandbox: (env.AUTENTIQUE_SANDBOX || 'true') !== 'false',
