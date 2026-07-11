@@ -6,12 +6,15 @@
 <title>Painel — NCS</title>
 <link rel="stylesheet" href="/assets/app.css">
 <style>
-  .brow{display:flex;align-items:center;gap:10px;margin:9px 0}
-  .brow .bnm{width:120px;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .brow .btrack{flex:1;height:16px;border-radius:8px;background:var(--lime-soft);overflow:hidden}
-  .brow .bfill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--lime),var(--olive))}
-  .brow .bn{width:34px;text-align:right;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
-  .p-empty{color:var(--muted);font-size:13px;padding:8px 2px}
+  #tags,#condos{padding:16px 18px 18px}
+  .brow{display:flex;align-items:center;gap:12px;margin:13px 0}
+  .brow:first-child{margin-top:2px}
+  .brow:last-child{margin-bottom:2px}
+  .brow .bnm{width:132px;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none}
+  .brow .btrack{flex:1;height:9px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+  .brow .bfill{height:100%;border-radius:999px;background:var(--olive);min-width:9px;transition:width .55s cubic-bezier(.2,.7,.2,1)}
+  .brow .bn{min-width:24px;text-align:right;font-size:13px;font-weight:700;color:var(--olive-ink);font-variant-numeric:tabular-nums;flex:none}
+  .p-empty{color:var(--muted);font-size:13px;padding:6px 2px}
   .addrow{display:flex;gap:8px;flex-wrap:wrap;margin:14px 18px}
   .addrow input,.addrow select{padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink);font-size:13.5px;font-family:inherit}
   .addrow input.nm{flex:1;min-width:120px}.addrow input.em{flex:2;min-width:160px}

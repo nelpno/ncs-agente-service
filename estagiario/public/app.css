@@ -94,6 +94,9 @@ button{font-family:inherit;cursor:pointer}
 body[data-screen="login"] #s-login,
 body[data-screen="chat"] #s-chat,
 body[data-screen="painel"] #s-painel{display:block}
+/* app screens (chat/painel) are exactly one viewport tall — only inner areas scroll */
+body[data-screen="chat"] #s-chat,
+body[data-screen="painel"] #s-painel{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
   padding:3px 10px;border-radius:999px;background:var(--lime-soft);color:var(--olive-ink);white-space:nowrap}
@@ -134,7 +137,7 @@ body[data-screen="login"] #s-login{display:grid;place-items:center}
 .login-foot{text-align:center;font-size:11px;color:var(--muted);margin-top:22px;letter-spacing:.03em}
 
 /* ============ APP SHELL ============ */
-.app{display:grid;grid-template-columns:266px 1fr;height:100vh;height:100dvh}
+.app{display:grid;grid-template-columns:266px 1fr;height:100vh;height:100dvh;overflow:hidden}
 .side{background:var(--sidebar);color:var(--sidebar-ink);display:flex;flex-direction:column;
   padding:16px 14px;gap:4px;border-right:1px solid var(--sidebar-line)}
 .side-brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px}
@@ -172,14 +175,14 @@ body[data-screen="login"] #s-login{display:grid;place-items:center}
 .side-user .rl{font-size:11px;color:var(--sidebar-muted)}
 .side-user .gear{margin-left:auto;background:transparent;border:none;color:var(--sidebar-muted);font-size:15px;min-width:40px;min-height:40px}
 
-.main{display:flex;flex-direction:column;min-width:0;background:var(--bg)}
+.main{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--bg)}
 .topbar{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--line);
   background:color-mix(in srgb,var(--surface) 70%,transparent);backdrop-filter:blur(6px)}
 .topbar h2{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .topbar .grow{flex:1}
 
 /* ============ CHAT ============ */
-.chat-scroll{flex:1;overflow:auto;padding:26px 22px 8px;display:flex;flex-direction:column}
+.chat-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:26px 22px 8px;display:flex;flex-direction:column}
 .chat-scroll:not(:has(.msg)){justify-content:center}
 .thread{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 .msg{display:flex;gap:12px;animation:fade .3s ease both}
@@ -220,7 +223,7 @@ body[data-screen="login"] #s-login{display:grid;place-items:center}
 .composer .snd:hover{filter:brightness(1.05);transform:scale(1.04)}
 
 /* ============ PAINEL ============ */
-.painel-scroll{flex:1;overflow:auto;padding:24px 26px 28px}
+.painel-scroll{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:24px 26px 28px}
 .painel-inner{max-width:1080px;margin:0 auto}
 .painel-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px}
