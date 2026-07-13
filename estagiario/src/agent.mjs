@@ -10,6 +10,7 @@ import * as BG from "../../src/base_geral.mjs";  // REUSO: base institucional (G
 import * as MUD from "../../src/mudanca.mjs";    // REUSO: regra de mudança por condo — dúvida de morador
 import * as PORT from "../../src/portaria.mjs";  // REUSO: sistema/tipo de portaria por condo — dúvida de morador
 import * as GRUVI from "../../src/gruvi.mjs";    // REUSO: vídeo tutorial do app Gruvi — dúvida de morador
+import * as TAXA from "../../src/taxa.mjs";      // REUSO: o que é incluso na taxa (gás/água/internet) por condo — dúvida de morador
 import * as DOC from "./documentos.mjs";                         // NOVO: motor de geração de PDF
 import * as REL from "./relatorio.mjs";                          // NOVO: relatório de prestação de contas
 
@@ -48,6 +49,7 @@ const TOOLS = [
   { type: "function", function: { name: "consultar_regra_mudanca", description: "REGRA DE MUDANÇA de um condomínio (horário, antecedência, 1 por dia, sem taxa, como agendar). Informe o condomínio. Retorna { encontrou, condominio, horario, regras_condominio, regras_gerais }. ⚠️ NUNCA oriente o morador a avisar/contatar portaria, zeladoria ou síndico, nem cadastrar em sistema (Shielder etc.) — quem faz isso é a NCS; o morador só preenche o formulário e aguarda o termo. Regras de convivência (animais, barulho, obras) = consultar_regimento.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
   { type: "function", function: { name: "consultar_sistema_portaria", description: "PORTARIA de um condomínio: se é HUMANA, VIRTUAL ou HÍBRIDA (campo tipo_portaria) e qual o app/sistema (Shielder, GatWay, Synnus, Alarm System, TW Virtua). Use em 'a portaria do Studio Five é humana ou remota?', 'qual o app de portaria?'. Informe o condomínio. Retorna { encontrou, condominio, sistema, tipo_portaria, tipo_conhecido, sistema_conhecido, ... }. 'Humana ou virtual?' responde-se SÓ pelo tipo_portaria — o app NÃO define isso. tipo_conhecido/sistema_conhecido/encontrou=false → não invente. Boleto nunca é pela portaria, é pelo app Gruvi.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
   { type: "function", function: { name: "consultar_video_app", description: "Acha o VÍDEO tutorial oficial do app Gruvi (1º acesso/login, cadastrar facial, validar documento, pegar boleto, reservar área, cadastrar veículo, liberar visitante/prestador, ver comunicados/documentos etc.). Use em 'como o morador faz X no app', 'como acesso o Gruvi', 'como pego o boleto no app'. Passe o assunto em texto livre. Retorna { encontrou, titulo, url } — se encontrou, passe a URL pra equipe repassar.", parameters: { type: "object", properties: { assunto: { type: "string", description: "O que a pessoa quer fazer no app, em texto livre (ex.: 'pegar boleto', 'cadastrar facial')." } }, required: ["assunto"] } } },
+  { type: "function", function: { name: "consultar_taxa_condominial", description: "O que é INCLUSO NA TAXA CONDOMINIAL (gás, água, internet) de um condomínio. Use em 'o gás está incluso na taxa?', 'a água é inclusa?', 'quais provedores de internet o condomínio libera?'. Informe o condomínio. Retorna { encontrou, condominio, itens:{ gas:{incluso, empresa}, agua:{incluso}, internet:[...] }, resumo }. encontrou=false → não invente, oriente confirmar com a administração.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
 ];
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
@@ -61,6 +63,7 @@ async function runTool(name, args, ctx) {
     case "consultar_regra_mudanca": return MUD.consultar_regra_mudanca(args);
     case "consultar_sistema_portaria": return PORT.consultar_sistema_portaria(args);
     case "consultar_video_app": return GRUVI.buscar_video(args.assunto);
+    case "consultar_taxa_condominial": return TAXA.consultar_taxa_condominial(args);
     case "gerar_documento": {
       const out = await DOC.gerar_documento(args);
       if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };

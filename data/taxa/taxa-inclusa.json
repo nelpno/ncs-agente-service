@@ -1,0 +1,405 @@
+{
+  "fonte": "O que é incluso no condominio - dentro da taxa condominial.docx — Fernando (extraído 13/07/2026)",
+  "gerado_em": "2026-07-13",
+  "revisao_humana": "pendente",
+  "nota_empresa_gas_default": "Quando o doc marca GÁS INCLUSO sem citar a empresa, foi aplicado o padrão Néctar (nota explícita do doc: 'caso alguém perguntar a empresa de gás é a Néctar').",
+  "total": 49,
+  "condominios": [
+    {
+      "nome": "ABBOCATO",
+      "slug": "abbocato",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "ACÁCIAS",
+      "slug": "acacias-i",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama só 'ACÁCIAS' (sem 'I'); mapeado para acacias-i por ser o único condo 'Acácias' conhecido (data/mudanca/horarios-mudanca.json)."
+    },
+    {
+      "nome": "ALLURE",
+      "slug": "allure",
+      "gas": { "incluso": true, "empresa": "Ultragás" },
+      "agua": { "incluso": false },
+      "internet": ["Vivo", "Claro", "Desktop"],
+      "obs": ""
+    },
+    {
+      "nome": "ALTO DA BOA VISTA",
+      "slug": "alto-da-boa-vista",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "ALTOS DO JARAGUÁ",
+      "slug": "altos-do-jaragua",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "AMARIGE",
+      "slug": "amarige",
+      "gas": { "incluso": true, "empresa": "Ultragás" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Água individual, concessionária DAAE (não é a NCS que fatura)."
+    },
+    {
+      "nome": "ANGELO SMIRNE",
+      "slug": "angelo-smirne",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "ARISTOCRATAS",
+      "slug": "aristocrata",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama 'ARISTOCRATAS' (plural); condo é ARISTOCRATA (singular) no doc de mudança/portaria."
+    },
+    {
+      "nome": "ATLANTA",
+      "slug": "atlanta",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "ATTUALE",
+      "slug": "attuale",
+      "gas": { "incluso": false, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc diz 'NADA INCLUSO | GÁS: NECTAR' — gás NÃO incluso na taxa, mas a empresa de referência (conta individual do condômino) é a Néctar."
+    },
+    {
+      "nome": "BARBIERI",
+      "slug": "barbieri",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "CASABLANCA",
+      "slug": "casablanca",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "CEDROS",
+      "slug": "cedros",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "CITY CENTER",
+      "slug": "city-center",
+      "gas": { "incluso": true, "empresa": "Ultragás" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "COCISA 3",
+      "slug": "cocisa-3",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Slug não confirmado — 'COCISA 3' não aparece no doc de horários de mudança nem no de sistemas de portaria (condomínio não identificado fora deste doc).",
+      "revisar_slug": true
+    },
+    {
+      "nome": "DOM PEDRO",
+      "slug": "dom-pedro",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "FIVE",
+      "slug": "five",
+      "aliases": ["studio five", "studio 5", "studiofive", "studio five araraquara"],
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": ["Claro", "Vivo", "Desktop"],
+      "obs": ""
+    },
+    {
+      "nome": "FLORES",
+      "slug": "flores",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "GARDEN PLACE",
+      "slug": "garden-place",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "HADDAD",
+      "slug": "haddad",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": "Doc grafa 'HADDAD'; no doc de sistemas de portaria aparece também como 'HADDA' — slug mantido como no doc de mudança (haddad)."
+    },
+    {
+      "nome": "IPÊ",
+      "slug": "ipe-roxo",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama só 'IPÊ'; mapeado para ipe-roxo (único condo Ipê nos demais arquivos)."
+    },
+    {
+      "nome": "JATIUCA",
+      "slug": "jatiuca",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "LHARMONIE",
+      "slug": "l-harmonie",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc de mudança grafa 'L' HARMONIE' (slug l-harmonie); doc de sistemas de portaria usa 'lharmonie' sem hífen — mantido l-harmonie (canônico do doc de mudança)."
+    },
+    {
+      "nome": "LUME",
+      "slug": "lume",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Nota do doc junto a este bloco: 'CASO ALGUÉM PERGUNTAR, A EMPRESA DE GÁS É A NÉCTAR' — tratada como nota padrão/geral do documento (empresa de referência quando gás incluso e não especificado), aplicada nos demais itens com gás incluso sem empresa nomeada. Aqui o gás em si está 'NADA INCLUSO'."
+    },
+    {
+      "nome": "MAGNOLIAS",
+      "slug": "magnolias",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "MARIO DE ANDRADE",
+      "slug": "mario-de-andrade",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": "AMBÍGUO — 'MARIO DE ANDRADE' não tem slug conhecido nos demais arquivos (não está em horarios-mudanca.json nem sistemas-portaria.json) e não tem heading próprio no doc de mudança; aparece só como frase solta dentro do bloco de MAGNOLIAS ('MARIO ANDRADE: a síndica é responsável e enviará as informações por e-mail'). Pode ser um condomínio administrado à parte, sem entrada no doc A. Revisar com o Fernando.",
+      "revisar_slug": true
+    },
+    {
+      "nome": "MAYORCA",
+      "slug": "mayorca",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "MONET",
+      "slug": "monet",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "MONTE CARLO",
+      "slug": "monte-carlo",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "MOOVE",
+      "slug": "moove",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "PARK",
+      "slug": "park",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "PRAÇAS DO SOL",
+      "slug": "pracas-do-sol",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "PAIRAS",
+      "slug": "pairas",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "PARQUE DOS TRILHOS",
+      "slug": "parque-dos-trilhos",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "RIACHO DOCE",
+      "slug": "riacho-doce",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "RESERVA DO CAMPO",
+      "slug": "reserva-do-campo",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "SALTO GRANDE 1",
+      "slug": "salto-grande-i",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama 'SALTO GRANDE 1' (algarismo); mapeado para salto-grande-i (grafia romana no doc de mudança)."
+    },
+    {
+      "nome": "SALTO GRANDE CEDROS",
+      "slug": "salto-grande-cedros",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "AMBÍGUO — 'SALTO GRANDE CEDROS' não bate exatamente com nenhum slug do doc de mudança (candidatos: salto-grande-iii-campo-belo ou salto-iv-reserva-do-campo, ou variação de nome do próprio CEDROS); slug deixado como aproximação textual, não confirmado. Revisar com o Fernando.",
+      "revisar_slug": true
+    },
+    {
+      "nome": "SAN MARCO",
+      "slug": "san-marco",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": true },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "SEVILHA",
+      "slug": "sevilha",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "SPAZIO AMENDOEIRAS",
+      "slug": "amendoeiras",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama 'SPAZIO AMENDOEIRAS'; condo é AMENDOEIRAS no doc de mudança."
+    },
+    {
+      "nome": "SPAZIO ARACAJU",
+      "slug": "aracaju",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": "Doc chama 'SPAZIO ARACAJU'; condo é ARACAJÚ no doc de mudança."
+    },
+    {
+      "nome": "SUMMERTIME",
+      "slug": "summertime",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "TIVOLI",
+      "slug": "tivoli",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "TRIADE",
+      "slug": "triade",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "VALE SUPREMO",
+      "slug": "vale-supremo",
+      "gas": { "incluso": true, "empresa": "Néctar" },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "VANCOUVER",
+      "slug": "vancouver",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "VIDA PLENA",
+      "slug": "vida-plena",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    },
+    {
+      "nome": "VILA RIO PRETO",
+      "slug": "vila-rio-preto",
+      "gas": { "incluso": false, "empresa": null },
+      "agua": { "incluso": false },
+      "internet": [],
+      "obs": ""
+    }
+  ]
+}
