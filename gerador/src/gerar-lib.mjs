@@ -19,10 +19,21 @@ const ORDINAL_FEM = { 1: "1ª", 2: "2ª", 3: "3ª", 4: "4ª", 5: "5ª" };
 const EXTENSO = { 1: "uma", 2: "duas", 3: "três", 4: "quatro", 5: "cinco" };
 
 export function carregarCondominio(condId, raiz = RAIZ) {
-  const slug = String(condId).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  const p = path.join(raiz, "dados", `${slug}.json`);
-  if (!fs.existsSync(p)) throw new Error(`condomínio "${condId}" sem catálogo em dados/ (rode extrair-catalogo.mjs).`);
-  return JSON.parse(fs.readFileSync(p, "utf-8"));
+  const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(new RegExp("[\\u0300-\\u036f]", "g"), "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const dir = path.join(raiz, "dados");
+  const alvo = norm(condId);
+  // 1) slug direto (arquivo <slug>.json)
+  const direto = path.join(dir, `${alvo}.json`);
+  if (fs.existsSync(direto)) return JSON.parse(fs.readFileSync(direto, "utf-8"));
+  // 2) resolve pelo NOME do sistema (superlogica_nome/id/aliases) normalizado — ex.: "Residencial Park" -> park.json.
+  //    Só match EXATO normalizado (sem substring, p/ não colidir "Cedros" x "Cedros do Campo").
+  for (const f of fs.readdirSync(dir)) {
+    if (!f.endsWith(".json")) continue;
+    let d; try { d = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")); } catch { continue; }
+    const chaves = [d.superlogica_nome, d.id, ...(Array.isArray(d.aliases) ? d.aliases : [])];
+    if (chaves.some((k) => norm(k) === alvo)) return d;
+  }
+  throw new Error(`condomínio "${condId}" sem catálogo em dados/ (rode extrair-catalogo.mjs).`);
 }
 
 export function listarInfracoes(dados) {
