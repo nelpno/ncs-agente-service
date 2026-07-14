@@ -1,0 +1,157 @@
+{
+  "id": "casablanca",
+  "superlogica_nome": "Casablanca",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 35º",
+    "texto": "Art. 35º\nA multa será imposta pelo conselho consultivo e fiscal e cobrada pelo síndico, juntamente com a contribuição condominial de vencimento imediatamente posterior, sendo facultado ao interessado o direito de recorrer à Assembleia Geral Extraordinária, dentro do prazo de 30 (trinta) dias, contados do recebimento da comunicação, que deverá ser realizada por escrito ao condômino infrator, não tendo o recurso interposto efeito suspensivo.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_comercial_unidade": {
+      "titulo": "Uso Comercial da Unidade",
+      "fundamento": "Art. 5",
+      "palavras_chave": [
+        "comércio",
+        "atividade comercial",
+        "igreja",
+        "política"
+      ],
+      "texto_artigo": "Art. 5\nTodas as dependências do edifício, comuns e não comuns, destinam-se a fins estritamente residenciais, sendo vedadas quaisquer atividades de caráter comercial, associativo, religioso ou político.\n\nCondomínio Edifício Residencial Casablanca CNPJ 57.717.662/0001-02 Rua Carlos Gomes, nº 1421, Centro – SP CEP 14801-340"
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "Art. 20",
+      "palavras_chave": [
+        "fachada",
+        "porta",
+        "esquadria",
+        "cor externa"
+      ],
+      "texto_artigo": "Art. 20\nÉ proibido alterar a forma ou o aspecto externo da fachada, ou as cores e tonalidades das portas e esquadrias externas do edifício."
+    },
+    "lixo_hall": {
+      "titulo": "Objetos ou Lixo no Hall",
+      "fundamento": "Art. 24",
+      "palavras_chave": [
+        "hall",
+        "caixa",
+        "objeto",
+        "lixo"
+      ],
+      "texto_artigo": "Art. 24\nÉ proibido deixar qualquer material, utensílio, equipamento, carrinho, pacote, caixa ou objeto de qualquer natureza no hall dos elevadores dos andares, mesmo que provisoriamente ou por curtíssimo espaço de tempo."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas nas Janelas/Fachada",
+      "fundamento": "Art. 26",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "Art. 26\nÉ proibido estender roupas, tapetes, cortinas e peças em geral nas janelas ou em qualquer outro local visível da fachada externa do edifício."
+    },
+    "objetos_janela": {
+      "titulo": "Objetos em Peitoris/Janelas",
+      "fundamento": "Art. 27",
+      "palavras_chave": [
+        "vaso",
+        "gaiola",
+        "enfeite",
+        "janela"
+      ],
+      "texto_artigo": "Art. 27\nÉ proibido colocar vasos, gaiolas, enfeites ou qualquer outro objeto nos peitoris das janelas, em razão do risco de queda."
+    },
+    "silencio_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 33",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "Art. 33\nNo horário compreendido entre 22h e 8h, deverá ser observado o estrito silêncio, indispensável ao repouso dos demais moradores do edifício."
+    },
+    "festas_barulho": {
+      "titulo": "Festas ou Reuniões com Barulho",
+      "fundamento": "Art. 34",
+      "palavras_chave": [
+        "festa",
+        "reunião",
+        "algazarra",
+        "barulho"
+      ],
+      "texto_artigo": "Art. 34\nÉ proibido promover reuniões ou festas que perturbem a tranquilidade dos demais moradores do edifício, assim como exercer atividades ruidosas, ilícitas ou imorais nas unidades autônomas, independentemente de dia da semana e horário."
+    },
+    "som_alto": {
+      "titulo": "Som ou Instrumento em Volume Alto",
+      "fundamento": "Art. 35",
+      "palavras_chave": [
+        "caixa de som",
+        "música",
+        "instrumento",
+        "volume alto"
+      ],
+      "texto_artigo": "Art. 35\nÉ proibido utilizar aparelhos de som e instrumentos musicais em volume que possa incomodar os moradores vizinhos."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar em Áreas Comuns Fechadas",
+      "fundamento": "Art. 41",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "corredor",
+        "hall"
+      ],
+      "texto_artigo": "Art. 41\nÉ proibido fumar nos corredores do edifício, andares, escadas de emergência, halls sociais, salão de festas e demais áreas fechadas do condomínio, conforme lei estadual nº 13.541/2009."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Art.43",
+      "palavras_chave": [
+        "reforma",
+        "furadeira",
+        "obra",
+        "horário"
+      ],
+      "texto_artigo": "Art.43\nA execução de obras, reparos, montagens, instalações, bem como o uso de serra, lixadeira, esmeril, furadeira e outras ferramentas que produzam ruídos somente serão permitidos de segunda a sexta-feira, das 8h às 17h e aos sábados das 8h às 11h30, sendo proibidos aos domingos e feriados."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Passeio de Animais nas Áreas Comuns",
+      "fundamento": "Art. 51",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "coleira",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 51\nÉ proibido passear com animais nas áreas comuns do edifício, internas e externas, ainda que com coleira-guia; a condução dos animais dentro do condomínio será permitida apenas como passagem no trajeto – rua para unidade, unidade para rua."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar Veículos na Garagem",
+      "fundamento": "Art. 83",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "veículo",
+        "água"
+      ],
+      "texto_artigo": "Art. 83\nÉ proibido lavar veículos no interior da garagem e nas demais áreas do condomínio."
+    }
+  }
+}

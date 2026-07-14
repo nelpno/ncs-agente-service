@@ -1,0 +1,145 @@
+{
+  "id": "garden-place",
+  "superlogica_nome": "Garden Place",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 40º",
+    "texto": "Art. 40º\nFica estabelecido que quando desrespeitadas as disposições do presente Regimento, será feita advertência escrita e na reincidência será aplicada multa de um salário mínimo vigente e se preciso for as custas e honorários advocatícios nos casos de ação judicial.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "Art. 2º",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "depósito"
+      ],
+      "texto_artigo": "Art. 2º\nOs apartamentos, no todo ou em parte, destinam-se exclusivamente a fins residenciais, sendo expressamente proibido o uso para: a) locação ou cessão de atividades profissionais, comerciais ou industriais de quaisquer naturezas; b) depósito de qualquer tipo de objeto."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 8º",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio"
+      ],
+      "texto_artigo": "Art. 8º\nOs moradores dos Edifícios deverão guardar silêncio das 22:00hs às 07:00hs, evitando a produção de ruídos que possam perturbar o sossego e o bem-estar dos outros moradores."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança sem Aviso ou Fora do Horário",
+      "fundamento": "Art. 10º",
+      "palavras_chave": [
+        "mudança",
+        "elevador",
+        "portaria"
+      ],
+      "texto_artigo": "Art. 10º\nAs entradas e saídas de mudanças, bem como de materiais, móveis e outros só poderão ser feitas mediante comunicação prévia de pelo menos 01 dia a portaria a fim de guarnecer o elevador com as almofadas protetoras e no horário das 08:00hs às 16:00hs de segunda a sexta-feira. O elevador será usado para esse fim e com acondicionamento devido dos objetos a serem transportados com cuidado para não danificar o patrimônio."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Ruidosa Fora do Horário",
+      "fundamento": "Art.16º",
+      "palavras_chave": [
+        "furadeira",
+        "obra",
+        "reforma"
+      ],
+      "texto_artigo": "A execução de obras ruidosas como polimentos de mármores e assoalhos, fabricação de móveis, etc., no condomínio no horário compreendido entre 18:00hs e 07:00hs, executando casos emergenciais que serão comunicados ao síndico. Nos sábados, domingos e feriados esses serviços são proibidos;\n\nPessoas dentro da portaria;"
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "Art.16º",
+      "palavras_chave": [
+        "fachada",
+        "janela",
+        "ar-condicionado"
+      ],
+      "texto_artigo": "Alterar a parte externa dos edifícios com cores ou tonalidades diversas, colocação de grades e esquadrias ou a instalação de objetos nas janelas que possam prejudicar a estética, iluminação e ventilação dos apartamentos, assim como: exaustores, aparelhos de refrigeração e ar, etc., excetuando-se as redes de proteção na cor branca e condicionador de ar mantendo o padrão já existente nas varandas;\n\nColocar toldos, varais, letreiros, faixas, placas, cartazes, decalques nos vidros, ou outros elementos visuais na parte externa do condomínio, ou nas dependências de uso comum salvo redes móveis de proteção destinadas a prevenir acidentes;"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou Objetos Visíveis no Exterior",
+      "fundamento": "Art.16º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete"
+      ],
+      "texto_artigo": "Estender roupas, tapetes ou outros objetos nas janelas ou em outro lugar que seja visível do exterior do condomínio. É proibido, também, colocar ou estender roupas em processo de lavagem, bater tapetes e similares, nos peitoris das janelas ou de áreas de serviços ou utilizar as áreas comuns para esses fins;"
+    },
+    "jogar_objetos_janelas": {
+      "titulo": "Arremesso de Objetos ou Lixo",
+      "fundamento": "Art.16º",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "janela"
+      ],
+      "texto_artigo": "Lançar quaisquer objetos ou líquidos sobre a via pública, áreas ou pátios internos. É proibido, também, cuspir e lançar papeis, cinzas ou pontas de cigarros, ou qualquer resíduo pelas janelas, corredores, áreas ou outros locais do condomínio;\n\nColocar vasos, enfeites ou quaisquer outros objetos nas janelas, paredes de sacadas ou de onde estejam expostos ao risco de cair ou alterar a estética do condomínio;\n\nJogar nos vasos sanitários, pias e tanques, objetos que possam causar o seu entupimento;\n\nUtilizar bicicletas, patins, skates ou praticar jogos de qualquer natureza nos corredores, vestíbulos, escadas e garagem do condomínio, bem como aglomerações ou reuniões nestes locais, exceto as que visarem o interesse do condomínio;\n\nGuardar ou depositar explosivos, inflamáveis ou agentes químicos corrosivos, artigos ou objetos que causem mau cheiro em qualquer dependência do condomínio;\n\nAlterar o sistema de TV;\n\nRemover, em qualquer hipótese, os equipamentos de segurança contra incêndio do prédio, salvo para recarga, quando autorizado pela administração;\n\nSobrecarregar a estrutura das lajes do prédio com peso por metro quadrado superior ao permitido tecnicamente, bem como qualquer modificação na alvenaria ou estrutura dos apartamentos, que antes deverá ser avaliada por técnicos autorizados que se responsabilizem mediante documento legal, com prévia autorizada da administração;\n\nTransitar no elevador com roupas excessivamente molhadas, podendo causar prejuízo ao bom funcionamento…"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 50º",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "pátio"
+      ],
+      "texto_artigo": "Art. 50º\nÉ permitido nos apartamentos a manutenção de animais de pequeno porte, porém somente poderá descer pelo elevador de serviços no colo do(a) responsável, ficando proibido passear no pátio com os animais."
+    },
+    "fumar_elevador": {
+      "titulo": "Fumar no Elevador",
+      "fundamento": "Art. 22º",
+      "palavras_chave": [
+        "cigarro",
+        "elevador",
+        "fumo"
+      ],
+      "texto_artigo": "Art. 22º\nNão será permitido fumar ou portar cigarros e similares no elevador."
+    },
+    "garagem_velocidade_buzina": {
+      "titulo": "Ruídos e Velocidade na Garagem",
+      "fundamento": "Art. 23º",
+      "palavras_chave": [
+        "buzina",
+        "velocidade",
+        "aceleração"
+      ],
+      "texto_artigo": "Usar a buzina, excesso de aceleração e velocidade e outros ruídos;\n\nEstacionar impedindo ou dificultando as manobras de entrada e saída de carros;\n\nGuardar móveis, utensílios e sobressalentes sob qualquer pretexto;\n\nAlugar, ceder vagas de garagem, emprestar a pessoas estranhas ao condomínio;\n\nUsar a buzina para o porteiro abrir o portão;\n\nA velocidade máxima permitida no interior do condomínio será de 10 km/h, sob pena de multa."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem ou Mecânica na Garagem",
+      "fundamento": "Art. 26º",
+      "palavras_chave": [
+        "lavar carro",
+        "troca de óleo",
+        "mecânica"
+      ],
+      "texto_artigo": "Art. 26º\nNão é permitido manter nas garagens veículos que apresentem vazamentos como também, a lavagem de qualquer carro, troca de óleo ou serviço mecânico, salvo em casos especiais."
+    },
+    "garagem_estacionar_area_circulacao": {
+      "titulo": "Estacionar em Área de Circulação",
+      "fundamento": "Parágrafo Terceiro – É proibido parar ou estacionar em frente as áreas de acesso, bem como sobre as calçadas, rampas e demais áreas de circulação, sob pena de multa.",
+      "palavras_chave": [
+        "vaga",
+        "rampa",
+        "calçada"
+      ],
+      "texto_artigo": "Parágrafo Terceiro – É proibido parar ou estacionar em frente as áreas de acesso, bem como sobre as calçadas, rampas e demais áreas de circulação, sob pena de multa."
+    }
+  }
+}

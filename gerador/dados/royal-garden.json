@@ -1,0 +1,157 @@
+{
+  "id": "royal-garden",
+  "superlogica_nome": "Royal Garden I",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 67",
+    "texto": "Art. 67\nA violação de qualquer dos deveres estipulados neste Regimento Interno, sujeitará o infrator a uma multa de 20% do salário mínimo, a qual será aplicada em dobro nas reincidências (repetição da mesma infração), sem prejuízo da responsabilidade civil ou criminal que no caso couber, sendo a violação registrada em livro próprio para esse fim.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "animais_areas_comuns": {
+      "titulo": "Animais no Condomínio",
+      "fundamento": "Art. 8º",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "animais",
+        "ave"
+      ],
+      "texto_artigo": "Art. 8º\nNão é permitido o ingresso, permanência ou circulação de animais, inclusive cães, gatos e aves canoras, no interior do condomínio."
+    },
+    "objetos_janelas": {
+      "titulo": "Lançamento de Objetos pelas Janelas",
+      "fundamento": "Art. 12",
+      "palavras_chave": [
+        "jogar objetos",
+        "janela",
+        "líquidos",
+        "área comum"
+      ],
+      "texto_artigo": "III - Lançar quaisquer objetos sólidos ou líquidos pelas janelas do edifício e/ou sobre as áreas comuns.\n\nIV - Colocar vasos de plantas ou qualquer outro objeto sobre os peitoris de janelas ou terraços;"
+    },
+    "ambulantes_pedintes": {
+      "titulo": "Entrada de Ambulantes e Pedintes",
+      "fundamento": "Art. 14",
+      "palavras_chave": [
+        "ambulante",
+        "pedinte",
+        "vendedor",
+        "entrada"
+      ],
+      "texto_artigo": "Art. 14\nÉ vedada a entrada e presença de vendedores ambulantes e pedintes no condomínio."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Tapetes nas Janelas/Terraços",
+      "fundamento": "Art. 20",
+      "palavras_chave": [
+        "roupa",
+        "tapete",
+        "varal",
+        "janela"
+      ],
+      "texto_artigo": "I - Estender, limpar, sacudir ou torcer roupas, tapetes ou outros objetos nas janelas, corredores ou terraços do prédio;\n\nII -"
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo em Áreas Comuns",
+      "fundamento": "Art. 20",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "corredor",
+        "hall"
+      ],
+      "texto_artigo": "II - Jogar lixo, varreduras, cinzas, pedaços de cigarro, restos de material de construção ou quaisquer detritos ou objetos pelas janelas, nos corredores, no hall, nas garagens e demais áreas comuns do prédio;\n\nIII - colocar lixo no hall dos andares e escadarias."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "Art. 23",
+      "palavras_chave": [
+        "fumar",
+        "cigarro",
+        "hall",
+        "elevador"
+      ],
+      "texto_artigo": "Art. 23\nNão é permitido fumar no interior das áreas de uso comum do condomínio, inclusive hall de entrada, escadas, elevadores e demais vias internas de acesso."
+    },
+    "brincadeiras_areas_circulacao": {
+      "titulo": "Brincadeiras nas Áreas de Circulação",
+      "fundamento": "Art. 25",
+      "palavras_chave": [
+        "brincadeira",
+        "jogos",
+        "crianças",
+        "circulação"
+      ],
+      "texto_artigo": "b) Como área de lazer para prática de brincadeiras ou jogos de qualquer natureza;\n\nc) Estacionamento de motos, bicicletas, patinetes e outros;\n\nd) Para transportar, transitar, depositar ou manter mercadorias sem autorização prévia do Síndico e fora dos horários definidos na Convenção do Condomínio e neste regimento, bem como caracterizando descumprimento das disposições previstas na citada Convenção do Condomínio,\n\ne) Aparato de segurança armada na área interna do condomínio, que impliquem na alteração da rotina normal do condomínio ou afetem a segurança."
+    },
+    "caminhao_rampa": {
+      "titulo": "Caminhões nas Rampas",
+      "fundamento": "Art. 29",
+      "palavras_chave": [
+        "caminhão",
+        "furgão",
+        "rampa",
+        "entrega"
+      ],
+      "texto_artigo": "Art. 29\nÉ totalmente proibido a entrada de caminhões e ou furgões nas rampas de acesso ao edifício, devendo estacionar na rua defronte ao prédio."
+    },
+    "perturbacao_sossego": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 35",
+      "palavras_chave": [
+        "barulho",
+        "festa",
+        "reunião",
+        "sossego"
+      ],
+      "texto_artigo": "j) fazer reparos nas unidades, promover festividades ou reuniões que possam danificar as áreas ou equipamentos de uso comuns ou perturbar o sossego alheio.\n\nl) gritar através das janelas e escadas, excetuando-se os casos de extrema necessidade (sinistros, acidentes, etc...)"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar Veículos na Garagem",
+      "fundamento": "Art. 42",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "veículo",
+        "vaga"
+      ],
+      "texto_artigo": "Art. 42\nÉ proibido lavar veículos nas vagas de garagens e eventuais consertos só poderão ser realizados nas respectivas vagas, se a remoção do veiculo não for possível;"
+    },
+    "garagem_mais_de_um_veiculo": {
+      "titulo": "Mais de um Veículo na Vaga",
+      "fundamento": "Art. 43",
+      "palavras_chave": [
+        "dois carros",
+        "vaga",
+        "estacionamento",
+        "garagem"
+      ],
+      "texto_artigo": "Art. 43\nÉ proibido o estacionamento de mais de um veículo na mesma vaga de garagem."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra/ Reforma Fora do Horário",
+      "fundamento": "Art. 56",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "furadeira",
+        "horário"
+      ],
+      "texto_artigo": "Art. 56\nAs obras somente poderão ser realizadas de segunda-feira a sexta-feira, horário das 08h00min às 17h00min, aos sábados das 08h00min às 12h00min."
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "id": "riacho-doce",
+  "superlogica_nome": "Riacho Doce",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "Conceição Aparecida Montovani",
+    "cargo": "Síndica"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\n- Sem prejuízo do disposto no Artigo anterior, condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Sindico, o qual dosará a gravidade da falta, e correspondente pena, no máximo em valor equivalente a 2 (dois) salários mínimos.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 4º",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "respeitar o horário de silêncio que vai das 22h às 8h; XI - respeitar as disposições da legislação municipal, em especial o Código de Posturas do Município de Araraquara, e suas alterações, quanto aos limites de pressão sonora e horários; XII - zelar pelo asseio, segurança e conservação do prédio e qualquer área comum, devendo providenciar a limpeza imediata do local em caso de qualquer adversidade ocorrida; XIII - manter limpa e envernizada a face externa da porta de entrada da sua unidade, obedecendo o mesmo padrão do Condomínio; XIV - manter a porta de entrada de sua unidade autônoma sempre fechada, abrindo-a apenas para entrada e saída de pessoas; XV - manter fechada a porta de entrada do prédio, sempre que entrar e sair, e após as 22h fechar com chave, preservando dessa forma, a segurança dos moradores; XVI - manter os vidros das escadarias devidamente fechados, exceto em caso de mau cheiro não identificado ou alguma outra ocorrência; XVII - comunicar imediatamente a Administração do Condomínio qualquer caso de moléstia grave e contagiosa a qual esteja acometido morador e/ou animais domésticos, para que sejam tomadas as devidas providências junto ao órgão de saúde pública; XVIII -"
+    },
+    "som_alto_eventos": {
+      "titulo": "Som Alto em Festas/Reuniões",
+      "fundamento": "Art. 5º",
+      "palavras_chave": [
+        "festa",
+        "som alto",
+        "televisão",
+        "rádio"
+      ],
+      "texto_artigo": "promover festas, reuniões e qualquer outro tipo de evento semelhante nas unidades autônomas, em que sejam utilizados instrumentos sonoros, como rádio, televisão e similares que excedam os limites de pressão sonora previstos na legislação municipal; IV - gritar, conversar, discutir em voz elevada e ainda pronunciar palavras de baixo calão nas unidades autônomas e nas áreas comuns, violando as normas elementares da boa conduta ou educação, bem como os limites de pressão sonora previstos na legislação municipal; V - provocar barulhos que ferem a moral e os bons costumes, independente de dia e horário, de modo a perturbar as atividades e o descanso dos demais moradores; VI - usar máquinas ou aparelhos de qualquer tipo que provoquem trepidações ou ruídos que excedam os limites de pressão sonora previstos na legislação municipal; VII -"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Art. 5º",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "caminhão",
+        "prestador"
+      ],
+      "texto_artigo": "realizar mudanças e receber prestadores de serviços em geral fora do horário normal que compreende o período das 08h até às 16h de segunda à sexta-feira, e das 08h até às 11h aos sábados, sendo proibidas tais atividades aos domingos e feriados; VIII - transitar pelos halls, corredores e demais áreas comuns com trajes inadequados, que possam causar constrangimento entre os moradores, salvo em situações emergenciais onde não há tempo hábil para mudança dos trajes; IX - guardar, armazenar ou depositar produtos explosivos, inflamáveis ou quaisquer materiais de perigo potencial, nas unidades autônomas, nas áreas comuns do Condomínio, no interior de veículos ou nas vagas das garagens; X - cuspir, lançar papéis, cinzas, bitucas de cigarros, palitos de fósforo, fragmentos de lixo, detritos ou qualquer outro objeto nas áreas comuns, inclusive na garagem; XI - fumar, acender fósforos ou isqueiros no hall de entrada do prédio ou em qualquer área fechada de uso comum, inclusive nas garagens; XII - soltar ou queimar, dentro do Condomínio, fogos de artifício ou quaisquer artigos similares; XIII - jogar nas lixeiras quaisquer materiais que não sejam recicláveis tais como, móveis, pedaços de madeira e outros, ou inclusive materiais perfuro cortantes e infectocontagiosos sem os devidos cuidados, que possam ferir ou contaminar o coletor ou transportador, devendo tais materiais serem descartados adequadamente nos locais indicados pelo Poder Público; XIV - jogar nos vasos sanitários, ralos e…"
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo em Área Comum",
+      "fundamento": "Art. 4º",
+      "palavras_chave": [
+        "lixo",
+        "saco de lixo",
+        "área comum",
+        "lixeira"
+      ],
+      "texto_artigo": "embalar devidamente todo lixo doméstico e depositar separadamente nas lixeiras orgânicas e/ou recicláveis, sendo proibido deixar sacos de lixos em qualquer área comum e utilizar empregados do Condomínio para recolherem; XIX - reparar e/ou substituir prontamente toda e qualquer instalação ou aparelho danificado de sua unidade autônoma, que possa causar dano e/ou prejuízo ao Condomínio e/ou unidade(s) vizinha(s), cabendo ao responsável, o reparo e/ou ressarcimento ao dano causado; XX - permitir que qualquer integrante do Corpo Síndico entre em sua unidade autônoma, a fim de inspecionar os trabalhos em andamento nas instalações elétricas, hidráulicas e de alvenaria, que de alguma forma possam impactar no bem-estar e segurança dos demais condôminos; XXI - pagar em dia a taxa de condomínio e eventuais taxas extras aprovadas em assembleias, estando ou não ocupada a unidade autônoma, ficando sujeito, em caso de atraso, à multa de 2% (dois por cento), juros de 1% (um por cento) ao mês, atualização monetária, honorários advocatícios de 10% (dez por cento) em caso de cobrança extrajudicial e 20% (vinte por cento) na cobrança judicial, além das despesas processuais."
+    },
+    "varanda_varal": {
+      "titulo": "Objetos e Varal na Sacada",
+      "fundamento": "Art. 5º",
+      "palavras_chave": [
+        "varal",
+        "roupas",
+        "sacada",
+        "janela"
+      ],
+      "texto_artigo": "pendurar roupas, tapetes, cortinas, pano de chão, varais ou quaisquer outros objetos nas janelas, vitrôs e sacada; XVIII - deixar calçados, vassouras, pacotes, caixas, vasos, materiais de construção, cartazes, letreiros, anúncios, faixas ou quaisquer outros objetos no hall, sacada, vagas de garagens ou em qualquer área de uso comum do Condomínio, mesmo que provisoriamente, sendo que essas áreas devem estar sempre livres e desembaraçadas, caso contrário, tais objetos serão removidos imediatamente pela Administração; XIX - colocar churrasqueiras e/ou aparelhos similares na sacada que é local visível da fachada externa do prédio; XX – instalar toldos, varais, fios ou condutores de qualquer espécie, ou ainda quaisquer outros objetos equivalentes, nas janelas, vitrôs e sacada, prejudicando a estética do conjunto; XXI - instalar rádios transmissores e receptores de qualquer natureza que possam causar interferência nos aparelhos eletrônicos existentes no Condomínio; XXII - fixar nos quadros de avisos dos prédios, propaganda eleitoral, comercial ou particular, sendo vedado inclusive, a utilização de colaboradores do Condomínio para tal distribuição; XXIII - colocar no muro externo do Condomínio, placas, cartazes, faixas ou assemelhados; XXIV - praticar jogos desportivos ou quaisquer práticas com bolas, patins, bicicletas, skates, carrinhos de rolimã e qualquer outra modalidade, no hall de entrada, interior dos apartamentos e dependências comuns do prédio e do Condomínio; XXV -…"
+    },
+    "objetos_janela_sacada": {
+      "titulo": "Objetos Perigosos na Janela/Sacada",
+      "fundamento": "Art. 5º",
+      "palavras_chave": [
+        "vaso",
+        "sacada",
+        "janela",
+        "objeto caindo"
+      ],
+      "texto_artigo": "colocar vasos, enfeites, plantas, gaiolas ou qualquer outro objeto nas janelas, vitrôs e sacada, que possam cair a qualquer momento e atingir bens ou pessoas que estejam nas partes externas do prédio; XVII -"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículo na Garagem",
+      "fundamento": "Art. 9º",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "vaga",
+        "limpeza"
+      ],
+      "texto_artigo": "é proibido realizar lavagem/limpeza do veículo ou acessórios na vaga de estacionamento e na área comum do Condomínio; XII - somente será permitida a realização de reparos e consertos em veículos em casos emergenciais que impeçam a movimentação do veículo, devendo, para tanto, o problema ser informado antecipadamente à Administração; XIII - não cabe à Administração do Condomínio qualquer responsabilidade por danos, furtos, avaria, incêndio ou qualquer ato irregular que eventualmente venha ocorrer em veículos na área do estacionamento; XIV - é vedada a entrega da chave do veículo para empregados do Condomínio para fins de manobra ou qualquer outra finalidade; XV - por questão de segurança os veículos devem ser estacionados de ré, para que seja possível uma rápida evacuação em caso de emergência."
+    },
+    "garagem_vaga_alheia": {
+      "titulo": "Estacionar em Vaga Alheia",
+      "fundamento": "Art. 9º",
+      "palavras_chave": [
+        "vaga alheia",
+        "estacionar",
+        "garagem",
+        "vaga"
+      ],
+      "texto_artigo": "o proprietário ou morador não poderá ocupar espaço além da vaga que lhe couber por direito na matrícula do imóvel, sendo proibido estacionar veículo em vaga alheia, mesmo que a vaga esteja desocupada; VI - é permitido o empréstimo e a locação de vagas entre os condôminos, desde que seja realizado por escrito, assinado pelas partes envolvidas e entregue ao Corpo Síndico; VII - é vedado o empréstimo, locação ou alienação de vaga de estacionamento para pessoas alheias ao Condomínio; VIII - é proibido o uso da vaga de garagem por prestador de serviço sem a devida autorização do proprietário ou inquilino da unidade; IX - o proprietário ou morador que der causa a qualquer dano, seja em veículo ou instalação da área comum do Condomínio, deverá ressarcir o prejuízo causado imediatamente; X - é proibido instalar qualquer tipo de equipamento e/ou utensílio no teto e colunas das vagas de garagem; XI –"
+    },
+    "garagem_fora_faixa": {
+      "titulo": "Estacionar Fora da Faixa",
+      "fundamento": "Art. 9º",
+      "palavras_chave": [
+        "fora da faixa",
+        "garagem",
+        "manobra",
+        "vaga vizinha"
+      ],
+      "texto_artigo": "é proibido ao morador estacionar veículos fora das faixas demarcadas, de forma que obstrua ou atrapalhe o uso das vagas vizinhas ou inviabilize a manobra de veículos na área de circulação comum; V -"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Art. 8º",
+      "palavras_chave": [
+        "reforma",
+        "obra",
+        "furadeira",
+        "horário"
+      ],
+      "texto_artigo": "Art. 8º\nA realização de obras e reformas na unidade autônoma deverá atender aos seguintes critérios: I - a obra de reforma em unidade autônoma deve ser realizada em dias úteis das 8h às 16h e aos sábados das 8h às 11h, sendo proibido qualquer serviço aos domingos e feriados; II - a liberação de obra emergencial, fora do horário permitido, será analisada caso a caso pelo Corpo Síndico; III - toda obra de reforma na unidade autônoma deve ser comunicada antecipadamente ao Corpo Síndico, com o envio do projeto e Anotação de Responsabilidade Técnica (ART), devendo para tanto, seguir as determinações da legislação vigente; IV - o condômino deve comunicar à portaria, com antecedência mínima de 02 (dois) dias úteis, o início da obra de reforma a ser efetuadas em sua unidade autônoma; V - é proibida a realização de obra que possa afetar ou prejudicar a solidez do prédio, sobretudo a remoção de paredes estruturais, vigas de concreto e modificação da disposição de paredes da unidade autônoma; VI - não é permitida a aplicação de “piso sobre piso”, considerando que, por questão de segurança, não pode ser adicionado peso excessivo que possam abalar a estrutura do prédio; VII - a execução de obra irregular, que contrarie a legislação ou as normas condominiais, acarretará a responsabilização cível e criminal do condômino e do responsável técnico pela obra; VIII – é proibido o uso de objetos como lixadeira, cortadeira, esmeril, furadeira e similares na área comum do Condomínio,…"
+    },
+    "entulho_lixeira_condominio": {
+      "titulo": "Entulho em Lixeira do Condomínio",
+      "fundamento": "Art. 8º",
+      "palavras_chave": [
+        "entulho",
+        "caçamba",
+        "lixeira",
+        "obra"
+      ],
+      "texto_artigo": "todo material descartado na obra deve ser destinado corretamente, seja em caçamba estacionária ou em áreas de descarte indicadas pelo Poder Público, sendo vedado o uso das lixeiras do Condomínio para tal finalidade; XIII - o proprietário da unidade autônoma deverá franquear a entrada de qualquer membro do Corpo Síndico na unidade, sempre que este julgar necessário, para realizar vistoria na obra em execução; XIV - sendo verificado qualquer irregularidade na obra em andamento, o Corpo Síndico mediante relatório detalhado, notificará o proprietário da unidade para que paralise a obra e proceda as devidas correções, sob pena de multa e a adoção das medidas judiciais cabíveis em caso de descumprimento."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 12",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "coleira",
+        "área comum"
+      ],
+      "texto_artigo": "é proibido circular com animais nas áreas comuns do Condomínio, sendo permitido apenas o ir e vir da via pública, devendo para tanto utilizar coleira/guia; VI - o dono do animal deve obedecer a legislação municipal e recolher as fezes expelidas durante todo trajeto de ir e vir da via pública, assim como, durante todo trajeto fora do Condomínio; VII - é proibido o uso das áreas ajardinadas, hall, escadas e demais áreas comuns do Condomínio para as necessidades do animal; VIII - a presença de animal de estimação de visitantes somente será permitida se for de pequeno porte, devendo o seu tutor ou responsável respeitar as regras deste Regulamento Interno; IX - cães de grande porte deverão utilizar focinheiras, conforme Lei Estadual nº 11531/2003; X - é proibido manter nas unidades autônomas qualquer espécie de animal exótico e/ou silvestre que não seja permitido pela legislação ambiental; XI - é proibido criar nas unidades autônomas animais para fins de comercialização."
+    }
+  }
+}

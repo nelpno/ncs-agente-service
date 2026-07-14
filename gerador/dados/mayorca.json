@@ -1,0 +1,157 @@
+{
+  "id": "mayorca",
+  "superlogica_nome": "Mayorca",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena, até 3 (três) vezes o valor das despesas comuns de condomínio.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "mudanca_fora_horario": {
+      "titulo": "Mudança fora do horário",
+      "fundamento": "Art.4°",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "caminhão",
+        "sábado"
+      ],
+      "texto_artigo": "Art.4°\nAs mudanças serão permitidas de 2ª a 6ª1, das 09:00 às 18:00h e aos sábados das 09:00 às 17:00h. Caminhões de mudanças não serão autorizados a entrar na garagem, devendo permanecer na rua, ao lado prédio"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma em horário proibido",
+      "fundamento": "Art.7º",
+      "palavras_chave": [
+        "reforma",
+        "furadeira",
+        "martelada",
+        "barulho"
+      ],
+      "texto_artigo": "Art.7º\nÉ proibido fazer reformas ou consertos nos horários de silêncio. Fica autorizado, portanto, durante a semana (de 2ª a 6ªf) sendo o horário entre 9:00h às 18:00h.- limitando também o uso de furadeiras, marteladas e arrastar móveis."
+    },
+    "objetos_hall_escada": {
+      "titulo": "Objetos no hall ou escada",
+      "fundamento": "Art.6°",
+      "palavras_chave": [
+        "hall",
+        "escada",
+        "móveis",
+        "obstrução"
+      ],
+      "texto_artigo": "Art.6°\nNão é permitido deixar móveis ou quaisquer objetos na escada ou hall, obstruindo assim a passagem de outros moradores."
+    },
+    "objetos_janelas": {
+      "titulo": "Objetos perigosos nas janelas",
+      "fundamento": "Art.9°",
+      "palavras_chave": [
+        "janela",
+        "vaso",
+        "gaiola",
+        "enfeite"
+      ],
+      "texto_artigo": "Art.9°\nÉ proibido colocar nas janelas: vasos, gaiolas, enfeites ou qualquer outro objeto que possa ferir outro morador, ou danificar algum veículo - caso o apartamento não possua rede de proteção."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art.12°",
+      "palavras_chave": [
+        "gritaria",
+        "discussão",
+        "voz alta",
+        "barulho"
+      ],
+      "texto_artigo": "Art.12°\nÉ terminantemente proibido gritar e discutir em voz alta, falar palavras de baixo calão em qualquer área do condomínio. Tais atitudes depõem contra o nome do condomínio e viola as normas de boa educação e respeito"
+    },
+    "som_alto_aparelhos": {
+      "titulo": "Som alto em aparelhos",
+      "fundamento": "Art.13°",
+      "palavras_chave": [
+        "televisão",
+        "videogame",
+        "som alto",
+        "aparelho"
+      ],
+      "texto_artigo": "Art.13°\nDevemos objetivar pelo bem estar comum de nossos vizinhos, respeitando seus espaços. O dever de cada um é pensar na COLETIVIDADE, tomando assim uma postura\n\ncorreta e respeitadora, observando o volume dos televisores, vídeo games e qualquer aparelho que emita som."
+    },
+    "arrastar_moveis_silencio": {
+      "titulo": "Arrastar móveis no silêncio",
+      "fundamento": "Art.14°",
+      "palavras_chave": [
+        "móveis",
+        "porta",
+        "gaveta",
+        "silêncio"
+      ],
+      "texto_artigo": "Art.14°\nNão arrastar móveis, bater portas ou gavetas durante o horário de silêncio, evitar usar salto alto período, à acústica do prédio, o som incomoda os moradores dos andares superiores e inferiores."
+    },
+    "lixo_janelas_areas": {
+      "titulo": "Lançar lixo ou detritos",
+      "fundamento": "Art.15°",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "janela",
+        "detritos"
+      ],
+      "texto_artigo": "Art.15°\nPela ordem, limpeza e higiene do prédio, é proibido: cuspir, lançar papéis, cinza, ponta de cigarro ou quaisquer detritos e objetos pelas janelas, hall, escada ou outro local do edifício."
+    },
+    "instrumentos_areas_comuns": {
+      "titulo": "Instrumentos musicais em áreas comuns",
+      "fundamento": "Art.16°",
+      "palavras_chave": [
+        "instrumento",
+        "música",
+        "brinquedo barulhento",
+        "área comum"
+      ],
+      "texto_artigo": "Art.16°\nÉ proibido tocar instrumentos musicais em áreas comuns a todos ou em qualquer parte do condomínio, bem como brinquedos ruidosos que possam incomodar os moradores."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar veículo com água do prédio",
+      "fundamento": "Art.28°",
+      "palavras_chave": [
+        "lavar carro",
+        "água",
+        "garagem",
+        "veículo"
+      ],
+      "texto_artigo": "Art.28°\nÉ terminantemente proibido usar a água do prédio para lavar veículos ou similares"
+    },
+    "lixo_porta_hall": {
+      "titulo": "Lixo na porta, hall ou escadaria",
+      "fundamento": "Art.36º",
+      "palavras_chave": [
+        "lixo",
+        "porta",
+        "hall",
+        "escadaria"
+      ],
+      "texto_artigo": "Art.36º\nE proibido deixar lixo na porta do apartamento, hall ou escadaria."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais sem coleira ou focinheira",
+      "fundamento": "Art.46°",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "corredor"
+      ],
+      "texto_artigo": "Art.46°\nAnimais de estimação deverão usar coleira ou focinheira quando estiverem nos corredores ou pátio do condomínio."
+    }
+  }
+}

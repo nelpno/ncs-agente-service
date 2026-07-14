@@ -1,0 +1,157 @@
+{
+  "id": "angelo-smirne",
+  "superlogica_nome": "Angelo Smirne",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 39",
+    "texto": "Artigo 39\nO Condômino que, por ato próprio ou de outra pessoa que resida ou ocupe sua unidade autônoma, ainda que transitoriamente, perturbar o uso das coisas comuns ou danificá-las, ou der causa a qualquer despesa, ficará sujeito, além da obrigação de reparar os danos e de pagar as despesas ocasionadas, à multa variável de um a cinco salários mínimos, vigentes à época da cobrança.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "12.5",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "rádio",
+        "barulho noturno"
+      ],
+      "texto_artigo": "12.5 - Utilizar com volumes audíveis nos apartamentos vizinhos, aparelhos de som, rádio, televisão, ou qualquer outro aparelho musical, arrastar móveis ou provocar qualquer barulho similar que provoque ruído, das 22 às 8 horas, de Segunda a Sexta- Feira e das 23 às 9 horas do Sábado, Domingo e Feriado.\n\n12.6 -"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Varais nas Janelas/Sacadas",
+      "fundamento": "12.6",
+      "palavras_chave": [
+        "varal",
+        "roupa na janela",
+        "tapete",
+        "sacada"
+      ],
+      "texto_artigo": "12.6 - Estender, bater ou secar tapetes, lençóis ou qualquer outro tipo de roupa nas janelas ou sacadas, bem como instalar varais de que tipo forem, lavar vitrôs ou janelas nas partes externas das áreas dos apartamentos.\n\n12.7 - Fazer em sua propriedade qualquer tipo de instalação elétrica que importe em sobrecarga elétrica para o edifício, sem o conhecimento e prévia autorização do Síndico ou Subsíndico.\n\n12.8 - Fazer qualquer modificação no sistema de antena coletiva ou em aparelhos ou instrumentos de uso coletivo, sem o conhecimento e autorização do Síndico.\n\n12.9 - Manter e guardar substância odorífera e/ou perigosas como produtos químicos inflamáveis, explosivos etc.\n\n12.10 - Fazer uso de fogão que não seja a gás encanado ou elétrico, sendo vedado terminantemente o emprego de outros tipos.\n\n12.11 -"
+    },
+    "lixo": {
+      "titulo": "Lançar Lixo ou Objetos",
+      "fundamento": "12.11",
+      "palavras_chave": [
+        "lixo",
+        "papel",
+        "cigarro",
+        "objetos pela janela"
+      ],
+      "texto_artigo": "12.11 - Atirar pelas janelas para as áreas externas, pisos dos corredores, escadas, elevadores, e demais dependência do prédio fragmentos de lixos, papéis, pontas de cigarros, chicletes, ou quaisquer outros objetos.\n\n12.12 -"
+    },
+    "reforma_barulho_horario": {
+      "titulo": "Reparos ou Festas em Horário de Silêncio",
+      "fundamento": "12.12",
+      "palavras_chave": [
+        "reforma",
+        "furadeira",
+        "festa",
+        "reunião"
+      ],
+      "texto_artigo": "12.12 - Fazer reparos em seus apartamentos, promover festividades ou reuniões suscetíveis de prejudicar ou perturbar o sossego dos demais moradores, dentro do horário estipulado no item 12.5.\n\n12.13 -"
+    },
+    "funcionarios_servicos_particulares": {
+      "titulo": "Uso de Funcionários para Serviços Particulares",
+      "fundamento": "12.13",
+      "palavras_chave": [
+        "funcionário",
+        "faxina",
+        "serviço particular",
+        "porteiro"
+      ],
+      "texto_artigo": "12.13 - Utilizar os funcionários do condomínio para serviços particulares, durante o expediente de trabalho, seja em caráter normal ou horas extras.\n\n12.14 -"
+    },
+    "fachada_toldos_placas": {
+      "titulo": "Toldos, Cartazes e Letreiros na Fachada",
+      "fundamento": "12.14",
+      "palavras_chave": [
+        "toldo",
+        "cartaz",
+        "placa",
+        "letreiro"
+      ],
+      "texto_artigo": "12.14 - Instalar toldos ou cortinas nas paredes externas do edifício. Colocar ou fixar cartazes, placas e/ou letreiros nas janelas e partes comuns do edifício.\n\n12.15 -"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança sem Autorização ou Fora do Horário",
+      "fundamento": "12.15",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "autorização",
+        "elevador"
+      ],
+      "texto_artigo": "12.15 - Realizar mudanças, totais ou parciais, sem a prévia autorização do Síndico marcando hora e data para entrada e saída do edifício. Estas deverão ser efetuadas no horário das 8 às 16 horas e nunca aos domingos e feriados usando apenas um elevador. Casos especiais deverão ter anuência do Síndico ou seus prepostos.\n\nEDIFÍCIO ÂNGELO SMIRNE\n\nRUA CARLOS GOMES 1263 CEP 14801-340\n\n12.16 -"
+    },
+    "torneira_vazamento": {
+      "titulo": "Torneira ou Válvula Aberta",
+      "fundamento": "12.16",
+      "palavras_chave": [
+        "torneira aberta",
+        "vazamento",
+        "água",
+        "negligência"
+      ],
+      "texto_artigo": "12.16 - Deixar ou abandonar qualquer válvula ou torneira aberta por negligência ou defeito de funcionamento, prejudicando o consumo de água do condomínio.\n\n12.17 - A permanência de condôminos, inquilinos, e pessoas estranhas na portaria do prédio em conversas ou grupos que possam desviar a atenção do funcionário em serviço.\n\n12.18 - A instalação de grades nas janelas e vitrôs dos aptos. A não ser que sejam no modelo padrão e em alumínio anodizado.\n\n12.19 -"
+    },
+    "animais_elevador_social": {
+      "titulo": "Animal no Elevador Social",
+      "fundamento": "12.19",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "elevador social",
+        "pet"
+      ],
+      "texto_artigo": "12.19 - Adentrar no elevador com animal sem que o mesmo esteja vazio ou adentrar com animal no elevador social, mesmo que vazio. A permanência de animais domésticos nos apartamentos e área comum do prédio será permitida até o momento em que houver reclamações por parte de outros moradores quanto a barulhos, odores, agressividades etc. Ocasião em que os mesmos deverão ser retirados do condomínio.\n\n12.20 - Utilizar o empregado da portaria para dar recados ou chamar crianças ou pessoas que estejam nas áreas comuns do condomínio, fazendo com que o mesmo abandone seu posto."
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "12.2",
+      "palavras_chave": [
+        "objetos",
+        "corredor",
+        "hall",
+        "elevador"
+      ],
+      "texto_artigo": "12.2 - Depositar objetos em quaisquer áreas de uso comum, isto é, entradas, passagens, elevadores, etc. Os objetos depositados em desacordo serão removidos pelo Síndico e somente serão devolvidos após o infrator reparar os danos porventura ocasionados e o pagamento de eventual multa.\n\n12.3 - Modificar as disposições das paredes internas de divisão dos apartamentos, sem prévia consulta ao Síndico, inclusive para instalação de ar condicionado.\n\nEDIFÍCIO ÂNGELO SMIRNE\n\nRUA CARLOS GOMES 1263 CEP 14801-340\n\n12.4 - Ter ou usar instalações de materiais suscetíveis que, de qualquer forma, possam vir a afetar a saúde, segurança e a tranquilidade dos demais condôminos ou inquilinos, que possam acarretar aumento de seguro comum.\n\n12.5 -"
+    },
+    "traje_inadequado_areas_comuns": {
+      "titulo": "Traje Inadequado nas Áreas Comuns",
+      "fundamento": "12.1",
+      "palavras_chave": [
+        "pijama",
+        "traje de banho",
+        "área comum",
+        "roupa inadequada"
+      ],
+      "texto_artigo": "12.1 - Apresentar-se ou transitar pelas áreas comuns, halls, corredores, terraços e demais dependências comuns, de pijamas, robe de chambre, traje de banho sem cobertura ou qualquer outro traje atentatório à moral e que possa prejudicar o valor e a categoria do Condomínio e o bem estar e a dignidade de seus moradores.\n\n12.2 -"
+    },
+    "entregador_sem_acompanhamento": {
+      "titulo": "Entrada de Entregadores sem Acompanhamento",
+      "fundamento": "9.2",
+      "palavras_chave": [
+        "entregador",
+        "pizza",
+        "portaria",
+        "acompanhamento"
+      ],
+      "texto_artigo": "9.2 - O acesso de pessoal estranho ao condomínio, tais como, entregadores de flores, de pizza, de compras etc. será proibido, devendo as encomendas serem retiradas pelo morador na portaria. Quando for necessário a entrada desse pessoal, o morador deverá ir até a portaria e acompanhá-lo até o seu apartamento.\n\nEDIFÍCIO ÂNGELO SMIRNE\n\nRUA CARLOS GOMES 1263 CEP 14801-340\n\n9.3 - Prestadores de serviços de interesse geral dos condôminos, somente poderão entrar no edifício, após serem cadastrados na portaria, e avisar todos os apartamentos onde forem, sendo a prévia autorização do Síndico."
+    }
+  }
+}

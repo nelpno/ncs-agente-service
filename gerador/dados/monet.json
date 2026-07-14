@@ -1,0 +1,157 @@
+{
+  "id": "monet",
+  "superlogica_nome": "Monet",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "Alexandre Augusto Scalise",
+    "cargo": "Síndico"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "XXII – DAS PENALIDADES",
+    "texto": "Parágrafo 28º A pena de advertência será aplicada por escrito para a infração de menor gravidade cometida pela primeira vez. a) A pena de multa será aplicada para as infrações de maior gravidade, especialmente se estas infrações constituírem contravenção ou crime, e nos casos de reincidência na mesma infração sobre a qual o morador ou um dos moradores da mesma unidade autônoma já tenham sido advertidos anteriormente. b) Ao condômino ou morador que transgredir as disposições deste Regulamento Interno, ou da Convenção condominial, será aplicada primeiramente advertência escrita. Em caso de reincidência, a qualquer tempo, mesmo que transitória ou eventualmente, serão aplicadas multas, que respeitarão os seguintes critérios: 1. 1ª reincidência: multa correspondente ao valor de 50% do Condomínio vigente. 2. 2ª reincidência: multa correspondente a 01 vezes o valor do Condomínio vigente. 3. 3ª reincidência: multa correspondente a 02 vezes o valor do Condomínio vigente. 4. 4ª reincidência: multa correspondente a 03 vezes o valor do Condomínio vigente. 5. 5ª reincidência em diante: multa correspondente a 04 vezes o valor do Condomínio vigente. c) Em caso de reincidência pelo mau uso do salão de festas, será aplicada pena de suspensão do direito de uso do salão pelo prazo de 01 (um) ano, além da multa. d) Ao condômino ou morador que, por seu reiterado comportamento antissocial, gerar incompatibilidade de convivência com os demais condôminos ou moradores, poderá, ainda, a critério do Síndico, ser aplicada, cumulativamente, multa correspondente ao valor de 10 vezes o valor do Condomínio devido. e) Além das penalidades pecuniárias, o infrator ficará obrigado a desfazer o ato ou ação praticada, ou abster-se de praticá-la, e ainda a reparar as perdas e danos a que der causa. f) A…",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Parágrafo 22º",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "música",
+        "barulho noturno"
+      ],
+      "texto_artigo": "Parágrafo 22º – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações: a) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de uma pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto- falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após o horário de silêncio, das 22h às 08h30 da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d)"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais em Áreas Proibidas",
+      "fundamento": "Parágrafo 16º",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "áreas comuns",
+        "piscina"
+      ],
+      "texto_artigo": "b) É terminantemente proibido transitar com o animal pela piscina, salão de festas/gourmet, Grill, hall social, Lobby, e outras áreas de convívio comum, etc. c)"
+    },
+    "animais_barulho": {
+      "titulo": "Animal Fazendo Barulho Sozinho",
+      "fundamento": "Parágrafo 16º",
+      "palavras_chave": [
+        "latido",
+        "cachorro",
+        "animal sozinho",
+        "barulho"
+      ],
+      "texto_artigo": "É proibido deixar sozinho nos apartamentos quaisquer animais que produza barulhos (latidos ou similares). d) Cães que apresentem os comportamentos agressivos ou pertencentes a raças consideradas potencialmente perigosas (conforme legislação local ou estadual) deverão utilizar focinheira sempre que estiverem transitando nas áreas comuns do condomínio. 1. Definição de Cães Agressivos Consideram-se cães agressivos, independentemente de sua raça ou porte, aqueles que demonstrem comportamentos de ameaça à integridade física de pessoas ou outros animais, tais como: Avanços ou tentativas de ataque; Latidos excessivos que indiquem intenção de agressão; Histórico de mordidas ou incidentes anteriores. 2. Exceções Casos de cães que apresentem certificação de adestramento ou treinamento que comprove comportamento não agressivo poderão solicitar dispensa do uso da focinheira, mediante avaliação prévia da administração do condomínio e apresentação de documentos.\n\nd) Visando o controle da data de validade das vacinas, os proprietários dos animais deverão entregar, ao Zelador, uma cópia da caderneta de vacina ou de documento similar dos animais. Parágrafo único:- Ao condômino ou morador que não cumprir as regras dos animais dispostas no Capítulo XXV - DOS ANIMAIS serão aplicadas multas que respeitarão os seguintes critérios: 1ª multa correspondente ao valor de 50% do Condomínio vigente. 2ª reincidência: multa correspondente a 01 vezes o valor do Condomínio vigente. 3ª reincidência: multa…"
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo em Áreas Comuns",
+      "fundamento": "Parágrafo 17º",
+      "palavras_chave": [
+        "lixo",
+        "hall",
+        "escada",
+        "garagem"
+      ],
+      "texto_artigo": "Parágrafo 17º - O lixo deverá ser acondicionado em recipiente apropriado, hermeticamente fechado e depositado na lixeira do prédio. De segunda à sexta-feira os lixos serão recolhidos pelo faxineiro, em carrinho apropriado, em cada um dos apartamentos, por volta das 13h às 15h. I – Se, porventura, nenhum morador da unidade autônoma estiver em casa no horário da coleta do lixo, ou nos dias em que não houver o seu recolhimento, deverá o morador depositá-lo na lixeira do prédio; II - É expressamente proibido colocar o lixo nas saídas de emergência, no hall dos apartamentos, nas garagens e na escadaria, ficando o infrator sujeito à penalidade cabível;\n\nXXVII - DO USO E FECHAMENTO DAS VARANDAS"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículos na Garagem",
+      "fundamento": "Parágrafo 13º",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "moto",
+        "bicicleta"
+      ],
+      "texto_artigo": "Parágrafo 13º - As vagas das garagens destinam-se exclusivamente à guarda de veículos de passageiros e utilitários de pequeno porte pertencentes aos condôminos (moradores) sendo expressamente proibida sua utilização para qualquer outra finalidade, especialmente para depósito de qualquer tipo de bem, ainda que temporariamente. a) É permitida a guarda de motos e similares nas garagens do prédio, porém sob exclusiva responsabilidade dos proprietários das mesmas. As motos e similares devem ocupar somente os locais destinados ao estacionamento dos veículos do respectivo condômino e não podem perturbar as manobras e aberturas das portas laterais de veículos vizinhos. b) O direito de uso das vagas da garagem poderá ser cedido a outros moradores do Condomínio, sob responsabilidade exclusiva do cedente e sempre com prévia notificação por escrito à Administradora do Condomínio e ao Zelador. c) Os veículos, motos e similares estacionados nas vagas deverão estar convenientemente fechados à chave, não se responsabilizando o Condomínio por danos eventuais ou roubos ou furtos de objetos guardados no veículo. d) Os danos causados por acidentes serão de exclusiva responsabilidade do causador do acidente ou de seus pais ou responsáveis. e) O estacionamento irregular ou desautorizado de veículos acarretará na aplicação das penalidades previstas neste Regulamento, debitando-se as despesas decorrentes na contribuição condominial do infrator. f) É proibido lavar veículos, motos, bicicletas e…"
+    },
+    "garagem_estacionamento_irregular": {
+      "titulo": "Estacionamento Irregular",
+      "fundamento": "Parágrafo 13º",
+      "palavras_chave": [
+        "vaga",
+        "carro mal parado",
+        "estacionamento",
+        "garagem"
+      ],
+      "texto_artigo": "Parágrafo 13º - As vagas das garagens destinam-se exclusivamente à guarda de veículos de passageiros e utilitários de pequeno porte pertencentes aos condôminos (moradores) sendo expressamente proibida sua utilização para qualquer outra finalidade, especialmente para depósito de qualquer tipo de bem, ainda que temporariamente. a) É permitida a guarda de motos e similares nas garagens do prédio, porém sob exclusiva responsabilidade dos proprietários das mesmas. As motos e similares devem ocupar somente os locais destinados ao estacionamento dos veículos do respectivo condômino e não podem perturbar as manobras e aberturas das portas laterais de veículos vizinhos. b) O direito de uso das vagas da garagem poderá ser cedido a outros moradores do Condomínio, sob responsabilidade exclusiva do cedente e sempre com prévia notificação por escrito à Administradora do Condomínio e ao Zelador. c) Os veículos, motos e similares estacionados nas vagas deverão estar convenientemente fechados à chave, não se responsabilizando o Condomínio por danos eventuais ou roubos ou furtos de objetos guardados no veículo. d) Os danos causados por acidentes serão de exclusiva responsabilidade do causador do acidente ou de seus pais ou responsáveis. e) O estacionamento irregular ou desautorizado de veículos acarretará na aplicação das penalidades previstas neste Regulamento, debitando-se as despesas decorrentes na contribuição condominial do infrator. f)"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Parágrafo 14º",
+      "palavras_chave": [
+        "obra",
+        "furadeira",
+        "reforma",
+        "horário"
+      ],
+      "texto_artigo": "Parágrafo 14º – Para o início de qualquer serviço ou reforma, o condômino deverá primeiramente comunicar ao Zelador, por escrito, as características das empresas ou pessoas contratadas e o tipo e duração do trabalho a ser executado. a) A autorização para a entrada no Edifício só poderá ser consumada após identificação dos trabalhadores, a ser realizada pela Portaria, que anotará no \"Livro de Registro\" o nome, RG e CPF, empresa, local e tipo de trabalho e informará ao Zelador que confrontará estas informações com as informações, fornecida pelo condômino. O trabalhador deverá receber um crachá para se deslocar no interior do prédio. b) Nos dias subsequentes a Portaria, já orientada pelo Zelador, será responsável pela autorização do ingresso dos trabalhadores contratados, após a comunicação ao respectivo apartamento. c) Qualquer tipo de serviço poderá ser realizado nos apartamentos no período de segunda a sexta das 08h00min às 17h00min. d) A realização de pequenos reparos pelo condômino poderá ser realizada aos sábados das 08h00min às 12h00min como, por exemplo, a fixação de quadros com utilização de furadeira e outros afins. e) Caso seja necessária a realização de algum reparo de caráter emergencial fora do horário acima estipulado, deverá o condômino registrar no caderno junto à Portaria para ciência daquele morador vizinho que se sentir incomodado. f) A entrada e saída de operários no prédio deverão ser feitas exclusivamente pela entrada de serviços (se houver), utilizando…"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Parágrafo 15º",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "horário",
+        "elevador"
+      ],
+      "texto_artigo": "Parágrafo 15º - As mudanças somente poderão ser realizadas, entre o período das 08h às 17h, de segunda a sexta-feira, e das 08h às 11h aos sábados, após autorização por escrito da Administradora, que presta serviços ao Condomínio, e comunicado o fato ao Zelador, com antecedência mínima de 24 horas, que dará as orientações cabíveis. a) As mudanças só poderão ser feitas com o uso de panos protetores nas paredes do elevador de serviço, para não causar danos. b) As mudanças deverão ser executadas através do portão da garagem e ocuparão estritamente a área próxima ao elevador de serviço. XXV – DOS ANIMAIS"
+    },
+    "varanda_varal": {
+      "titulo": "Varal e Objetos Visíveis na Fachada",
+      "fundamento": "Parágrafo 22º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "Parágrafo 22º – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações: a) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de uma pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto- falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após o horário de silêncio, das 22h às 08h30 da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares). f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado terminantemente o emprego de outros materiais. g) É vedado lançar, para as áreas comuns, no piso dos corredores, locais de estacionamento e demais dependências do Condomínio, todos e…"
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "Parágrafo 22º",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "hall",
+        "elevador"
+      ],
+      "texto_artigo": "É proibido fumar nos \"Halls Sociais\" dos andares, elevadores, garagens, áreas das piscinas, salão de festas, e em toda a área comum do Edifício. l) É proibida a lavagem de terraços e janelas com extravasamentos de água para fora da sua unidade autônoma. m) É vedado gritar através das janelas e escadas, excetuando-se nos casos de extrema necessidade (sinistros, acidentes, etc.). n) A afixação de avisos só é permitida em local apropriado (mural), desde que tratem de assuntos de exclusivo interesse coletivo do Condomínio, mediante prévia autorização do Síndico. o) É proibido depositar qualquer tipo de materiais, lixo doméstico, papel, papelão e de móveis e utensílios na entrada principal, nos hall's, nas áreas das garagens, nas áreas de circulação e escadaria, sendo que as mesmas deverão permanecer livres e desimpedidas. p) Ficam os condôminos obrigados a comunicar, por escrito à Administradora que presta serviços ao Condomínio, o nome do locatário e demais ocupantes de sua unidade autônoma, bem como tomar conhecimento de todas as regras e obrigações que regem este Regulamento. q) Toda mudança, bem como o transporte de materiais, sacolas de médio e grande porte, tais como compras de supermercado e feiras livres e objetos deverão ocorrer obrigatoriamente com o uso de panos protetores nas paredes do elevador de serviço, para não causar danos, que será indicado pelo Zelador. r) Os condôminos deverão utilizar os elevadores de forma racional, não permitindo que crianças sob sua…"
+    },
+    "entregadores_apartamentos": {
+      "titulo": "Acesso de Entregadores aos Apartamentos",
+      "fundamento": "Parágrafo 9º",
+      "palavras_chave": [
+        "delivery",
+        "entregador",
+        "portaria",
+        "apartamento"
+      ],
+      "texto_artigo": "Parágrafo 9º – Qualquer encomenda deverá ser comunicada ao condômino pelo interfone, que por sua vez deverá recepcioná-la na Portaria, sendo terminantemente proibido o acesso de entregadores aos apartamentos. a) No caso de comprovada impossibilidade de o morador receber a mercadoria, o porteiro poderá fazê-lo, desde que previamente informado e não será responsável pelos danos naturais que possam ocorrer com a mercadoria. Não será permitido o uso das geladeiras, de utensílios e compartimentos do Condomínio para guardar qualquer encomenda, e a mercadoria só poderá ficar na Portaria o tempo estritamente necessário. b) Os entregadores de móveis e similares, e os prestadores de serviço poderão subir aos apartamentos, desde que autorizados pelo morador e devidamente identificados na Portaria, observando-se os horários permitidos para serviços nos apartamentos. c) É proibida a entrega de panfletos de propaganda diretamente pelos interessados. A entrega, no caso, poderá ser efetuada na Portaria que, se for o caso, se encarregará da distribuição aos apartamentos. d) Todas as entregas tipo \"delivery\" devem ser feitas obrigatoriamente na Portaria, onde o solicitante deve comparecer e fazer o recebimento. e) Os fornecedores de água deverão ser cadastrados junto à Portaria sendo permitido aos funcionários dessas empresas, devidamente identificados com crachá, realizarem a troca dos vasilhames dentro dos apartamentos, com consentimento e ciência dos moradores.\n\nXIX - DOS EMPREGADOS"
+    },
+    "skate_bola_bicicleta_areas_comuns": {
+      "titulo": "Skate, Bola e Bicicleta em Áreas Comuns",
+      "fundamento": "Parágrafo 22º",
+      "palavras_chave": [
+        "skate",
+        "bola",
+        "bicicleta",
+        "brincadeiras"
+      ],
+      "texto_artigo": "1\\. O uso de \"Skate\" e similares em qualquer área do Condomínio. 2. Brincadeiras com bola de futebol em qualquer área do Condomínio. 3. A prática de esportes e brincadeiras inapropriadas para o Condomínio, como por exemplo, o Rapel ou similares e etc. 4. O trânsito de bicicletas em qualquer área do Condomínio, exceto no itinerário entre o local da guarda até a saída do prédio e vice-versa e pela garagem, ainda que bicicleta de crianças.\n\nv) As violações de quaisquer dos dispositivos deste Regulamento sujeitará o infrator ou seus responsáveis a \"multas\" que variam de 5 % (cinco por cento) a 100 % (cem por cento) do valor do Condomínio vigente, as quais serão aplicadas pelo Síndico, levando-se em consideração o grau de gravidade e reincidência da infração cometida. Os valores originados das cobranças dessas multas serão revertidos à conta do Fundo de Reserva. Caso a multa seja ratificada pelo\n\nConselho Fiscal após o exercício do direito de defesa e não seja paga no prazo de 10 dias, a Administradora deverá de pronto ajuizar medida judicial para sua cobrança. w) O Zelador fica autorizado a tomar as providências cabíveis para fazer cumprir o presente Regulamento Interno, devendo comunicar as infrações ao Síndico, para que o mesmo tome as medidas necessárias. x) Compete ao Zelador:\n\n1\\. Coordenar e supervisionar os serviços de Portaria, exercendo a vigilância contínua do Edifício, do qual não poderá se afastar sem deixar outra pessoa em seu lugar, de acordo com estas normas e a…"
+    }
+  }
+}

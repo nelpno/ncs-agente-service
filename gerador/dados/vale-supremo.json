@@ -1,0 +1,145 @@
+{
+  "id": "vale-supremo",
+  "superlogica_nome": "Vale Supremo",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 27",
+    "texto": "Artigo 27\nA falta de cumprimento ou inobservância de quaisquer das estipulações desta Convenção e do Regulamento Interno, tornará a Condômino infrator passível de advertência escrita pelo Sindico, que, se não atendida será convertida em multa.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículos",
+      "fundamento": "Artigo 8°",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "estacionamento"
+      ],
+      "texto_artigo": "Parágrafo Segundo - É expressamente proibida a lavagem de veículos nos limites do condomínio."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Artigo 30",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "entrada e saída"
+      ],
+      "texto_artigo": "com antecedência mínima de 24 (vinte e quatro) horas, a entrada e saída de mudanças no Residencial, respeitando os horários de 2ª e 6ª feira, das 8:00 as 18:00 horas e aos sábados das 8:00 de 20:00 horas; g)"
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Artigo 30",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio"
+      ],
+      "texto_artigo": "manter o máximo silêncio no Residencial, notadamente no período compreendido entre 22:00 e 8:00 horas; h) assumir o pagamento de conserto ou substituição de qualquer peça, objeto ou partes, pertencentes ao Condomínio e danificado pelo condômino, seus familiares, prepostos ou visitantes; I) não remover pó de tapetes, cortinas ou de paredes das unidades autónomas, se não por meios que impeçam a sua dispersão, devendo as vidraças, beirais do terraço e as áreas externas, serem limpas unicamente com panos úmidos, sem o emprego de água, através de mangueiras, baldel recipiente; I) cuidar para que lodo lixo domiciliar seja acondicionado em sacos plásticos adequado devidamente amarrados, e colocados na lixeira, pelo próprio condômino. Cuidar para não colocar na lixeira sacos molhados, furados, etc, de modo a colaborar com a higiene e limpeza da lixeira; k) manter fechada e trancada as portas de suas unidades, e em nenhuma hipótese a Condomínio poderá ser responsabilizado por furtos nas unidades, ou em qualquer outra parte do Residencial: ) preocupar-se com gasto inútil de água providenciando o imediato reparo dos vazamentos existentes em sua unidade evitando-se assim o aumento da respectiva despesa; m) comunicar previamente ao zelador, a entrada e retirada de móveis, objetos, roupas, ou qualquer outro tipo de entrega ou serviço a ser realizado por terceiros, para que a zeladoria possa acompanhar a entrada e saída dessas pessoas; n) Deverá fazer parte integrante dos contratos de…"
+    },
+    "lixo": {
+      "titulo": "Descarte Irregular de Lixo",
+      "fundamento": "Artigo 31",
+      "palavras_chave": [
+        "lixo",
+        "corredor",
+        "área comum"
+      ],
+      "texto_artigo": "lançar lixo nas áreas comuns, corredores, escadas de estacionamento; o) permitir o acesso às unidades e demais áreas comuns do Residencial a vendedores, propagandistas, mendigos e pessoal com o fim de angariar donativos de qualquer espécie; p) permitir a ida ou permanência nos altos de coberturas dos residenciais; q) instalar antenas, equipamentos de quaisquer tipos, transmissor ou receptor, nos altos ou janelas das unidades autônomas. ressalvados os casos permitidos pelas autoridades competentes: r) ceder suas chaves a pessoas estranhas, salvo em casos especiais e após devida comunicação à portaria e ao síndico por escrito; s) modificar as disposições das paredes internas de divisão de suas unidades autónomas, bem como modificar a forma ou aspectos externos do Residencial; t)"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Objetos nas Janelas",
+      "fundamento": "Artigo 31",
+      "palavras_chave": [
+        "roupa pendurada",
+        "janela",
+        "varal"
+      ],
+      "texto_artigo": "colocar vasos antenas, varats, ou pendurar roupas, tapetes ou qualquer outros objetos sobre os peitoris das janelas externas, exaustores e aparelhos de refrigeração ou calafetação; f) colocar toldos ou equivalentes nas Janelas externas, excetuando-se as grades, móveis e redes protetoras, que tenham por objetivo prevenir acidentes; g)"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Artigo 31",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "área comum"
+      ],
+      "texto_artigo": "manter, ainda que temporariamente, nas unidades e áreas comuns, animais de qualquer espécie, e aves barulhentas, ressalvados animais de pequeno porte \"não barulhentos\". Os animais somente poderão circular nas áreas do Condomínio no colo e não poderão fazer necessidades fisiológicas nas áreas comuns e nos jardins; h)"
+    },
+    "obras_ruido": {
+      "titulo": "Ruídos e Obras Incômodas",
+      "fundamento": "Artigo 31",
+      "palavras_chave": [
+        "furadeira",
+        "som alto",
+        "ruído"
+      ],
+      "texto_artigo": "usar rádios, aparelhos de som, televisores, ou quaisquer instrumentos musicais em volume de som ou ruídos (furadeiras, Lixadeiras, enceradeiras). arrastar móveis ou andar de sapatos de salto, provocando ruídos audíveis que cause incômodo aos demais moradores de unidades autónomas vizinhas, em qualquer horário, especialmente no período compreendido entre 22:00 e 8:00 horas; ) ter e usar instalações ou materiais explosivos, inflamáveis, odoriferas e perigosas, ou suscetíveis de por qualquer forma, afetarem a saída, a segurança e tranquilidade dos moradores, ou que possam acarretar o aumento do seguro comum, que neste caso será pago pelo seu causador; I) utilizar os funcionários do Condomínio, a qualquer tempo para execução de serviços particulares; k) o uso de bola, skate, patins e bicicletas, com exceção de bicicletas pequenas para crianças menores de 10 (dez) anos, nas vias de passeio do Condomínio e de estacionamento de veículos: i) obstruir as entradas, corredores, escadas, ou utilizá-los para fins diversos, sendo proibido o estacionamento nos mesmos; m) decorar as paredes, portas e esquadrias externas em cores ou tonalidades ou materiais diversos dos empregados no residencial; n)"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Artigo 31",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "entulho"
+      ],
+      "texto_artigo": "realizar obras ou serviços, ainda que não impedidos neste Regulamento interno, ou pela Convenção do Condomínio, nas unidades ou nas áreas de uso comum, no período compreendido entre 17:00 e 08:00 horas da manhã e aos domingos e feriados, das 17:00 as 10:00 horas da manhã. O entulho e material das obras deverão ser retirados do Residencial pelos responsáveis por ele dentro de 24 horas, sob pena de a retirada ser feita por sua conta e por ordem do síndico."
+    },
+    "garagem_fora_vaga": {
+      "titulo": "Estacionar Fora da Vaga",
+      "fundamento": "Artigo 37",
+      "palavras_chave": [
+        "vaga",
+        "carro",
+        "corredor"
+      ],
+      "texto_artigo": "Artigo 37\nÉ proibido estacionar veículos fora das vagas delimitadas e próprias e/ou nos corredores de acesso. O usuário deverá estacionar o veículo com as portas fechadas, desligado e engrenado."
+    },
+    "garagem_objetos": {
+      "titulo": "Guardar Objetos na Vaga",
+      "fundamento": "Artigo 38",
+      "palavras_chave": [
+        "vaga",
+        "objetos",
+        "depósito"
+      ],
+      "texto_artigo": "Artigo 38\nNão é permitido usar as vagas para abrigo de coletivos, lotações, barcos, tampouco para a guarda de móveis, utensílios, motores, pneus, equipamentos, ferramentas ou quaisquer outros objetos, bem como armários ou despensas."
+    },
+    "som_piscina": {
+      "titulo": "Aparelho Sonoro na Piscina",
+      "fundamento": "Artigo 49",
+      "palavras_chave": [
+        "caixa de som",
+        "música",
+        "piscina"
+      ],
+      "texto_artigo": "Artigo 49\nÉ proibido o uso de aparelhos sonoros na área das piscinas."
+    },
+    "traje_banho_areas_comuns": {
+      "titulo": "Traje de Banho nas Áreas Comuns",
+      "fundamento": "Artigo 56",
+      "palavras_chave": [
+        "biquíni",
+        "sunga",
+        "área comum"
+      ],
+      "texto_artigo": "Artigo 56\nFica terminantemente proibido a circulação de adultos ou crianças em trajes de banho nas áreas comuns do condomínio"
+    }
+  }
+}

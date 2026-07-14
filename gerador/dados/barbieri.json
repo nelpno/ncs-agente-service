@@ -1,0 +1,145 @@
+{
+  "id": "barbieri",
+  "superlogica_nome": "Barbieri",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 72º",
+    "texto": "Art. 72º\n– O síndico aplicará, nos casos de não observância deste regimento, ao responsável pela ocupação do apartamento, a penalidade de advertência verbal e escrita, na primeira vez, multa de 40% do valor da taxa condominial na reincidência, e, a partir desta, com multas que irão dobrando de valor a cada nova ocorrência de mesmo teor. Parágrafo Único – O condômino multado poderá, por escrito, recorrer da penalidade que lhe for imposta, solicitando reunião com os membros dos Conselhos Administrativos dos Edifícios que julgará e decidirá sobre o caso, sendo a decisão tida como última e de irrecorrível instância.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "atividades_ruidosas": {
+      "titulo": "Atividades Ruidosas na Unidade",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "barulho",
+        "festa",
+        "som alto"
+      ],
+      "texto_artigo": "a) Não usar as respectivas unidades autônomas, nem aluga-las ou cede-las para\n\natividades ruidosas; b) Não remover pó de tapetes, cortinas, etc, senão por meios que impeçam a sua\n\ndispersão; c)"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou Tapetes nas Janelas",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "janela"
+      ],
+      "texto_artigo": "dispersão; c) Não estender roupas ou tapetes nas janelas ou locais visíveis do exterior; d)"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "corredor",
+        "objetos",
+        "área comum"
+      ],
+      "texto_artigo": "dispersão; c) Não estender roupas ou tapetes nas janelas ou locais visíveis do exterior; d) Não colocar nem deixar que se coloquem nas partes comuns do Edifício quaisquer objetos ou materiais, sejam de que natureza forem, mesmo que para posterior transporte para a unidade autônoma; e) Não utilizar os funcionários do Edifício para serviços particulares; f) Utilizar o elevador social exclusivamente para o transporte pessoal e em traje\n\nadequado; g) Utilizar o elevador de serviço, para transporte de pacotes, bagagem, etc; h) Obedecer o horário determinado pelo síndico, em caso do uso do elevador de serviço para transporte de mudança, material de construção, etc, com quem deverá previamente se entender, sendo que para estes casos o elevador somente poderá ser usado no período entre 8 horas e 16 horas e não sendo permitido seu uso, para estas finalidades no período entre 12:00 horas de sábado até as horas da segunda-feira seguinte; i) Não realizar jogos de qualquer natureza ou qualquer tipo de recreação a não ser\n\nos que possam vir a ser instalados no salão de jogos do condomínio; j) Não manter animais, independentes de raça e de espécie nas respectivas\n\nunidades autônomas; k) Não danificar ou permitir que dependentes seus danifiquem plantas do jardim ou\n\nvasos, mesmo que seja para extrair mudas; l) Recolocar em seu lugar, na entrada de serviços, após seu uso, os carrinhos de transporte de compras, não sendo permitido o uso do funcionário para a colocação do carrinho no seu…"
+    },
+    "animais": {
+      "titulo": "Animais no Condomínio",
+      "fundamento": "Art. 43º",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "pet"
+      ],
+      "texto_artigo": "Art. 43º\nÉ expressamente proibido criar ou manter qualquer tipo de animal doméstico dentro do condomínio, tanto em área privativa como em área comum do Condomínio."
+    },
+    "lixo": {
+      "titulo": "Lixo em Saco Inadequado",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "lixo",
+        "saco de papel",
+        "coleta"
+      ],
+      "texto_artigo": "Não utilizar sacos de papel para acondicionar lixo domestico, que deve ser colocado em sacos próprios e depositados em recipientes junto à escada para que o funcionário o retire posteriormente; o)"
+    },
+    "obra_fim_de_semana_noturno": {
+      "titulo": "Trabalhadores em Fins de Semana ou à Noite",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "pedreiro",
+        "reforma",
+        "obra"
+      ],
+      "texto_artigo": "Não permitir a presença de trabalhadores eventuais como pedreiros, pintores,\n\nencanadores, etc..., nos fins de semana e no período noturno; p) Todas as irregularidade deverão ser comunicadas ao síndico e anotadas em livro\n\npróprio; q) Todo e qualquer dano ao patrimônio (estrutural, elétrico, hidráulico, decoração, etc...) que na área comum ou unidade autônoma, desde que afete os demais\n\ncondôminos, deverão ser comunicados ao síndico por escrito e através de livro de ocorrência e em caso de emergência verbalmente ao porteiro/zelador e posteriormente ao síndico; r)"
+    },
+    "barulho": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 1º",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "sossego"
+      ],
+      "texto_artigo": "Silêncio – não provocar ou promover qualquer tipo de barulho que possa atrapalhar os condôminos exceto de 2ª feira à 6ª feira das 8:00h às 18:00h, e de Sábado das 9:00h às 13:00h."
+    },
+    "vaga_terceiros": {
+      "titulo": "Cessão de Vaga a Terceiros",
+      "fundamento": "Art. 4º",
+      "palavras_chave": [
+        "vaga",
+        "terceiros",
+        "garagem"
+      ],
+      "texto_artigo": "Art. 4º\n– As garagens das unidades autônomas são de uso exclusivo dos condôminos, não podendo ser a qualquer título cedidas a terceiros estranhos ao Edifício, ficando o síndico com pleno direito de impedir a entrada de veículo que assim não seja identificado.\n\na) Morador do Edifício deverá fornecer à administração as características de seu veículo e sua placa, para que, somente os veículos assim identificados, possam utilizar a vaga. Quando o proprietário ou morador estiver de posse do veiculo não cadastrado deve se dirigir primeiramente a portaria, identificar o veículo para então dirigir-se a sua vaga; b) Nenhuma pessoa não moradora do Edifício terá acesso a garagem, mesmo de posse de veículo cadastrado. Não moradores do prédio devem estacionar veículo de qualquer espécie, na rua e dirigir-se a portaria. Caso este veiculo deva ser guardado na garagem isto somente se fará pelo morador do prédio, após fornecer os dados do veículo ao porteiro; c) Também ciclomotores, bicicletas e motocicletas devem ser guardadas, obrigatoriamente, nas vagas de garagem, não se permitindo que ocupem vagas que não as suas. As bicicletas e motos devem também ser cadastradas. Em\n\nhipótese nenhuma bicicletas ou ciclomotores poderão ser guardadas nas unidades autônomas sendo vedado o seu transporte pelos elevadores; d) Cada unidade autônoma tem a sua respectiva vaga na garagem, portanto é vedado o uso de outra vaga para estacionamento a não ser a que lhe foi atribuída na ocasião da compra do…"
+    },
+    "velocidade_garagem": {
+      "titulo": "Excesso de Velocidade na Garagem",
+      "fundamento": "Art. 8º",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "garagem"
+      ],
+      "texto_artigo": "Art. 8º\n– A velocidade máxima permitida para entrada e saída da garagem é de 10 (dez) km/h, devendo o motorista ter a máxima atenção, principalmente quanto a transeuntes na calçada externa do Edifício e ao passar defronte o elevador social."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar Veículo na Garagem",
+      "fundamento": "Art. 9º",
+      "palavras_chave": [
+        "lavar carro",
+        "lavar moto",
+        "garagem"
+      ],
+      "texto_artigo": "Art. 9º\n– É extremamente proibido no recinto da garagem:\n\na) lavar veículo ou moto; b) efetuar qualquer tipo de reparo ou manutenção em veículo automotivo; c) fazer manobras que possam colocar em risco os outros veículos estacionado,\n\nbem como pessoas, nas dependências da garagem."
+    },
+    "ar_condicionado": {
+      "titulo": "Instalação de Ar-Condicionado Vedada",
+      "fundamento": "Art. 56º",
+      "palavras_chave": [
+        "ar-condicionado",
+        "instalação",
+        "fachada"
+      ],
+      "texto_artigo": "Art. 56º\n– Não é permitida a instalação de aparelhos de ar-condicionado nas unidades autônomas pois não há previsão de locais e instalações elétricas adequadas para tal. Somente será permitida a utilização de aparelhos de ar-condicionado portátil."
+    },
+    "jogar_objetos_janela": {
+      "titulo": "Jogar Objetos pelas Janelas",
+      "fundamento": "Art. 59º",
+      "palavras_chave": [
+        "cigarro",
+        "janela",
+        "objetos"
+      ],
+      "texto_artigo": "Art. 59º\n– Não é permitido jogar objetos, papéis, cigarros, etc..., pelas janelas e varanda do edifício."
+    }
+  }
+}

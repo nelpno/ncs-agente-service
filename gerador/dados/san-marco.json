@@ -1,0 +1,157 @@
+{
+  "id": "san-marco",
+  "superlogica_nome": "San Marco",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 2°, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "Art. 7°",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "apartamento",
+        "moradia"
+      ],
+      "texto_artigo": "Art. 7°\nOs apartamentos destinam-se EXCLUSIVAMENTE A MORADIA, sendo vedado seu uso para qualquer outra finalidade. Quando alugado para estudantes, só poderá morar no apartamento, o máximo de 04 (quatro) pessoas."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "12.6",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "música",
+        "barulho"
+      ],
+      "texto_artigo": "12.6 - Utilizar com volumes audíveis nos apartamentos vizinhos, aparelhos de som, rádio, televisão, ou qualquer outro aparelho musical, arrastar móveis ou provocar qualquer barulho similar que provoque ruído, das 22:00 as 8:00 horas, de Segunda a Sexta-feira, e das 23:00 as 9:00 horas, no Sábado e Domingo;\n\n12.7 -"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Varais nas Janelas/Sacadas",
+      "fundamento": "12.7",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "sacada",
+        "janela"
+      ],
+      "texto_artigo": "12.7 - Estender, bater ou secar tapetes, lençóis ou qualquer outro tipo de roupa nas janelas ou sacadas, bem como instalar varais de que tipo forem; lavar vitrôs ou janelas nas partes externas das áreas dos apartamentos;\n\n12.8 - Fazer em sua propriedade, qualquer tipo de instalação elétrica que importe em sobrecarga elétrica para o edifício, sem o conhecimento e prévia autorização do Síndico ou Sub-Síndicо;\n\n12.9 - Fazer quaisquer modificações no sistema de antena coletiva ou em aparelhos e instrumentos de uso coletivo, sem o conhecimento prévio e autorização do Síndico;\n\n12.10 - Manter ou guardar substâncias odoríferas e/ou perigosas como produtos químicos inflamáveis, explosivos, etc...\n\n12.11 - Fazer uso de fogão que não seja a gás encanado ou elétrico, sendo vedado terminantemente o emprego de outros tipos;\n\n12.12 -"
+    },
+    "lixo_arremesso": {
+      "titulo": "Arremesso de Lixo e Objetos",
+      "fundamento": "12.12",
+      "palavras_chave": [
+        "lixo",
+        "janela",
+        "bituca",
+        "papel"
+      ],
+      "texto_artigo": "12.12 - Atirar pelas janelas para as áreas externas, pisos dos corredores, escadas, elevadores, garagens, jardins e demais dependências do prédio, fragmentos de lixo, papéis, pontas de cigarro, chicletes, papéis de guloseimas ou quaisquer outros objetos;\n\n12.13 -"
+    },
+    "reforma_barulho_horario": {
+      "titulo": "Reparos/Festas com Barulho em Horário Proibido",
+      "fundamento": "12.13",
+      "palavras_chave": [
+        "reforma",
+        "furadeira",
+        "festa",
+        "barulho"
+      ],
+      "texto_artigo": "12.13 - Fazer reparos em seus apartamentos, promover festividades ou reuniões suscetíveis de prejudicar ou perturbar o sossego dos demais moradores, dentro do horário estipulado no item 12.6;\n\n12.14 -"
+    },
+    "mudanca_sem_autorizacao": {
+      "titulo": "Mudança sem Autorização Prévia",
+      "fundamento": "12.16",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "autorização",
+        "horário"
+      ],
+      "texto_artigo": "12.16 - Realizar mudança, totais ou parciais, sem a prévia autorização, marcando hora e data para a entrada e saída do edifício. Estas deverão ter a anuência do Síndico ou seus propostos;\n\n12.17 - Deixar ou abandonar qualquer válvula ou torneira aberta por negligência ou defeito de funcionamento, prejudicando o consumo de água do Condomínio;\n\n12.18 - A permanência de condôminos, inquilinos e pessoas estranhas na Portaria do edifício, em conversas ou grupos que possam desviar a atenção do funcionário em serviço na Portaria;\n\n12.19 - A instalação de grades nas janelas e vitrôs dos apartamentos, a não ser que sejam em modelo padrão;\n\n12.20 - Utilizar o empregado da Portaria para dar recados ou chamar crianças e/ou outras pessoas que estejam nas áreas comuns do Condomínio, fazendo com que o mesmo abandone seu posto;"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "12.3",
+      "palavras_chave": [
+        "corredor",
+        "hall",
+        "objetos",
+        "entulho"
+      ],
+      "texto_artigo": "12.3 - Depositar objetos em quaisquer áreas de uso comum, isto é, entradas, passagens, elevadores, garagem, etc... Os objetos depositados serão removidos e somente serão devolvidos após o infrator reparar os danos por ventura ocasionados e o pagamento de eventual multa, caso venha a ocorrer;\n\n12.4 - Modificar as disposições das paredes internas de divisão dos apartamentos, sem prévia consulta ao Síndico, inclusive para a instalação de ar condicionado;\n\n12.5 - Ter ou usar instalações de materiais suscetíveis que, de qualquer forma possam vir a afetar a saúde, segurança e a tranquilidade dos demais condôminos ou inquilinos, que possa acarretar aumento de seguro comum;\n\n12.6 -"
+    },
+    "funcionario_servico_particular": {
+      "titulo": "Uso de Funcionários para Serviço Particular",
+      "fundamento": "12.14",
+      "palavras_chave": [
+        "porteiro",
+        "faxina",
+        "serviço particular",
+        "funcionário"
+      ],
+      "texto_artigo": "12.14 - Utilizar os funcionários do Condomínio para serviços particulares, durante expediente de trabalho, seja em caráter normal ou horas extras;\n\n12.15 - Instalar toldos ou cortinas nas paredes externas do edifício. Colocar ou afixar cartazes, placas e/ou letreiros nas janelas e partes comuns do edifício. Admitir-se-á placa padrão no jardim da portaria quando do interesse de venda ou locação por parte de algum condômino;\n\n12.16 -"
+    },
+    "fumar_elevador": {
+      "titulo": "Fumar nos Elevadores",
+      "fundamento": "Art. 54°",
+      "palavras_chave": [
+        "fumar",
+        "cigarro",
+        "elevador",
+        "segurança"
+      ],
+      "texto_artigo": "Art. 54°\nPor medida de segurança, é terminantemente proibido fumar nos elevadores."
+    },
+    "barulho_areas_comuns_22h": {
+      "titulo": "Barulho nas Áreas Comuns após 22h",
+      "fundamento": "Art. 55°",
+      "palavras_chave": [
+        "hall",
+        "frente do prédio",
+        "visitante",
+        "22h"
+      ],
+      "texto_artigo": "Art. 55°\nFazer barulho na frente do prédio, no hall ou em suas áreas comuns, incomodando desta forma os demais moradores após o horário das 22:00 horas, o morador responsável pelo visitante, pagará multa."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículos",
+      "fundamento": "Art. 22°",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "veículo",
+        "lubrificação"
+      ],
+      "texto_artigo": "Art. 22°\nFICA TERMINANTEMENTE PROIBÍDA A LAVAGEME LUBRIFICAÇÃO dos veículos nas vagas e demais dependências ou áreas do Condomínio."
+    },
+    "animais": {
+      "titulo": "Animais no Condomínio",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "animal",
+        "ave"
+      ],
+      "texto_artigo": "não possuir no edifício qualquer animal ou aves, salvo com a concordância expressa da totalidade dos condôminos; q) não instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível do prédio, ressalvado a instalação de antena de TV e FM coletiva."
+    }
+  }
+}

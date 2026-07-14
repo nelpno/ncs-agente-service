@@ -1,0 +1,157 @@
+{
+  "id": "vila-rio-preto",
+  "superlogica_nome": "Residencial Vila Rio Preto",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "ARTIGO 50º",
+    "texto": "ARTIGO 50º\n: - Além das penalidades cominadas em Lei, fica ainda o condômino que, transitória ou eventualmente, perturbar o uso das áreas comuns ou der causa a despesas, por ato seu, ou de seus parentes, familiares, amigos, convidados, visitas ou inquilinos, sujeito à multa correspondente ao valor da contribuição condominial e, até o dobro em caso de reincidência, sem prejuízo das demais consequências civis e criminais de seus atos.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_comercial_unidade": {
+      "titulo": "Uso Comercial da Unidade",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "comércio",
+        "república",
+        "escritório",
+        "atividade comercial"
+      ],
+      "texto_artigo": "a.- Alugar, sublocar, ceder a qualquer título, oneroso ou gratuito, ou utilizar qualquer residência para clubes de jogos de qualquer natureza, clubes de dança, carnavalescos, recreativos ou similares, escola de música, organizações, pessoas físicas ou jurídicas que pretendam exercer profissões ou atividades de qualquer natureza, pensões, repúblicas (principalmente para estudantes), enfim, quaisquer ramos ou atividades comerciais ou industriais.\n\nb.-"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "objetos",
+        "corredor",
+        "área comum",
+        "depósito"
+      ],
+      "texto_artigo": "b.- Abandonar, depositar ou colocar quaisquer objetos ou outros materiais em lugares de uso comum do condomínio, sob pena de imediata apreensão e somente serem devolvidos após o infrator pagar as despesas e danos porventura ocasionados e a multa a lhe ser aplicada, em consonância com o estipulado no artigo 50° desta convenção.\n\nc.-"
+    },
+    "inflamaveis_explosivos": {
+      "titulo": "Explosivos ou Inflamáveis",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "inflamável",
+        "explosivo",
+        "produto perigoso",
+        "armazenar"
+      ],
+      "texto_artigo": "c.- Guardar ou depositar explosivos ou inflamáveis nas áreas privativas ou comum do condomínio.\n\nd.-"
+    },
+    "fachada_padrao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "fachada",
+        "persiana",
+        "toldo",
+        "cor externa"
+      ],
+      "texto_artigo": "d.- Instalar persianas ou colocar iluminação diferente das usuais em todo o condomínio, toldos ou cortinas, ou qualquer outro material que quebre a uniformidade da fachada, a decoração das paredes e esquadrias externas ou pintura em cores ou tonalidades diversas das empregadas no conjunto do condomínio.\n\ne.- Colocar placas ou letreiros nas janelas ou vidros externos das residências, ou em suas áreas comuns, assim como divisões de halls e corredores de circulação, avisos ou anúncios nas partes e coisas de uso comum.\n\nf.-"
+    },
+    "varal_janelas": {
+      "titulo": "Roupas e Varais Visíveis",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "f.- Estender, bater ou secar roupas, tapetes, toalhas, etc., nas janelas ou em outras áreas comuns, fronteiriças e que nas quais não poderão ser instalados varais de tipo a serem vistos do exterior.\n\ng.-"
+    },
+    "arremesso_objetos": {
+      "titulo": "Arremesso de Objetos",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "objeto",
+        "jogar pela janela"
+      ],
+      "texto_artigo": "g.- Atirar: papeis, pontas de cigarros, líquidos e outros objetos nos corredores, janelas, escadas e outras áreas de uso comum ou nas vias de circulação, vias públicas ou nos imóveis lindeiros.\n\nh.-"
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "televisão",
+        "música"
+      ],
+      "texto_artigo": "h.- Usar aparelhagem de som, televisão, ou quaisquer outros instrumentos, mesmo musicais, de maneira a incomodar os demais condôminos, sendo vedado qualquer ruído entre as 22:00 e 8:00 horas.\n\ni.-"
+    },
+    "animais_unidades_areas_comuns": {
+      "titulo": "Animais em Desacordo",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "animal",
+        "perturbação"
+      ],
+      "texto_artigo": "i.- Criar ou manter, mesmo que temporariamente, animais ou aves de quaisquer espécies, nas dependências das residências e ou mesmo nas vagas de garagem ou outras áreas de uso comum, ressalvada a manutenção de animais de pequeno porte como: cachorro, gato, passarinho, desde que não haja perturbação ao sossego dos condôminos e moradores.\n\nj.-"
+    },
+    "festas_areas_comuns": {
+      "titulo": "Festas nas Áreas Comuns",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "festa",
+        "recepção",
+        "área comum",
+        "sossego"
+      ],
+      "texto_artigo": "j.- Realizar festas ou recepções nas partes comuns do condomínio, susceptíveis de prejudicar as coisas comuns ou perturbar o sossego.\n\ni.- Pisar ou brincar nas partes que compõe o jardim, bem como nele intervir, adicionando ou removendo plantas ou mudando-lhe o arranjo à revelia do Síndico e, bem como a prática de jogos infantis com bola, patins, assim como movimentação de bicicletas nas áreas comuns dos sobrados que não sejam permitidas em assembleia.\n\nm.-"
+    },
+    "reforma_sem_autorizacao": {
+      "titulo": "Reforma sem Autorização",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "parede",
+        "autorização"
+      ],
+      "texto_artigo": "m.- Modificar as disposições das paredes internas de divisão de sua residência, ou fazer em sua propriedade, qualquer instalação que importe em sobrecarga para o condomínio, sem conhecimento e a prévia concordância do Síndico, bem como modificar a forma ou aspecto externo das residências, sem a prévia autorização da assembleia geral dos condôminos.\n\nn.- Ter ou usar instalações ou material susceptível de por qualquer forma, afetar a saúde, segurança, tranquilidade e o sossego dos demais condôminos ou inquilinos, ou que possam acarretar o aumento do seguro comum.\n\no.- Utilizar os empregados e funcionários do condomínio, para serviços particulares, durante o horário normal de serviço.\n\np.- Colocar vasos, antenas, varais, enfeites ou quaisquer outros objetos na parte externa, sobre os peitoris das janelas e áreas de uso comum do condomínio.\n\nq.-"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "ARTIGO 51º",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "horário",
+        "administração"
+      ],
+      "texto_artigo": "q.- Realizar mudanças, totais ou parciais, fora do horário compreendido entre das 8:00 às 20:00 horas, sem avisar previamente a administração, que analisará as peculiaridades de casa caso.\n\nr.- Fica o síndico, autorizado a tomar as providências cabíveis para fazer cumprir o presente Regulamento Interno, devendo tomar as medidas que se fizerem necessárias, imediatamente."
+    },
+    "lixo": {
+      "titulo": "Descarte de Lixo",
+      "fundamento": "PARÁGRAFO SEXTO",
+      "palavras_chave": [
+        "lixo",
+        "saco plástico",
+        "coleta",
+        "horário"
+      ],
+      "texto_artigo": "PARÁGRAFO SEXTO:- O lixo deverá ser acondicionado em sacos plástico, em depositados no local previsto e obedecendo-se ao horário a ser determinado em assembleia a fim de se adequar ao serviço de coleta de lixo do município."
+    }
+  }
+}

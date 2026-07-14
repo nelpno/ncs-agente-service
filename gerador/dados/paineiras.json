@@ -1,0 +1,157 @@
+{
+  "id": "paineiras",
+  "superlogica_nome": "Paineiras",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena, até 3 (três) vezes o valor das despesas comuns de condomínio. Parágrafo único - Ao condômino punido caberá recurso para a Assembleia Geral Ordinária; quando Assembleia o objeto do mesmo for de comprovada urgência, poderá ser convocada a Geral Extraordinária.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "som alto",
+        "festa",
+        "barulho",
+        "música"
+      ],
+      "texto_artigo": "b) atividades não promover ruidosas, nem de deixar que se promovam nas respectivas unidades autônomas, modo a perturbar as atividades dos demais condôminos;\n\nc) não remover estender pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão;\n\nd) não remover estender pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão;"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou Tapetes Visíveis",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "varal",
+        "roupa na janela",
+        "tapete",
+        "fachada"
+      ],
+      "texto_artigo": "d) não remover estender pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão; roupas ou tapetes nas janelas ou locais visíveis do exterior;\n\ne)"
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo e Detritos em Áreas Comuns",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "lixo",
+        "detritos",
+        "sujeira",
+        "área comum"
+      ],
+      "texto_artigo": "e) não colocar lançar quaisquer lixos, detritos, objetos ou liquidos sobre a via pública, áreas comuns e, etc\n\nf)"
+    },
+    "lixo_local_inadequado": {
+      "titulo": "Lixo Fora do Local Destinado",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "lixo",
+        "local correto",
+        "saco de lixo",
+        "descartar"
+      ],
+      "texto_artigo": "f) não colocar lixo, detritos, etc; senão, nos locais ao mesmo destinado;\n\ng)"
+    },
+    "fachada_placas_toldos": {
+      "titulo": "Placas, Letreiros e Toldos",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "placa",
+        "letreiro",
+        "toldo",
+        "fachada"
+      ],
+      "texto_artigo": "g) cartazes não usar de toldos publicidade externos, nem colocar ou permitir que se coloquem: letreiros, placas, empreendimento; ou quaisquer outros objetos estranhos à decoração geral do empreendimento;\n\nh)"
+    },
+    "materiais_areas_comuns": {
+      "titulo": "Materiais nas Partes Comuns",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "material",
+        "objetos",
+        "área comum",
+        "armazenar"
+      ],
+      "texto_artigo": "h) não colocar, ou de nem instalação, deixar que se coloquem, nas partes comuns do condomínio, materiais de sejam de que natureza for;\n\ni)"
+    },
+    "uso_funcionarios_particular": {
+      "titulo": "Uso de Empregados para Serviço Particular",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "funcionário",
+        "serviço particular",
+        "empregado",
+        "favor pessoal"
+      ],
+      "texto_artigo": "i) não utilizar os empregados do condomínio para serviços particular;\n\nj)"
+    },
+    "substancias_perigosas": {
+      "titulo": "Substâncias ou Aparelhos Perigosos",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "inflamável",
+        "perigo",
+        "aparelho perigoso",
+        "segurança"
+      ],
+      "texto_artigo": "j) alta não periculosidade, manter nas respectivas suscetíveis unidades autônomas, substâncias, instalações ou aparelhos de incômodo aos demais condôminos; de causar perigo à segurança e à solidez do condomínio ou convenção;\n\nl) contribuir para as despesas do condomínio, de acordo com o que se estabelece nesta convenção;\n\nm) contribuir para o custeio das obras determinadas pela Assembleia Geral, na forma que for fixada;\n\nn) quando permitir isso o ingresso, em sua unidade autônoma, do Síndico e demais pessoas credenciadas, estrutura se torne indispensável para a inspeção ou realização de trabalhos relativos à reparos em geral instalações do empreendimento, à sua segurança ou solidez, ainda, à realização de e tubulações nas unidades autônomas vizinhas;\n\no)"
+    },
+    "alteracao_paredes_estruturais": {
+      "titulo": "Alteração de Paredes Estruturais",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "quebrar parede",
+        "obra",
+        "estrutura",
+        "reforma"
+      ],
+      "texto_artigo": "o) não alterar, estruturais; sob qualquer hipótese, a disposição das paredes das unidades, uma vez que estas são estruturais;\n\np)"
+    },
+    "antena_individual_fachada": {
+      "titulo": "Antenas em Local Visível",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "antena",
+        "fachada",
+        "rádio amador",
+        "telhado"
+      ],
+      "texto_artigo": "p) do não prédio, instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível ressalvado a instalação de antena de TV e FM coletiva."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "8",
+      "palavras_chave": [
+        "cachorro",
+        "animal solto",
+        "coleira",
+        "latido"
+      ],
+      "texto_artigo": "8\nQuem possui animais de pequeno e grande porte, favor manter os mesmos na parte interna de sua residência. Na área comum somente no colo ou coleira de passagem para a rua. Não deixar seus animais soltos no condomínio em áreas comuns, nem fazer suas necessidades fisiológicas/verificar se o latido do seu cão não está incomodando o sossego e descanso do vizinho."
+    },
+    "quiosque_horario_barulho": {
+      "titulo": "Barulho no Quiosque Fora do Horário",
+      "fundamento": "6",
+      "palavras_chave": [
+        "quiosque",
+        "som alto",
+        "barulho",
+        "horário"
+      ],
+      "texto_artigo": "6\nPara usar o quiosque, favor agendar com a síndica. Vc será responsável por deixar este local devidamente limpo e em ordem, após o uso do mesmo.( som, barulho, duração do uso deverá obedecer das 8:00hs às 22:00hs."
+    }
+  }
+}

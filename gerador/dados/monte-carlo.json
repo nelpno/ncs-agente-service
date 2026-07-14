@@ -1,0 +1,157 @@
+{
+  "id": "monte-carlo",
+  "superlogica_nome": "Monte Carlo",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nO condômino, ou possuidor, que não cumpre reiteradamente com os seus deveres perante o condomínio poderá, por deliberação de três quartos dos condôminos restantes, ser constrangido a pagar correspondente até ao quíntuplo do valor atribuído à contribuição para as despesas condominiais, conforme a gravidade das faltas e a reiteração, independentemente das perdas e danos que se apurem.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso não residencial da unidade",
+      "fundamento": "Art. 7º",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade",
+        "apartamento"
+      ],
+      "texto_artigo": "Art. 7º\nOs apartamentos destinam-se ESTRITAMENTE A MORADIA FAMILIAR, sendo vedado seu uso para qualquer outra finalidade."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 11.6",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "televisão",
+        "música"
+      ],
+      "texto_artigo": "11.6 - Utilizar com volumes audíveis nos apartamentos vizinhos, aparelhos de som, rádio, televisão, ou qualquer outro aparelho musical, arrastar móveis ou provocar qualquer barulho similar que provoque ruído, das 22:00 as 8:00 horas, de Segunda a Sexta-feira, e das 23:00 as 9:00 horas, no Sábado e Domingo;\n\n11.7 -"
+    },
+    "varanda_varal": {
+      "titulo": "Varal e roupas na janela/sacada",
+      "fundamento": "Art. 11.7",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "janela",
+        "sacada"
+      ],
+      "texto_artigo": "11.7 - Estender, bater ou secar tapetes, lençóis ou qualquer outro tipo de roupa nas janelas ou sacadas, bem como instalar varais de que tipo forem; lavar vitrôs ou janelas nas partes externas das áreas dos apartamentos;\n\n11.8 - Fazer em sua propriedade, qualquer tipo de instalação elétrica que importe em sobrecarga elétrica para o edifício, sem o conhecimento e prévia autorização do Síndico ou Subsíndico;\n\n11.9 - Fazer quaisquer modificações no sistema de antena coletiva ou em aparelhos e instrumentos de uso coletivo, sem o conhecimento prévio e autorização do Síndico;\n\n11.10 - Manter ou guardar substâncias odoríferas e/ou perigosas como produtos químicos inflamáveis, explosivos, etc.\n\n11.11 - Fazer uso de fogão que não seja a gás encanado ou elétrico, sendo vedado terminantemente o emprego de outros tipos,\n\n11.12 -"
+    },
+    "lixo_arremesso": {
+      "titulo": "Arremesso de lixo/objetos",
+      "fundamento": "Art. 11.12",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "papel",
+        "janela"
+      ],
+      "texto_artigo": "11.12 - Atirar pelas janelas para as áreas externas, pisos dos corredores, escadas, elevadores, garagens, jardins e demais dependências do prédio, fragmentos de lixo, papéis, pontas de cigarro, chicletes, papéis de guloseimas ou quaisquer outros objetos;\n\n11.13 -"
+    },
+    "reforma_barulho_horario": {
+      "titulo": "Reparos e festas com barulho em horário proibido",
+      "fundamento": "Art. 11.13",
+      "palavras_chave": [
+        "furadeira",
+        "obra",
+        "festa",
+        "barulho"
+      ],
+      "texto_artigo": "11.13 - Fazer reparos em seus apartamentos, promover festividades ou reuniões suscetíveis de prejudicar ou perturbar o sossego dos demais moradores, dentro do horário estipulado no item 12.6;\n\n11.14 - Utilizar os funcionários do Condomínio para serviços particulares, durante o expediente de trabalho, seja em caráter normal ou horas extras:\n\n11.15 - Instalar toldos ou cortinas nas paredes externas do edifício. Colocar ou afixar cartazes, placas e/ou letreiros nas janelas e partes comuns do edifício. Admitir-se-á placa padrão, no jardim da portaria quando do interesse de venda ou locação por parte de algum condômino,\n\n11.16 -"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança sem autorização ou fora do horário",
+      "fundamento": "Art. 11.16",
+      "palavras_chave": [
+        "mudança",
+        "domingo",
+        "feriado",
+        "horário"
+      ],
+      "texto_artigo": "11.16 - Realizar mudança, totais ou parciais, sem a prévia autorização, marcando hora e data para a entrada e saída do edifício. Estas deverão ter a anuência do Síndico ou seus prepostos. Realizar mudanças aos domingos e feriados, bem como fora do horário permitido, das 8:00 até as 18:00 horas;\n\n11.17 - Deixar ou abandonar qualquer válvula ou torneira aberta por negligência ou defeito de funcionamento, prejudicando o consumo de água do Condomínio;\n\n11.18 - A permanência de condôminos, inquilinos e pessoas estranhas na Portaria do edifício, em conversas ou grupos que possam desviar a atenção do funcionário em serviço na Portaria;\n\n11.19 - A instalação de grades nas janelas e vitrôs dos apartamentos, a não ser que sejam em modelo padrão;\n\n11.20 - Utilizar o empregado da Portaria para dar recados ou chamar crianças e/ou outras pessoas que estejam nas áreas comuns do Condomínio, fazendo com que o mesmo abandone seu posto."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas áreas comuns sem regras",
+      "fundamento": "Art. 12.1",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "colo"
+      ],
+      "texto_artigo": "12.1- Não será permitida a permanência ou circulação de nenhuma espécie de animal, nas áreas comuns, salvo com coleira, focinheira e no colo, em companhia de pessoa responsável (acima de 12 anos), de forma que não incomodem as demais pessoas.\n\n12.2 - Em nenhuma hipótese ou circunstância será permitida a permanência ou circulação de animais nas áreas de divertimento infantil e salão de festas.\n\n12.3 -"
+    },
+    "animais_necessidades_areas_comuns": {
+      "titulo": "Animal fazendo necessidades nas áreas comuns",
+      "fundamento": "Art. 12.3",
+      "palavras_chave": [
+        "cocô",
+        "xixi",
+        "pet",
+        "limpeza"
+      ],
+      "texto_artigo": "12.3 - É terminantemente proibido animais utilizarem as áreas comuns para fazerem suas necessidades fisiológicas, ficando os proprietários responsáveis pela limpeza de sujeira proveniente de excrementos e urina nas áreas comuns do residencial. No caso de infração deste artigo, o condômino fica sujeito à advertência e multa, conforme descrito no artigo 5º.\n\n12.4 - Os condôminos que tenham animais sob sua guarda deverão observar rigorosamente as normas sanitárias, submetendo-os, periodicamente, à vacinação adequada para cada espécie.\n\n12.5 - É obrigatória a vacinação anual de cães e gatos contra raiva e, sempre que solicitado pelo Síndico, ficam os donos desses animais obrigados a exibir os atestados de vacinação dos mesmos."
+    },
+    "lixo_hall_escadaria": {
+      "titulo": "Lixo no hall/escadaria",
+      "fundamento": "Art. 15.4",
+      "palavras_chave": [
+        "sacola de lixo",
+        "hall",
+        "escada",
+        "porta"
+      ],
+      "texto_artigo": "15.4 - Não será permitida a utilização de sacolas de lixo defronte aos apartamentos, hall ou escadaria do prédio, sendo que toda sujeira ocasionada pelo morador deverá depurada pelo mesmo, sob pena de sanção.\n\n15.5 - Importante frisar que o descarte de lixo é de responsabilidade do morador, sendo proibida a sua retirada pelos funcionários do condomínio.\n\n15.6- É Proibida a utilização de carrinhos de compras para retirada do lixo."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de veículo na garagem",
+      "fundamento": "Art. 22º",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "lubrificação",
+        "veículo"
+      ],
+      "texto_artigo": "Art. 22º\nFica terminantemente proibida a lavagem e lubrificação dos veículos nas vagas e demais dependências ou áreas do Condomínio."
+    },
+    "garagem_objetos": {
+      "titulo": "Objetos/entulhos na vaga de garagem",
+      "fundamento": "Art. 31º",
+      "palavras_chave": [
+        "entulho",
+        "caixas",
+        "vaga",
+        "objetos"
+      ],
+      "texto_artigo": "Art. 31º\nÉ proibida a colocação de entulhos e objetos diversos nas vagas de garagem."
+    },
+    "som_salao_apos_23h": {
+      "titulo": "Som no salão após 23h",
+      "fundamento": "Art. 41º",
+      "palavras_chave": [
+        "salão de festas",
+        "som alto",
+        "caixa de som",
+        "23 horas"
+      ],
+      "texto_artigo": "Art. 41º\nÉ terminantemente proibida a utilização de aparelhos de som, após às 23 horas."
+    }
+  }
+}

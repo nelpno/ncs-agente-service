@@ -1,0 +1,157 @@
+{
+  "id": "dom-pedro",
+  "superlogica_nome": "Condomínio Edifício Dom Pedro",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "ARTIGO 50",
+    "texto": "ARTIGO 50\n:- Além das penalidades cominadas em Lei, fica ainda o condômino que, transitória ou eventualmente, perturbar o uso das coisas comuns ou der causa à despesas, por ato seu, ou de seus parentes, familiares, amigos, convidados, visitas ou inquilinos. sujeito à multa correspondente ao valor da contribuição condominial e, até o dobro em caso de reincidência, sem prejuízo das demais consequências civis e criminais de seus atos.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "ARTIGO 4",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade",
+        "apartamento"
+      ],
+      "texto_artigo": "Artigo 4°\nOs apartamentos representados por cada uma das unidades autônomas,\n\ndestinam-se, exclusivamente, a residência, sendo seu uso vedado para qualquer outra\n\nfinalidade."
+    },
+    "garagem_uso_indevido": {
+      "titulo": "Uso Indevido da Garagem",
+      "fundamento": "ARTIGO 6",
+      "palavras_chave": [
+        "garagem",
+        "depósito",
+        "vaga",
+        "estacionamento"
+      ],
+      "texto_artigo": "Artigo 6°\nAs garagens destinam-se, exclusivamente, ao estacionamento de\n\nautomóveis de passeio, perúas ou utilitários, de propriedade dos condomínios ou de\n\nseus inquilinos, sendo vedado o seu uso para qualquer outra finalidade. E bem como 1\n\n(uma) vaga individual na garagem, para guardar de veículos de propriedade do mesmo\n\ncondomínio."
+    },
+    "barulho": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "ARTIGO 51",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "música",
+        "barulho"
+      ],
+      "texto_artigo": "h) Usar aparelhagem de som, televisão, ou quaisquer outros instrumentos, mesmo musicais, de maneira a incomodar os demais condôminos.\n\ni) Criar ou manter, mesmo que temporariamente, animais ou aves de quaisquer espécies, nas dependências do edifício ou mesmo nas garagens ou outras áreas de uso comum.\n\nj) Realizar festas ou recepções nas partes comuns do condomínio, inclusive garagens, susceptíveis de prejudicar as coisas comuns ou perturbar o sossego.\n\ni) Pisar ou brincar nas partes que compõe o jardim, bem como nele intervir, adicionando ou removendo plantas ou mudando-lhe o arranjo à revelia do síndico.\n\nm) Modificar as disposições das paredes internas de divisão da sem apartamento, ou fazer em sua propriedade, qualquer instalação que importe em sobrecarga para edifício, sem conhecimento e a prévia concordância do sindico, bem como modificar a forma ou aspecto externo do edifício, sem a prévia autorização da assembleia geral dos condôminos.\n\nn) Ter ou usar instalações ou material susceptível de por qualquer forma, afetar a saúde, segurança, tranquilidade e o sossego dos demais condôminos ou inquilinos, ou que possam acarretar aumento do seguro comum.\n\no) Utilizar os empregados e funcionários do edifício, para serviços particulares, durante o horário normal de serviço.\n\np) Colocar vasos, antenas, varais, enfeites ou quaisquer outros objetos na parte externa, sobre os peitoris das janelas e áreas de uso comum do edifício.\n\nq)"
+    },
+    "animais": {
+      "titulo": "Animais no Condomínio",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "animais",
+        "aves"
+      ],
+      "texto_artigo": "n) Não manter animais ou aves nas respectivas unidades autônomas ou demais dependências do edifício.\n\no) Não fracionar a respectiva unidade autônoma, para fins de alienação ou aluguel, a mais de uma pessoa separadamente.\n\np) Contribuir para as despesas comuns da manutenção do edifício, na proporção das respectivas frações-ideais, efetuando o recolhimento nas ocasiões oportunas, fixadas pela assembleia geral ou extraordinária.\n\nq) Contribuir para o custeio de obras na forma determinada na assembleia, e na proporção de sua respectiva fração-ideal.\n\nr) Permitir o ingresso, em sua unidade autônoma, do sindico ou preposto dele, quando isto se torne indispensável à inspeção dos trabalhos relativos à estrutura geral do edifício, sua segurança. salubridade ou solidez, ou indispensável à realização de reparos em instalações, serviços e tubulações nas unidades autônomas vizinhas.\n\ns) Não permitir a realização de jogos infantis em quaisquer das partes comuns do edifício, que venham a danificá-las.\n\nt) Comunicar imediatamente ao síndico a ocorrência moléstia contagiosa em sua unidade autônoma.\n\nu) Contribuir para o seguro geral do edifício na proporção de sua fração-ideal, efetuando os recolhimentos na forma e prazos estipulados na assembleia geral.\n\nv) Reparar. por conta própria, todos os danos causados nas partes e coisas comuns, pessoalmente, ou por familiares, parentes. visitas, convidados ou inquilinos.\n\nx) Não alugar as respectivas vagas na garagem para pessoas que não sejam…"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Objetos nas Janelas",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "D) Não estender roupas, tapetes ou quaisquer outros objetivos nas janelas ou\n\nem quaisquer lugares que sejam visíveis do exterior ou de onde estejam\n\nexpostos ao risco de caírem.\n\nE)"
+    },
+    "lancar_objetos": {
+      "titulo": "Lançamento de Objetos ou Líquidos",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "objeto",
+        "líquido",
+        "janela",
+        "cigarro"
+      ],
+      "texto_artigo": "E) Não lançar quaisquer objetos, líquidos ou não, sobre a via pública ou área\n\ninterna do condomínio.\n\nF) Conservar o jardim e zelar por seu aprimoramento, sendo terminantemente\n\nproibido estacionar, pisar ou brincar nas partes que o compõe.\n\nG) Não decorar as paredes, portas esquadrias externas com cores ou\n\ntonalidades diversas das empregas do edifício. Pintura segue o padrão do\n\nprédio.\n\nH) Não usar toldos externos, nem colocar ou permitir que se coloquem letreiros,\n\nplacas, cartazes de publicidade ou qualquer outros.\n\nI) Não colocar nem deixar que se coloque nas partes comuns do edifício\n\nquaisquer objetos ou instalações, sejam de que natureza forem.\n\nJ)"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "ARTIGO 51",
+      "palavras_chave": [
+        "corredor",
+        "hall",
+        "objetos",
+        "depósito"
+      ],
+      "texto_artigo": "b) Abandonar, depositar ou colocar quaisquer objetos ou outros materiais nos lugares de uso comum do edifício, sob pena de imediata apreensão e somente serem devolvidos após o infrator pagar as despesas danos porventura ocasionados e a multa a lhe ser aplicada em consonância com o estipulado no artigo 50 desta convenção.\n\nc) Guardar ou depositar explosivos ou inflamáveis nas dependências do edifício.\n\nd)"
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "ARTIGO 51",
+      "palavras_chave": [
+        "fachada",
+        "persiana",
+        "toldo",
+        "pintura"
+      ],
+      "texto_artigo": "d) Instalar persianas ou colocar iluminação diferente das usuais em todo o prédio, toldos ou cortinas, ou qualquer outro material que quebre a uniformidade da fachada, a decoração das paredes e esquadrias externas ou pintura em cores ou tonalidades diversas das empregadas no conjunto do edifício.\n\ne) Colocar placar ou letreiros nas janelas ou vidros externos do edifício, ou em suas áreas comuns, assim como divisões de halls e corredores de circulação, avisos ou anúncios nas partes е coisas de uso comum.\n\nf) Estender, bater ou secar roupas, tapetes, toalhas, etc., nas janelas ou em outras áreas comuns, fronteiriças e que nas quais não poderão ser instalados varais de tipo a serem vistos do exterior.\n\ng) Atirar papeis, pontas de cigarros, líquidos e outros objetos nos corredores, janelas, escadas e outras áreas de uso comum ou nas vias públicas.\n\nh)"
+    },
+    "empregados_servicos_particulares": {
+      "titulo": "Uso de Empregados em Serviço Particular",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "funcionário",
+        "zelador",
+        "porteiro",
+        "serviço particular"
+      ],
+      "texto_artigo": "J) Não utilizar os empregados do edifício para serviços particulares.\n\nL) Não manter, nas respectivas unidades autônomas, substancias, instalações\n\nou aparelhos que causem perigo à segurança, salubridade e solidez do edifício\n\nou incômodo aos demais condôminos.\n\nCondomínio Edifício Dom Pedro"
+    },
+    "mudanca_sem_aviso": {
+      "titulo": "Mudança sem Aviso Prévio",
+      "fundamento": "ARTIGO 51",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "aviso",
+        "horário"
+      ],
+      "texto_artigo": "q) Realizar mudanças, totais ou parciais, sem avisar previamente a administração, marcando dia e hora para a saída ou entrada de móveis ou volumes.\n\nr) Alugar ou sub-locar suas vagas na garagem à pessoa não moradora do edifício.\n\ns)"
+    },
+    "garagem_alugar_nao_morador": {
+      "titulo": "Aluguel de Vaga para Não Morador",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "vaga",
+        "aluguel",
+        "garagem",
+        "morador"
+      ],
+      "texto_artigo": "X) Não alugar as respectivas vagas na garagem para pessoas que não sejam\n\nmoradores do edifício. Proprietário, inquilino ou morador podem ceder ou alugar\n\nsuas vagas a outros moradores desde que seja residente do condomínio.\n\nHORÁRIO DE MUDANÇA: Ficou deliberado a autorização de mudança de segunda à\n\nsexta das 08h às 17h30min.\n\nANIMAIS DOMÉSTICO: Conforme regimento interno não é permitido animais no\n\ncondomínio, porém devido a solicitações ficou determinado que será permitido animais\n\nde pequeno porte, para bom convívio é preciso respeitar regras tais como não deixar\n\nnecessidades fisiológicas nas áreas comuns, e não haver excesso de barulho\n\nocasionados pelos animais, para não perturbar os demais moradores.\n\nREFORMA: Ficou determinado que qualquer tipo de reforma o proprietário precisa\n\ninformar a síndica e apresentar RT, laudo de engenheiro; ficou determinado horário para\n\nexecutar a reforma de segunda a sexta das 08h às 17h30min, caso contrário será sujeito\n\na multa regimental, colocado em votação e aprovado por todos presentes."
+    },
+    "vaga_garagem_terceiro": {
+      "titulo": "Uso de Vaga de Outro Condômino",
+      "fundamento": "ARTIGO 51",
+      "palavras_chave": [
+        "vaga",
+        "garagem",
+        "vizinho",
+        "autorização"
+      ],
+      "texto_artigo": "s) Utilizar as vagas na garagem, que não a de sua propriedade, sem a necessária autorização, expressa e por escrito, do respectivo proprietário das referidas vagas."
+    }
+  }
+}

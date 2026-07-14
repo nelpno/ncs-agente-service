@@ -1,0 +1,157 @@
+{
+  "id": "city-center",
+  "superlogica_nome": "City Center",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 2º, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "lixo": {
+      "titulo": "Descarte de Lixo em Local Indevido",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "lixo",
+        "detritos",
+        "descarte",
+        "local correto"
+      ],
+      "texto_artigo": "g) não colocar lixo, detritos, etc.; senão, nos locais ao mesmo destinado;\n\nh) não usar toldos externos, nem colocar ou permitir que se coloquem: letreiros, placas, cartazes de publicidade ou quaisquer outros objetos estranhos à decoração geral do edifício;\n\ni) não colocar, nem deixar que se coloquem, nas partes comuns do edifício, materiais de construção ou de instalação, sejam de que natureza for;\n\nj) não utilizar os empregados do condomínio para serviços particular;\n\ni) não manter as respectivas unidades autônomas, substâncias, instalações ou aparelhos de alta periculosidade, suscetíveis de causar perigo à segurança e à solidez do edifício ou incômodo aos demais condôminos;\n\nm) contribuir para as despesas do condomínio, de acordo com o que se estabelece nesta convenção;\n\nn) contribuir para o custeio das obras determinadas pela Assembleia Geral, na forma e proporção que for fixada;\n\no) permitir o ingresso, em sua unidade autônoma, do Síndico e demais pessoas credenciadas, quando isso se torne indispensável para a inspeção ou realização de trabalhos relativos à estrutura geral do edifício, à sua segurança ou solidez, ainda, à realização de reparos em instalações e tubulações nas unidades autônomas vizinhas;\n\np) não possuir no edifício qualquer animal ou aves, salvo com a concordância expressa da totalidade dos condôminos;\n\nq) não instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível do prédio, ressalvado a instalação de antena de TV e FM…"
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "### 15",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "15\nNo período das 22:00 às 08:00hs, cumpre aos moradores guardar silêncio evitando a produção de ruídos ou sons que possam perturbar o sossego e o bem estar dos demais moradores."
+    },
+    "som_alto": {
+      "titulo": "Uso de Aparelhos Sonoros",
+      "fundamento": "### 16",
+      "palavras_chave": [
+        "música",
+        "caixa de som",
+        "aparelho sonoro",
+        "vizinhos"
+      ],
+      "texto_artigo": "16\nEm qualquer horário o uso de aparelhos sonoros ou musicais deve ser feito de modo a não perturbar os vizinhos."
+    },
+    "animais_unidade": {
+      "titulo": "Animais no Apartamento",
+      "fundamento": "### 17",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "aves",
+        "animal"
+      ],
+      "texto_artigo": "17\nNão é permitido manter nos apartamentos pequeno porte, doméstico qualquer animal, mesmo os de ou não, inclusive aves, mesmo em gaiolas."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Tapetes em Janelas",
+      "fundamento": "### 4",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "4\nEstender, bater ou secar tapetes ou lençóis e quaisquer roupas, bem como vasos de plantas e objetos de peso nas janelas ou outros sítios fronteiriços, nos quais também não é permitido instalar varais de qualquer tipo, uma vez que sejam visíveis no exterior."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem ou Conserto de Veículos",
+      "fundamento": "### 13",
+      "palavras_chave": [
+        "lavar carro",
+        "conserto",
+        "veículo",
+        "garagem"
+      ],
+      "texto_artigo": "13\nRealizar excetuando-se lavagem ou conserto de veículos em qualquer área do condomínio, excetuando-se os de caráter emergencial que não causem transtorno nem sujeira."
+    },
+    "garagem_cessao_terceiros": {
+      "titulo": "Ceder Vaga a Não Moradores",
+      "fundamento": "### 14",
+      "palavras_chave": [
+        "vaga",
+        "garagem",
+        "alugar vaga",
+        "terceiros"
+      ],
+      "texto_artigo": "14\nAlugar ou ceder sua vaga na garagem, sob qualquer hipótese a pessoas não residentes no condomínio."
+    },
+    "moto_bicicleta_area_comum": {
+      "titulo": "Estacionar Moto ou Bicicleta Fora do Local",
+      "fundamento": "### 15",
+      "palavras_chave": [
+        "moto",
+        "bicicleta",
+        "estacionamento",
+        "área comum"
+      ],
+      "texto_artigo": "15\n- Terminantemente proibido o estacionamento em qualquer de motocicletas e bicicletas área comum, que a indicada pelo condomínio."
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "### 1",
+      "palavras_chave": [
+        "objetos",
+        "escada",
+        "corredor",
+        "área comum"
+      ],
+      "texto_artigo": "1\nDepositar escadas, objetos elevadores, ou outros materiais em qualquer área comum: entrada, garagem, etc, sem a permissão do síndico."
+    },
+    "jogar_objetos_janela": {
+      "titulo": "Atirar Lixo ou Objetos",
+      "fundamento": "### 10",
+      "palavras_chave": [
+        "jogar lixo",
+        "janela",
+        "cigarro",
+        "objetos"
+      ],
+      "texto_artigo": "10\nAtirar ou pelas elevadores, janelas para rua ou área comum, no piso dos corredores, fragmentos garagem e demais dependências do condomínio, de lixo, papéis, pontas de cigarro ou quaisquer objetos."
+    },
+    "reforma_sem_anuencia": {
+      "titulo": "Reforma sem Autorização",
+      "fundamento": "### 5",
+      "palavras_chave": [
+        "reforma",
+        "parede",
+        "obra",
+        "autorização"
+      ],
+      "texto_artigo": "5\nModificar as disposições das paredes internas de divisões de seu apartamento, sem prévia anuência do síndico, bem como modificar a forma ou aspecto externo do edifício, sem a prévia autorização da Assembleia Geral dos Condôminos."
+    },
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial do Apartamento",
+      "fundamento": "### 12",
+      "palavras_chave": [
+        "comércio",
+        "apartamento",
+        "uso residencial",
+        "explorar"
+      ],
+      "texto_artigo": "12\nUtilizar, alugar, ceder ou explorar no todo ou em parte os apartamentos para fins que não sejam estritamente residenciais."
+    }
+  }
+}

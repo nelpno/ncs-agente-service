@@ -1,0 +1,157 @@
+{
+  "id": "rosa-de-ouro",
+  "superlogica_nome": "Rosa de Ouro",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 35",
+    "texto": "Artigo 35\nO Condômino que violar as disposições legais que regem o Condomínio, bem como as contidas na presente Convenção e nos Regulamentos (além de ser compelido a desfazer a obra fora dos regulamentos ou abster-se de ato praticado ou ainda a reparar os danos que causar), ficará sujeito à multa que será fixada em Assembleia, não inferior a 30 (trinta) UFESP's mensais (Unidade Fiscal do Estado de São Paulo).",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_comercial_unidade": {
+      "titulo": "Uso Comercial da Unidade",
+      "fundamento": "1",
+      "palavras_chave": [
+        "comércio",
+        "república",
+        "pensão",
+        "atividade comercial"
+      ],
+      "texto_artigo": "1\nAlugar, sublocar, ceder a qualquer título oneroso ou gratuito, ou utilizar qualquer apartamento para clubes de jogos de qualquer natureza, clubes de dança, carnavalescos, recreativos ou similares, cola de música, organizações, pessoas físicas ou jurídicas, que exerçam profissões ou atividades de qualquer natureza, pensões, repúblicas, enfim, quaisquer ramos de atividades comerciais ou industriais;"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "2",
+      "palavras_chave": [
+        "corredor",
+        "objetos",
+        "depósito",
+        "área comum"
+      ],
+      "texto_artigo": "2\nAbandonar, depositar ou colocar quaisquer objetos ou outros materiais nos lugares de uso comum do edifício, sob pena de imediata apreensão e somente serão devolvidos após o infrator pagar a despesa e danos que porventura sejam ocasionados, e a multa será aplicada em consonância com o estipulado no artigo 50º da Convenção de Condomínio;"
+    },
+    "inflamaveis_explosivos": {
+      "titulo": "Explosivos ou Inflamáveis",
+      "fundamento": "3",
+      "palavras_chave": [
+        "inflamável",
+        "explosivo",
+        "produto perigoso",
+        "depósito"
+      ],
+      "texto_artigo": "3\nGuardar ou depositar explosivos ou inflamáveis nas dependências de quaisquer das partes do Edifício, quer privados ou comuns;"
+    },
+    "fachada_padrao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "4",
+      "palavras_chave": [
+        "fachada",
+        "toldo",
+        "vaso",
+        "persiana"
+      ],
+      "texto_artigo": "4\nInstalar persianas ou colocar iluminação, decoração, vasos, toldos ou cortinas diferentes das usuais em todo o prédio, ou qualquer outro material que quebre a uniformização da fachada, a decoração das paredes ou esquadrias externas ou pintura com cores ou tonalidades diversas da empregada no conjunto do edifício;"
+    },
+    "varal_janela": {
+      "titulo": "Roupas nas Janelas",
+      "fundamento": "6",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "6\nEstender, bater ou secar roupas, tapetes, toalhas, etc. nas janelas ou em áreas fronteiriças de uso comum, nas quais não poderão ser instalados varais de tipo possíveis de serem visíveis do exterior;"
+    },
+    "jogar_liquidos_sacada": {
+      "titulo": "Jogar Líquidos pela Sacada",
+      "fundamento": "7",
+      "palavras_chave": [
+        "água",
+        "sacada",
+        "lavagem",
+        "líquidos"
+      ],
+      "texto_artigo": "7\nNão é permitido jogar água e outros líquidos pelas sacadas, para lavagem ou por outro motivo;"
+    },
+    "barulho_som_alto": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "9",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "música",
+        "barulho"
+      ],
+      "texto_artigo": "9\nUsar aparelhagem de som, televisão ou quaisquer outros instrumentos, mesmo musicais, de maneira a incomodar os demais condôminos;"
+    },
+    "festas_areas_comuns": {
+      "titulo": "Festas nas Áreas Comuns",
+      "fundamento": "10",
+      "palavras_chave": [
+        "festa",
+        "recepção",
+        "garagem",
+        "área comum"
+      ],
+      "texto_artigo": "10\nRealizar festas ou recepções nas partes comuns do edifício, inclusive garagem, suscetíveis de prejudicar as coisas comuns ou perturbar o sossego;"
+    },
+    "reforma_sem_autorizacao": {
+      "titulo": "Reforma sem Autorização",
+      "fundamento": "12",
+      "palavras_chave": [
+        "reforma",
+        "parede",
+        "obra",
+        "autorização"
+      ],
+      "texto_artigo": "12\nModificar as disposições das paredes internas de divisão de seu apartamento, ou fazer em sua propriedade, qualquer instalação que importe em sobrecarga, de qualquer natureza, para o edifício sem conhecimento e a prévia concordância do síndico, bem como modificar a forma ou aspecto externo do edifício, sem a prévia autorização da Assembleia Geral dos Condomínios;"
+    },
+    "mudanca_sem_aviso": {
+      "titulo": "Mudança sem Aviso Prévio",
+      "fundamento": "16",
+      "palavras_chave": [
+        "mudança",
+        "aviso prévio",
+        "móveis",
+        "portaria"
+      ],
+      "texto_artigo": "16\nRealizar mudanças totais ou parciais, sem avisar previamente a administração, marcando dia e hora para saída ou entrada de volumes, móveis e/ou pessoal;"
+    },
+    "vaga_para_nao_morador": {
+      "titulo": "Locação de Vaga a Não Morador",
+      "fundamento": "17",
+      "palavras_chave": [
+        "vaga",
+        "garagem",
+        "sublocar",
+        "não morador"
+      ],
+      "texto_artigo": "17\nAlugar ou sublocar suas vagas na garagem à pessoa não moradora do edifício;"
+    },
+    "estacionar_fora_faixa": {
+      "titulo": "Estacionar Fora da Faixa",
+      "fundamento": "20",
+      "palavras_chave": [
+        "garagem",
+        "vaga",
+        "faixa",
+        "carro"
+      ],
+      "texto_artigo": "20\nEstacionar fora de sua faixa da garagem, de forma a impedir ou impossibilitar o trânsito de outro veículo;"
+    }
+  }
+}

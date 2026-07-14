@@ -1,0 +1,156 @@
+{
+  "id": "studio-five",
+  "superlogica_nome": "Studio Five",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "AVELAR COUTO EMPREENDIMENTOS LTDA",
+    "cargo": "síndica"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "CAPÍTULO XII – DAS PENALIDADES",
+    "texto": "§1º O condômino que não cumpre reiteradamente com seus deveres perante o condomínio,\nsejam aqueles genericamente previstos em lei, sejam definidos nesta convenção ou no\nregimento interno, poderá, por deliberação de ¾ (três quartos) dos condôminos restantes,\ntomada em assembleia especialmente convocada, ser constrangido a pagar multa\ncorrespondente até o quíntuplo do valor atribuído à contribuição condominial, conforme a\ngravidade das faltas e a reiteração. Referida multa poderá ser elevada para o décuplo do valor\natribuído à contribuição para as despesas condominiais se o seu reiterado comportamento\nantissocial gerar incompatibilidade de conveniência com os demais integrantes do condomínio,\nindependentemente das perdas e danos, em qualquer dos casos supracitados, sob sua\nresponsabilidade, que forem apurados.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "Artigo 2º",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade profissional"
+      ],
+      "texto_artigo": "Artigo 2º\nOs apartamentos, no todo ou em parte, destinam-se exclusivamente a fins residenciais, sendo expressamente proibido o uso, locação ou cessão para atividades profissionais, comerciais ou industriais de qualquer natureza, para depósito de qualquer objeto, para pessoas de vida duvidosa ou de maus costumes, assim como qualquer escuso où ilícito.."
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "Artigo 3º",
+      "palavras_chave": [
+        "fachada",
+        "janela",
+        "toldo",
+        "antena"
+      ],
+      "texto_artigo": "Parágrafo único - É expressamente proibido alterar a parte externa de qualquer uma das torres com cores ou tonalidades diversas, ou a instalação de objetos nas janelas que possam prejudicar a estética, iluminação e ventilação dos apartamentos, tais como exaustores, aparelhos de refrigeração de ar, antenas, toldos, telas, varais, letreiros, placas, cartazes, decalques de vidro; ou outros elementos visuais ou visíveis, etc."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "furadeira",
+        "obra",
+        "reforma",
+        "barulho"
+      ],
+      "texto_artigo": "7° A execução de obras, reparos, montagens, instalações, bem como o uso de furadeiras, lixadeiras, esmeril, etc., somente serão permitidos de segundas a sextas-feiras, das 8h30 às 17h e sábados das 8h30 às 12h.\n\n8° Reparos de caráter urgente e inadiável poderão ser realizados em qualquer dia e hora, mediante comunicação prévia ao síndico ou administração, que informará o fato aos demais moradores.\n\n9º O entulho proveniente da obra, reformas e reparos será removido por conta e as expensas do condômino da unidade, devidamente acondicionado e no horário e. local previamente determinado pela administração. Não será permitida a utilização de funcionários do condomínio para execução de serviços de caráter particular durante o horário de trabalho, sendo feito o transporte do entulho gerado sempre pelo elevador de serviço.\n\n10° Caso o entulho não seja removido, a administração poderá providenciar a remoção, por ordem do síndico, arcando o condôming com todos os custos incorridos, acrescidos de multa de 20% (vinte por cento) do valor da contribuição do mês vigente.\n\n11° É proibido terminantemente fazer reparos ou instalações na respectiva unidade, suscetíveis de prejuízo das coisas comuns ou demais unidades.\n\n12° É dever de todo condômino permitir o ingresso em sua unidade autônoma. do síndico, prepostos da administração e demais pessoas por ela.credenciada, sempre que isso se torne indispensável a inspeção ou realização de trabalhos relativos a estrutura geral de condômino, sua…"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas na Sacada",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "sacada",
+        "tapete"
+      ],
+      "texto_artigo": "17° Não será permitido estender roupas, tapetes e peças nas sacadas ou outros locais visíveis do exterior.\n\n18º"
+    },
+    "objetos_janelas": {
+      "titulo": "Objetos em Peitoris e Janelas",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "vaso",
+        "janela",
+        "peitoril",
+        "queda"
+      ],
+      "texto_artigo": "18º Fica expressamente proibido colocar vasos com plantas, gaiolas, enfeites e quaisquer objetos nos peitoris das janelas ou quaisquer outros locals onde fiquem expostos ao risco de cair.\n\n19º Em nenhuma hipótese será permitido colocar fios ou condutores de qualquer espécie, placas, letreiro, cartazes de publicidade, toldos, antenas, varais, enfeites ou quaisquer outros objetos nas paredes externas das unidades autônomas, bem como instalar chaminés, tubulações de coifas para exaustores e aparelhos de ar condicionado, visíveis do exterior, salvo nos locals previamente indicados no projeto da incorporadora.\n\n20°"
+    },
+    "lixo_janelas": {
+      "titulo": "Lixo ou Objetos pelas Janelas",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "janela",
+        "líquidos"
+      ],
+      "texto_artigo": "20° É vedado largar papéis, pontas de cigarro, fragmentos de lixo, líquidos e quaisquer outras substâncias ou objetos pelas janelas ou quaisquer outras aberturas para as áreas comuns, assim como nestas mesmas áreas comuns. 21° É vedado jogar nos vasos sanitários das unidades autônomas ou área comuns, quaisquer materiais suscetíveis de provocarem entupimento, inclusive papel e toalhas higiênicas.\n\n22° É obrigação de todo condômino comunicar imediatamente ao síndico ou a administração a ocorrência de moléstia contagiosa ou epidemia em sua unidade autônoma.\n\n23°"
+    },
+    "barulho_unidade": {
+      "titulo": "Barulho em Reuniões e Festas",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "festa",
+        "reunião",
+        "algazarra",
+        "barulho"
+      ],
+      "texto_artigo": "23° Não será permitido promover reuniões ou festividades que venham a perturbar a tranqüilidade dos demais moradores, ou exercer atividades ruidosas, ilícitas ou imorais nas unidades autônomas.\n\n24° É proibido utilizar com volume excessivo nas unidades autônomas, aparelhos sonoros, videos sonoros, instrumentos musicais, alto-falantes, bem\n\ncomo máquinas ou equipamentos de qualquer espécie que provoquem ruidos de alta intensidade.\n\n25° Não será permitido o uso de radiotransmissores e receptadores ou quaisquer outros, equipamentos de comunicação, assim como quaisquer aparelhos elétricos ou eletrônicos que causem interferência nos demais equipamentos do condomínio, ou das demais unidades autônomas.\n\n26°"
+    },
+    "barulho_noturno": {
+      "titulo": "Silêncio Noturno",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "silêncio",
+        "noite",
+        "som alto",
+        "descanso"
+      ],
+      "texto_artigo": "26° No horário compreendido entre 22h e 8h será observado o silêncio indispensável ao repouso dos demais moradores ou ocupantes das demais ⚫ unidades.\n\n27° É dever de todo condômino ou ocupante não abusar do consumo de água, luz, gás, observar as normas de segurança requeridas pelo uso dessas utilidades e manter em perfeito estado de conservação suas instalações, obrigando-se a comunicar a administradora toda e qualquer irregularidade, logo que constatada.\n\n28° Qualquer alteração, modificação ou extensão de antenas só poderá ser executada por pessoa autorizada pelo fabricante ou empresa encarregada pela manutenção, aprovado sempre, de maneira formal, pelo síndico ou administração.\n\n29° Eventuais despesas decorrentes da regulagem ou outros danos causados aos televisores existentes serão de responsabilidade do infrator do parágrafo anterior.\n\n30°"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "colo",
+        "área comum"
+      ],
+      "texto_artigo": "30° Não é permitido manter nas unidades autônomas animais domésticos de médio e grande porte. O condômino proprietário do animal deverá observar o quanto segue: (a) Os condôminos são responsáveis pelo incomodo provocado aos demais ocupantes do condomínio, pelo animal que tenham guarda; (b) a circulação dos animais pelas áreas comuns far-se-á exclusivamente no colo do responsável; (c) em nenhum caso será permitida a circulação ou permanência de animais em áreas de circulação, sendo expressamente proibido passear ou brincar com animais nas áreas comuns do condomínio; (d) em nenhuma circunstância será permitida a circulação ou permanência de animais nas áreas destinadas a recreação (área fitness, salão de convivio); (e) dos proprietários dos animais são responsáveis pela limpeza dos excrementos e urina dos animais sob sua guarda nas áreas comuns do condomínio, que deverá ser realizada imediatamente; (f) os condôminos que tiverem animais sob sua guarda deverão observar rigorosamente as normas sanitárias, especialmente no tocante a vacinação adequada para cada espécie;, (g) é obrigatória a vacinação dos animais contra a raiva, devendo o proprietário do animal- comprovar esta circunstância sempre que solicitado pela administração."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Artigo 7°",
+      "palavras_chave": [
+        "mudança",
+        "domingo",
+        "feriado",
+        "horário"
+      ],
+      "texto_artigo": "Artigo 7°\nAs mudanças poderão ser realizadas das 08h00 às 17h00 de segundas a sextas-feiras e sábados das 8:00 às 12h00. Não serão permitidas mudanças aos domingos e feriados.."
+    },
+    "garagem_abastecimento": {
+      "titulo": "Abastecimento na Garagem",
+      "fundamento": "Artigo 34°",
+      "palavras_chave": [
+        "gasolina",
+        "combustível",
+        "garagem",
+        "abastecer"
+      ],
+      "texto_artigo": "Artigo 34°\nÉ expressamente proibido, e sujeito a multa, o abastecimento, troca, ou manipulação de combustíveis de qualquer espécie nas dependências da garagem."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar Veículo na Garagem",
+      "fundamento": "Artigo 35°",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "mangueira",
+        "veículo"
+      ],
+      "texto_artigo": "Artigo 35°\nÉ expressamente proibido, e sujeito a multa, a lavagem externa e interna dos automóveis nas dependências da garagem."
+    }
+  }
+}

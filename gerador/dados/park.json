@@ -1,0 +1,157 @@
+{
+  "id": "park",
+  "superlogica_nome": "Residencial Park",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14 – Sem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 2º, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro. Parágrafo único – Ao condômino punido caberá recurso para a Assembléia Geral Ordinária; quando o objeto do mesmo for de comprovada urgência, poderá ser convocada a Assembléia Geral Extraordinária.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "silêncio",
+        "som alto",
+        "barulho",
+        "noite"
+      ],
+      "texto_artigo": "Art. 10°\nNo período das 22 horas às 8 horas da manhã cumpre aos moradores guardarem silencio, evitando a produção de ruídos ou sons que possam perturbar o sossego e o bem estar dos demais moradores do Edifício."
+    },
+    "som_alto": {
+      "titulo": "Som Alto em Qualquer Horário",
+      "fundamento": "Art. 11",
+      "palavras_chave": [
+        "som alto",
+        "música",
+        "instrumento",
+        "vizinhos"
+      ],
+      "texto_artigo": "Art. 11\nEm qualquer horário o uso de aparelhos que produzam som ou instrumentos musicais, deverão ser feitos de modo a não perturbar os vizinhos."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Art. 9°",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "entulho",
+        "horário"
+      ],
+      "texto_artigo": "Art. 9°\nOs serviços deverão ser feitos de segunda a sexta-feira, das 8:00 ás 17:30 horas, neste mesmo horário deverão ser removidos os entulhos da obra, devidamente ensacados, obedecidos os limites de peso e pessoal no uso do elevador de serviço, assim como a colocação de móveis bem como reformas de alvenaria, pisos, azulejos etc. deverão obedecer a esse mesmo horário.\n\nDO HORÁRIO PARA AS ATIVIDADES SOCIAIS"
+    },
+    "reforma_estrutural": {
+      "titulo": "Obra que Altera a Estrutura",
+      "fundamento": "Art. 7°",
+      "palavras_chave": [
+        "reforma",
+        "prumada",
+        "hidráulica",
+        "estrutura"
+      ],
+      "texto_artigo": "Art. 7°\nO condômino que for efetuar reforma em sua unidade deverá comunicar previamente, por escrito, ao Sindico, informando a natureza dos serviços a serem executados, vedada reforma em prumadas, rede elétrica, hidráulica e outras que alterem a estrutura do Edifício. O condômino fica responsável por qualquer dano causado em consequência da reforma realizada."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 42°",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "área comum",
+        "animal"
+      ],
+      "texto_artigo": "Art. 42°\nNão é permitida a permanência dos referidos animais domésticos nas áreas comuns do Condomínio, salvo para entrada e saída dos mesmos do prédio."
+    },
+    "animais_elevador_social": {
+      "titulo": "Animal no Elevador Social",
+      "fundamento": "Art. 15°",
+      "palavras_chave": [
+        "animal",
+        "elevador social",
+        "pet",
+        "transporte"
+      ],
+      "texto_artigo": "Art. 15°\nOs ELEVADORES SOCIAIS se destinam ao uso de pessoas ou de pessoas portando volumes compatíveis com a carga máxima permitida, vedado seu uso para carrinho de feira, mudança de móveis, pessoas em trajes de banho, animais de qualquer porte e pessoas prestadores de serviço nos apartamentos. Ficam cessadas as restrições desde que o elevador de serviço esteja em manutenção ou parado por defeito técnico."
+    },
+    "lixo": {
+      "titulo": "Descarte Irregular de Lixo",
+      "fundamento": "Art. 19°",
+      "palavras_chave": [
+        "lixo",
+        "detritos",
+        "ensacado",
+        "latão"
+      ],
+      "texto_artigo": "Art. 19°\nO lixo e os detritos deverão ser colocados no lugar apropriado determinado pela Administração do Condomínio, devidamente ensacados, expressamente proibido jogá-los diretamente no latão de lixo. As empregadas domesticas deverão ser instruídas no sentido de observar as presentes determinações, bem como evitar sujar os corredores ao transportarem o lixo.\n\nA partir de janeiro de 2008, o condomínio participa da Coleta seletiva do lixo. As normas de procedimento estão em documento emitido pelo DAAE e distribuído aos moradores\n\nDO SALÃO DE FESTAS"
+    },
+    "garagem_lavar_consertar": {
+      "titulo": "Lavar ou Consertar Veículo na Garagem",
+      "fundamento": "Art. 26°",
+      "palavras_chave": [
+        "lavar carro",
+        "conserto",
+        "garagem",
+        "veículo"
+      ],
+      "texto_artigo": "Art. 26°\nAs garagens do Edifício destinam-se exclusivamente a guarda dos veículos dos condôminos ou seus locatários e dependentes moradores, vedado seu uso para execução de qualquer serviço de que natureza for, guarda de móveis, pneus ou quaisquer outros objetos, lavagem ou consertos. Os reparos emergenciais serão permitidos. Bicicletas, skates, velocípedes etc. deverão estar nos limites da Garagem do proprietário do objeto.\n\nNão se admitirá o ingresso no interior da(s) garagem(s) de veículos que apresentem anormalidades tais como motor produzindo ruídos e/ou vazamentos de combustível e/ou óleo, freios em mau estado, silenciosos defeituosos ou fora das especificações originais do veículo e quaisquer outras anormalidades que possam afetar as condições de segurança, tranquilidade e limpeza do Condomínio."
+    },
+    "garagem_jogos_criancas": {
+      "titulo": "Jogos e Crianças na Garagem",
+      "fundamento": "Art. 30°",
+      "palavras_chave": [
+        "jogar bola",
+        "crianças",
+        "bicicleta",
+        "garagem"
+      ],
+      "texto_artigo": "Art. 30°\nE vedado jogar bola, andar de bicicleta, skate, velocipede, jogos de qualquer natureza, bem como a permanência de crianças nas garagens."
+    },
+    "piscina_visitantes": {
+      "titulo": "Uso Indevido da Piscina por Visitantes",
+      "fundamento": "Art. 21°",
+      "palavras_chave": [
+        "piscina",
+        "visitante",
+        "empregado",
+        "uso privativo"
+      ],
+      "texto_artigo": "Art. 21°\nO uso da piscina é privativo dos moradores, condôminos e locatários, e parentes em linha reta ascendente (pai, avô, bisavô) e descendente (filho, neto, bisneto), vedado o uso a demais parentes, visitantes e aos empregados serviçais. É terminantemente proibido o uso da piscina por pessoa que esteia com afecção da pele, que sejam portadores de moléstia contagiosa ou processos inflamatórios nos aparelhos visual, auditivo ou respiratório, bem como de trajes de banho atentatório à moral e aos bons costumes, usando óleo de bronzear ou produto similar"
+    },
+    "piscina_objetos_vidro_som": {
+      "titulo": "Vidro e Som na Área da Piscina",
+      "fundamento": "Art. 22°",
+      "palavras_chave": [
+        "garrafa",
+        "copo de vidro",
+        "caixa de som",
+        "festa"
+      ],
+      "texto_artigo": "Art. 22°\nNa área da piscina é vedado almoçar e jantar, portar garrafas, jarras, copos de vidro ou similar, pranchas, aparelhos sonoros, realizar festas ou praticar jogos que interfira no direito alheio de desfrutar a piscina em paz e segurança."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou Tapetes Visíveis do Exterior",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "varal",
+        "roupa na janela",
+        "tapete",
+        "fachada"
+      ],
+      "texto_artigo": "Artigo 10\nConstituem obrigações de todos os condôminos: -\n\na) guardar decôro e respeito no uso, tanto das partes comuns, como das unidades autônomas, não as usando, nem permitindo que sejam usadas, para fins diversos daqueles a que se destinam; b) não promover nem deixar que se promovam nas respectivas unidades autônomas, atividades ruidosas, de modo a perturbar as atividades dos demais condôminos; c) não remover pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão; d) não estender roupas ou tapetes as janelas ou locais visíveis do exterior; e) não lançar quaisquer objetos ou, líquidos sobre a via pública, áreas comuns e, etc.; f) não decorar as paredes, portas, esquadrias externas com cores ou tonalidades diversas das empregadas no edifício; g) não colocar lixo, detritos, etc.; senão, nos locais ao mesmo destinado; h) não usar toldos externos, nem colocar ou permitir que se coloquem: letreiros, placas, cartazes de publicidade ou quaisquer outros estranhos à decoração geral do edifício; i) não colocar, nem deixar que se coloquem, nas partes comuns do edifício, materiais de construção ou instalação, sejam de que natureza for; j) não utilizar os empregados do condomínio para serviços particular; k) não manter as respectivas unidades autônomas, substâncias, instalações ou aparelhos de alta periculosidade, suscetíveis de causar perigo à segurança e à solidez do edifício ou incômodo aos demais condôminos; l) contribuir para as despesas do condomínio, de…"
+    }
+  }
+}

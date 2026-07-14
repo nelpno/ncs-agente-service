@@ -1,0 +1,157 @@
+{
+  "id": "shop-do-carmo",
+  "superlogica_nome": "Shopping do Carmo",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 21°",
+    "texto": "Art. 21°\nNo caso de infração às demais obrigações previstas neste Regulamento Interno, proceder-se-á da seguinte forma, sempre de forma gradual:\n\na) Advertência por escrito;\n\nb) Multa correspondente a 50% do valor da taxa condominial mensal à época do pagamento;\n\nc) Multa correspondente a 100% do valor da taxa condominial mensal à época do pagamento;",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "reforma_fora_horario": {
+      "titulo": "Reforma fora do horário",
+      "fundamento": "Art. 2°",
+      "palavras_chave": [
+        "reforma",
+        "obra",
+        "furadeira",
+        "horário"
+      ],
+      "texto_artigo": "a) Notificar a Administração do Condomínio da natureza dos serviços a serem realizados. b) Respeitar os horários em que os serviços podem ser executados de segunda a sexta-feira que são das 8:00 às 18:00 horas e aos sábados das 8:00 às 17:00 horas, não sendo permitido aos domingos e feriados, exceção àqueles que por absoluta necessidade, sejam autorizados para outros horários a critério do condomínio, em acordo com o Síndico em exercício.\n\nc) Transportar materiais a serem utilizados da na saída reforma da unidade e os entulhos sempre a Avenida Djalma Dutra no horário das 8:00 às 18:00 horas, ficando sua remoção por conta do proprietário, condômino ou locadores.\n\nd) Efetuar a imediata limpeza dos locais após o transporte do material ou entulho (hall, corredor ou outras áreas quaisquer), sob a responsabilidade e custo do proprietário, condômino ou locadores.\n\ne) Usar obrigatoriamente cobertores ou similares protetores no transporte de móveis. Entulhos ou materiais em geral condicionar em sacos, devendo comunicar a Administração com devida antecedência para que essa possa tomar as providências necessárias.\n\nf) Zelar para que as áreas comuns às unidades permaneçam sempre livres de sujeiras após a limpeza diária efetivada pela Administração. O condômino que, independentemente do motivo, venha a sujar essas áreas já limpas, deverá arcar com o custo do refazimento dos serviços.\n\ng) Responsabilizar-se por todo e qualquer dano nas dependências do Condomínio ou em bens de terceiros…"
+    },
+    "lixo": {
+      "titulo": "Descarte irregular de lixo e entulho",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 22.",
+      "palavras_chave": [
+        "lixo",
+        "entulho",
+        "descarte",
+        "sacos"
+      ],
+      "texto_artigo": "22\\. Depositar entulhos, materiais ou lixo de qualquer espécie nas lixeiras das áreas comum, devendo os sacos receptores de descartes resultantes das atividades dos lojistas serem levados diretamente para os locais estabelecidos das Avenidas 7 de Setembro ou Djalma Dutra onde a Prefeitura os coleta diariamente, sendo os infratores notificados e cobrados de acordo com art. 21 deste Regimento.\n\n23\\. Usar telefone privativo do Condomínio, quando existente, para ligações internas ou externas, ou efetuar chamadas a cobrar bem como fornecer a terceiros, parentes ou não o número do respectivo terminal, ressalvados casos de comprovada urgência e autorizados pelo Síndico ou preposto local.\n\n24\\. Danificar, alterar, colher ou destruir qualquer elemento natural ou artificial que contém a flora do Conjunto Comercial, o que poderá gerar, quando comprovadas as responsabilidades, penalidades de acordo com o art. 21, deste Regimento.\n\n25\\. Repassar ao porteiro ou vigia a posse de chaves das unidades em caso de ausência temporária ou mudança do lojista responsável, ou ainda para atender locação de unidades, a menos que haja ordem expressa do Síndico, por escrito.\n\n26\\. Ceder ou emprestar as chaves dos portões e porta do hall de entrada do edifício, a fornecedores, serviçais ou pessoas estranhas, independentemente da origem da ordem ser de proprietário ou locatário.\n\n27\\. Deixar guardados objetos de uso particular de proprietários ou locatários ou terceiros em qualquer área comum do…"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais no conjunto",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 7.",
+      "palavras_chave": [
+        "cachorro",
+        "animais",
+        "pet",
+        "circulação"
+      ],
+      "texto_artigo": "7\\. Manter ou fazer circular no Conjunto animais domésticos de pequeno, médio e grande porte, independente do perigo, insalubridade ou desassossego que virtualmente possam apresentar para os condôminos ou visitantes.\n\n8\\. Construir novas dependências de uso particular, dentro de sua unidade comercial que construções. afetem ou prejudiquem a solidez do prédio e as disposições legais pertinentes às comuns.\n\n9\\. Cuspir, lançar papéis, cinzas, pontas de cigarros, líquidos, lixos e quaisquer outros objetos em locais não apropriados, particularmente nas áreas comuns.\n\n10\\."
+    },
+    "barulho_eventos": {
+      "titulo": "Festas e som sem anuência",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 5.",
+      "palavras_chave": [
+        "festa",
+        "som alto",
+        "reunião",
+        "música"
+      ],
+      "texto_artigo": "5\\. Promover sem conhecimento e anuência previa do Sindico/Sub-Sindico festas, reuniões, em suas unidades ou partes comuns, com orquestras, conjuntos musicais ou quaisquer gêneros musicais eletrônicos, devendo ser respeitado a Lei de Silêncio vigente no município com todas as suas implicações e obrigações.\n\n6\\. Usar rádios transmissores e receptores que causam interferência nos demais eletrônicos existentes no prédio.\n\n7\\."
+    },
+    "perturbacao_sossego": {
+      "titulo": "Uso que perturbe o sossego",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 1.",
+      "palavras_chave": [
+        "barulho",
+        "sossego",
+        "incômodo",
+        "atividade"
+      ],
+      "texto_artigo": "1\\. Destinar as unidades do centro comercial a utilizações diversas da finalidade que lhes são próprias ou de forma a perturbar o sossego dos demais condôminos ou colocar em risco a segurança das unidades do Conjunto Comercial e/ou a salubridade da edificação e saúde dos condôminos, usar, ceder ou alugar as unidades comerciais para fins incompatíveis com a decência, o decoro e ou permitir a infração de Lei Municipal pessoas vigente sobre atividades comerciais ou permitir a sua utilização por reputação que, de qualquer forma ou modo possam prejudicar a boa ordem ou afetar a do condomínio.\n\n2\\. Dificultar o uso das partes comuns pelos demais condôminos.\n\n3\\. Remover pó de tapetes ou cortinas e outros pertences depositando-os nas ou sobre as áreas comuns.\n\n3\\. Remover comuns. pó de tapetes ou cortinas e outros pertences depositando-os nas ou sobre as áreas comuns.\n\n4\\. Colocar nas áreas tapetes, comuns. toalhas e outros pertences, inclusive vasos de flores ou plantas,\n\n5\\."
+    },
+    "gritaria_palavroes": {
+      "titulo": "Gritaria e palavras de baixo calão",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 11.",
+      "palavras_chave": [
+        "gritaria",
+        "discussão",
+        "palavrão",
+        "voz alta"
+      ],
+      "texto_artigo": "11\\. Gritar, conversar, discutir em voz alta e ainda pronunciar palavras de baixo calão em quaisquer dependências do Conjunto, que comprometem o bom nome do Condomínio com violação das normas elementares da boa educação.\n\n12\\. horários Utilizar-se dos empregados do condomínio para seus serviços particulares, nos de trabalho.\n\n13\\. Utilizar ferramentas, máquinas de propriedade do Condomínio para serviços particulares.\n\n14\\. Guardar explosivos e inflamáveis nas unidades e quaisquer dependências do Conjunto, queimar fogos de artifício de qualquer natureza nas áreas comuns, ter ou usar instalações que de qualquer forma possam afetar a saúde e a segurança dos demais condômino/locadores seguro. do Conjunto ou que possam resultar aumento do prêmio de seguo.\n\n15\\. Instalar nas paredes do edifício fios ou condutores de qualquer espécie e ou colocar placas, avisos, cartazes e letreiros, sem prévio aviso à Administração.\n\n16\\. Usar toldos e letreiros de cunho comercial ou não nas áreas comuns de forma não padronizada e ou uniformizada, estando terminantemente proibido o uso de energia do shopping CPFL, para a finalidade, cujo descumprimento implicará no pagamento da conta da no mínimo a relativa ao mês em que foi constatada a ocorrência, até o de sua efetiva regularização. A autorização da instalação desses móveis ou equipamentos deverá ser solicitada a Administração, que dará seu acordo ou não após apreciação do Conselho de Administração.\n\n17\\."
+    },
+    "fachada_padrao": {
+      "titulo": "Alteração de fachada e visual",
+      "fundamento": "Art. 3° - PARÁGRAFO PRIMEIRO",
+      "palavras_chave": [
+        "fachada",
+        "cor",
+        "vidro",
+        "visual"
+      ],
+      "texto_artigo": "É vedado alterar a forma externa do prédio ou decorar as partes externas de unidade com tonalidade ou cores diversas das empregadas no conjunto da edificação, decididas, em comum, através de reuniões específicas. Não podem ser forrados os vidros das janelas com papéis, plásticos ou similares de qualquer tipo, admitidos apenas alguns casos onde houver necessidade de preservação de produtos alimentícios ou bebidas, devendo ser formalizado carta ao Síndico nesse sentido."
+    },
+    "cartazes_publicidade": {
+      "titulo": "Cartazes e publicidade em áreas vedadas",
+      "fundamento": "Art. 3° - PARÁGRAFO PRIMEIRO",
+      "palavras_chave": [
+        "cartaz",
+        "propaganda",
+        "letreiro",
+        "janela"
+      ],
+      "texto_artigo": "Não é permitido exibir cartazes de anúncios, inscrições, propaganda político-eleitoral, religiosa, de clubes e associações ou quaisquer outros letreiros de publicidade nas janelas, portas, corredores, hall."
+    },
+    "bicicletas_motos": {
+      "titulo": "Bicicletas e motos dentro do shopping",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 10.",
+      "palavras_chave": [
+        "bicicleta",
+        "moto",
+        "circulação",
+        "estacionado"
+      ],
+      "texto_artigo": "10\\. Manter estacionado ou permitir a circulação bicicletas, motos ou similares dentro do shopping. instância os responsáveis por ocorrências da espécie serão advertidos em 1ª e multados com uma taxa de condomínio na reincidência.\n\n11\\."
+    },
+    "reparo_pintura_areas_comuns": {
+      "titulo": "Reparos mecânicos ou pintura nas áreas comuns",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 20.",
+      "palavras_chave": [
+        "mecânico",
+        "pintura",
+        "conserto",
+        "área comum"
+      ],
+      "texto_artigo": "20\\. Proceder a quaisquer reparos mecânicos ou pinturas de objetos nas áreas comuns.\n\n21\\."
+    },
+    "lavagem_loja_horario": {
+      "titulo": "Lavagem da loja em horário inadequado",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 21.",
+      "palavras_chave": [
+        "lavar",
+        "limpeza",
+        "horário",
+        "loja"
+      ],
+      "texto_artigo": "21\\. funcionamento lavar, quando necessário, as dependências das lojas, em horário que atrapalhe o normal do shopping.\n\n22\\."
+    },
+    "obstrucao_areas_comuns": {
+      "titulo": "Obstrução de entradas e áreas comuns",
+      "fundamento": "Art. 3° - PARÁGRAFO SEGUNDO - É PROIBIDO: 17.",
+      "palavras_chave": [
+        "obstrução",
+        "corredor",
+        "entrada",
+        "área comum"
+      ],
+      "texto_artigo": "17\\. Obstruir as entradas e áreas comuns, ruas ainda que em caráter provisório, bem como praticar jogos com bolas, petecas e outras modalidades nas dependências comuns do conjunto comercial, exceto nas áreas previamente designadas para esse fim.\n\n18\\. Utilizar usar objetos nos interruptores ou qualquer outro método para manter acesa a luz do hall ou escadas, além do tempo estipulado pela minutaria, caso instalada.\n\n19\\. Colocar vasos, antenas, enfeites ou quaisquer outros objetos que representem perigo ou que prejudiquem a estética do prédio, a iluminação e/ou ventilação das unidades vizinhas, ressalvadas as permitidas pela Administração.\n\n20\\."
+    }
+  }
+}

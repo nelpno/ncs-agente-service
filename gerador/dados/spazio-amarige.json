@@ -1,0 +1,157 @@
+{
+  "id": "spazio-amarige",
+  "superlogica_nome": "Spazio Amarige",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Capítulo XV – Das Multas e Penalidades",
+    "texto": "Art. 2º\nO condômino que violar as disposições legais bem como as contidas neste regulamento (além de ser compelido a desfazer a obra ou abster-se do ato praticado ou ainda reparar os danos que causar) ficará sujeito a multa no valor de uma taxa de condomínio, vigente à época da infração, após carta de advertência, duplicando- se este valor em caso de reincidência.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Capítulo VIII - Do Horário Art. 1º",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "televisão",
+        "conversa alta"
+      ],
+      "texto_artigo": "Capítulo VIII - Do Horário Art. 1º - No período entre 22:00 e 07:00 horas da manhã cumpre aos moradores e visitantes, respeitar o silêncio noturno, este estabelecido na Lei Municipal 01085 - 1962. Parágrafo Único: Guardar silêncio evitando a produção de ruídos que possam perturbar o sossego dos demais condôminos, mediante uso de aparelhos elétricos, sonoros, radiofônicos, instrumentos musicais, televisores, conversas em alto tom, gritarias, deslocamento de móveis, uso de furadeiras, martelos e etc."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Capítulo VIII - Do Horário Art. 3º",
+      "palavras_chave": [
+        "obra",
+        "furadeira",
+        "martelo",
+        "reforma"
+      ],
+      "texto_artigo": "Art. 3º - Ruídos provenientes de obras somente serão permitidos se forem realizados em dias úteis das 08:00 às 17:30 horas e aos sábados das 09:00 às 13:00 horas (pequenos reparos). Aos domingos e feriados fica vetada a realização de obras a não ser em casos de emergência (somente com autorização do corpo síndico registrado em livro)."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Capítulo III - Das Obrigações dos condôminos Art. 3o, alínea g)",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "móveis",
+        "horário"
+      ],
+      "texto_artigo": "Respeitar o horário entre 08:00 e 18:00 horas, de segunda a sexta-feira, para ingressar no prédio com móveis e utensílios de casa (mudanças) e aos sábados das 09:00 as 13:00 horas, quem não respeitar o horário será multado (multa direta). h) Respeitar o horário entre 22:00 e 07:00 horas mantendo silêncio."
+    },
+    "lixo_local_errado": {
+      "titulo": "Descarte Irregular de Lixo",
+      "fundamento": "Capítulo IX - Da Coleta de Lixo e Limpeza Art. 3º",
+      "palavras_chave": [
+        "lixo",
+        "saco de lixo",
+        "corredor",
+        "lixeira"
+      ],
+      "texto_artigo": "Art. 3º - É terminantemente proibida a colocação de sacos de lixo ou volumes nas portas dos apartamentos ou outras áreas de uso comum que não aquelas destinadas para tal fim, vai ter a lixeira de reciclagem (ao lado da antiga lixeira), quem for pego jogando lixo em local errado vai ser multado. Parágrafo Primeiro: É expressamente proibido, a bem da limpeza, da ordem e higiene, lançar papéis, cinzas ou pontas de cigarro e quaisquer outros objetos, ou detritos nas áreas comuns do Condomínio. Parágrafo Segundo:"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "Capítulo IX - Da Coleta de Lixo e Limpeza Art. 3º, Parágrafo Segundo",
+      "palavras_chave": [
+        "bicicleta",
+        "caixas",
+        "brinquedos",
+        "corredor"
+      ],
+      "texto_artigo": "Art. 3º - É terminantemente proibida a colocação de sacos de lixo ou volumes nas portas dos apartamentos ou outras áreas de uso comum que não aquelas destinadas para tal fim, vai ter a lixeira de reciclagem (ao lado da antiga lixeira), quem for pego jogando lixo em local errado vai ser multado. Parágrafo Primeiro: É expressamente proibido, a bem da limpeza, da ordem e higiene, lançar papéis, cinzas ou pontas de cigarro e quaisquer outros objetos, ou detritos nas áreas comuns do Condomínio. Parágrafo Segundo: É proibido deixar brinquedos, bicicletas, caixas de papelão, de madeira, ou de qualquer outro material, sacos de lixo, garrafas e outros objetos nas áreas comuns, uma vez que obstruem a passagem de pedestre e ainda agridem o visual."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Tapetes nas Janelas",
+      "fundamento": "Capítulo XII - Das Fachadas e Áreas Comuns Art. 3o",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "Art. 3o - Bater, sacudir, escovar ou estender tapetes, capachos, cortinas, toalhas, lençóis, cobertores, peças do vestuário, passadeiras ou similares nas janelas, poços de ventilação ou áreas comuns em varais colocados fora dos limites da área de serviço;"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar Veículo no Condomínio",
+      "fundamento": "Capítulo XIII - Normas que Estabelecem as Demais Proibições Art. 21°",
+      "palavras_chave": [
+        "lavar carro",
+        "encerar",
+        "moto",
+        "veículo"
+      ],
+      "texto_artigo": "Art. 21° - Proibido lavar, encerar automóveis, motos, bicicletas ou qualquer outro tipo de veículo nas dependências do Condomínio."
+    },
+    "garagem_vaga_indevida": {
+      "titulo": "Uso Indevido de Vaga",
+      "fundamento": "Capítulo X - Da Utilização da Garagem Art. 13o, alínea m)",
+      "palavras_chave": [
+        "vaga",
+        "estacionar",
+        "garagem",
+        "vaga alheia"
+      ],
+      "texto_artigo": "A ocupação da vaga indevida sem autorização do condômino acarretará advertência, e na reincidência multa desde que o próprio condômino registre a ocorrência no livro que fica na portaria."
+    },
+    "garagem_fora_limites": {
+      "titulo": "Estacionar Fora dos Limites da Vaga",
+      "fundamento": "Capítulo X - Da Utilização da Garagem Art. 13o, alínea k)",
+      "palavras_chave": [
+        "vaga",
+        "faixa",
+        "estacionamento",
+        "carro torto"
+      ],
+      "texto_artigo": "A ocupação das vagas fora dos limites estabelecidos pelas marcas delimitadoras das mesmas. l) Usar somente capas cinza ou preta nos veículos de passeio e motos (para a cobertura dos mesmos),será extremamente proibido o uso de qualquer outro tipo de cobertura, em caso de não cumprimento da regra será multado. m)"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns sem Controle",
+      "fundamento": "Capítulo XVIII - Dos Animais Domésticos Art. 2º",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "animal"
+      ],
+      "texto_artigo": "Art. 2º - Não será permitida a permanência ou circulação de nenhuma espécie de animal, nas áreas comuns, halls, salvo com coleira, focinheira e no colo, em companhia de pessoa responsável (acima de 12 anos), de forma que não incomodem as demais pessoas.\n\nPARQUE AMARIGE Av Dr. Miguel Couto, 493 - Araraquara – SP\n\nRevisão Regulamento Interno\n\n0 Data 05/08/2014 Página 11 de 12"
+    },
+    "animais_necessidades_areas_comuns": {
+      "titulo": "Animais Fazendo Necessidades nas Áreas Comuns",
+      "fundamento": "Capítulo XVIII - Dos Animais Domésticos Art. 4º",
+      "palavras_chave": [
+        "cocô",
+        "xixi",
+        "cachorro",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 4º - É terminantemente proibido animais utilizarem as áreas comuns para fazerem suas necessidades fisiológicas, ficando os proprietários responsáveis pela limpeza de sujeira proveniente de excrementos e urina nas áreas comuns do residencial. No caso de infração deste artigo, o condômino fica sujeito à advertência e multa, conforme descrito no Capítulo XV."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns Fechadas",
+      "fundamento": "Capítulo XIII - Normas que Estabelecem as Demais Proibições Art. 20°",
+      "palavras_chave": [
+        "fumar",
+        "cigarro",
+        "cinzas",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 20° - Proibido fumar nas áreas comuns fechadas do Condomínio, próximos a veículos e debaixo de janelas, sendo também proibido o descarte de cinzas e sobras de cigarros no chão do Condomínio."
+    }
+  }
+}

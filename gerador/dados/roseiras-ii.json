@@ -1,0 +1,145 @@
+{
+  "id": "roseiras-ii",
+  "superlogica_nome": "Roseiras II",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena, até 3 (três) vezes o valor das despesas comuns de condomínio",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso não residencial da unidade",
+      "fundamento": "Artigo 3º",
+      "palavras_chave": [
+        "comércio",
+        "república",
+        "aluguel irregular"
+      ],
+      "texto_artigo": "Artigo 3º\nOs apartamentos destinam-se EXCLUSIVAMENTE A MORADIA, sendo vedado seu uso para qualquer outra finalidade, inclusive a locação ou cessão para formação de REPÚBLICA de estudantes ou trabalhadores."
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas áreas comuns",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "corredor",
+        "escada",
+        "objetos"
+      ],
+      "texto_artigo": "II - Depositar objetos em quaisquer áreas de uso comum, isto é, entradas, passagens, elevadores, garagem, etc. Os objetos depositados serão removidos imediatamente pelo Zelador e depositados em local próprio, sendo somente devolvidos ao infrator reparar os danos que eventualmente possa ter causado, devendo o fato ser noticiado ao Sindico ou Sub-Sindico para as providencias cabíveis.\n\nIII - Modificar as disposições das paredes internas de divisão dos apartamentos e demais características, sem previa e obrigatória consulta ao Sindico ou ao Sub- Sindico.\n\nIV - Ter em sua guarda ou utilizar objetos, materiais, substancias odoríferas ou produtos químicos/inflamáveis/explosivos, que de qualquer forma passam vir a afetar a saúde, a segurança e a tranquilidade dos demais condôminos, podendo ainda acarretar aumento de seguro comum, podendo ainda responder pelos danos que causar na esfera Civil, Criminal e Administrativa, com imposição de multa.\n\nV -"
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "música"
+      ],
+      "texto_artigo": "V - Utilizar aparelhos eletrônicos como radio televisão, home teacher e outros ou ainda qualquer outro meio mecânico possível, provocando com sua conduta ruídos excessivos, que possam perturbar o sossego dos vizinhos.\n\na) Durante a semana, no período compreendido das 22:00 horas as 06:00 horas do dia seguinte, fica expressamente proibido a emissão de ruídos excessivos.\n\nb) Durante a semana, no período compreendido das 06:00 horas as 22:00 horas, recomenda-se ao condômino bom senso quanto a utilização de aparelhos ou outros meios que causem ruído excessivo;\n\nc) Durante os finais de semana ou feriados, observa-se-a o disposto na alínea \"a\", ficando o período compreendido das 09:00 horas as 23:00 horas, e no caso do período compreendido das 23:00 horas as 09:00 horas do dia seguinte, observasse-a o disposto na alínea \"b\"."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e tapetes nas janelas/sacadas",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "varal",
+        "roupas",
+        "tapete"
+      ],
+      "texto_artigo": "VI - Estender, secar ou bater tapetes, lençóis ou qualquer outro tipo de roupa nas janelas ou sacadas, bem como instalar varais ou similares que possam modificar as características externas do prédio.\n\nVII -"
+    },
+    "grades_fora_padrao": {
+      "titulo": "Grades/vitros fora do padrão",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "grade",
+        "vitro",
+        "fachada"
+      ],
+      "texto_artigo": "VII - Fica expressamente proibido a instalação de grades ou vitros que não sejam do modelo padrão, e ainda quanto a instalação de redes de proteção contra quedas, devera de imediato o condômino, antes de instalar o material, informar Sindico ou o Sub- Sindico.\n\nVIII -"
+    },
+    "sobrecarga_eletrica": {
+      "titulo": "Instalação elétrica com sobrecarga",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "fiação",
+        "sobrecarga",
+        "instalação elétrica"
+      ],
+      "texto_artigo": "VIII - Fazer em sua propriedade qualquer tipo de instalação elétrica que importe em sobrecarga para o edifício.\n\nIX - Fazer qualquer modificação no sistema de antena ou aparelhos de uso coletivo do prédio, sem conhecimento Sindico. e previa autorização do Sindico ou Sub síndico."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de veículos",
+      "fundamento": "Artigo 30°",
+      "palavras_chave": [
+        "lavar carro",
+        "lubrificação",
+        "garagem"
+      ],
+      "texto_artigo": "Artigo 30°\nÉ EXPRESSAMENTE PROIBIDA a lavagem e lubrificação de veículos nas vagas e demais dependências comuns do Condomínio."
+    },
+    "buzina_garagem": {
+      "titulo": "Buzina e circulação perigosa na garagem",
+      "fundamento": "Artigo 31°",
+      "palavras_chave": [
+        "buzina",
+        "garagem",
+        "bicicleta"
+      ],
+      "texto_artigo": "Artigo 31°\nÉ proibido o uso de buzinas ou sinais sonoros emitidos pelos veículos no interior das garagens, bem como a circulação de bicicletas, triciclos, patinetes, patins, skate ou qualquer outro meio que possa causar perigo de dano."
+    },
+    "vaga_uso_diverso": {
+      "titulo": "Uso indevido da vaga de garagem",
+      "fundamento": "Artigo 32°",
+      "palavras_chave": [
+        "vaga",
+        "depósito",
+        "garagem"
+      ],
+      "texto_artigo": "Artigo 32°\nAs vagas da garagem destinam-se EXCLUSIVAMENTE ao estacionamento de automóveis de passageiros, peruas, motos ou utilitários, desde que não excedam os limites do tamanho de cada box, de propriedade dos finalidade. condôminos ou seus inquilinos, sendo vedado o seu uso para qualquer outra As bicicletas deverão ser guardadas na área a elas destinadas sendo somente as de propriedade dos moradores do edifício."
+    },
+    "criancas_garagem": {
+      "titulo": "Crianças desacompanhadas na garagem",
+      "fundamento": "Artigo 35°",
+      "palavras_chave": [
+        "criança",
+        "garagem",
+        "desacompanhada"
+      ],
+      "texto_artigo": "Artigo 35°\nÉ proibida a permanência de crianças desacompanhadas responsáveis dos pais ou na área da garagem, devendo tal fato ser percebido pelo porteiro ou qualquer outro funcionário, o qual deverá conduzir a criança até a Portaria, informando imediatamente o responsável, o qual deverá ser orientado."
+    },
+    "entulho_garagem": {
+      "titulo": "Entulhos na garagem",
+      "fundamento": "Artigo 36°",
+      "palavras_chave": [
+        "entulho",
+        "objetos",
+        "garagem"
+      ],
+      "texto_artigo": "Artigo 36°\nÉ proibida a colocação de entulhos ou objetos diversos na área da Artigo garagem, sendo esta utilizada somente para seu fim, de acordo com o disposto no 32 do Regulamento."
+    },
+    "animais": {
+      "titulo": "Animais no edifício",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "cachorro",
+        "gato",
+        "animais"
+      ],
+      "texto_artigo": "não possuir no edifício qualquer animal ou aves, salvo com a concordância expressa da totalidade dos condôminos; q) não instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível do prédio, ressalvado a instalação de antena de TV e FM coletiva."
+    }
+  }
+}

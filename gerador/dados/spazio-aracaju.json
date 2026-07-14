@@ -1,0 +1,145 @@
+{
+  "id": "spazio-aracaju",
+  "superlogica_nome": "Spazio Aracaju",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "CAPÍTULO V - DAS PENALIDADES E SUA APLICAÇÃO",
+    "texto": "Art.20º\nFica estabelecido que quando desrespeitadas as disposições do presente Regimento, será feita advertência por escrito e, na reincidência será aplicada multa equivalente à taxa de um Condomínio vigente e, se preciso for as custas e honorários advocatícios nos casos de ação judicial.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "Art. 2º",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade profissional"
+      ],
+      "texto_artigo": "Art. 2º\nOs apartamentos destinam-se exclusivamente a fins residenciais, sendo expressamente proibido o uso para:\n\na) locação ou cessão de atividades profissionais, comerciais ou industriais de quaisquer naturezas;\n\nb) depósito de qualquer tipo de objetos."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Art.7º",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "agendamento"
+      ],
+      "texto_artigo": "Art.7º\nAs entradas e saídas de mudanças, bem como de materiais, móveis e outros, somente poderão ser feitas de segunda a sexta-feira, das 8h às 18h, mediante agendamento prévio com a portaria, sendo que os móveis ou objetos transportados devem estar devidamente acondicionados para não danificar o patrimônio, ficando o proprietário da unidade autônoma para onde estiver sendo efetuado o transporte, o único responsável por todo e qualquer dano causado ao Condomínio."
+    },
+    "lixo": {
+      "titulo": "Descarte de Lixo Irregular",
+      "fundamento": "Art.9º",
+      "palavras_chave": [
+        "lixo",
+        "saco plástico",
+        "descarte"
+      ],
+      "texto_artigo": "Art.9º\nO lixo deverá ser acondicionado em sacos plásticos reforçados e higiênicos e levado pelo morador até o local designado para seu armazenamento."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Tapetes nas Janelas",
+      "fundamento": "Art.10º",
+      "palavras_chave": [
+        "roupa no varal",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "c) estender roupas, tapetes ou outros objetos nas janelas ou em outro lugar que seja visível do exterior do Condomínio. É proibido, também, colocar ou estender roupas em processo de lavagem, bater tapetes e similares, nos peitoris das janelas ou de áreas de serviço ou utilizar as áreas comuns para esses fins;\n\nd) utilizar os empregados do Condomínio para serviços particulares no horário de trabalho.\n\ne) alterar o sistema de antena de TV.\n\nf) remover, em qualquer hipótese, os equipamentos de segurança contra incêndio do Condomínio, salvo para recarga, quando autorizado pela administração.\n\ng) a entrada de pessoas no Condomínio para entrega de encomendas, desacompanhadas dos moradores, e em casos especiais a funcionária da limpeza, durante o horário comercial em que a mesma esteja presente, poderá encaminhá-las até o apartamento.\n\nh)"
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "Art.10º",
+      "palavras_chave": [
+        "cigarro",
+        "fumo",
+        "área comum"
+      ],
+      "texto_artigo": "h) Fumar nas áreas comuns do condomínio."
+    },
+    "garagem_barulho_velocidade": {
+      "titulo": "Barulho e Velocidade na Garagem",
+      "fundamento": "Art.11º",
+      "palavras_chave": [
+        "buzina",
+        "aceleração",
+        "velocidade"
+      ],
+      "texto_artigo": "a) usar a buzina, excesso de aceleração e velocidade e outros ruídos, bem como trafegar em sentido contrário ao estabelecido que é marcado com setas em sentido único;\n\nb)"
+    },
+    "garagem_obstruir_vaga": {
+      "titulo": "Obstrução de Manobras na Garagem",
+      "fundamento": "Art.11º",
+      "palavras_chave": [
+        "carro parado",
+        "manobra",
+        "vaga"
+      ],
+      "texto_artigo": "b) estacionar impedindo ou dificultando as manobras de entrada e saída de carros;\n\nc) Guardar móveis, utensílios e sobressalentes sob qualquer pretexto;\n\nd)"
+    },
+    "garagem_emprestar_vaga": {
+      "titulo": "Ceder Vaga a Estranhos",
+      "fundamento": "Art.11º",
+      "palavras_chave": [
+        "vaga",
+        "controle remoto",
+        "terceiros"
+      ],
+      "texto_artigo": "d) Alugar, ceder vagas de garagem, emprestar chaves ou controles remotos a pessoas estranhas ao Condomínio;"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem e Mecânica na Garagem",
+      "fundamento": "Art.17º",
+      "palavras_chave": [
+        "lavar carro",
+        "troca de óleo",
+        "mecânico"
+      ],
+      "texto_artigo": "Art.17º\nNão é permitido manter nas garagens veículos que apresentem vazamentos, como também não é permitida a lavagem de qualquer carro, mudanças de óleo ou serviços mecânicos na garagem, salvo em casos excepcionais."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 29º",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 29º\nSerá tolerado nos apartamentos, a manutenção de animais de pequeno porte e inofensivos, desde que não causem problemas aos demais condôminos, devendo no seu transporte do apartamento para a rua e, vice versa, ser levado no colo ou em sacola apropriada, saindo pela garagem. É expressamente proibido passear com os animais nas áreas comuns do Condomínio."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art.33º",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio"
+      ],
+      "texto_artigo": "Art.33º\nOs moradores do Condomínio deverão guardar silêncio das 22h às 7h, evitando a produção de ruídos que possam perturbar o sossego e o bem-estar dos outros moradores. O uso de rádios, aparelhos de som ou qualquer instrumento musical deverá ser feito de modo a não perturbar os vizinhos."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Art.34º",
+      "palavras_chave": [
+        "obra",
+        "furadeira",
+        "montagem de móveis"
+      ],
+      "texto_artigo": "Art.34º\nOs serviços de reformas de apartamentos, montagens de móveis, pinturas e demais instalações que possam fazer ruídos ou quando demandam serviços de terceiros, somente podem ser executados de segunda à sexta-feira, no horário das 8h às 18h."
+    }
+  }
+}

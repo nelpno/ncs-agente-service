@@ -1,0 +1,157 @@
+{
+  "id": "allure",
+  "superlogica_nome": "Allure",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "WILMAR ALVES LIMA",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Capítulo XVI – Das Multas e Penalidades",
+    "texto": "Art. 2º\nO condômino que violar as disposições legais bem como as contidas neste regulamento (além de ser compelido a desfazer a obra ou abster-se do ato praticado ou ainda reparar os danos que causar) ficará sujeito a multa de 1/2 taxa ordinária do condomínio, vigente à época da infração, após carta de advertência, duplicando-se este valor em caso de reincidência.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso não residencial da unidade",
+      "fundamento": "Capítulo I - Normas Gerais Art. 1º",
+      "palavras_chave": [
+        "comércio",
+        "consultório",
+        "escritório",
+        "aulas"
+      ],
+      "texto_artigo": "Capítulo I - Normas Gerais Art. 1º - O Bloco é exclusivamente residencial sendo terminantemente proibida a utilização das unidades autônomas e das partes comuns, para todo e qualquer fim diverso, comercial ou não, tais como: escolas, aulas, consultórios, escritórios, jogos de azar, casa de apostas, seitas religiosas, reuniões políticas ou de sociedade, ou outras atividades que motivem fluxo de pessoas residentes ou não no Bloco."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança fora do horário",
+      "fundamento": "Capítulo XI - Regulamento de Mudanças Art. 5º",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "horário",
+        "móveis"
+      ],
+      "texto_artigo": "Art. 5º - O horário das mudanças será rigorosamente compreendido entre 08:00 e 18:00 horas, de Segunda a Sexta-feira. As exceções serão analisadas pelo Síndico."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Capítulo VIII - Do Horário Art. 1º",
+      "palavras_chave": [
+        "som alto",
+        "gritaria",
+        "televisão",
+        "música"
+      ],
+      "texto_artigo": "Capítulo VIII - Do Horário Art. 1º - No período entre 22:00 e 07:00 horas da manhã cumpre aos moradores e visitantes, respeitar o silêncio noturno, este estabelecido na Lei Municipal 01085 - 1962. Parágrafo Único: Guardar silêncio evitando a produção de ruídos que possam perturbar o sossego dos demais condôminos, mediante uso de aparelhos elétricos, sonoros, radiofônicos, instrumentos musicais, televisores, conversas em alto tom, gritarias, deslocamento de móveis, uso de furadeiras, martelos e etc."
+    },
+    "obra_fora_horario": {
+      "titulo": "Obra fora do horário",
+      "fundamento": "Capítulo VIII - Do Horário Art. 3º",
+      "palavras_chave": [
+        "obra",
+        "furadeira",
+        "martelo",
+        "reforma"
+      ],
+      "texto_artigo": "Art. 3º - Ruídos provenientes de obras somente serão permitidos se forem realizados em dias úteis das 08:00 às 17:00 horas e aos sábados das 08:00 às 12:00 horas (pequenos reparos). Aos domingos e feriados fica vetada a realização de obras a não ser em casos de emergência."
+    },
+    "lixo_fora_local": {
+      "titulo": "Lixo fora do local correto",
+      "fundamento": "Capítulo IX - Da Coleta de Lixo e Limpeza Art. 3º",
+      "palavras_chave": [
+        "lixo",
+        "saco",
+        "corredor",
+        "porta"
+      ],
+      "texto_artigo": "Art. 3º - É terminantemente proibida a colocação de sacos de lixo ou volumes nas portas dos apartamentos ou outras áreas de uso comum que não aquelas destinadas para tal fim.\n\nAllure Condomínio Resort Rua Maurício Galli, 1215 - Araraquara – SP\n\nRevisão Regulamento Interno\n\n0 Data 19/09/2011 Página 6 de 15"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e tapetes na janela/fachada",
+      "fundamento": "Capítulo XIII - Das Fachadas e Áreas Comuns Art. 3º",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "Art. 3o\nBater, sacudir, escovar ou estender tapetes, capachos, cortinas, toalhas, lençóis, cobertores, peças do vestuário, passadeiras ou similares nas janelas, poços de ventilação ou áreas comuns em varais colocados fora dos limites da área de serviço;"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de veículo na garagem",
+      "fundamento": "Capítulo X - Da Utilização da Garagem Art. 13o",
+      "palavras_chave": [
+        "lavar carro",
+        "moto",
+        "garagem",
+        "encerar"
+      ],
+      "texto_artigo": "horário. g) Lavagem, pintura e lubrificação de veículos na garagem, inclusive se for para tirar neblina do\n\npára-brisa; h) Consertos e reparos dos veículos na garagem, exceto pequenos reparos e em situações\n\nemergenciais; i) Locação ou comodato de vagas a pessoas que não sejam condôminos, moradores,\n\nlocatários do Condomínio. j) A ocupação das vagas de condôminos que não possuem veículos, ou que estejam ausentes, mesmo temporariamente, a não ser quando haja a locação ou comodato, formalizados através de contratos, em casos de estacionamentos provisórios estarão recebendo este permissão de trânsito e anotação no respectivo livro. k)"
+    },
+    "garagem_fora_da_vaga": {
+      "titulo": "Estacionar fora dos limites da vaga",
+      "fundamento": "Capítulo X - Da Utilização da Garagem Art. 13o",
+      "palavras_chave": [
+        "vaga",
+        "estacionar torto",
+        "limite",
+        "garagem"
+      ],
+      "texto_artigo": "A ocupação das vagas fora dos limites estabelecidos pelas marcas delimitadoras das\n\nmesmas."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas áreas comuns sem condução exigida",
+      "fundamento": "Capítulo XIX - Dos Animais Domésticos Art. 2º",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "animal"
+      ],
+      "texto_artigo": "Art. 2º - Não será permitida a permanência ou circulação de nenhuma espécie de animal, nas áreas comuns, salvo com coleira, focinheira e no colo, em companhia de pessoa responsável (acima de 12 anos), de forma que não incomodem as demais pessoas."
+    },
+    "animais_necessidades_areas_comuns": {
+      "titulo": "Animal fazendo necessidades nas áreas comuns",
+      "fundamento": "Capítulo XIX - Dos Animais Domésticos Art. 4º",
+      "palavras_chave": [
+        "fezes",
+        "urina",
+        "cachorro",
+        "limpeza"
+      ],
+      "texto_artigo": "Art. 4º - É terminantemente proibido animais utilizarem as áreas comuns para fazerem suas necessidades fisiológicas, ficando os proprietários responsáveis pela limpeza de sujeira proveniente de excrementos e urina nas áreas comuns do residencial. No caso de infração deste artigo, o condômino fica sujeito à advertência e multa, conforme descrito no Capítulo XV."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar em áreas comuns fechadas",
+      "fundamento": "Capítulo XIV - Normas que Estabelecem as Demais Proibições Art. 20°",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "corredor",
+        "cinzas"
+      ],
+      "texto_artigo": "Art. 20° - Proibido fumar nas áreas comuns fechadas do Condomínio, próximos a veículos e debaixo de janelas, sendo também proibido o descarte de cinzas e sobras de cigarros no chão do Condomínio."
+    },
+    "traje_banho_areas_comuns": {
+      "titulo": "Traje de banho nas áreas comuns",
+      "fundamento": "Capítulo XIV - Normas que Estabelecem as Demais Proibições Art.22º",
+      "palavras_chave": [
+        "biquíni",
+        "sunga",
+        "sem camisa",
+        "áreas comuns"
+      ],
+      "texto_artigo": "Art.22º - Transitar pelas áreas comuns do condomínio usando trajes de banho ou sem camisa."
+    }
+  }
+}

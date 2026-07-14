@@ -1,8 +1,8 @@
 {
   "id": "moove",
   "superlogica_nome": "Moove Concept Home",
-  "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
   "responsavel": {
     "nome": "[SÍNDICO A CONFIRMAR]",
     "cargo": "SÍNDICO"
@@ -17,140 +17,140 @@
   },
   "convencao_penalidades": {
     "capitulo": "XXII – DAS PENALIDADES",
-    "texto": "Parágrafo 28° A pena de advertência será aplicada por escrito para a infração de menor gravidade cometida pela primeira vez. a) A pena de multa será aplicada para as infrações de maior gravidade, especialmente se estas infrações constituírem contravenção ou crime, e nos casos de reincidência na mesma infração sobre a qual o morador ou um dos moradores da mesma unidade autônoma já tenham sido advertidos anteriormente.\nb) Ao condômino ou morador que transgredir as disposições deste Regulamento Interno, ou da Convenção condominial, será aplicada primeiramente advertência escrita. Em caso de reincidência, a qualquer tempo, mesmo que transitória ou eventualmente, serão aplicadas multas, que respeitarão os seguintes critérios: 1. 1ª reincidência: multa correspondente ao valor de 50% do Condomínio vigente. 2. 2ª reincidência: multa correspondente a 01 vezes o valor do Condomínio vigente. 3. 3ª reincidência: multa correspondente a 02 vezes o valor do Condomínio vigente. 4. 4ª reincidência: multa correspondente a 03 vezes o valor do Condomínio vigente. 5. 5ª reincidência em diante: multa correspondente a 04 vezes o valor do Condomínio vigente. c) Em caso de reincidência pelo mau uso do salão de festas, será aplicada pena de suspensão do direito de uso do salão pelo prazo de 01 (um) ano, além da multa. d) Ao condômino ou morador que, por seu reiterado comportamento antissocial, gerar incompatibilidade de convivência com os demais condôminos ou moradores, poderá, ainda, a critério do Síndico, ser aplicada, cumulativamente, multa correspondente ao valor de 10 vezes o valor do Condomínio devido. e) Além das penalidades pecuniárias, o infrator ficará obrigado a desfazer o ato ou ação praticada, ou abster-se de praticá-la, e ainda a reparar as perdas e danos a que der causa.…"
+    "texto": "b) Ao condômino ou morador que transgredir as disposições deste Regulamento Interno, ou da Convenção condominial, será aplicada primeiramente advertência escrita. Em caso de reincidência, a qualquer tempo, mesmo que transitória ou eventualmente, serão aplicadas multas, que respeitarão os seguintes critérios: 1. 1ª reincidência: multa correspondente ao valor de 50% do Condomínio vigente. 2. 2ª reincidência: multa correspondente a 01 vezes o valor do Condomínio vigente. 3. 3ª reincidência: multa correspondente a 02 vezes o valor do Condomínio vigente. 4. 4ª reincidência: multa correspondente a 03 vezes o valor do Condomínio vigente. 5. 5ª reincidência em diante: multa correspondente a 04 vezes o valor do Condomínio vigente. c) Em caso de reincidência pelo mau uso do salão de festas, será aplicada pena de suspensão do direito de uso do salão pelo prazo de 01 (um) ano, além da multa. d) Ao condômino ou morador que, por seu reiterado comportamento antissocial, gerar incompatibilidade de convivência com os demais condôminos ou moradores, poderá, ainda, a critério do Síndico, ser aplicada, cumulativamente, multa correspondente ao valor de 10 vezes o valor do Condomínio devido. e) Além das penalidades pecuniárias, o infrator ficará obrigado a desfazer o ato ou ação praticada, ou abster-se de praticá-la, e ainda a reparar as perdas e danos a que der causa. f) A multa será imposta pelo Síndico ou na sua ausência pelo Subsíndico, com base no boletim de ocorrência registrado em livro próprio elaborado pelo Zelador, Síndico, por condômino, ou quem de direito, com visto e com as anotações apropriadas, encaminhada a notificação ao infrator que, após ter sido concedido o direito de defesa, no prazo de 05 (cinco) dias ao próprio Síndico, que poderá manter ou revogar a penalidade, goza…",
+    "fonte": "convencao_literal"
   },
   "catalogo_infracoes": {
-    "barulho_noturno": {
-      "titulo": "Perturbação do sossego e silêncio",
-      "fundamento": "Parágrafo 22° – b) – DAS DISPOSIÇÕES GERAIS",
-      "texto_artigo": "Parágrafo 22° – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações:\na) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de\numa pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto-falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após horário de silêncio, das 22h00min às 08h30min da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares), inclusive nos boxes. f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado\nterminantemente o emprego de outros materiais. g) É…",
+    "uso_piscina_visitantes_festa": {
+      "titulo": "Uso da piscina por visitantes em festa",
+      "fundamento": "Regimento Interno, Parágrafo 5º",
       "palavras_chave": [
-        "som alto",
-        "instrumentos musicais",
-        "horário de silêncio",
-        "ruídos"
-      ]
+        "piscina",
+        "visitantes",
+        "festa",
+        "proibido"
+      ],
+      "texto_artigo": "Parágrafo 5º.- A piscina é de uso exclusivo dos condôminos e visitantes eventuais registrados no livro de visitantes existente na Portaria, sendo limitado a 02 (dois) visitantes por apartamento, todos devendo assinar autorização na Portaria do Condomínio. Não será permitida a utilização, no caso de visitantes que estejam participando de alguma festa no condomínio. O condômino responsabilizar-se-á pelos atos praticados por seus hóspedes e/ou visitantes, e também por eventuais prejuízos decorrentes causados ao Condomínio. a) Não é permitido o uso da piscina por funcionários empregados do Condomínio. b)"
     },
-    "animais": {
-      "titulo": "Regras para trânsito de animais",
-      "fundamento": "Parágrafo 18º – XV – DOS ANIMAIS",
-      "texto_artigo": "Parágrafo 18º – É permitida, nos apartamentos, a permanência de animais de pequeno porte e que sejam de raças adaptadas à criação em apartamentos, desde que não comprometam, por qualquer motivo, a higiene, a tranquilidade e\na segurança dos moradores ou do Condomínio, sendo que o proprietário do animal responderá por todo e qualquer dano que os mesmos venham a causar, inclusive por doenças infectocontagiosas e devem obedecer rigorosamente, aos seguintes critérios:\na) Para o trânsito de entrada e saída do prédio, deverá ocorrer com o animal no chão e com guia curta pelas áreas de circulação do condomínio, até a total saída do prédio. Somente poderão ser utilizadas as áreas da Portaria, garagens, escada e elevador de serviço e, somente pelo tempo estritamente necessário para o transporte, evitando a permanência desnecessária no interior das áreas comuns, principalmente nos \"hall\" de serviço, ficando terminantemente proibida a circulação dos animais fora dessas condições. b) É terminantemente proibido transitar com o animal pelo elevador social, salão de jogos, quadra esportiva, piscina, espaço festas e demais áreas de uso comum. Se, por qualquer motivo, o elevador de serviço estiver indisponível, o trânsito deverá ser feito pela escada de serviços. c) Visando o controle da data de validade das vacinas, se solicitado, os proprietários dos animais deverão entregar, ao…",
+    "uso_bronzeador_oleoso_piscina": {
+      "titulo": "Uso de bronzeador oleoso na piscina",
+      "fundamento": "Regimento Interno, Parágrafo 5º, b)",
       "palavras_chave": [
-        "cachorro",
-        "guia curta",
-        "elevador de serviço",
-        "higiene"
-      ]
+        "piscina",
+        "bronzeador",
+        "oleoso",
+        "filtro"
+      ],
+      "texto_artigo": "Parágrafo 5º.- A piscina é de uso exclusivo dos condôminos e visitantes eventuais registrados no livro de visitantes existente na Portaria, sendo limitado a 02 (dois) visitantes por apartamento, todos devendo assinar autorização na Portaria do Condomínio. Não será permitida a utilização, no caso de visitantes que estejam participando de alguma festa no condomínio. O condômino responsabilizar-se-á pelos atos praticados por seus hóspedes e/ou visitantes, e também por eventuais prejuízos decorrentes causados ao Condomínio. a) Não é permitido o uso da piscina por funcionários empregados do Condomínio. b) É proibido o uso de bronzeador oleoso na área da piscina, para não comprometer\n\ne/ou danificar o sistema de purificação da água (filtros). c)"
     },
-    "lixo": {
-      "titulo": "Descarte irregular de lixo",
-      "fundamento": "Parágrafo 15º – XX – DO LIXO",
-      "texto_artigo": "Parágrafo 15º - O lixo deverá ser acondicionado em recipiente apropriado, hermeticamente fechado e depositado na lixeira externa do prédio.\nI - É expressamente proibido colocar o lixo nas saídas de emergência, no hall dos apartamentos, nas garagens e na escadaria, ficando o infrator sujeito à penalidade cabível;\nXXI - DO USO E FECHAMENTO DAS VARANDAS",
+    "brincadeiras_perigosas_piscina": {
+      "titulo": "Brincadeiras perigosas na piscina",
+      "fundamento": "Regimento Interno, Parágrafo 5º, c)",
       "palavras_chave": [
-        "lixeira",
-        "hall",
-        "escadaria",
-        "resíduos"
-      ]
+        "piscina",
+        "brincadeiras",
+        "jogos",
+        "segurança"
+      ],
+      "texto_artigo": "e/ou danificar o sistema de purificação da água (filtros). c) É proibida a prática de brincadeiras e/ou jogos que ameacem a segurança e o bem\n\nestar dos usuários, na área da piscina. d) As crianças que ainda não controlam suas necessidades deverão utilizar a piscina\n\ncom proteção e fraldas próprias para natação. e) É proibida a entrada na área da piscina portando qualquer recipiente de vidro. f) É obrigatório o uso da “ducha” para entrar na piscina. g) O horário de funcionamento da piscina é das 6h00min às 22h00min, respeitando o horário de limpeza que será das 08h00min às 09h00min, ficando reservado à segunda-feira pela manhã das 08h00min às 12h00min horas para uma limpeza completa. h) A piscina poderá ser utilizada em qualquer horário com exceção dos horários de\n\nlimpeza acima mencionados. i)"
     },
-    "garagem": {
-      "titulo": "Uso indevido da garagem",
-      "fundamento": "Parágrafo 13º – XVIII - DO USO DAS GARAGENS",
-      "texto_artigo": "Parágrafo 13º - As vagas das garagens destinam-se exclusivamente à guarda de veículos de passageiros e utilitários de pequeno porte pertencentes aos condôminos (moradores) sendo expressamente proibida sua utilização para qualquer outra finalidade, especialmente para depósito de qualquer tipo de bem, ainda que temporariamente. a) É permitida a guarda de motos e similares nas garagens do prédio, porém sob exclusiva responsabilidade dos proprietários das mesmas. As motos e similares devem ocupar somente os locais destinados ao estacionamento dos veículos do respectivo condômino e não podem perturbar as manobras e aberturas das portas laterais de veículos vizinhos. b) O direito de uso das vagas da garagem poderá ser cedido a outros moradores do Condomínio, sob responsabilidade exclusiva do cedente e sempre com prévia notificação por escrito à Administradora do Condomínio e ao Zelador. c) Os veículos, motos e similares estacionados nas vagas deverão estar convenientemente fechados à chave, não se responsabilizando o Condomínio por danos eventuais ou roubos ou furtos de objetos guardados no veículo. d) Os danos causados por acidentes serão de exclusiva responsabilidade do causador\ndo acidente ou de seus pais ou responsáveis.\ne) O estacionamento irregular ou desautorizado de veículos acarretará na aplicação das penalidades previstas neste Regulamento, debitando-se as despesas…",
-      "palavras_chave": [
-        "depósito",
-        "vaga",
-        "estacionamento irregular",
-        "objetos"
-      ]
-    },
-    "lavar_veiculo": {
-      "titulo": "Lavagem de veículos na garagem",
-      "fundamento": "Parágrafo 13º – f) – DO USO DAS GARAGENS",
-      "texto_artigo": "Parágrafo 13º - As vagas das garagens destinam-se exclusivamente à guarda de veículos de passageiros e utilitários de pequeno porte pertencentes aos condôminos (moradores) sendo expressamente proibida sua utilização para qualquer outra finalidade, especialmente para depósito de qualquer tipo de bem, ainda que temporariamente. a) É permitida a guarda de motos e similares nas garagens do prédio, porém sob exclusiva responsabilidade dos proprietários das mesmas. As motos e similares devem ocupar somente os locais destinados ao estacionamento dos veículos do respectivo condômino e não podem perturbar as manobras e aberturas das portas laterais de veículos vizinhos. b) O direito de uso das vagas da garagem poderá ser cedido a outros moradores do Condomínio, sob responsabilidade exclusiva do cedente e sempre com prévia notificação por escrito à Administradora do Condomínio e ao Zelador. c) Os veículos, motos e similares estacionados nas vagas deverão estar convenientemente fechados à chave, não se responsabilizando o Condomínio por danos eventuais ou roubos ou furtos de objetos guardados no veículo. d) Os danos causados por acidentes serão de exclusiva responsabilidade do causador\ndo acidente ou de seus pais ou responsáveis.\ne) O estacionamento irregular ou desautorizado de veículos acarretará na aplicação das penalidades previstas neste Regulamento, debitando-se as despesas…",
-      "palavras_chave": [
-        "lavar carro",
-        "moto",
-        "limpeza veículo",
-        "vaga"
-      ]
-    },
-    "varanda_varal": {
-      "titulo": "Varal ou objetos na varanda/janela",
-      "fundamento": "Parágrafo 22° – d) e j) – DAS DISPOSIÇÕES GERAIS",
-      "texto_artigo": "Parágrafo 22° – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações:\na) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de\numa pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto-falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após horário de silêncio, das 22h00min às 08h30min da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares), inclusive nos boxes. f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado\nterminantemente o emprego de outros materiais. g) É…",
-      "palavras_chave": [
-        "estender roupa",
-        "varal de chão",
-        "peitoril",
-        "fachada"
-      ]
-    },
-    "mudanca_fora_horario": {
-      "titulo": "Mudança fora do horário permitido",
-      "fundamento": "Parágrafo 17º – XXII – DO HORÁRIO DE MUDANÇAS",
-      "texto_artigo": "Parágrafo 17º - As mudanças somente poderão ser realizadas, entre o período das 08h às 17h, de segunda a sexta-feira, e das 08h às 11h aos sábados, após autorização por escrito da Administradora, que presta serviços ao Condomínio, e comunicado o fato ao Zelador, com antecedência mínima de 24 horas, que dará as orientações cabíveis.\nAs mudanças só poderão ser feitas através do elevador de serviço (se houver). mudanças deverão ser executadas através do portão da garagem e ocuparão estritamente a área próxima ao elevador de serviço. XV – DOS ANIMAIS",
-      "palavras_chave": [
-        "horário",
-        "sábado",
-        "elevador de serviço",
-        "transporte"
-      ]
-    },
-    "reforma_fora_horario": {
-      "titulo": "Obras e reformas fora do horário",
-      "fundamento": "Parágrafo 14º – c) e d) – DAS REFORMAS",
-      "texto_artigo": "Parágrafo 14º – Para o início de qualquer serviço ou reforma, o condômino deverá primeiramente comunicar ao Zelador, por escrito, as características das empresas ou pessoas contratadas e o tipo e duração do trabalho a ser executado.\na) A autorização para a entrada no Edifício só poderá ser consumada após identificação dos trabalhadores, a ser realizada pela Portaria, que anotará no \"Livro de Registro\" o nome, RG e CPF, empresa, local e tipo de trabalho e informará ao Zelador que confrontará estas informações com as informações, fornecida pelo condômino. O trabalhador deverá receber um crachá para se deslocar no interior do prédio. b) Nos dias subsequentes a Portaria, já orientada pelo Zelador, será responsável pela autorização do ingresso dos trabalhadores contratados, após a comunicação ao respectivo apartamento. c) Qualquer tipo de serviço poderá ser realizado nos apartamentos no período de\nsegunda a sexta das 08h00min às 17h00min. d) A realização de pequenos reparos pelo condômino poderá ser realizada aos sábados das 08h00min as 12h00min como, por exemplo, a fixação de quadros com utilização de furadeira e outros afins. e) Caso seja necessária a realização de algum reparo de caráter emergencial fora do horário acima estipulado, deverá o condômino registrar no caderno junto à Portaria para ciência daquele morador vizinho que se sentir incomodado. f) A entrada e saída…",
-      "palavras_chave": [
-        "furadeira",
-        "obras",
-        "prestadores de serviço",
-        "reparos"
-      ]
-    },
-    "fumo_areas_comuns": {
-      "titulo": "Fumar em áreas proibidas",
-      "fundamento": "Parágrafo 22° – l) – DAS DISPOSIÇÕES GERAIS",
-      "texto_artigo": "Parágrafo 22° – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações:\na) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de\numa pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto-falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após horário de silêncio, das 22h00min às 08h30min da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares), inclusive nos boxes. f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado\nterminantemente o emprego de outros materiais. g) É…",
-      "palavras_chave": [
-        "cigarro",
-        "tabaco",
-        "elevador",
-        "hall"
-      ]
-    },
-    "objetos_pela_janela": {
-      "titulo": "Lançar objetos pelas janelas",
-      "fundamento": "Parágrafo 22° – g) – DAS DISPOSIÇÕES GERAIS",
-      "texto_artigo": "Parágrafo 22° – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações:\na) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de\numa pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto-falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após horário de silêncio, das 22h00min às 08h30min da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares), inclusive nos boxes. f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado\nterminantemente o emprego de outros materiais. g) É…",
-      "palavras_chave": [
-        "bituca de cigarro",
-        "líquidos",
-        "papéis",
-        "arremessar"
-      ]
-    },
-    "uso_piscina_trajes": {
-      "titulo": "Trajes de banho em áreas sociais",
-      "fundamento": "Parágrafo 5º – i) – DO USO DA PISCINA",
-      "texto_artigo": "Parágrafo 5º.- A piscina é de uso exclusivo dos condôminos e visitantes eventuais registrados no livro de visitantes existente na Portaria, sendo limitado a 02 (dois) visitantes por apartamento, todos devendo assinar autorização na Portaria do Condomínio. Não será permitida a utilização, no caso de visitantes que estejam participando de alguma festa no condomínio. O condômino responsabilizar-se-á pelos atos praticados por seus hóspedes e/ou visitantes, e também por eventuais prejuízos decorrentes causados ao Condomínio. a) Não é permitido o uso da piscina por funcionários empregados do Condomínio. b) É proibido o uso de bronzeador oleoso na área da piscina, para não comprometer\ne/ou danificar o sistema de purificação da água (filtros). c) É proibida a prática de brincadeiras e/ou jogos que ameacem a segurança e o bem\nestar dos usuários, na área da piscina. d) As crianças que ainda não controlam suas necessidades deverão utilizar a piscina\ncom proteção e fraldas próprias para natação. e) É proibida a entrada na área da piscina portando qualquer recipiente de vidro. f) É obrigatório o uso da “ducha” para entrar na piscina. g) O horário de funcionamento da piscina é das 6h00min às 22h00min, respeitando o horário de limpeza que será das 08h00min às 09h00min, ficando reservado à segunda-feira pela manhã das 08h00min às 12h00min horas para uma limpeza completa. h) A piscina…",
+    "circulacao_traje_banho_areas_sociais": {
+      "titulo": "Circulação em traje de banho em áreas sociais",
+      "fundamento": "Regimento Interno, Parágrafo 5º, i)",
       "palavras_chave": [
         "traje de banho",
-        "biquíni",
-        "elevador social",
-        "áreas comuns"
-      ]
+        "áreas sociais",
+        "elevadores",
+        "proibido"
+      ],
+      "texto_artigo": "limpeza acima mencionados. i) Fica terminantemente proibida a circulação de adultos ou crianças em trajes de\n\nbanho nas áreas sociais e elevadores sociais do Condomínio. j)"
     },
-    "lavagem_varanda_extravasamento": {
-      "titulo": "Lavagem de varanda com queda d'água",
-      "fundamento": "Parágrafo 22° – m) – DAS DISPOSIÇÕES GERAIS",
-      "texto_artigo": "Parágrafo 22° – Caberá a todos os condôminos, moradores e empregados em geral zelar pelo patrimônio do Condomínio e atentar para as seguintes determinações:\na) É proibido fracionar qualquer unidade autônoma, a fim de aliená-la a mais de\numa pessoa separadamente. b) Os moradores não poderão utilizar, com volume audível nos apartamentos vizinhos, alto-falantes, aparelhos de som, aparelhos de televisão nem instrumentos musicais ou de ruídos após horário de silêncio, das 22h00min às 08h30min da manhã seguinte, devendo cada morador usar o bom senso após ultrapassado o horário de visitas. c) É proibido utilizar, alugar ou ceder e explorar, no todo ou em parte, os apartamentos para fins que não sejam estritamente para a residência familiar. d) É proibido estender, bater ou secar tapetes ou lençóis e quaisquer outros objetos do vestuário nas áreas comuns, nas janelas dos apartamentos ou outros sítios fronteiros, nos quais não se poderão instalar varais de que tipo forem uma vez visíveis no exterior, ainda que varais de chão. e) É vedado manter ou guardar substâncias odoríficas ou perigosas à segurança do Edifício ou de seus moradores, tais como produtos químicos, inflamáveis, explosivos, botijões com gás (GLP ou similares), inclusive nos boxes. f) É proibido fazer uso de fogão que não seja a gás ou elétrico, sendo vedado\nterminantemente o emprego de outros materiais. g) É…",
+    "uso_tabaco_areas_comuns": {
+      "titulo": "Uso de tabaco em áreas comuns",
+      "fundamento": "Regimento Interno, Parágrafo 5º, j)",
       "palavras_chave": [
-        "jogar água",
-        "limpeza terraço",
-        "vizinho",
-        "extravasamento"
-      ]
+        "tabaco",
+        "fumar",
+        "áreas comuns",
+        "proibido"
+      ],
+      "texto_artigo": "banho nas áreas sociais e elevadores sociais do Condomínio. j) É proibida permanentemente a utilização de tabaco em todas as dependências\n\ncomuns do condomínio.\n\nV - DO USO DOS ESPAÇO FESTAS, ESPAÇO GOURMET E ESPAÇOS GRILL"
+    },
+    "barulho_espaco_festas_apos_22h": {
+      "titulo": "Barulho excessivo em Espaços de Festas após 22h",
+      "fundamento": "Regimento Interno, Parágrafo 6º, f)",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "espaço festas",
+        "lei do silêncio"
+      ],
+      "texto_artigo": "c) Será cobrada do solicitante uma taxa de 15% (quinze por cento) da taxa condominial de menor fração ideal, referente à utilização, manutenção e conservação dos equipamentos existentes no espaço, a qual será revertida para a conservação e reposição dos mesmos. d) Os espaços e os seus utensílios e equipamentos deverão ser restituídos pelo condômino nas mesmas condições de organização recebidas. A limpeza dos Espaços será da responsabilidade do condomínio. e) Caso o solicitante tenha realizado a reserva e por motivos pessoais resolva cancelá- la, deverá pagar a taxa estipulada no item anterior caso o cancelamento ocorra em período inferior a 48 horas antes da data de utilização. Nos casos de cancelamento por força maior com a devida justificativa, poderá ser isento da cobrança, sendo esses casos analisados pelo Síndico. f) O horário de funcionamento dos Espaços é de domingo a quinta-feira das 08h00min às 24h00min e de sexta-feira, sábado e vésperas de feriados das 8h00min à 01h00min. Os equipamentos sonoros deverão ser utilizados com volume moderado, durante todo o período até as 22h00min e deverão ser obrigatoriamente colocados em volume que não incomode a nenhum morador após as 22h00min, em qualquer dia da semana. Fora dos horários já determinados, o evento deverá restringir-se única e exclusivamente ao recinto interno do salão, com as portas do Espaço fechadas. Para não haver reclamação de qualquer um dos moradores, deverá ser cumprida a lei do silêncio que dispõe sobre a…"
+    },
+    "ar_condicionado_portas_abertas_espaco_festas": {
+      "titulo": "Ar-condicionado ligado com portas abertas em Espaços de Festas",
+      "fundamento": "Regimento Interno, Parágrafo 6º, g)",
+      "palavras_chave": [
+        "ar-condicionado",
+        "portas abertas",
+        "espaço festas",
+        "desperdício"
+      ],
+      "texto_artigo": "c) Será cobrada do solicitante uma taxa de 15% (quinze por cento) da taxa condominial de menor fração ideal, referente à utilização, manutenção e conservação dos equipamentos existentes no espaço, a qual será revertida para a conservação e reposição dos mesmos. d) Os espaços e os seus utensílios e equipamentos deverão ser restituídos pelo condômino nas mesmas condições de organização recebidas. A limpeza dos Espaços será da responsabilidade do condomínio. e) Caso o solicitante tenha realizado a reserva e por motivos pessoais resolva cancelá- la, deverá pagar a taxa estipulada no item anterior caso o cancelamento ocorra em período inferior a 48 horas antes da data de utilização. Nos casos de cancelamento por força maior com a devida justificativa, poderá ser isento da cobrança, sendo esses casos analisados pelo Síndico. f) O horário de funcionamento dos Espaços é de domingo a quinta-feira das 08h00min às 24h00min e de sexta-feira, sábado e vésperas de feriados das 8h00min à 01h00min. Os equipamentos sonoros deverão ser utilizados com volume moderado, durante todo o período até as 22h00min e deverão ser obrigatoriamente colocados em volume que não incomode a nenhum morador após as 22h00min, em qualquer dia da semana. Fora dos horários já determinados, o evento deverá restringir-se única e exclusivamente ao recinto interno do salão, com as portas do Espaço fechadas. Para não haver reclamação de qualquer um dos moradores, deverá ser cumprida a lei do silêncio que dispõe sobre a…"
+    },
+    "danos_espacos_festas": {
+      "titulo": "Danos em Espaços de Festas",
+      "fundamento": "Regimento Interno, Parágrafo 6º, k)",
+      "palavras_chave": [
+        "danos",
+        "espaço festas",
+        "ressarcimento",
+        "mau uso"
+      ],
+      "texto_artigo": "c) Será cobrada do solicitante uma taxa de 15% (quinze por cento) da taxa condominial de menor fração ideal, referente à utilização, manutenção e conservação dos equipamentos existentes no espaço, a qual será revertida para a conservação e reposição dos mesmos. d) Os espaços e os seus utensílios e equipamentos deverão ser restituídos pelo condômino nas mesmas condições de organização recebidas. A limpeza dos Espaços será da responsabilidade do condomínio. e) Caso o solicitante tenha realizado a reserva e por motivos pessoais resolva cancelá- la, deverá pagar a taxa estipulada no item anterior caso o cancelamento ocorra em período inferior a 48 horas antes da data de utilização. Nos casos de cancelamento por força maior com a devida justificativa, poderá ser isento da cobrança, sendo esses casos analisados pelo Síndico. f) O horário de funcionamento dos Espaços é de domingo a quinta-feira das 08h00min às 24h00min e de sexta-feira, sábado e vésperas de feriados das 8h00min à 01h00min. Os equipamentos sonoros deverão ser utilizados com volume moderado, durante todo o período até as 22h00min e deverão ser obrigatoriamente colocados em volume que não incomode a nenhum morador após as 22h00min, em qualquer dia da semana. Fora dos horários já determinados, o evento deverá restringir-se única e exclusivamente ao recinto interno do salão, com as portas do Espaço fechadas. Para não haver reclamação de qualquer um dos moradores, deverá ser cumprida a lei do silêncio que dispõe sobre a…"
+    },
+    "uso_playground_fora_horario": {
+      "titulo": "Uso do Playground fora do horário",
+      "fundamento": "Regimento Interno, VI - DO USO DO PLAYGROUND, 1.",
+      "palavras_chave": [
+        "playground",
+        "horário",
+        "acesso proibido"
+      ],
+      "texto_artigo": "1\\. O horário de utilização do Playground é das 8h às 22h, todos os dias, proibido o\n\nacesso em horários diferentes do estabelecido; 2. O playground destina-se à recreação infantil e é de uso exclusivo dos moradores\n\ne de seus visitantes; 3. Os pais ou responsáveis deverão orientar e acompanhar as crianças durante todo o período de utilização do espaço para garantir a segurança e preservar a área e os brinquedos; 4. É proibida a prática de jogos ou brincadeiras que dificultem o uso da área e seus\n\nequipamentos pelos demais frequentadores; 5. Em nenhuma hipótese será permitido o uso de carrinho de rolamento, veículos motorizados ou quaisquer equipamentos que possam oferecer riscos aos usuários ou à estrutura; 6. A idade máxima para acesso e utilização do playground é de 12 (doze) anos e as crianças devem estar permanentemente acompanhadas por seus pais ou responsáveis; 7. As crianças poderão levar seus próprios brinquedos, mas seus pais ou\n\nresponsáveis serão os únicos incumbidos por seu manuseio e guarda; 8. A presença de adultos deve se limitar a orientação e cuidado, nunca impedindo que as demais crianças façam uso do local; 9. Defeitos nos brinquedos devem ser imediatamente reportados à Administração do Condomínio; 9. A administração, por necessidade, poderá modificar os dias e horários de\n\nfuncionamento, devendo afixar nos quadros de aviso as alterações realizadas.\n\nVII - BICICLETÁRIO\n\n1\\. É de uso exclusivo dos moradores, ficando o condômino responsável pelo uso; 2. As…"
+    },
+    "danos_bicicleta_compartilhada": {
+      "titulo": "Danos em bicicleta compartilhada",
+      "fundamento": "Regimento Interno, VII - BICICLETÁRIO, 5.",
+      "palavras_chave": [
+        "bicicleta",
+        "danos",
+        "ressarcimento",
+        "mau uso"
+      ],
+      "texto_artigo": "imediatamente pelo condômino usuário; 5. Se, após a utilização da bicicleta, for constatado algum dano a mesma, o condômino que dela se utilizou será notificado a repará-la ou ressarcir ao Condomínio as despesas incorridas para recuperá-la, no prazo de 07 (sete) dias, contados do recebimento da notificação;\n\n6\\. Será necessário se dirigir à portaria para pegar as chaves do cadeado correspondente ao seu agendamento e travá-la no final do seu uso, devolvendo as chaves na portaria; 7. Informar qualquer irregularidade com a bicicleta ao zelador/portaria para que\n\npossamos sanar o seu defeito; 8. Não estando agendadas, o morador pode agendar a qualquer momento; 9. A saída e a entrada no prédio serão feitas através das portas de serviço; 10. A administração, por necessidade, poderá modificar os dias e horários de\n\nfuncionamento, devendo afixar nos quadros de aviso as alterações realizadas.\n\nVIII - ESPAÇO FUNCIONAL E FITNESS\n\n1\\. O Espaço Funcional e Fitness funcionará 24h, exceto quando necessária a sua\n\nmanutenção; 2."
+    },
+    "barulho_fitness_lounge_apos_22h": {
+      "titulo": "Barulho em Espaço Fitness/Lounge após 22h",
+      "fundamento": "Regimento Interno, VIII - ESPAÇO FUNCIONAL E FITNESS, 2.",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "fitness",
+        "lounge"
+      ],
+      "texto_artigo": "manutenção; 2. Das 22h à 08h, o sistema de SOM e TV não deve ser utilizado; 3. Os usuários da sala deverão zelar pela integridade dos equipamentos e\n\ninstalações colocados à disposição; 4. A sala e seus equipamentos deverão ser utilizados exclusivamente para os fins\n\na que se destinam; 5. Não será permitido que menores de 14 anos frequentem a academia, salvo com recomendação médica ou fisioterápica, acompanhado de orientador físico ou fisioterapeuta; 6. A sala e seus equipamentos deverão ser usados exclusivamente por moradores. Parágrafo Único - Os moradores poderão estar acompanhados de Educador Físico ou Personal Trainner desde que informada sua presença na Administração ou portaria; 7. O condômino que utilizar a sala de ginástica será responsável pelo ressarcimento de quaisquer danos ou prejuízos causados em suas instalações, dependências ou equipamentos; 8. Cabe a cada condômino a higienização do equipamento antes e após o uso. (É permitido somente o uso de álcool, a fim de não agredir os revestimentos dos equipamentos); 9. A administração, por necessidade, poderá modificar os dias e horários de\n\nfuncionamento, devendo afixar nos quadros de aviso as alterações realizadas.\n\nIX - OPEN LOUNGE E LOUNGE\n\n1\\. Os locais permanecerão abertos 24 horas por dia; 2. O uso será compartilhado por todos; 3. O morador pode receber seus amigos e convidados para tratar de assuntos de\n\nseu interesse; 4. Mantenham o lugar limpo e organizado. O condomínio não será responsável por\n\nnada que…"
+    },
+    "lavagem_roupas_nao_permitidas_lavanderia": {
+      "titulo": "Lavagem de itens não permitidos na lavanderia",
+      "fundamento": "Regimento Interno, XI - LAVANDERIA COMPARTILHADA, 10.",
+      "palavras_chave": [
+        "lavanderia",
+        "roupas de pet",
+        "tapetes",
+        "proibido"
+      ],
+      "texto_artigo": "que se encontra no interior da lavanderia, nunca ultrapassando a sua capacidade máxima, sem inserir as roupas dobradas e sem forçar para que comporte mais peças, sob o risco de danificar as máquinas e/ou suas roupas, além de ocasionar uma lavagem e/ou secagem inadequadas; 9. Ao usar as máquinas (lavadoras ou secadoras) o morador deverá utilizar exclusivamente os produtos indicados pelo tipo de roupa e separando suas roupas claras e escuras para evitar manchá-las; 10. As máquinas (lavadoras ou secadoras) são EXCLUSIVAMENTE para higienização de roupas de USO PESSOAL, cama, mesa e banho, não sendo permitida a lavagem de tapetes, tênis, almofadas, travesseiros, pelúcias, roupas de pets, roupas hospitalares, tecidos sintéticos, pano de chão, peles e couros, pedrarias, cortinas com peças rígidas e etc; 11. É proibido deixar no local objetos de uso pessoal ou materiais de limpeza, tais\n\ncomo sabão em pó e amaciantes, escovas, panos, etc; 12. O morador não poderá deixar roupas no interior das máquinas (lavadoras ou\n\nsecadoras), após o ciclo de lavagem/secagem estar completo; 13. É dever do morador acondicionar as roupas quando de seu transporte do apartamento à Lavanderia e vice-versa, de forma a não causar transtornos aos demais moradores; 14. Esse ambiente é monitorado por câmeras 24 horas e as imagens poderão ser usadas para identificar causadores de possíveis danos patrimoniais, mau uso ou transtornos a outros moradores, sendo aplicadas as sanções previstas no regimento; 15.…"
     }
   }
 }

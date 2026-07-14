@@ -1,0 +1,145 @@
+{
+  "id": "jatiuca",
+  "superlogica_nome": "Jatiúca",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 40",
+    "texto": "Artigo 40\nO Condômino que, por ato próprio ou de outra pessoa que resida ou ocupe sua unidade autônoma, ainda que transitoriamente, perturbar o uso das coisas comuns ou danificá-las, ou der causa a qualquer despesa, ficará sujeito, além da obrigação de reparar os danos e de pagar as despesas ocasionadas, à multa variável de um a cinco salários mínimos, vigentes à época da cobrança.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso não residencial da unidade",
+      "fundamento": "Art. 2°",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade profissional"
+      ],
+      "texto_artigo": "Art. 2°\nOs apartamentos, no todo ou em parte, destinam-se exclusivamente a fins residenciais, sendo expressamente proibido o uso, locação ou cessão para atividades profissionais, comerciais ou industriais de qualquer natureza, para depósito de qualquer objeto, assim como para qualquer fim escuso ou ilícito."
+    },
+    "alteracao_estrutura_paredes": {
+      "titulo": "Furos ou abertura em paredes estruturais",
+      "fundamento": "Art.4°",
+      "palavras_chave": [
+        "furar parede",
+        "quebrar parede",
+        "estrutura"
+      ],
+      "texto_artigo": "Art.4°\nPor se tratar de um prédio que o método construtivo da estrutura foi realizado com bloco estrutural autoportante, é proibido a retirada, a abertura parcial ou furos em todas as paredes do prédio que foram executadas com esse tipo de bloco."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança fora do horário",
+      "fundamento": "Art. 8°",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "horário"
+      ],
+      "texto_artigo": "Art. 8°\nAs entradas e saídas de mudanças, bem como de materiais, DE móveis e outros, somente poderão realizar-se de segunda-feira a sexta feira, no horário compreendido entre as 08:00 horas e 18:00 horas e aos sábados das 08:00 horas as 12:00horas."
+    },
+    "lixo": {
+      "titulo": "Descarte de lixo inadequado",
+      "fundamento": "Art. 9°",
+      "palavras_chave": [
+        "lixo",
+        "saco plástico",
+        "coleta"
+      ],
+      "texto_artigo": "Art. 9°\nO lixo deverá ser acondicionado em sacos plásticos reforçados e higiênicos, sendo recolhido do compartimento dos halls até as 16:00 horas. Parágrafo Primeiro - Atentar para a separação do lixo em reciclável e orgânico, devido à coleta seletiva."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou tapetes nas janelas",
+      "fundamento": "Art. 11",
+      "palavras_chave": [
+        "varal",
+        "roupa na janela",
+        "tapete"
+      ],
+      "texto_artigo": "c) Estender roupas, tapetes ou outros objetos nas janelas, ou em outro lugar que seja visível do exterior do Edifício. Sendo também proibido colocar ou estender roupas em processo de lavagem, bater tapetes e similares, nos peitoris das janelas ou áreas de serviço, bem como utilizar área comuns para esses fins;\n\nd) Utilizar os empregados do Condomínio para serviços particulares no horário de trabalho dos mesmos;\n\ne) Remover ou manusear, em qualquer hipótese, os equipamentos de segurança contra incêndio do prédio, salvo para recarga, quando autorizado pela administração ou no caso de um sinistro.\n\nf)"
+    },
+    "festa_apartamento": {
+      "titulo": "Festas no apartamento",
+      "fundamento": "Art. 11",
+      "palavras_chave": [
+        "festa",
+        "apartamento",
+        "comemoração"
+      ],
+      "texto_artigo": "f) Organizar festas dentro dos apartamentos. O condômino que não observar esta norma receberá uma punição, conforme artigo 26 do Capitulo VI.\n\ng) Manter ou guardar substâncias odoríferas ou perigosas à segurança do edifício ou de seus condôminos, tais como produtos químicos, inflamáveis, explosivos, etc.\n\nh)"
+    },
+    "objetos_lancados": {
+      "titulo": "Lançar objetos ou líquidos",
+      "fundamento": "Art. 11",
+      "palavras_chave": [
+        "jogar lixo",
+        "líquido",
+        "janela"
+      ],
+      "texto_artigo": "h) Jogar através das janelas, nos corredores, nos locais de estacionamento, e demais dependências do condomínio, qualquer objeto sólido ou produto líquido, tais como: lixo,\n\ni) Escrevente Autorizado Colocar enfeites, letreiros, vasos, antenas, varais ou quaisquer objetos sobre peitoris das janelas e áreas comuns.\n\nj) A fixação de avisos será permitida apenas em local apropriado (mural), desde que tratem de assuntos de exclusivo interesse coletivo do condomínio, mediante prévia autorização do síndico.\n\nk)"
+    },
+    "deposito_areas_comuns": {
+      "titulo": "Objetos nas áreas comuns",
+      "fundamento": "Art. 11",
+      "palavras_chave": [
+        "hall",
+        "escada",
+        "corredor"
+      ],
+      "texto_artigo": "k) Depositar qualquer tipo de material, lixo, papel, papelão, móveis e utensílios, nos seguintes locais: entrada principal e serviço, hall dos elevadores, hall de serviço, área das garagens, áreas de circulação e escadarias. Estes locais deverão permanecer livres e desimpedidos.\n\nl) É proibido a retirada, a abertura parcial ou furos em todas as paredes do prédio que foram executadas com bloco estrutural autoportante."
+    },
+    "garagem_estacionar_incorreto": {
+      "titulo": "Estacionar bloqueando manobras",
+      "fundamento": "Art. 16",
+      "palavras_chave": [
+        "vaga",
+        "carro",
+        "bloqueando"
+      ],
+      "texto_artigo": "b) Estacionar de forma incorreta impedindo ou dificultando manobras ou saídas de outros veículos;\n\nc) Guardar nas vagas de garagem móveis, utensílios ou sobressalentes sob qualquer pretexto;\n\nd) Usar buzina para alertar o porteiro, ou para que esta abra o portão.\n\nEm caso de necessidade, o condômino, dirigir-se-a a portaria e solicitará ao Porteiro a abertura do portão."
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavar veículo na garagem",
+      "fundamento": "Art. 22",
+      "palavras_chave": [
+        "lavar carro",
+        "troca de óleo",
+        "mecânico"
+      ],
+      "texto_artigo": "Art. 22\nE proibido proceder a lavagem de qualquer veículo, efetuar troca de óleo ou realizar serviços mecânicos no interior da garagem, salvo em casos excepcionais e plenamente justificáveis."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Passear com animais nas áreas comuns",
+      "fundamento": "Art. 36",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 36\nE proibido passear com animais pelas áreas comuns do prédio."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do sossego",
+      "fundamento": "Art. 39",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio"
+      ],
+      "texto_artigo": "Art. 39\nOs moradores do Edifício deverão guardar silêncio no horário compreendido entre as 22:00 horas e as 07:00 horas, evitando o quanto possível for a produção de ruídos que possam perturbar o sossego e o bem estar de outros moradores. O uso de rádios, televisores e outros aparelhos de som deverão ser feito de forma a não perturbar os vizinhos de apartamento."
+    }
+  }
+}
