@@ -1,0 +1,145 @@
+{
+  "id": "haddad",
+  "superlogica_nome": "Edifício Haddad",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 47",
+    "texto": "Art. 47\nO condômino que transgredir qualquer das disposições contidas neste Convenção e/ou no Regimento Interno, estará sujeito à pena pecuniária que lhe será imposta pela Assembléia Geral de condôminos, por deliberação de 2/3 (dois terços), no mínimo, dos condôminos a ela presentes, a qual dosará a gravidade da falta e a correspondente pena, limitada está a 5 (cinco) vezes o valor das suas contribuições mensais, sem prejuízo das perdas e danos que se apurarem.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade comercial"
+      ],
+      "texto_artigo": "1\\. Usar as unidades autônomas para outros fins que não residenciais e as partes e\n\ninstalações comuns para fins diversos daqueles a que se destinam;\n\n2\\."
+    },
+    "barulho_unidade": {
+      "titulo": "Atividades que Perturbem Moradores",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "barulho",
+        "festa",
+        "perturbação"
+      ],
+      "texto_artigo": "2\\. Promover ou deixar que se promovam nas respectivas unidades autônomas atividades\n\nque perturbem demais condôminos;\n\n3\\. A prática de quaisquer atos que causem danos às áreas privativas ou às áreas comuns\n\nou que, de qualquer forma, causem incômodo aos demais condôminos, empregados e\n\nvisitantes ou que prejudiquem e comprometam a segurança, solidez e a salubridade do\n\nedifício.\n\n4\\. Pisar, brincar ou permitir a prática destes atos nas áreas destinadas a jardins. Inserir\n\nou alterar a disposição de plantas e arranjos;\n\n5\\. Praticar ou permitir que se pratique na garagem, corredores e halls, jogos,\n\nbrincadeiras, uso de bicicletas, velocípedes, patins, skates e outros brinquedos;\n\n6\\. A permanência de mais de 01 (um) animal doméstico de pequeno porte por\n\napartamento.\n\n7\\."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais em Áreas Comuns",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "área comum"
+      ],
+      "texto_artigo": "7\\. A permanência de animais domésticos nas dependências comuns ou a manutenção\n\nnas respectivas unidades de animais que prejudiquem ou comprometam a saúde,\n\nsegurança ou que causem incômodo aos demais condôminos, empregados ou visitantes;\n\n8\\."
+    },
+    "objetos_pelas_janelas": {
+      "titulo": "Lançar Objetos pelas Janelas",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "janela",
+        "cigarro",
+        "objetos"
+      ],
+      "texto_artigo": "8\\. lançar objetos, papéis, pontas de cigarros, líquidos e detritos pelas janelas;\n\n9\\."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Varais Visíveis",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete"
+      ],
+      "texto_artigo": "9\\. Bater, estender ou secar roupas, tapetes e outros objetos nas janelas, peitoris ou em\n\nlocais visíveis ao exterior, assim como, neles colocar varais, vasos, ou outros objetos que\n\npossam por em risco a segurança de condôminos, empregados, visitantes e passantes;\n\n10\\."
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo Fora do Local",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "lixo",
+        "entulho",
+        "detritos"
+      ],
+      "texto_artigo": "10\\. Colocar nas áreas comuns lixos, detritos, refugos ou entulhos, seja qual for a espécie\n\nou quantidade, salvo nos locais a eles previamente destinados, devidamente\n\nacondicionados em sacos plásticos ou recipientes próprios;\n\n11\\. Decorar paredes, portas e janelas externas com cores, tonalidades ou materiais\n\ndiversos dos empregados em comum acordo pelo condomínio, assim como fechar as\n\njanelas com outro material, diferente do empregado na construção inicial, salvo se todo\n\ncondomínio assim o decidir fazer;\n\n12\\."
+    },
+    "objetos_partes_comuns": {
+      "titulo": "Objetos nas Partes Comuns",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "objetos",
+        "corredor",
+        "material de construção"
+      ],
+      "texto_artigo": "12\\. Colocar nas partes comuns, volumes, objetos, materiais de construção ou de\n\ninstalação de qualquer natureza;\n\n-----\n\n|  |\n| :-: |\n| [Page 2]() |\n\n13\\."
+    },
+    "obstruir_passagens": {
+      "titulo": "Obstrução de Passagens",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "corredor",
+        "acesso",
+        "bloqueio"
+      ],
+      "texto_artigo": "13\\. Obstruir passagens e vias de acesso ainda que momentaneamente;\n\n14\\. Usar toldos externos, colocar ou permitir que se coloquem letreiros, placas, cartazes\n\nde publicidade ou qualquer objeto estranho à decoração geral do condomínio;\n\n15\\. Utilizar os empregados do condomínio para serviços particulares;\n\n16\\. Obstruir ou usar indevidamente os elevadores para transporte de carga além de sua\n\ncapacidade, sendo que, em caso de necessidade de uso prolongado, como mudanças\n\ntotais ou parciais, levar ao conhecimento prévio do responsável (zelador ou síndico), e\n\nobter o consentimento da administração, marcando dia e hora para entrada e saída de\n\nmóveis, utensílios ou outros volumes do edifício;\n\n17\\. Utilizar ou manter nas respectivas unidades autônomas ou áreas comuns, aparelhos,\n\ninstalações substâncias, tais como, produtos químicos, inflamáveis, explosivos, fogões\n\nou aquecedores que põem em risco a segurança e a solidez do edifício, ou incomodam\n\naos demais condôminos e empregados;\n\n18\\. Instalar equipamentos ou aparelhos, em especial de ar o projeto instalação elétrica\n\ne o projeto arquitetônico, causando sobrecarga ou afetando a fachada e a arquitetura\n\ndo conjunto;\n\n19\\. Instalar antenas individuais de TV, rádio, rádio amador e outras, nas lajes, terraços,\n\ncobertura ou em qualquer outro local visível do edifício;\n\n20\\."
+    },
+    "reforma_sem_comunicacao": {
+      "titulo": "Reforma sem Comunicação Prévia",
+      "fundamento": "Art. 1° - É proibido",
+      "palavras_chave": [
+        "reforma",
+        "obra",
+        "aviso prévio"
+      ],
+      "texto_artigo": "20\\. Fazer reparos em seu apartamento sem comunicação antecipada ao zelador ou\n\nsíndico;\n\n21\\. Promover festividades ou reuniões que possam prejudicar os pertences comuns ou\n\nperturbar o sossego e a tranquilidade dos demais condôminos;\n\n22\\. O trânsito de operários ou outras pessoas estranhas ao condomínio nas áreas\n\ncomuns do condomínio;\n\n22.1 Somente será permitido o trajeto portaria/apartamento e vice-versa, nos dias e\n\nhorários estabelecidos.\n\n22.2 Não se aplica a este tópico, se acompanhado, pelo proprietário, funcionário do\n\ncondomínio ou do corpo diretivo;\n\n22.3 O proprietário do imóvel, ou quem detenha legalmente a sua posse, é responsável\n\npor danos e atos praticados por terceiros, que sob seu contrato, adentrem ao\n\ncondomínio;\n\n23\\. Fracionar a respectiva unidade;\n\n24\\. A locação de apartamentos para estudantes a fim de se evitar a formação de\n\n\"repúblicas\".\n\n-----\n\n|  |\n| :-: |\n| [Page 3]() |\n\n25\\. Ultrapassar o limite de 20 km por hora no interior do condomínio."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego Noturno",
+      "fundamento": "12. No período das 22h às 8h da manhã",
+      "palavras_chave": [
+        "som alto",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "12\\. No período das 22h às 8h da manhã, cumpre aos moradores guardar silêncio,\n\nevitando a produção de ruídos ou sons que possam perturbar o sossego e o bem estar\n\ndos demais moradores;\n\n-----\n\n|  |\n| :-: |\n| [Page 4]() |\n\n13\\. Em qualquer horário o uso de aparelhos sonoros ou musicais devem ser feitos de\n\nmodo a não perturbar os vizinhos;\n\n14\\. Manter a porta de elevador aberta, somente o tempo necessário para a entrada e\n\nsaída de pessoas, salvo nos casos de manutenção, carga ou descarga;\n\n15\\. Observar as normas de segurança dos elevadores, determinadas tanto por lei,\n\nquanto pelo fabricante;\n\n16\\. Acondicionar o lixo não-reciclável e o lixo orgânico em sacos plásticos antes de\n\ncolocá-los nos coletores pré-determinados e cuidar para que não haja respingos;\n\n17\\. Acondicionar o lixo reciclável em sacos plásticos, separado do lixo orgânico e colocá-\n\nlos no coletor predeterminado.\n\n17.1 A individualização do lixo reciclável será monitorada, para evitar que sejamos\n\ncobrados pelos órgãos competentes por algum tipo de separação indevida. A não\n\nobservância desse regulamento implicará em multa ao infrator.\n\n18\\. Proprietários de apartamentos não residentes no edifício, estando suas unidades\n\nalugadas ou não, deverão comunicar à Administração, por escrito, o seu endereço\n\ndomiciliar para o correto encaminhamento de suas correspondências;\n\n18.1 Não o fazendo, não poderão alegar, em juízo ou fora dele, a não recepção das\n\ncorrespondências, nem tampouco o desconhecimento do…"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículos na Garagem",
+      "fundamento": "Capítulo III - Do Uso da Garagem Art. 1º - Na utilização da garagem fica vedado:",
+      "palavras_chave": [
+        "lavar carro",
+        "garagem",
+        "veículo"
+      ],
+      "texto_artigo": "1\\. A lavagem de veículos;\n\n2\\. Murar ou de qualquer outra forma fechar vagas;\n\n3\\. Estacionar simultaneamente mais de um veículo em cada vaga;\n\n4\\. Estacionar veículos de porte incompatível com a respectiva vaga;\n\n5\\. Estacionar veículos em outras áreas que não àquelas a eles destinadas;\n\n6\\. Guardar ou colocar, móveis e outros objetos nas vagas ou áreas de circulação e\n\nmanobra;\n\n7\\. Ceder vaga ou direito de usos dessa para visitantes, hóspedes ou pessoas estranhas\n\nao condomínio;\n\n-----\n\n|  |\n| :-: |\n| [Page 5]() |\n\n8\\. É terminantemente proibido o estacionamento de motocicletas e bicicletas em\n\nqualquer área comum, que não a respectiva garagem do apartamento; Parágrafo único:\n\nqualquer mudança deverá ser comunicada com antecedência.\n\n9\\. É terminantemente proibido estacionar, mesmo que momentaneamente (motos,\n\nveículos, etc.) em frente Hall de Entrada."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Art. 4°",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "caminhão"
+      ],
+      "texto_artigo": "Art. 4° - Só serão permitidas as mudanças nos seguintes dias e horários. De segunda a\n\nsexta-feira das 8h às 16h. Sábados das 9h00 às 16h. Domingos e feriados: proibido."
+    }
+  }
+}

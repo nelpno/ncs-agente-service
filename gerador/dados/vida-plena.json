@@ -1,0 +1,157 @@
+{
+  "id": "vida-plena",
+  "superlogica_nome": "Residencial Vida Plena Araraquara",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 15",
+    "texto": "Artigo 15: O condômino que não cumprir qualquer dos deveres estabelecidos nos incisos Il à IV, do Art. 1336 pagará a multa prevista nesta convenção, não podendo ela ser superior a cinco vezes o valor de suas contribuições mensais, independentemente das perdas e danos que se apurarem; não havendo disposição expressa, caberá à assembleia geral, por dois terços no mínimo dos condôminos restantes, deliberar sobre a cobrança da multa.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "1.2-",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio",
+        "vizinhos"
+      ],
+      "texto_artigo": "1.2- Fica estabelecido que, conforme a convenção do condomínio, no período de 22:00h às 06:00h cabe aos moradores guardarem silêncio, evitando-se ruídos ou sons que possam perturbar o sossego e o bem-estar dos demais moradores.\n\n1.3- Durante as 24:00hs, o uso de aparelhos que produzem som ou instrumentos musicais deve ser feito de modo a não perturbar qualquer morador, observadas as disposições legais vigentes, salvo em ocasiões especiais devidamente comunicadas com antecedência ao Síndico, mas respeitado o horário estabelecido no item 1.2.\n\n1.4- Os jogos e/ou brincadeiras infantis somente poderão ser praticadas em locais apropriados, em geral das 08:00h às 22:00h, ressalvados os específicos para locais expressamente determinados, na forma e condições previstas neste Regimento Interno, ou definidas previamente pelo Síndico.\n\n1.5- No caso de locação das unidades autônomas, os condôminos e seus familiares transferem automaticamente para os inquilinos e seus familiares o direito ao uso das garagens, piscinas, sauna, salão de festas e outras dependências comuns, enquanto perdurar a locação. Fica, ainda, obrigado a fazer constar do contrato cópia do presente Regimento Interno.\n\n1.6- Na hipótese de venda ou transferência da propriedade ou de posse direta ou indireta, ou da constituição de direitos reais sobre as unidades autônomas, os novos adquirentes, quer da propriedade, quer da posse, ficam automaticamente obrigados a respeitar as disposições deste Regimento Interno, ainda…"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança/Carga Fora do Horário",
+      "fundamento": "2.8-",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "entrega",
+        "horário"
+      ],
+      "texto_artigo": "2.8- Somente serão permitidas cargas e mudanças, além de entregas de mercadorias, móveis e similares, pelos elevadores em dias úteis e de segunda a sexta-feira, das 09:00h às 17:00h, fora deste horário, excepcionalmente, desde que previamente autorizado pela Administração do Edifício. As mudanças deverão ser autorizadas pela administração de forma prévia, mediante apresentação de contrato de locação se for o caso com antecedentes dos moradores inquilinos. Sendo desde já proibida a locação para repúblicas de rapazes ou moças.\n\n2.9- É proibido o uso de veículos motorizados nas dependências do Condomínio, salvo quando em trânsito de entrada e saída.\n\n2.10-"
+    },
+    "bicicletas_areas_comuns": {
+      "titulo": "Bicicletas/Skates nas Áreas Comuns",
+      "fundamento": "2.6-",
+      "palavras_chave": [
+        "bicicleta",
+        "skate",
+        "patins",
+        "corredor"
+      ],
+      "texto_artigo": "2.6- É proibido o uso de bicicletas, skates, patins e similares nas áreas comuns, salvo se existir local apropriado e previamente determinado por este Regimento ou pela Administração.\n\n2.7- É expressamente proibida a utilização da recepção como extensão de sala de jogos ou lazer, como colocar os pés ou deitar sobre os sofás, realizar brincadeiras ou qualquer outro jogo que possa causar danos aos móveis e guarnições das mesmas, ficando os transgressores sujeitos ao pagamento das multas previstas neste Regimento.\n\n2.8-"
+    },
+    "estacionar_area_acesso": {
+      "titulo": "Estacionar em Área de Acesso",
+      "fundamento": "2.10-",
+      "palavras_chave": [
+        "carro parado",
+        "rampa",
+        "calçada",
+        "acesso"
+      ],
+      "texto_artigo": "2.10- É proibido parar ou estacionar veículos automotores em frente às áreas de acesso ao Edifício, assim como sobre as calçadas, rampas e demais áreas de circulação. É proibido pessoas sem habilitação e menores de idade adentrarem na direção de veículos automotores ao condomínio, sendo as responsabilidades, arcadas pelo proprietário da unidade em questão.\n\n2.11-"
+    },
+    "materiais_inflamaveis": {
+      "titulo": "Guarda de Inflamáveis/Explosivos",
+      "fundamento": "2.11-",
+      "palavras_chave": [
+        "inflamável",
+        "explosivo",
+        "produto químico",
+        "botijão"
+      ],
+      "texto_artigo": "2.11- É proibido guardar ou depositar em qualquer parte do Edifício substâncias explosivas ou inflamáveis, bem como agentes biológicos, químicos ou emissores de radiações ionizantes e/ou susceptíveis de afetar a saúde, segurança ou tranquilidade dos moradores, bem como provocar o aumento da taxa de seguro.\n\n2.12- São proibidos os jogos ou qualquer prática esportiva fora dos locais destinados para tal fim.\n\n2.13- É proibido aos moradores e visitantes entrar nas dependências reservadas aos equipamentos e instalações do Condomínio tais como: terraço do prédio, casa de máquinas dos elevadores, bombas de incêndio, exaustores, bombas de água, compactadores de lixo, equipamento de piscinas, medidores de luz e gás, hidrômetros, sala de computação, telhado, sala de geradores e estação de tratamento de esgoto (ETE).\n\n2.14- E proibido atirar fósforos, pontas de cigarro, detritos ou quaisquer objetos nas pias, portas, janelas e varandas, bem como nas áreas de serviço, elevadores e demais partes comuns do Prédio.\n\n2.15- Cabe à Administração ou ao funcionário designado por esta entender-se, quando necessário, com os condôminos a fim de que sejam dirimidas dúvidas, bem como no sentido de que sejam tomadas providências visando à segurança do prédio e/ou moradores.\n\n2.16- As portas corta-fogo deverão ser mantidas permanentemente fechadas.\n\n2.17- É proibido colocar ou deixar que se coloquem nas paredes comuns do edifício quaisquer objetos ou instalações, de qualquer natureza, bem assim…"
+    },
+    "garagem_objetos": {
+      "titulo": "Guardar Objetos na Garagem",
+      "fundamento": "4.14-",
+      "palavras_chave": [
+        "entulho",
+        "móveis",
+        "ferramentas",
+        "garagem"
+      ],
+      "texto_artigo": "4.14- E proibido o uso das garagens para guardar móveis, utensílios, motores, pneus, ferramentas ou quaisquer outros objetos, inclusive entulho.\n\n4.15- Os Condôminos do Edifício ficam inteiramente cientes de que nenhuma responsabilidade poderá ser imputada ao Condomínio, ou a qualquer pessoa a ele vinculada, em decorrência de prejuízos de qualquer natureza provenientes de furto, roubo, e incêndio de veículos, ou outras avarias que porventura venham a sofrer no interior do edifício, objetos eventualmente deixados no interior dos mesmos pertencentes ao Condomínio ou usuário, que assumirá inteira responsabilidade por tais eventos, provocados pela má utilização da garagem.\n\n4.16- É obrigatória a comunicação à Administração das placas dos automóveis e motocicletas a serem guardados no interior das garagens, visando facilitar a identificação e comunicação pela Administração de irregularidades que porventura estiverem praticando ou prevenir danos. Em caso de furto, roubo e/ou venda de automóvel/motocicleta, o condômino ficará obrigado a comunicar e/ou requerer a baixa do veículo cadastrado junto à administração.\n\n4.17- Não se admitirá o ingresso no interior das garagens de veículos que apresentem anormalidades tais como motor produzindo ruídos e/ou vazamentos de combustível e/ou óleo, freios em mau estado, silenciosos (escapamentos), defeituosos ou fora das especificações originais do veículo e quaisquer outras anormalidades que possam afetar as condições de segurança,…"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem de Veículos na Garagem",
+      "fundamento": "4.23 -",
+      "palavras_chave": [
+        "lavar carro",
+        "mangueira",
+        "garagem",
+        "veículo"
+      ],
+      "texto_artigo": "4.23 - É expressamente proibida a lavagem de carros nas garagens do Condomínio. transgressores, se condôminos e/ou residentes, serão penalizados com as sanções previstas neste Regimento Interno, se funcionários com rescisão do contrato de trabalho, por justa causa.\n\n5- DOS COLETORES DE LIXO\n\n5.1-"
+    },
+    "lixo_fora_horario": {
+      "titulo": "Lixo Fora do Horário/Local",
+      "fundamento": "5.1-",
+      "palavras_chave": [
+        "lixo",
+        "lixeira",
+        "horário",
+        "reciclável"
+      ],
+      "texto_artigo": "5.1- Cada condômino deverá colocar o seu lixo todos os dias, devidamente embalado е selecionado, na parte correspondente aos detritos orgânicos e aos detritos recicláveis na lixeira coletiva. Como também poderá, das 06:00h as 9:00h e das 16:00h as 18:00h colocar o lixo nas lixeiras de lixo orgânico e de lixo reciclável situadas em cada andar, para recolhimento das funcionárias da limpeza as 9:00 h e as 18:00h, não podendo ser colocado lixo fora desse horário nessas lixeiras.\n\n5.2- Os empregados domésticos devem ser instruídos no sentido do fiel cumprimento destas recomendações; bem como para que evitem sujar as paredes e o piso dos corredores ao transportarem o lixo.\n\n5.3- É proibido lançar quaisquer objetos ou líquidos sobre a via pública, área ou pátio interno.\n\n5.4- É proibido lançar quaisquer materiais, objetos, resíduos, restos ou detritos nas partes comuns do conjunto, ficando responsáveis pelas consequências dessa infração os que assim procederem.\n\n5.5- A inobservância pelo Condômino ou seus empregados das regras de comportamento estabelecidas para a utilização dos coletores de lixo e compactadores acarretará para o seu transgressor a multa conforme previsto no Capítulo das penalidades.\n\nDAS ÁREAS E ATIVIDADES DE LAZER\n\n6- DA PISCINA E SUA UTILIZAÇÃO\n\n6.1- O uso da piscina é privativo dos moradores e de seus convidados, e sua utilização obedecerá ao disposto no Decreto-Lei nº 4.447/81 - Normas sobre o controle e fiscalização de piscinas - publicado no DOERJ de…"
+    },
+    "piscina_vidro": {
+      "titulo": "Vidro na Área da Piscina",
+      "fundamento": "6.8-",
+      "palavras_chave": [
+        "garrafa",
+        "vidro",
+        "piscina",
+        "copo"
+      ],
+      "texto_artigo": "6.8- É proibida à utilização da piscina para a promoção de festas de qualquer natureza, salvo quando promovidas pela Administração do Condomínio, ou autorizadas pelo Síndico, desde que não prejudiquem os demais moradores. É expressamente vedadaa utilização de garrafas e/ou outros utensílios de vidro nas dependências da piscina e/ou suas imediações.\n\n6.9- É proibida a prática de jogos esportivos na piscina tais como frescobol, peteca, bola ou qualquer outro que possa interferir na segurança, sossego ou bem-estar dos demais usuários. É também proibido o uso de pranchas e boias confeccionados que apresentem perigo aos demais usuários, aparelhos de mergulho e/ou acessórios, como nadadeiras etc.\n\n6.10- É proibida a frequência da piscina por menores de 10 (dez) anos desacompanhados de pais ou responsáveis.\n\n6.11- A utilização da piscina é permitida apenas das 08:00h as 20:00h de terça-feira a sábado, aos domingos e feriados, podendo este horário ser estendido, a critério da Administração. A piscina permanecerá fechada para fins de limpeza, manutenção e tratamento de água, um dia por semana, segunda-feira, exceto quando coincidir com feriado. A utilização das piscinas fora do horário previsto neste Regimento Interno isenta o Condomínio de qualquer responsabilidade caso ocorram acidentes com as pessoas que indevidamente insistirem utilizá-las sem a presença do guardião.\n\n6.12- A administração, por necessidade, poderá modificar os dias e horários de funcionamento da piscina, devendo…"
+    },
+    "varanda_varal": {
+      "titulo": "Varal e Objetos na Varanda",
+      "fundamento": "10.15-",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "vaso",
+        "sacada"
+      ],
+      "texto_artigo": "10.15- É proibido colocar nas varandas, janelas ou áreas externas vasos, tapetes, cordas de roupas ou quaisquer outros objetos que prejudiquem a estética do Edifício ou que possam representar risco à segurança de pessoas e bens.\n\n10.16- Estender ou secar roupas, tapetes, lençóis nas janelas ou em quaisquer outros lugares, visíveis ao exterior.\n\n10.17- Lançar lixo por outro lugar, que não seja o tubo próprio.\n\n10.18- Usar das unidades para enfermarias, oficinas, laboratórios ou para qualquer instalação perigosa ou que produza incômodo, ou que importe majoração do prêmio de seguro.\n\n10.19- Decorar ou pintar as paredes e esquadrias externas com tonalidades ou cores diversas das empregadas no edifício.\n\n10.20- É vedado permitir a instalação na respectiva unidade autônoma de equipamentos ou maquinismos de grande porte, bem assim utilizar aparelhos de qualquer natureza que não tenham sido aprovados pelas autoridades competentes e que possam afetar as condições residenciais do edifício.\n\n10.21- Não é permitido instalar rádios transmissores/receptores, bem com antenas privativas nas partes comuns do condomínio. Igualmente nas unidades autônomas quando nessas possam causar interferências nos equipamentos existentes no edifício ou de alguma forma, prejudicar as condições residenciais dos mesmos, inclusive no aspecto estético.\n\n10.22- É vedada a instalação de aparelhos de ar-condicionado cuja instalação seja necessária, permitido apenas os aparelhos de ar condicionado portátil, bem…"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra/Reforma Fora do Horário",
+      "fundamento": "10.28-",
+      "palavras_chave": [
+        "furadeira",
+        "obra",
+        "reforma",
+        "barulho"
+      ],
+      "texto_artigo": "10.28- A troca ou raspagem de assoalhos, polimento de mármores, uso de furadeiras e demais obras nos apartamentos que possam produzir ruídos suscetíveis de incomodar os demais vizinhos deverão ser previamente comunicados à Administração e só serão permitidos quando realizados de segunda a sexta-feira, exceto feriado, das 09:00h às 17:00h. Fora deste período, só serão permitidas obras de emergência após a devida autorização da Administração.\n\n10.29- Os reparos em instalações internas da unidade autônoma deverão ser feitos somente até às linhas troncos, sendo de responsabilidade do proprietário os gastos oriundos do trabalho.\n\n10.30- Os reparos que atinjam áreas comuns só poderão ser feitos com prévio consentimento Administração, desde que não afetem a segurança de edifício.\n\n10.31- É proibido a qualquer funcionário do Condomínio aceitar chaves dos apartamentos em caso de ausência ou mudança de moradores, sem autorização prévia da Administração, e, caso ocorra, o Condomínio não responderá por qualquer prejuízo causado ou alegado pelo morador, sendo de sua inteira responsabilidade a entrega das chaves de sua unidade ao funcionário.\n\n10.32- É proibido atirar restos de comidas, matérias gordurosas, objetos e produtos não solúveis nos aparelhos sanitários ou ralos dos apartamentos, respondendo o condômino pelo entupimento de tubulações e demais danos causados ao edifício.\n\n10.33- Só é permitido o uso de fogões e aquecedores elétricos ou a gás canalizado.\n\n10.34- As portas de cada…"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "17.3-",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "corredor",
+        "elevador"
+      ],
+      "texto_artigo": "17.3- Não é permitida a permanência dos referidos animais domésticos nas áreas comuns do Condomínio, salvo para entrada e saída dos mesmos do prédio.\n\n17.4- A entrada e saída dos animais domésticos no Condomínio deverão ser feita no colo do condômino, ficando o mesmo responsável pelo recolhimento de excrementos produzidos pelos animais nos corredores, elevadores e nas áreas comuns, com a utilização de sacos plásticos, os quais serão depositados nas lixeiras do prédio.\n\n18- DAS DISPOSIÇÕES FINAIS\n\n18.1- Constituem deveres dos condôminos, moradores e usuários do prédio cumprir o presente Regimento Interno, levando ao conhecimento da Administração qualquer transgressão de que tenha conhecimento.\n\n18.2- Aos condôminos cabe a obrigação de, nos contratos de locação, alienação ou cessão de uso de suas unidades a terceiros, fazer incluir cláusula que obrigue ao fiel cumprimento das normas do presente Regimento Interno, sob pena de responder pessoalmente pela omissão no contrato de locação, pelo valor das multas aplicadas ao inquilino que transgredir as normas da Convenção deste Regimento Interno do prédio.\n\n18.3- É obrigatório o preenchimento correto da ficha de registro de moradores, a fim de que o Condomínio possa atualizar com rotina os dados dos condôminos.\n\n18.4- Quaisquer sugestões e/ou reclamações deverão ser dirigidas à Administração do Condomínio sempre por escrito, que após análise do Síndico ou Subsíndico, será submetida ao Conselho Fiscal, e a reclamação sendo…"
+    }
+  }
+}

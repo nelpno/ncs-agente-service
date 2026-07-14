@@ -1,0 +1,157 @@
+{
+  "id": "tivoli",
+  "superlogica_nome": "Tivoli",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art. 490.",
+    "texto": "Art. 490. - Os associados que infringirem disposições estatutárias, regimentais, regulamentos internos e resoluções, serão passíveis das seguintes penalidades:\n\na) advertência; e b) pagamento de multa.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_comercial_lote": {
+      "titulo": "Uso Comercial do Lote",
+      "fundamento": "### 1.4",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "aulas",
+        "atividade comercial"
+      ],
+      "texto_artigo": "1.4\nOs lotes dentro da Associação deverão ter seu uso estritamente residencial, sendo proibido sua utilização para fins comerciais de qualquer natureza (ex. aulas de músicas, escritórios com finalidade comercial, dentre outros).\n\nNota A:"
+    },
+    "locacao_temporada": {
+      "titulo": "Locação por Temporada",
+      "fundamento": "Nota A:",
+      "palavras_chave": [
+        "airbnb",
+        "temporada",
+        "locação",
+        "aluguel curto"
+      ],
+      "texto_artigo": "Nota A: Fica proibido a locação de imóveis por temporada, utilizando-se ou não de plataformas para tal finalidade, como AIRBNB, dentre outras.\n\nNota B: Os lotes sem construção não poderão servir como depósitos de materiais, peças ou quaisquer outros objetos, ou, ainda, como estacionamento de veículos.\n\nNota C:"
+    },
+    "veiculo_grande_porte_rua": {
+      "titulo": "Veículos de Grande Porte nas Ruas",
+      "fundamento": "Nota C:",
+      "palavras_chave": [
+        "ônibus",
+        "caminhão",
+        "motor home",
+        "barco"
+      ],
+      "texto_artigo": "Nota C: Não é permitido estacionar nas ruas do residencial veículos de grande porte, tais como micro-ônibus, ônibus, motor home, caminhões (inclui-se carretas), motos aquáticas, barcos, carretinhas, dentre outros tipos de veículos correlatos.\n\nNota D: Caso algum Associado tenha um dos veículos mencionados na nota anterior, desde que seja permitido a entrada no residencial e a portaria comporte, para que possa manter tais veículos dentro do Residencial precisará garantir que a garagem da respectiva residência comporte o respectivo veículo estacionado, em sua totalidade."
+    },
+    "burlar_portaria": {
+      "titulo": "Burla do Sistema de Entrada",
+      "fundamento": "### 2.4",
+      "palavras_chave": [
+        "portão",
+        "fila",
+        "entrada",
+        "burlar acesso"
+      ],
+      "texto_artigo": "2.4\nTodos os moradores que estiverem aguardando a sua vez de entrar na associação, deverão se posicionar antes da faixa delimitadora a ser assinalada no chão. Na tentativa de burlar o sistema, o morador que o fizer será penalizado e caso ocorra danos ao portão ou qualquer outro equipamento ou estrutura e ainda a terceiros, será inteiramente responsabilizado e assumirá todos os custos pelo conserto, além das penalidades, como multa pela desobediência, não se responsabilizando a Associação por qualquer dano causado ao veículo do morador que desobedecer a regra."
+    },
+    "excesso_velocidade": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "### 5.4",
+      "palavras_chave": [
+        "velocidade",
+        "rápido",
+        "carro",
+        "trânsito"
+      ],
+      "texto_artigo": "5.4\nConstatado o excesso de velocidade, será aplicada multa no valor de 01 (uma) taxa Associativa e em caso de reincidência o dobro, e assim sucessivamente."
+    },
+    "animais_soltos_areas_comuns": {
+      "titulo": "Animais Soltos nas Áreas Comuns",
+      "fundamento": "### 6.2",
+      "palavras_chave": [
+        "cachorro solto",
+        "pet",
+        "rua",
+        "área comum"
+      ],
+      "texto_artigo": "6.2\nNão é permitido manter animais soltos nas partes comuns e nas ruas da associação, sob pena de multa equivalente a uma taxa associativa vigente à época, e no caso de reincidência a multa será o dobro da taxa associativa e assim sucessivamente.\n\nNota: Tais regras se aplicam a qualquer animal de estimação (pet), inclusive felinos (gatos)."
+    },
+    "dejetos_animais": {
+      "titulo": "Não Recolher Dejetos de Animais",
+      "fundamento": "### 6.3",
+      "palavras_chave": [
+        "fezes",
+        "cachorro",
+        "recolher",
+        "pet"
+      ],
+      "texto_artigo": "ii) Os dejetos dos animais deverão ser imediatamente recolhidos pelos moradores/proprietários/tutores, sob pena de multa equivalente a uma taxa associativa, no caso de reincidência o dobro e assim sucessivamente.\n\niii) Animais de raça grande, de temperamento agressivo ou as raças elencadas na Lei Estadual nº 11.531/03, obrigatoriamente deverão usar focinheiras ao transitar em qualquer área de uso comum.\n\nNota: Não é permitido que animais permaneçam sob a supervisão de crianças menores de 10 anos sem acompanhamento de um responsável nas áreas comuns."
+    },
+    "uso_quiosque_sem_reserva": {
+      "titulo": "Uso do Quiosque sem Reserva",
+      "fundamento": "### 8.8",
+      "palavras_chave": [
+        "quiosque",
+        "churrasco",
+        "reserva",
+        "uso sem agendar"
+      ],
+      "texto_artigo": "8.8\nO morador/proprietário que fizer uso da área, sem reservar no sistema, será multado no valor de uma taxa associativa e se reincidente o dobro, e assim sucessivamente."
+    },
+    "som_musica_fora_horario_salao": {
+      "titulo": "Música Fora do Horário no Salão",
+      "fundamento": "### 9.4",
+      "palavras_chave": [
+        "som alto",
+        "música",
+        "salão de festas",
+        "horário"
+      ],
+      "texto_artigo": "9.4\nHorário de funcionamento: o salão de festas poderá ser utilizado de segunda a quinta feira e aos domingos até às 23h e às sextas-feiras e sábados até às 02h00min. Após as 00h00min não será mais permitido música e somente poderá permanecer no local o anfitrião para limpeza e organização do salão.\n\nNota: Quando houver execução de música no local as caixas de som deverão permanecer dentro e voltadas para o interior do salão de festas com som ambiente e, em hipótese alguma será admitida música ao vivo no salão de festas."
+    },
+    "lixo_local_inadequado": {
+      "titulo": "Descarte de Lixo em Local Inadequado",
+      "fundamento": "### 13.1",
+      "palavras_chave": [
+        "lixo",
+        "descarte",
+        "sujeira",
+        "local inadequado"
+      ],
+      "texto_artigo": "13.1\nNão será permitido a qualquer pessoa o descarte de qualquer tipo de lixo em local inadequado. Sob pena de multa no valor de 01 (uma) taxa associativa ao morador/proprietário."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "### 14.1",
+      "palavras_chave": [
+        "cigarro",
+        "fumo",
+        "área comum",
+        "salão"
+      ],
+      "texto_artigo": "14.1\nNão é permitido fumar nas áreas de uso comuns, no salão de festas, academia, piscina, área de churrasco, quadra, áreas verdes e de lazer assim definidas.\n\nNota: Será permitido fumar somente nas áreas demarcadas para tal finalidade."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "### 16.2",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "horário",
+        "transporte"
+      ],
+      "texto_artigo": "16.2\nAs mudanças deverão ser realizadas de segunda a sábado das 08h00min às 17h00min."
+    }
+  }
+}

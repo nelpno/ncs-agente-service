@@ -1,0 +1,159 @@
+{
+  "id": "salto-grande-i",
+  "superlogica_nome": "Salto Grande I",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "ART. 48°\nDAS PENALIDADES",
+    "texto": "Item.1°- Sem prejuízo das responsabilidades civil ou criminal que, no caso couber, proprietário, morador ou preposto que violar disposições legais ou as normas contidas neste Regimento Interno, demais normas; assim como deliberações de Assembleias, ficará sujeito a:\n\nadvertência escrita,\n\nmulta pecuniária, que, dependendo da gravidade e da reiteração da falta, poderá variar de 1 (um) a 05(cinco) vezes o valor da contribuição mensal vigente na época da infração. independentemente das perdas e danos que se apurarem, sendo que a quantia a ser cobrada será ocorrido.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_festividades": {
+      "titulo": "Barulho em atividades e festas",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "festa",
+        "som alto",
+        "algazarra",
+        "barulho"
+      ],
+      "texto_artigo": "",
+      "revisar": "bloco vazio/curto após fatiar"
+    },
+    "danos_areas_comuns": {
+      "titulo": "Danos às áreas comuns ou privativas",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "quebrar",
+        "danificar",
+        "área comum",
+        "prejuízo"
+      ],
+      "texto_artigo": "promover a prática de ou quaisquer deixar promover atividades ou festividades que perturbem os demais moradores.\n\na prática de ou quaisquer deixar promover atividades ou festividades que perturbem os demais moradores: de qualquer forma, atos que causem danos às áreas privativas ou às áreas comuns ou que. incômodo aos demais prejudiquem moradores:\n\nintervir disposição nas áreas comuns destinadas a jardins, removendo, inserindo ou alterando de plantas ou arranjos:\n\nutilizar os empregados do loteamento para serviços particulares durante seus horários de trabalhos;\n\nobstruir passagens ou vias de acesso, ainda que momentaneamente:"
+    },
+    "lixo_areas_comuns": {
+      "titulo": "Lixo e entulho em áreas comuns",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "lixo",
+        "entulho",
+        "folhagem",
+        "detritos"
+      ],
+      "texto_artigo": "colocar nas áreas comuns lixos, restos de folhagens, detritos ou entulho, seja qual for a embalados espécie ou em quantidade, sacos plásticos salvo nos locais a eles previamente destinados e devidamente ou recipientes próprios para tanto."
+    },
+    "objetos_ruas_lotes": {
+      "titulo": "Jogar objetos ou detritos",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "papel no chão",
+        "detritos",
+        "sujeira",
+        "jogar objeto"
+      ],
+      "texto_artigo": "jogar objetos, papéis ou detritos nas áreas comuns, nas ruas do loteamento e sobre os lotes:"
+    },
+    "animais_perigosos_ou_soltos": {
+      "titulo": "Animais com risco, sujeira ou incômodo",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "cachorro",
+        "animal solto",
+        "risco",
+        "sujeira"
+      ],
+      "texto_artigo": "promover ou facilitar a entrada ou permanência no interior do loteamento de animais que possam colocar em risco a segurança das pessoas ou que possam prejudicar a limpeza, a saúde e o sossego de moradores;\n\ntrânsito loteamento de prestadores de serviço, operários ou outras pessoas estranhas nas áreas comuns do loteamento. Será permitido somente o trajeto entre a portaria e o lote ou residência, e vice-versa, nos dias e horários estabelecidos e devidamente identificados. Para tanto o contratante, proprietário em que está autorizado a entrar no loteamento."
+    },
+    "menor_sem_habilitacao_dirigindo": {
+      "titulo": "Menor ou não habilitado dirigindo",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "menor dirigindo",
+        "sem carteira",
+        "carro",
+        "moto"
+      ],
+      "texto_artigo": "a menores à de 18 ou pessoas sem habilitação dirigir veículos automotores, de qualquer tamanho, classe ou tipo, ai incluídos os brinquedos à bateria, no interior do loteamento;"
+    },
+    "buzina_alarme": {
+      "titulo": "Buzina e alarme perturbando",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "buzina",
+        "alarme disparado",
+        "barulho carro",
+        "sossego"
+      ],
+      "texto_artigo": "utilizar buzina classe ou permitir que alarmes sonoros de veículos interfiram no sossego dos demais moradores;\n\na permanência de pessoas estranhas na guarita em conversa ou em grupo que possa desviar a atenção do funcionário em serviço na portaria;\n\no acesso de veículos de carga ou de passageiros. ai incluídos os brinquedos á bateria, condições não apresentem segurança para o loteamento ou para pedestres, bem como estejam em desacordo com as leis de trânsito;\n\no trânsito de veículos carga aos domingos e feriados;"
+    },
+    "maquinas_barulho_domingo_feriado": {
+      "titulo": "Máquinas barulhentas em domingo/feriado",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "cortador de grama",
+        "lavadora",
+        "maquita",
+        "barulho"
+      ],
+      "texto_artigo": "a uso de cortadores de grama a gasolina ou elétrico, bem como lavadoras de alta pressão e demais máquinas que façam barulhos acima de 80 decibéis (maquita, batedores, etc) aos domingos e feriados, exceto aos sábados onde o uso dessas máquinas está permitido exclusivamente à proprietários e moradores das 9:00 às 17:00 horas."
+    },
+    "queima_fogo_lixo": {
+      "titulo": "Atear fogo em mato ou lixo",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "queimar lixo",
+        "fogo",
+        "mato",
+        "queimada"
+      ],
+      "texto_artigo": "",
+      "revisar": "bloco vazio/curto após fatiar"
+    },
+    "fogos_artificio": {
+      "titulo": "Queima de fogos de artifício",
+      "fundamento": "Art. 10°",
+      "palavras_chave": [
+        "fogos",
+        "rojão",
+        "estouro",
+        "barulho"
+      ],
+      "texto_artigo": "a queima de fogos de artificio no interior do loteamento e das residências.\n\nutilizar-se da água e energia do condomínio sob quaisquer pretextos."
+    },
+    "silencio_noturno": {
+      "titulo": "Perturbação do sossego noturno",
+      "fundamento": "Art. 14°",
+      "palavras_chave": [
+        "som alto",
+        "silêncio",
+        "música",
+        "barulho noturno"
+      ],
+      "texto_artigo": "manter piscinas limpas e tratadas, evitando a proliferação de mosquitos e pernilongas: 9) guardar silêncio no período das 22:00 às 08:00 hores, evitando a produção de ruídos ou sons que possam perturbar o sossego e o bem estar dos demais moradores;\n\nfazer constar como parte integrante dos contratos de locação ou de venda exemplar deste Regimento Interno.\n\ncantribuir para as despesas de conservação e manutenção do loteamento;\n\ncontribuir para o custeio de obras determinadas pela Assembleia, na forma como for fixada;\n\nobservar a velocidade máxima permitida dentro do loteamento de 30 km/h:\n\nAo acessar a portaria:\n\nObservar atentamente a abertura e fechamento dos portes das eclusas ou gaiolas com a finalidade de se evitar acidentes,\n\nAbaixar obrigatoriamente os vidros de seu veículo para facilitar a identificação e ou proteger os proprietários e moradores de investida criminosa consumada com a presença de estranhos em seu interior após abordagem ocorrida antes de seu ingresso na eclusa.\n\nÀ noite, além da abertura dos vidros, apagar as luzes do veiculo.\n\nO descumprimento de qualquer regra deste item \"I determinará ao porteiro uma restrição ne acesso e os portões não serão abertos em hipótese alguma, até que se atenda aos normativos elencadas.\n\nm) Relativamente aos visitantes, estes ao chegarem à portaria deverão se identificar através dos documentos de identidade (RG) ou outro que o identifique claramente e estarão sujeitos ao seguinte procedimento:\n\nA portaria deverá registrar…"
+    },
+    "lixo_domestico_descarte": {
+      "titulo": "Descarte incorreto do lixo doméstico",
+      "fundamento": "Art. 14°",
+      "palavras_chave": [
+        "lixo orgânico",
+        "reciclável",
+        "sacos",
+        "lixeira"
+      ],
+      "texto_artigo": "n) acondicionar devidamente o lixo doméstico orgânico (em sacos pretos) e reciclável (em sacos de outras cores) separadamente em lixeiras específicas, que devem ser depositados na área externa da residência em horário estabelecido pela Administração:\n\no) manter o cadastro atualizado dos seus empregados ou domésticas, comunicando a portaria quando a pessoa deixar de exercer tais funções.\n\np) no caso de venda de seu imóvel o proprietário deverá comunicar-se com o escritório de administração vinculado à Associação a fim de obter o respectivo recibo de quitação de eventuais débitos de contribuições e ou multas."
+    }
+  }
+}

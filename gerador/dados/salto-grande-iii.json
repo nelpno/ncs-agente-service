@@ -1,0 +1,157 @@
+{
+  "id": "salto-grande-iii",
+  "superlogica_nome": "Salto Grande III",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Art.70",
+    "texto": "Art.70\nO proprietário ou inquilino faltoso poderá ser punido pela Administração do Loteamento, por infrações a este Regulamento Interno que rege somente os lotes que se encontram na parte fechada do loteamento, e ainda por infrações às futuras outras normas, da seguinte forma:\n\nAdvertência escrita;\n\nPor imposição de multa pecuniária que será estabelecida e fixada em Assembléia.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "obra_sem_autorizacao": {
+      "titulo": "Obra sem autorização",
+      "fundamento": "Art.10º",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "alvará",
+        "autorização"
+      ],
+      "texto_artigo": "Art.10º\nQualquer obra de construção, reforma, ampliação ou demolição, ou ainda, qualquer outra obra de engenharia só poderá ser iniciada com a aprovação da Prefeitura, com o respectivo \"Alvará de Construção\" e a \"Autorização para início de obra\" emitida e assinada pela loteadora, e posteriormente pela Administração após a formalização do Loteamento, e pela futura Associação a ser fundada e constituída."
+    },
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial do Lote",
+      "fundamento": "Art.20",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "clínica",
+        "templo"
+      ],
+      "texto_artigo": "Art.20\nFica determinado, portanto, que não será permitido construção de prédio não residencial, prédios de apartamento para habitação coletiva, prédios para fins comerciais, industriais e escritórios, de forma a nunca se exercerem neles atividades de comércio, indústria, todo e qualquer tipo de estabelecimento de ensino, hospital, consultório, clínica, atelier para prestação de serviços, templos, cinema, teatro, hotel, motel, pensão, clubes, associações recreativas, etc."
+    },
+    "residencia_multifamiliar": {
+      "titulo": "Residência Multifamiliar",
+      "fundamento": "Art.19",
+      "palavras_chave": [
+        "duas famílias",
+        "multifamiliar",
+        "habitação coletiva",
+        "casa"
+      ],
+      "texto_artigo": "Art.19\nNão será permitida a construção de residência multifamiliar, devendo a mesma destinar-se exclusivamente a habitação de uma única família e seus empregados, sendo vedados todos os outros fins."
+    },
+    "fechamento_frontal_lote": {
+      "titulo": "Fechamento Frontal do Lote",
+      "fundamento": "Art.22",
+      "palavras_chave": [
+        "muro frontal",
+        "grade",
+        "fechamento",
+        "cerca"
+      ],
+      "texto_artigo": "Não será permitido nenhum fechamento frontal ou lateral dos lotes até o recuo frontal mínimo de 5,00 metros contados a partir do alinhamento frontal para o interior do terreno, poderá ser implantada cerca viva com no Máximo 0,5 metros"
+    },
+    "casa_pre_fabricada_madeira": {
+      "titulo": "Casa Pré-fabricada de Madeira",
+      "fundamento": "Art.23",
+      "palavras_chave": [
+        "casa de madeira",
+        "pré-fabricada",
+        "madeira",
+        "construção"
+      ],
+      "texto_artigo": "Não serão permitidas construções de casas pré-fabricadas de madeira;\n\nSerá permitida construção de quiosque ou anexos, sendo que esses terão que obedecer aos recuos do lote iguais aos da construção principal e terão distancia entre as construções de no mínimo 3,00 metros;\n\nTaxa de Ocupação máxima da construção será de 60% da área do terreno, respeitando-se o Código de Obras Municipal;\n\nTaxa de aproveitamento máximo permitida, soma das áreas totais construídas dos pavimentos da construção, será de 100% da área do Lote;\n\nOs abrigos para automóveis (garagens) poderão ter portões para fechamento desde que respeitados os 5,00m do recuo frontal;\n\nTodas as construções deverão obedecer à norma de índice de cobertura permeável Municipal de no mínimo 30% da área do lote sendo que desses, 10% deverão ser de cobertura vegetal;"
+    },
+    "esgoto_aguas_pluviais": {
+      "titulo": "Águas Pluviais na Rede de Esgoto",
+      "fundamento": "Art.26",
+      "palavras_chave": [
+        "água da chuva",
+        "esgoto",
+        "lavagem",
+        "sarjeta"
+      ],
+      "texto_artigo": "Art.26\nAs águas pluviais e de lavagem de pisos externos de cada unidade não poderão ser ligadas na rede de esgoto, sendo necessária a sua ligação nas galerias ou nas guias da sarjeta do loteamento. As águas oriundas dos telhados não podem cair nos muros ou terrenos vizinhos."
+    },
+    "trabalho_obra_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Art.32",
+      "palavras_chave": [
+        "obra",
+        "barulho",
+        "sábado",
+        "trabalho noturno"
+      ],
+      "texto_artigo": "Art.32\nO horário de trabalho no Canteiro de Obras será, obrigatoriamente, limitado ao período das 07:00 (sete) às 18:00 (dezoito) horas, de segunda a sexta feira, e das 8:00 (oito) às 13:00 (treze) horas aos sábados, não sendo permitido o trabalho noturno. Excepcionalmente poderá ser permitido o trabalho além das 18 horas ou em turno noturno, quando, por razões técnicas, isso for imperativo."
+    },
+    "permanencia_obra_fora_expediente": {
+      "titulo": "Permanência no Canteiro Fora do Expediente",
+      "fundamento": "Art.36",
+      "palavras_chave": [
+        "funcionários",
+        "obra",
+        "fora do horário",
+        "canteiro"
+      ],
+      "texto_artigo": "Art.36\nNão será permitida a permanência do pessoal no Canteiro de Obras ou em qualquer área do Loteamento, fora do expediente de trabalho."
+    },
+    "retirada_material_sem_autorizacao": {
+      "titulo": "Retirada de Material sem Autorização",
+      "fundamento": "Art.38",
+      "palavras_chave": [
+        "material",
+        "ferramenta",
+        "portaria",
+        "autorização"
+      ],
+      "texto_artigo": "Art.38\nO proprietário, ou preposto, deverá entregar documento de autorização na Portaria do Loteamento para a retirada de materiais de construção, máquinas e equipamentos, ferramentas, sucatas; ou seja, tudo quanto for ser retirado do seu Canteiro de Obras deverá constar de autorização emitida pelo proprietário ou seu preposto. A conferência da saída dos materiais será feito pelo porteiro junto com o responsável da obra, assinado por ambos."
+    },
+    "mudanca_material_fora_horario": {
+      "titulo": "Recepção ou Retirada de Materiais Fora do Horário",
+      "fundamento": "Art.47",
+      "palavras_chave": [
+        "material de construção",
+        "entrega",
+        "caminhão",
+        "horário"
+      ],
+      "texto_artigo": "Art.47\nA recepção ou retirada de materiais nas dependências do Loteamento somente poderá ser feita das 8:00 às 17:00 horas de Segunda a Sexta e das 8:00 às 13:00 do Sábado."
+    },
+    "acesso_terceiros_sem_autorizacao": {
+      "titulo": "Acesso de Terceiros sem Autorização",
+      "fundamento": "Art.49",
+      "palavras_chave": [
+        "visitante",
+        "prestador",
+        "corretor",
+        "portaria"
+      ],
+      "texto_artigo": "Art.49\nAs pessoas estranhas ao empreendimento (corretores de imóveis, empreiteiros, prestadores de serviços em geral, etc.), somente poderão freqüentar as dependências do loteamento com autorização por escrito do COMPRADOR ou da ASSOCIAÇÃO, sendo que o horário para esses casos será, das 8:00 às 17:00 horas de Segunda feira a Sexta feira; e das 8:00 às 12:00 horas aos sábados, sendo proibido o acesso aos domingos."
+    },
+    "entulho_no_solo": {
+      "titulo": "Depósito de Entulho no Solo",
+      "fundamento": "REF: ADITAMENTO AO REGULAMENTO INTERNO.",
+      "palavras_chave": [
+        "entulho",
+        "caçamba",
+        "obra",
+        "sujeira"
+      ],
+      "texto_artigo": "É proibido o depósito de entulho no solo. Os entulhos ou quaisquer outros materiais descartados devem ser depositados em caçamba localizada no lote de apoio ou na rua, próximo a guia/sarjeta, em frente a respectiva obra, e seu entorno deverá ser limpo diariamente ao final do expediente, evitando assim a dispersão de entulhos, terra, areia e outros materiais em via pública.\n\nO proprietário deverá manter a obra, o lote de apoio e área frontal à obra livres de entulho, mato, embalagens e resíduos em geral.\n\nPara o início das obras de construção da edificação, após a terraplanagem, o lote deverá ser cercado por telas fixadas em pontaletes ou caibros, no tamanho padrão de 1,00 de altura em todo o perímetro. Durante todo o andamento da obra, as telas devem permanecer em bom estado de conservação, e devem receber manutenção sempre que necessário, para garantir o fechamento e o padrão do loteamento.\n\nDurante a execução da obra, a partir da fase de laje, quando houver edificação no(s) lote(s) vizinho(s), deve-se tomar todas as providências, inclusive, utilizando tela fachadeira, para evitar a dispersão e queda de resíduos e materiais para as áreas vizinhas.\n\nÉ proibida a colocação de qualquer tipo de material no passeio (calçada). O depósito de materiais na calçada será permitido apenas quando não houver lote de apoio disponível e desde que o local esteja devidamente cercado e sinalizado. No caso de materiais como areia, terra, pedriscos etc, deve ser realizado um anteparo destes…"
+    }
+  }
+}

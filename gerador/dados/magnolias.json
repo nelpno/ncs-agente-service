@@ -1,0 +1,157 @@
+{
+  "id": "magnolias",
+  "superlogica_nome": "Jardim Magnólias I",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Capitulo XI DAS PENALIDADES Art. 69",
+    "texto": "Capitulo XI DAS PENALIDADES Art. 69 – O proprietário ou inquilino faltoso, poderá ser punido pela Administração do Loteamento \"JARDIM MAGNÓLIAS\", por infrações a este Regulamento Interno, e ainda por infrações à futuras outras normas, uma vez ouvida a Comissão de Justiça e Penalidades, da seguinte forma: a) Advertência escrita; b) Por imposição de multa pecuniária que, dependendo da gravidade da falta, poderá chegar até 03 (Três) vezes a contribuição mensal, vigente na época da infração.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "obra_sem_autorizacao": {
+      "titulo": "Obra sem Autorização",
+      "fundamento": "Capitulo IV DA AUTORIZAÇÃO PARA INICIO DA OBRA Art. 12",
+      "palavras_chave": [
+        "obra",
+        "construção",
+        "autorização",
+        "alvará"
+      ],
+      "texto_artigo": "Capitulo IV DA AUTORIZAÇÃO PARA INICIO DA OBRA Art. 12 – Qualquer construção não poderá ter início sem a “AUTORIZAÇÃO PARA INÍCIO DE OBRA”, emitida e assinada, num primeiro momento, pela diretoria da “SAMUA Comercial e Agropecuária Ltda”, e à Administração após a formalização do Loteamento.\n\n3"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra fora do horário",
+      "fundamento": "Art. 34",
+      "palavras_chave": [
+        "obra",
+        "horário",
+        "trabalho noturno",
+        "canteiro"
+      ],
+      "texto_artigo": "Art. 34\nO horário de trabalho no Canteiro de Obras, será, obrigatoriamente, limitado ao período das 07:00 (sete) às 18:00 (dezoito) horas, de segunda-feira a sábado, não sendo permitido o trabalho noturno. Excepcionalmente poderá ser permitido o trabalho além das 18 horas ou em turno noturno, quando, por razões técnicas, isso for imperativo.\n\n5"
+    },
+    "permanencia_fora_expediente": {
+      "titulo": "Permanência fora do expediente",
+      "fundamento": "Art. 38",
+      "palavras_chave": [
+        "funcionários",
+        "canteiro",
+        "fora do expediente",
+        "permanência"
+      ],
+      "texto_artigo": "Art. 38 – Não será permitida a permanência do pessoal no Canteiro de Obras ou em qualquer área do Loteamento, fora do expediente de trabalho."
+    },
+    "funcionarios_nao_identificados": {
+      "titulo": "Acesso de não identificados",
+      "fundamento": "Art. 36",
+      "palavras_chave": [
+        "acesso",
+        "funcionários",
+        "identificação",
+        "obra"
+      ],
+      "texto_artigo": "Art. 36 – Só será permitido o acesso ao Canteiro de Obras aos funcionários previamente identificados."
+    },
+    "retirada_material_sem_autorizacao": {
+      "titulo": "Retirada de material sem autorização",
+      "fundamento": "Art. 40",
+      "palavras_chave": [
+        "material de construção",
+        "retirada",
+        "autorização",
+        "portaria"
+      ],
+      "texto_artigo": "Art. 40 – O proprietário, ou preposto, deverá entregar documento de autorização na Portaria do Loteamento para a retirada de materiais de construção, máquinas e equipamentos, ferramentas, sucatas; ou seja, tudo quanto for ser retirado do seu Canteiro de Obras deverá constar de autorização emitida pelo proprietário ou seu preposto. A conferência da saída dos materiais, será feita pelo porteiro junto com o responsável da obra, assinado por ambos."
+    },
+    "cerca_eletrica_muro_interno": {
+      "titulo": "Cerca elétrica em muro interno",
+      "fundamento": "Art 22 – Parágrafo 1º",
+      "palavras_chave": [
+        "cerca elétrica",
+        "muro interno",
+        "alarme",
+        "sensor"
+      ],
+      "texto_artigo": "Parágrafo 1º – não será permitida a instalação de cercas elétricas nos muros internos das residências, além das já existentes nos muros que circundam o Loteamento."
+    },
+    "muro_no_recuo_frontal": {
+      "titulo": "Muro no recuo frontal",
+      "fundamento": "Art. 23",
+      "palavras_chave": [
+        "muro",
+        "recuo frontal",
+        "cerca",
+        "abrigo para veículos"
+      ],
+      "texto_artigo": "Art. 23 – Da testada do lote até o recuo frontal obrigatório de 08 (oito) metros, não poderá, sob nenhuma hipótese ou pretexto, ser construído qualquer tipo de muro, abrigos para veículos, cerca ou equivalente. Esse espaço deverá ser preenchido com jardins em harmonia com o conjunto paisagístico do Loteamento, podendo existir mureta de com altura máxima de 50cm."
+    },
+    "edicula_antes_casa": {
+      "titulo": "Edícula antes da casa principal",
+      "fundamento": "Art. 24 – Parágrafo único",
+      "palavras_chave": [
+        "edícula",
+        "obra",
+        "casa principal",
+        "construção"
+      ],
+      "texto_artigo": "Art. 24 – A construção de edículas, somente será permitida, se a mesma for construída junto com a construção da residência principal, ou depois que a residência principal já estiver acabada. Parágrafo único – Em hipótese alguma, será permitida a construção de edículas antes da construção principal."
+    },
+    "cobertura_chapa_metalica": {
+      "titulo": "Cobertura metálica proibida",
+      "fundamento": "Art. 26",
+      "palavras_chave": [
+        "cobertura metálica",
+        "chapas metálicas",
+        "fechamento",
+        "obra"
+      ],
+      "texto_artigo": "Art. 26 – Não será permitido o uso de cobertura com chapas metálicas e/ou fechamento dessas edificações."
+    },
+    "casa_pre_fabricada_madeira": {
+      "titulo": "Casa pré-fabricada de madeira",
+      "fundamento": "Art. 20",
+      "palavras_chave": [
+        "casa de madeira",
+        "pré-fabricada",
+        "construção",
+        "residência"
+      ],
+      "texto_artigo": "Art. 20\nÉ vedada a edificação de casas pré-fabricadas em madeira pois seus artigos arquitetônicos não se harmonizam com os padrões ideais do Loteamento."
+    },
+    "subdivisao_de_lote": {
+      "titulo": "Subdivisão de lote",
+      "fundamento": "Art. 55",
+      "palavras_chave": [
+        "subdivisão",
+        "desmembramento",
+        "lote",
+        "terreno"
+      ],
+      "texto_artigo": "Art. 55 – Será expressamente proibida a subdivisão de Lotes. Porém, será permitida a união de dois ou mais contíguos para formar um único maior, ao qual se aplicarão as normas aqui previstas como se fosse um único Lote. Excepcionalmente, a critério do Administrador, que deverá convocar Assembléia para consultar os demais proprietários, poderá haver a divisão de um Lote, desde que cada parte resultante se una ao Lote contíguo compondo um único Lote, ou ainda, em não compondo um único, que a parte remanescente do lote desmembrado não seja inferior a 600 (seiscentos) m2 (metros quadrados). Parágrafo único – quando da união de lotes contíguos e para os fins de rateio proporcional das despesas do loteamento, deverão ser observadas as regras previstas no capítulo VIII.\n\n7 Capitulo VIII DAS OBRIGAÇÕES:\n\nDOS ENCARGOS, FORMA E PROPORÇÃO DAS CONTRIBUIÇÕES:"
+    },
+    "entulho_apos_obra": {
+      "titulo": "Entulho e limpeza após obra",
+      "fundamento": "Art. 43",
+      "palavras_chave": [
+        "entulho",
+        "limpeza",
+        "obra concluída",
+        "instalações temporárias"
+      ],
+      "texto_artigo": "Capitulo VI DA CONCLUSÃO DA OBRA: Art. 43 – Concluída a obra, o proprietário terá o prazo de 90 (noventa) dias, improrrogáveis, para promover a limpeza, a retirada de todo o entulho e a demolição das instalações temporárias. Decorrido este prazo, a diretoria da SAMUA Comercial e Agropecuária Ltda, ou Administrador ou os proprietários dos demais lotes, poderão, a seu critério exclusivo, limpar a área, removendo os materiais e retirando todo o entulho, debitando o custo dessas providências, ao proprietário que, deverá pagá-lo no prazo máximo de 30 (trinta) dias a contar da data da notificação desse débito."
+    }
+  }
+}

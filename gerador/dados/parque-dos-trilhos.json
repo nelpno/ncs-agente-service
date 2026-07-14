@@ -1,0 +1,169 @@
+{
+  "id": "parque-dos-trilhos",
+  "superlogica_nome": "Parque dos Trilhos",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo sindico, devendo esta pena ser sempre fixada em Assembleia especialmente convocada, onde será dosada a gravidade da falta, indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 2, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 8°",
+      "palavras_chave": [
+        "som alto",
+        "gritaria",
+        "televisão",
+        "música",
+        "barulho"
+      ],
+      "texto_artigo": "Art. 8° - No período das 22h00 às 7h00, de segunda a sábado, finais de semana reiniciando o horário de silêncio no sábado às 14h00 até as 07h00 da segunda-feira seguinte, em feriados em período integral, cumpre aos condôminos e/ou moradores guardarem silêncio, evitando a produção de ruídos ou sons que possam perturbar o sossego e o bem-estar dos demais condôminos e/ou moradores, sendo inclusos nesse artigo aqueles provocados por aparelhos elétricos, sonoros, radiofônicos, instrumentos musicais, televisores, móveis arrastados, saltos dos sapatos, conversas em alto tom, gritarias, trabalho com ferramentas entre outros.\n\nI -"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "Art. 8° - I",
+      "palavras_chave": [
+        "furadeira",
+        "obra",
+        "reforma",
+        "martelo",
+        "barulho"
+      ],
+      "texto_artigo": "I - Qualquer obra a ser realizada nos apartamentos deverá ser comunicada antecipadamente à administração do Condomínio. A troca de piso ou raspagem de assoalhos, polimento de mármore, uso de furadeiras e demais obras nos apartamentos que produzam ruídos susceptíveis de incomodar os vizinhos, somente são permitidos se forem realizados em dias úteis das 8h00 às 18h00 e aos sábados das 8h00 à 14h00 fora desse horário, somente serão permitidas obras de emergência, após a devida autorização da administração do Condomínio.\n\nII -"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "Art. 8° - II",
+      "palavras_chave": [
+        "mudança",
+        "caminhão",
+        "carga",
+        "descarga",
+        "elevador"
+      ],
+      "texto_artigo": "II - As mudanças serão feitas usando-se unicamente o elevador de serviço, sendo proibido o início de carga e descarga de caminhões fora do horário das 8h00 às 17h00, de segunda-feira a sexta-feira e sábado, das 8h00 às 12h00, devendo o fato ser comunicado à administração com antecedência de 48 horas.\n\nIII - Em qualquer horário, o barulho provocado por aparelhos elétricos, sonoros, radiofônicos, instrumentos musicais, televisores, móveis arrastados, saltos dos sapatos, conversas em alto tom, gritarias, entre outros, deve ser feito de modo a não perturbar os vizinhos.\n\nIV - Atividades sociais (festas, reuniões, aniversários, comemorações) realizadas no salão de festas ou nas unidades habitacionais, deverão sempre observar o silêncio após as 22:00 horas, sem que haja ruídos que possam incomodar aos demais condôminos.\n\nV - Os prestadores de serviços contratados pelos condôminos deverão respeitar o horário das 8ho0 às 18h00, de segunda-feira a sexta-feira e sábado, das 8h00 às 14h00 e excepcionalmente, em caso de emergência, o síndico poderá autorizar a entrada de prestadores de serviço fora do horário estabelecido."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 7° - XXIV",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "colo",
+        "elevador",
+        "necessidades"
+      ],
+      "texto_artigo": "XXIV - Não será permitida a utilização das partes comuns como local de passeio e realização de necessidades fisiológicas de cães ou outros animais. Quando em trânsito, o condômino e/ou morador deverá estar sempre com o animal no colo e utilizar o elevador de serviços pela entrada dos fundos.\n\nXXV - É vedado abrir as portas que dão acesso aos corredores para expelir fumaça ou odores de frituras e outros.\n\nXXVI - Não será permitido a qualquer morador intervir de alguma forma nas redes gerais de água, luz, gás, esgotos, eletricidade e telefone sem aviso prévio, conhecimento e autorização do síndico.\n\nXXVII - Ás crianças não poderão brincar nos halls sociais, corredores, garagem e escadas do edifício, bem como fazer ruídos ou de qualquer forma perturbar a tranquilidade dos demais moradores."
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Varais na Sacada",
+      "fundamento": "Art. 7° - V",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "sacada",
+        "janela"
+      ],
+      "texto_artigo": "V - Não estender roupas, tapetes, varais ou quaisquer outros objetos nas janelas, sacada ou locais visíveis do exterior que ofereçam incômodo, perigo de queda, ou que prejudiquem a estética do prédio.\n\nVI - Não decorar as paredes, portas, esquadrias externas com cores ou tonalidades diversas da empregadas no condomínio, como também colocar, na parte externa ou interna do edifício, placas, toldos externos fora de regulamentação, letreiros, anúncios, aparelhos luminosos ou qualquer outra inscrição ou publicidade, salvo enfeites natalinos, ou autorizado pela administração.\n\nVII - Vedado colocar aparelho de ar condicionado fora do padrão estabelecido em assembleia ou no memorial descritivo, sendo permitido a opção de instalar na sala ao invés do dormitório, neste caso o morador deverá firmar formulário específico para este fim, cumprindo fielmente as determinações constantes no formulário, sendo que a opção de instalação na sala/cômodo social significa renunciar ao direito de instalar o aparelho em um dos dormitórios, ou seja é permitido a instalação de três aparelhos para os apartamentos de três quartos e dois aparelhos para os apartamentos de dois quartos, devido ao dimensionamento e capacidade elétrica de cada unidade.\n\nVIII – Não é permitido escoamento de água proveniente de ar condicionado, de roupas, tapetes ou assemelhados que prejudique as demais unidades ou áreas comuns.\n\nIX - Visando a segurança geral, ordem, higiene e limpeza do condomínio, fica terminantemente…"
+    },
+    "lixo": {
+      "titulo": "Descarte Irregular de Lixo",
+      "fundamento": "Art. 7° - XI",
+      "palavras_chave": [
+        "lixo",
+        "chorume",
+        "reciclável",
+        "orgânico",
+        "lixeira"
+      ],
+      "texto_artigo": "XI - Não depositar lixo fora dos locais destinados para depósito, sem acondicionamento adequado e em desacordo com as normas estabelecidas, observando corretamente o descarte no local destinado a lixo orgânico ou reciclável.\n\nXII -"
+    },
+    "entulho_obra_lixeira": {
+      "titulo": "Entulho de Obra nas Lixeiras",
+      "fundamento": "Art. 7° - XII",
+      "palavras_chave": [
+        "entulho",
+        "obra",
+        "gesso",
+        "cerâmica",
+        "caçamba"
+      ],
+      "texto_artigo": "XII - É terminantemente proibido aos condôminos ou prestadores de serviços descartarem nas lixeiras do condomínio resíduos de obra como entulhos, concretos, cerâmicas, gesso, mármores, madeiras e os demais resíduos provenientes de instalações, reformas, construções ou demolições, devendo cada morador providenciar, as suas expensas, o descarte em local adequado a cada material.\n\nXIII - Os resíduos de qualquer natureza que não couberem nos containers de descarte, sejam eles orgânicos ou recicláveis deverão ser levados pelo condômino até os cômodos destinados aos depósitos de lixo localizados ao lado direito da entrada de veículos.\n\nXIV -"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "Art. 7° - XIV",
+      "palavras_chave": [
+        "corredor",
+        "hall",
+        "depósito",
+        "objetos",
+        "caixas"
+      ],
+      "texto_artigo": "XIV - Usar as dependências de uso comum como depósito, mesmo que momentaneamente, para guarda de objetos particulares ou materiais de qualquer natureza. XV - Promover leilões, exposições ou vendas nas áreas comuns.\n\nXVI - Instalar antenas individuais de TV, FM, Radio Amador no edifício, ou quaisquer outras da espécie, em qualquer local visível do prédio, ressalvado a instalação de antenas coletivas.\n\nXVII - Fica vedado aos condôminos e ou moradores utilizarem, para uso particular, mão de obra dos funcionários que prestam serviço ao condomínio, dentro do horário estabelecido em sua carga horária de trabalho.\n\nXVIII - Produzir ruídos excessivos a qualquer horário, nos apartamentos ou nas áreas comuns, que possam perturbar o sossego dos demais condôminos.\n\nXIX - Não será permitido o trânsito de moradores ou visitantes em trajes que firam a moral e bons costumes.\n\nXX - É terminantemente proibido manter em qualquer parte do condomínio, explosivos, fogos de artifício, produtos químicos e materiais que apresentam riscos à saúde das pessoas e à segurança das instalações do condomínio.\n\nXXI - Não é permitido às pessoas não prestadoras de serviços ao condomínio executar serviços de rotina ou trabalhar nas partes comuns, exceto quando autorizada pela administração.\n\nXXII - Não é permito sublocar, sob qualquer pretexto, quartos ou outras dependências dos apartamentos.\n\nXXIII - É expressamente proibido aos condôminos e/ou moradores e às pessoas estranhas ao condomínio o acesso às casas…"
+    },
+    "garagem": {
+      "titulo": "Estacionamento e Uso Irregular da Garagem",
+      "fundamento": "Art. 14 - I",
+      "palavras_chave": [
+        "vaga",
+        "garagem",
+        "estacionar",
+        "faixa",
+        "vizinho"
+      ],
+      "texto_artigo": "I- Cada condômino deverá observar as faixas demarcadas e estacionar seu veículo dentro dos seus respectivos limites, contando com espaço para a abertura de portas, de modo a não prejudicar seus vizinhos e a zona de circulação.\n\nII - A velocidade máxima permitida para a circulação de veículos dentro do condomínio é de 10 km/h.\n\nIII – Não será permitida, sob qualquer pretexto, mesmo em caráter temporário, sua utilização para veículos de carga ou comerciais, exceto na vaga própria para carga e descarga existente condomínio.\n\nIV-"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem ou Conserto de Veículo na Garagem",
+      "fundamento": "Art. 14 - IV",
+      "palavras_chave": [
+        "lavar carro",
+        "conserto",
+        "gasolina",
+        "garagem",
+        "combustível"
+      ],
+      "texto_artigo": "IV- É proibido a transferência de gasolina, álcool e outros combustíveis ou inflamáveis, de um carro para o outro, bem como o conserto ou lavagem de veículos na garagem coletiva, suas áreas dependências, nas vias de acesso e de manobra, assim como a guarda de qualquer tipo de material, móveis, acessórios, utensílios, máquinas e equipamentos, produtos, substâncias inflamáveis, químicas e odoríferas, explosivos e outros, ainda que temporariamente.\n\nV - O Condomínio não disporá de vigia para guarda exclusiva do estacionamento ou seguro para cobertura de danos, roubos e furtos que por ventura venham ocorrer no interior desta e áreas comuns.\n\nVI - É proibido circular de bicicletas, skates ou similares, bem como praticar jogos de qualquer natureza nas dependências da garagem, sendo permitido o trânsito de bicicletas apenas para entrada e saída das garagens.\n\nVII - O Condomínio não se responsabilizará por danos de qualquer natureza aos veículos tais como: furto, roubo, arranhões, amassados, e outros, ocorridos na garagem quando comprovadamente não der causa.\n\nVIII - Sob hipótese alguma a vaga poderá ser alugada ou emprestada a não residentes, a não ser para moradores do próprio condomínio, desde que o aluguel ou empréstimo seja comunicado por escrito à administração, bem como o término da cessão da mesma.\n\nIX - Cabe obrigatoriamente aos condôminos e/ou moradores o cadastramento dos respectivos veículos junto à administração e portaria, mencionando a marca e a placa para que possa…"
+    },
+    "bicicleta_areas_comuns": {
+      "titulo": "Bicicletas, Skates e Patins nas Áreas Comuns",
+      "fundamento": "Art. 13 - VII",
+      "palavras_chave": [
+        "bicicleta",
+        "skate",
+        "patins",
+        "corredor",
+        "hall"
+      ],
+      "texto_artigo": "VII - Fica vedado o uso de bicicletas, skates, patins, e similares nas dependências comuns do condomínio, incluindo hall, corredores e garagens, com exceção do transito permitido de bicicletas para entrada e saída da garagem.\n\nVIII - As bicicletas deverão ser acondicionadas nos locais apropriados (bicicletário), mesmo que o uso seja momentâneo.\n\nIX - O condômino e/ou morador que esteja em mudança assume inteira responsabilidade sobre eventuais danos causados nos elevadores, fachadas, paredes, vidros das áreas comuns, e qualquer dano causado por pessoas ou empresas transportadoras ou de mudança contratadas para fazer a mudança.\n\nX - É obrigatório o uso do protetor de elevador para mudanças e transportes pesados, ficando o condômino e/ou morador que utilizá-lo para os referidos fins, com a responsabilidade de devolvê-los intactos, assumindo qualquer dano causado ao mesmo.\n\nXI - É proibido o trânsito de pessoas em trajes de banho secos ou molhados;\n\nXII- O uso da piscina, salão de ginástica, salão de festas, quadra e salão de jogos é regido por itens específicos deste Regulamento.\n\nXIII - Todo e qualquer dano ou estrago provocado por um condômino e/ou morador, seus dependentes ou empregados particulares, convidado, visitante, hóspede, em qualquer área comum edifício, deverá ser inteiramente indenizado pelo condômino e/ou morador implicado ocorrência. Espera-se que o próprio condômino e/ou morador acuse a irregularidade para que mesma seja rapidamente solucionada, não afetando…"
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "Art. 13 - XV",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "elevador",
+        "corredor",
+        "área comum"
+      ],
+      "texto_artigo": "XV - É proibido fumar ou portar cigarro e similares acesos nos elevadores ou em qualquer lugar fechado das áreas comuns do edifício;\n\nXVI - Não são permitidos jogos e brincadeiras no hall, corredores, elevadores, garagem e sobre os canteiros dos jardins;\n\nXVII - Os sacos de lixo deverão ser colocados no local determinado pelo síndico e conselho e serem transportados para a lixeira pelo morador, através do elevador de serviços, devendo garantir o não vazamento do seu conteúdo, para não acarretar mal cheio no prédio.\n\nXVIII - Tanto o vazamento do lixo, como a sua colocação fora do local apropriado, é passíveis de multas para o condômino e/ou morador.\n\nXIX - São proibidos gritos e uso de palavras obscenas nas áreas comuns do edifício;\n\nXX - O Condomínio é isento de quaisquer responsabilidades em decorrência de acidentes ocorridos com condôminos, moradores e visitantes nas áreas comuns;\n\nXXI - O síndico (a), o zelador ou membros do conselho consultivo têm plenos poderes para tomar as medidas necessárias para manter a boa ordem ao uso das áreas comuns. Podendo fazer o registro no livro de ocorrências que se encontra na portaria.\n\nXXII - A entrada e saida das bicicletas se dará pelos portões da garagem ou pelo portão de pedestres e no interior das torres pela entrada dos fundos, usando sempre o elevador de serviço.\n\nXXIII - A entrada e saída dos animais se dará pelo portão de pedestres e hall social desde que o animal esteja no colo, se o condômino não conseguir carregar no colo…"
+    }
+  }
+}

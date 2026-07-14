@@ -1,0 +1,157 @@
+{
+  "id": "alto-da-boa-vista",
+  "superlogica_nome": "Alto da Boa Vista",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 31°",
+    "texto": "Artigo 31°\nFica estabelecido que, quando desrespeitadas as disposições do presente Regimento Interno, ou ainda, nas normas constantes nos Estatutos Sociais, será feita advertência por escrito e na primeira reincidência, independente do artigo ou norma infringidos anteriormente, será aplicada multa correspondente ao valor da taxa condominial vigente no mês da infração. Na segunda reincidência, independente das infrações anteriormente praticadas, será aplicada multa no valor correspondente duas vezes a taxa condominial e assim por diante, até o limite máximo de cinco vezes (quintuplo) a taxa condominial, independentemente das perdas e danos que se apurarem.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso não residencial do lote",
+      "fundamento": "Artigo 2°",
+      "palavras_chave": [
+        "comércio",
+        "indústria",
+        "aluguel",
+        "depósito"
+      ],
+      "texto_artigo": "Artigo 2°\nAs unidades autônomas, lotes, só poderão ser destinadas ao uso residencial. Parágrafo Único: É proibido o uso da unidade ou sua locação para:\n\na) área de lazer para fins de semana ou aluguel,\n\nb) atividades comerciais e industriais de qualquer natureza;\n\nc) depósito de qualquer tipo de material ou objeto."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Artigo 4° - Parágrafo Segundo, item e)",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "e) Guardar silêncio das 22h00min horas às 07h00min horas, evitando produção de ruídos excessivos que possam perturbar o sossego causar danos à saúde dos outros moradores;\n\nf) O uso de aparelhos sonoros (rádios, televisores, instrumentos musicais entre outros), bem como festas, reuniões, comemorações, brincadeiras de crianças, mudanças, etc. nas unidades autônomas deverão ocorrer com observância das normas relativas ao direito de vizinhança (artigos 1277 a 1313 do Código Civil) de modo a não perturbar o sossego е causar danos à saúde dos demais moradores, respeitado sempre o disposto no item \"e\" acima."
+    },
+    "uso_areas_comuns_privativo": {
+      "titulo": "Uso privativo de área comum",
+      "fundamento": "Artigo 4° - Parágrafo Segundo, item d)",
+      "palavras_chave": [
+        "área comum",
+        "depósito",
+        "entulho",
+        "arruamento"
+      ],
+      "texto_artigo": "d) Não utilizar sob nenhuma hipótese, as áreas de uso comum, arruamentos e vias de trânsito interno, guaritas, áreas institucionais para fins privativos, tais como guarda, depósito e descarte de materiais, sucatas, entulhos, objetos ou qualquer outro utensílio;\n\ne)"
+    },
+    "obra_sem_autorizacao": {
+      "titulo": "Obra sem autorização",
+      "fundamento": "Artigo 7°",
+      "palavras_chave": [
+        "obra",
+        "alvará",
+        "autorização",
+        "construção"
+      ],
+      "texto_artigo": "Artigo 7°\nQualquer construção não poderá ter início sem a AUTORIZAÇÃO PARA INICIO DE OBRA, emitida e assinada pela administração da Associação, na pessoa do responsável técnico contratado."
+    },
+    "lixo_entulho_vias_lotes": {
+      "titulo": "Lixo e entulho em vias ou lotes vizinhos",
+      "fundamento": "Artigo 6° - Parágrafo Sexto, item e)",
+      "palavras_chave": [
+        "lixo",
+        "entulho",
+        "terreno vizinho",
+        "rua"
+      ],
+      "texto_artigo": "e) A não colocar lixo, detritos, ou entulhos nos terrenos vizinhos, nas vias de circulação, ou espaços livres, denominados institucionais, do loteamento;\n\nf) Não danificar guias, sarjetas e asfalto de seu lote ou de lotes vizinhos. Caso o associado/proprietário danifique a infraestrutura ou deixe entulho, detritos, materiais, etc. em lotes vizinhos, será notificado pela administração da Associação para repará-los. Caso não o faça em um prazo de quinze (15) dias, a Associação contratará empresa especializada para fazê-los e cobrará os serviços do associado/proprietário.\n\ng) Para execução da infraestrutura das edificações \"borcas\", não será permitido o uso de bate estaca, devendo ser utilizado o método de perfuração por perfuratriz rotativa. O descumprimento deste parágrafo ensejerá na imediata paralisação da obra pelo Sr. Engenheiro fiscalizador do Loteamento ou qualquer outro membro da diretoria ou ainda, pelo zelador."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obra fora do horário",
+      "fundamento": "Artigo 19º",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "material",
+        "horário"
+      ],
+      "texto_artigo": "Artigo 19º\nO horário de trabalho no canteiro de obras, bem como a entrega de materiais, será obrigatoriamente, limitado ao período das 07h00min (sete) à 17h00min (dezessete) horas, de segunda à sexta feira. Aos sábados, em casos excepcionais e autorizados pela diretoria e/ou administradora, os trabalhos no canteiro de obras deverão limitar-se ao período das 08h00min (oito) às 12h00min (treze) horas. Não é permitido o trabalho ou entrega de materiais após as 18h00min nos dias da semana, após as 12h00min aos sábados e nos domingos ou feriados não será permitido em qualquer horário."
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança fora do horário",
+      "fundamento": "Artigo 19° - Parágrafo Quarto",
+      "palavras_chave": [
+        "mudança",
+        "domingo",
+        "feriado",
+        "horário"
+      ],
+      "texto_artigo": "Parágrafo Quarto: As mudanças deverão, obrigatoriamente, serem realizadas nos seguintes horários: de segunda a sábado, das 08h00min às 18h00min, sendo permitida a entrada no loteamento de veículo com mudança, até as 16h00min horas, sendo terminantemente proibida aos domingos e feriados."
+    },
+    "estacionamento_irregular": {
+      "titulo": "Estacionamento irregular",
+      "fundamento": "Artigo 21° - Parágrafo Segundo",
+      "palavras_chave": [
+        "carro",
+        "garagem",
+        "grama",
+        "estacionar"
+      ],
+      "texto_artigo": "Parágrafo Segundo: Não será permitido o estacionamento de veículos em locais que impossibilitam ou prejudiquem a manobra ou passagem de outros veículos, garagens, sobre a grama da área social ou institucional."
+    },
+    "manutencao_veiculo": {
+      "titulo": "Reparos em veículo no loteamento",
+      "fundamento": "Artigo 21° - Parágrafo Terceiro",
+      "palavras_chave": [
+        "oficina",
+        "carro",
+        "conserto",
+        "veículo"
+      ],
+      "texto_artigo": "Parágrafo Terceiro: É proibido a manutenção e reparos em veículos dentro do loteamento. Somente em casos especiais, quando indispensáveis para o funcionamento do veículo e sua remoção para uma oficina é que serão autorizados os reparos de emergência."
+    },
+    "conducao_perigosa_ruidosa": {
+      "titulo": "Condução perigosa ou ruidosa",
+      "fundamento": "Artigo 21° - Parágrafo Quarto",
+      "palavras_chave": [
+        "buzina",
+        "racha",
+        "rádio alto",
+        "acelerar"
+      ],
+      "texto_artigo": "Parágrafo Quarto: Visando o bem estar de todos os moradores, é proibido o uso de sinais sonoros (buzinas, etc.) acelerar em excesso, causando ruídos, transitar com rádio ou equivalente em alto volume, promover derrapagens e corridas dentro do loteamento com qualquer tipo de veículo, inclusive bicicletas, triciclos e demais veículos de tração humana, devendo sempre ser respeitado o direito de todos os moradores do loteamento, principalmente a atenção com as crianças e demais transeuntes."
+    },
+    "lixo_lixeira_incorreta": {
+      "titulo": "Descarte irregular de lixo",
+      "fundamento": "Artigo 29°",
+      "palavras_chave": [
+        "lixeira",
+        "reciclável",
+        "entulho",
+        "móveis"
+      ],
+      "texto_artigo": "Artigo 29°\nA não utilização correta da lixeira, ou ainda, o depósito de lixo e demais materiais, os quais não são coletados pela municipalidade, tais como entulhos de construção, moveis quebrados, etc. sujeitará ao responsável as punições constantes neste Regimento Interno."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas áreas comuns",
+      "fundamento": "Artigo 30° - Parágrafo Quarto",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "fezes"
+      ],
+      "texto_artigo": "Parágrafo Quarto: É vedada a permanência de animais nas partes comuns, vias de trânsito interno, guaritas, etc., devendo os animais, ao saírem com seus proprietários, estarem sempre com coleiras e/ou focinheiras, sendo seu proprietário exclusivamente responsável pela segurança e bem estar dos demais moradores e pela limpeza de qualquer detrito ou sujeira causado pelo animal."
+    }
+  }
+}

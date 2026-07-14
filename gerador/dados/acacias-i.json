@@ -1,0 +1,157 @@
+{
+  "id": "acacias-i",
+  "superlogica_nome": "Acácias I",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 12 - São deveres dos associados beneficiários:",
+    "texto": "e)- o associado, que responde por si mesmo e seus familiares, dependentes a qualquer título, empregados, prestadores de serviços e convidados, e que vier a infringir qualquer de suas obrigações ficará sujeito às sanções disciplinares e pecuniárias previstas neste Estatuto e nos Regulamentos Internos, bem como às penalidades impostas pelo Conselho Deliberativo;\n\nf)- conservar a integridade das áreas ambientalmente protegidas, através da legislação municipal, estadual e federal, assumindo solidariamente com os empreendedores, os compromissos assumidos junto aos órgãos ambientais.\n\nDos Deveres da Associada Fundadora:-",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho": {
+      "titulo": "Atividades Ruidosas",
+      "fundamento": "21° - Promover ou deixar que se promovam nas respectivas residências, atividades ruidosas, de modo a perturbar os demais moradores.",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "festa",
+        "ruído"
+      ],
+      "texto_artigo": "21° - Promover ou deixar que se promovam nas respectivas residências, atividades ruidosas, de modo a perturbar os demais moradores."
+    },
+    "danificar_areas_comuns": {
+      "titulo": "Danos a Jardins e Decorações",
+      "fundamento": "Art. 22°",
+      "palavras_chave": [
+        "jardim",
+        "plantas",
+        "decoração",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 22°\nDanificar as plantas, jardins e decorações das áreas comuns."
+    },
+    "tapetes_poeira": {
+      "titulo": "Remoção de Pó de Tapetes",
+      "fundamento": "Art. 23°",
+      "palavras_chave": [
+        "tapete",
+        "cortina",
+        "poeira",
+        "sacudir"
+      ],
+      "texto_artigo": "Art. 23°\nRemover pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão."
+    },
+    "lancar_objetos_via_publica": {
+      "titulo": "Lançamento de Objetos ou Líquidos",
+      "fundamento": "Art. 24°",
+      "palavras_chave": [
+        "jogar objeto",
+        "líquido",
+        "rua",
+        "área comum"
+      ],
+      "texto_artigo": "Art. 24°\nLançar quaisquer objetos ou líquidos sobre a via pública, áreas comuns, etc."
+    },
+    "fachada_publicidade_toldos": {
+      "titulo": "Toldos e Publicidade Externa",
+      "fundamento": "Art. 25°",
+      "palavras_chave": [
+        "toldo",
+        "placa",
+        "cartaz",
+        "publicidade"
+      ],
+      "texto_artigo": "Art. 25°\nUsar toldos externos, letreiros, placas, cartazes de publicidade ou quaisquer outros objetos estranhos à decoração geral do loteamento."
+    },
+    "uso_funcionarios_particular": {
+      "titulo": "Uso de Funcionários em Serviço Particular",
+      "fundamento": "Art. 26°",
+      "palavras_chave": [
+        "funcionário",
+        "serviço particular",
+        "empregado",
+        "portaria"
+      ],
+      "texto_artigo": "Art. 26°\nUtilizar empregados do Loteamento para serviços particulares."
+    },
+    "substancias_perigosas": {
+      "titulo": "Substâncias ou Aparelhos Perigosos",
+      "fundamento": "Art. 27°",
+      "palavras_chave": [
+        "produto perigoso",
+        "botijão",
+        "inflamável",
+        "segurança"
+      ],
+      "texto_artigo": "Art. 27°\nManter nas respectivas residências, substâncias, instalações ou aparelhos de alta periculosidade, suscetíveis de causar perigo à segurança dos moradores."
+    },
+    "vendedores_ambulantes": {
+      "titulo": "Entrada de Ambulantes e Angariação",
+      "fundamento": "Art. 28°",
+      "palavras_chave": [
+        "ambulante",
+        "vendedor",
+        "donativo",
+        "portaria"
+      ],
+      "texto_artigo": "Art. 28°\nAos fornecedores, permanecer no \"Loteamento JARDIM ACÁCIAS\", o tempo além do necessário ao desempenho de suas funções, sendo proibida a entrada de vendedores ambulantes e pessoas com o fim de angariar donativos e outros manifestos, salvo com autorização expressa da Administração."
+    },
+    "objetos_portaria": {
+      "titulo": "Guardar Objetos na Portaria",
+      "fundamento": "Art. 29°",
+      "palavras_chave": [
+        "portaria",
+        "chave",
+        "objeto",
+        "guarda"
+      ],
+      "texto_artigo": "Art. 29°\nAos proprietários, moradores, inquilinos ou hóspedes, sob qualquer pretexto, deixar em guarda na portaria ou a funcionários, qualquer objeto de seu uso e controle, inclusive chaves de residências e veículos."
+    },
+    "lixo_acondicionamento": {
+      "titulo": "Acondicionamento de Lixo",
+      "fundamento": "Art. 12°",
+      "palavras_chave": [
+        "lixo",
+        "saco plástico",
+        "coleta",
+        "reciclável"
+      ],
+      "texto_artigo": "Art. 12°\nRecolher o lixo doméstico das residências, que deverá ser acondicionado, separadamente, em sacos plásticos com materiais orgânicos e recicláveis, devendo o mesmo ser colocado nas áreas externas da residência para a coleta que o Administrador estabelecer."
+    },
+    "entulho_via_publica": {
+      "titulo": "Entulho nas Vias Públicas",
+      "fundamento": "Art. 13°",
+      "palavras_chave": [
+        "entulho",
+        "obra",
+        "via pública",
+        "caçamba"
+      ],
+      "texto_artigo": "Art. 13°\nRetirar o lixo de jardins ou entulho de obras residenciais, não sendo permitido o seu depósito nas vias públicas."
+    },
+    "roupas_janelas": {
+      "titulo": "Roupas ou Tapetes nas Janelas",
+      "fundamento": "Art. 16°",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "Art. 16°\nNão estender roupas ou tapetes nas janelas ou locais visíveis do exterior."
+    }
+  }
+}

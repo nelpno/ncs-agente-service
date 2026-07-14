@@ -1,0 +1,157 @@
+{
+  "id": "summertime",
+  "superlogica_nome": "Summertime",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 27",
+    "texto": "f) advertir verbalmente ou por escrito, o ASSOCIADO que infringir as disposições deste Estatuto, e do Regimento Interno;\n\ng) convocar as Assembleias e prestar contas à Assembleias Geral Ordinária;\n\nh) zelar pelo patrimônio da ASSOCIAÇÃO, interpretar e resolver os casos omissos neste Estatuto e no Regimento Interno;\n\ni) executar e fazer executar as deliberações da Assembleias Geral;\n\nj) mandar executar quaisquer consertos ou reparos de caráter urgente, nas instalações, eventual ou acidentalmente danificadas, independentemente de consultas aos ASSOCIADOS;\n\nk) exercer outros poderes e deveres especificados neste Estatuto e no Regimento Interno.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "### 19",
+      "palavras_chave": [
+        "fachada",
+        "pintura",
+        "janela",
+        "veneziana"
+      ],
+      "texto_artigo": "19\nÉ proibido efetuar ou contratar a modificação nas partes externas das unidades\n\nautônomas (fachada - parede da frente da casa e paredes laterais para as casas que ficam nos\n\ncantos dos blocos, janelas e venezianas), seja em alvenaria e/ou pintura, devendo permanecer\n\na cor branca nas paredes e grafite nas janelas."
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "### 25",
+      "palavras_chave": [
+        "objetos",
+        "materiais",
+        "área comum",
+        "entulho"
+      ],
+      "texto_artigo": "25\nÉ proibido depositar ou deixar que depositem quaisquer objetos ou materiais nas áreas\n\ncomuns. Os materiais eventualmente encontrados serão removidos por funcionário da\n\n-----\n\n|  |\n| :-: |\n| [Page 4]() |\n\nassociação e as possíveis custas dessa remoção serão acrescidas na cota do Associado\n\nresponsável."
+    },
+    "garagem_estacionar_rua": {
+      "titulo": "Estacionar em Local Proibido",
+      "fundamento": "### 27",
+      "palavras_chave": [
+        "carro",
+        "rua interna",
+        "grama",
+        "estacionamento"
+      ],
+      "texto_artigo": "27\nÉ proibido estacionar veículos na rua, na grama e nas divisas das unidades."
+    },
+    "animais_piscina": {
+      "titulo": "Animais na Piscina",
+      "fundamento": "### 33",
+      "palavras_chave": [
+        "cachorro",
+        "piscina",
+        "animal",
+        "área da piscina"
+      ],
+      "texto_artigo": "33\nFicam expressamente proibidos: I – Brincadeiras na área da piscina que possam oferecer\n\nperigo, tais como: empurrar ou carregar pessoas para atirá-las na água; dar \"caldos\"'; simular\n\nluta ou qualquer brincadeira de empurrar, dentro ou fora das piscinas; II – Pessoas com\n\nferimento ou qualquer solução de continuidade na pele, bem como portadores de curativos,\n\nesparadrapos, algodão, pomadas adentrarem na piscina; III – Pessoas que estiverem sofrendo\n\nde afecções de pele ou inflamação do aparelho visual, auditivo ou respiratório; IV – Uso de\n\nóleo bronzeador; V – Derrubar comidas, líquidos, copos, embalagens ou quaisquer outros\n\nvasilhames dentro da piscina; VI – Uso de drogas ilícitas nas dependências da piscina ou em\n\nquaisquer outras partes da associação; VII – A presença de animais nas dependências da\n\npiscina."
+    },
+    "som_alto_piscina": {
+      "titulo": "Som Alto na Piscina",
+      "fundamento": "### 35",
+      "palavras_chave": [
+        "som alto",
+        "bagunça",
+        "piscina",
+        "desordem"
+      ],
+      "texto_artigo": "35\nÉ de total responsabilidade do Associado a manutenção da ordem, do decoro e do uso\n\ndevido da área das piscinas. Entende-se por uso indevido: não respeitar Regimento de uso,\n\n-----\n\n|  |\n| :-: |\n| [Page 5]() |\n\nsom alto, desordem, 'bagunça\" que incomode o próximo, quebra de móveis e utensílios, jogar\n\nlixo, abandonar objetos de uso pessoal utilizados durante sua permanência na área. A violação\n\ndas regras nas dependências da piscina é passível de advertência escrita e/ou punição através\n\nde multa 20% (vinte por cento) do valor da taxa associativa, cobrados no mês imediatamente\n\nposterior."
+    },
+    "conduta_quadra": {
+      "titulo": "Conduta Inconveniente na Quadra",
+      "fundamento": "### 37",
+      "palavras_chave": [
+        "palavrão",
+        "quadra",
+        "atitude inconveniente",
+        "bagunça"
+      ],
+      "texto_artigo": "35\nÉ de total responsabilidade do Associado a manutenção da ordem, do decoro e do uso\n\ndevido da área das piscinas. Entende-se por uso indevido: não respeitar Regimento de uso,\n\n-----\n\n|  |\n| :-: |\n| [Page 5]() |\n\nsom alto, desordem, 'bagunça\" que incomode o próximo, quebra de móveis e utensílios, jogar\n\nlixo, abandonar objetos de uso pessoal utilizados durante sua permanência na área. A violação\n\ndas regras nas dependências da piscina é passível de advertência escrita e/ou punição através\n\nde multa 20% (vinte por cento) do valor da taxa associativa, cobrados no mês imediatamente\n\nposterior."
+    },
+    "grades_janelas": {
+      "titulo": "Grades nas Janelas",
+      "fundamento": "### 59",
+      "palavras_chave": [
+        "grade",
+        "janela",
+        "fachada",
+        "tela"
+      ],
+      "texto_artigo": "59\nÉ proibida a instalação de grades nas janelas do imóvel (parte externa); serão permitidas,\n\nentretanto, as telas de nylon (mosquiteiros) em modelo padronizado, desde que não alterem a\n\nfachada e não tenham dimensões que ultrapassem o limite da janela."
+    },
+    "reforma_alteracao_projeto": {
+      "titulo": "Reforma com Alteração do Projeto",
+      "fundamento": "### 60",
+      "palavras_chave": [
+        "reforma",
+        "construção",
+        "fachada",
+        "projeto original"
+      ],
+      "texto_artigo": "60\nÉ proibido realizar reformas e ou construções que impliquem em alteração do projeto\n\noriginal da unidade (fachada das unidades, que compreende as faces laterais, janela e\n\nvenezianas)."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais em Áreas Comuns",
+      "fundamento": "### 62",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "playground",
+        "quadra"
+      ],
+      "texto_artigo": "62\nA permissão de animais é restrita às áreas privativas da unidade devendo o morador\n\ntomar todas as providências para manter o animal em seu interior, entretanto é permitida a\n\ncirculação do animal pela área comum somente com o uso de coleira. O Associado deve se\n\nresponsabilizar pela higiene das áreas em que o animal transitar, não sendo permitido circular\n\nno playground e na quadra de esportes. Se houver invasões ou agressões do animal em outras\n\náreas ou ataque a pessoas, o proprietário do animal será advertido nos termos estatutários e,\n\nna reincidência, será compelido a remover o animal no prazo máximo de 05 (cinco) dias,\n\nmediante aplicação de multa de 20% do valor da taxa associativa do mês vigente. Os\n\nproprietários de animais também são responsáveis pela higiene do gramado em frente aos\n\nportões da associação e das calçadas junto ao muro, do lado de fora."
+    },
+    "lixo_dia_anterior": {
+      "titulo": "Lixo Fora da Regra",
+      "fundamento": "### 64",
+      "palavras_chave": [
+        "lixo",
+        "coleta",
+        "saco",
+        "caixa de concreto"
+      ],
+      "texto_artigo": "64\nNão é permitido deixar o lixo sobre a caixa de concreto no dia anterior ao da coleta. Nos\n\ncasos de força maior, ou seja, quando a associação não tiver retirado ou recolhido o lixo até às\n\n18:00, deverá o Associado guardá-lo em sua unidade ou levá-lo até a lixeira externa."
+    },
+    "velocidade_interna": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "### 67",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "20km",
+        "rua interna"
+      ],
+      "texto_artigo": "67\nA velocidade máxima permitida nas vias de trânsito internas da associação não poderá\n\nexceder 20km por hora e o veículo motorizado só poderá ser dirigido por pessoa devidamente\n\nhabilitada."
+    },
+    "lavar_veiculo": {
+      "titulo": "Conserto de Veículo nas Áreas Comuns",
+      "fundamento": "### 74",
+      "palavras_chave": [
+        "carro",
+        "conserto",
+        "manutenção",
+        "área comum"
+      ],
+      "texto_artigo": "74\nÉ proibido efetuar consertos e manutenção de veículos nas áreas comuns da associação.\n\nSomente serão permitidos pequenos reparos mecânicos e elétricos nos veículos em casos de\n\nconstatada emergência, na impossibilidade de remoção do veículo para uma oficina."
+    }
+  }
+}

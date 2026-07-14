@@ -1,0 +1,157 @@
+{
+  "id": "triade",
+  "superlogica_nome": "Tríade",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, devendo esta pena ser sempre fixada em Assembleia especialmente convocada, onde será dosada a gravidade da falta, indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 28, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "música",
+        "noite"
+      ],
+      "texto_artigo": "XIX – Gerar ruídos ou sons que possam perturbar o sossego e o bem estar dos demais moradores, no período das 22:00 ás 6:00, bem como utilizar equipamentos em volume audível aos apartamentos vizinhos, tais como rádio, aparelhos de televisão ou quaisquer outros instrumentos musicais ou geradores de ruídos;\n\nXX-Utilizar, a qualquer hora, aparelhos, equipamentos ou instrumentos que produzam acima da intensidade permitida pelas normas vigentes ou por tempo que incomode ou prejudique os demais condôminos;\n\nXXI-"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança sem Agendamento ou Fora do Horário",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "elevador social",
+        "agendamento"
+      ],
+      "texto_artigo": "VIII- Promover mudanças de móveis através dos elevadores sociais ou fora do horário compreendido entre 08:00 e 17:00 horas, de segunda a sexta, e 08:00 e 12:00 horas, aos sábados, bem como em qualquer horário, aos domingos e feriados;\n\nIX- Colocar, depositar ou abandonar objetos, materiais ou utensílios, em qualquer das áreas ou partes comuns do edifício, inclusive ou subsolo;\n\nX- Afixar cartazes ou avisos nas janelas, sacadas, fachadas, escadas, corredores, jardins, salão de jogos, salão de festas, sala de ginástica, portaria, elevadores, hall social, partes internas comuns e externas do prédio;\n\nXI- Descartar entulho de obra ou reforma nas lixeiras do edifício;\n\nXII-"
+    },
+    "lixo": {
+      "titulo": "Descarte Irregular de Lixo",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "lixo",
+        "lixeira",
+        "detritos",
+        "entulho"
+      ],
+      "texto_artigo": "XII- Acondicionar fora das lixeiras, ou indevidamente dentro das mesmas, e lixo, detritos e demais materiais inservíveis (exceto entulho de obras), cuidando, inclusive, para que não causem respingos;\n\nXIII- A prática de qualquer esporte, o uso de bolas, de patins, de bicicletas, de patinetes e skates, nos halls dos apartamentos, na garagem;\n\nXIV- Chamar por terceiros, por qualquer meio, a partir das sacadas e janelas do edifício;\n\nXV-Adentrar, sem autorização, nos espaços técnicos do edifício, tais como na casa de força, casa de bombas, central de gás, sala de medidores, casa de máquinas dos elevadores e telhado;\n\nXVI- Modificar ou alterar as disposições das paredes internas de divisão do apartamento sem prévia anuência do Síndico e sem apresentação de projeto e respectiva Anotação de Responsabilidade Técnica por profissional habilitado;\n\nXVII-"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Art. 5º - Os deveres dos condôminos, abaixo transcritos objetivam o bem estar de todos e a estreita colaboração com a administração do condomínio:",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "furadeira",
+        "horário"
+      ],
+      "texto_artigo": "b) Execução dos serviços de segunda a sexta, das 08h às 17h, não sendo permitidos aos sábados, domingos e feriados;\n\nc) Remoção do material, entulho e resíduos de obra do apartamento durante reforma devidamente acondicionados em depósitos apropriados e recolhidos a caçambas contratadas às expensas do condômino, bem como manutenção da limpeza do hall do andar e das áreas comuns por onde transitarem os resíduos;\n\nIX- Reparos necessários em instalações de energia elétrica, telefonia, Internet, TV a cabo, água e esgoto em cada unidade autônoma serão promovidas à custa do respectivo condômino, desde que o estrago ocorra antes de chegar às linhas tronco, isto é, antes da intersecção das partes comuns com a parte autônoma;\n\nX- Providenciar o conserto, reparo ou substituição de qualquer peça, aparelho ou objeto de uso comum, que tenha sido danificado pelo morador, seu parente e/ou visitantes;\n\nXI- Indenizar os proprietários das unidades vizinhas, quando der causa a avarias ocorridas nas mesmas;\n\nXII- Informar o Síndico, por escrito, sobre contratos de locação, cessão ou alienação do apartamento e respectivas garagens, para fins de controle;\n\nXIII- Cooperar de forma efetiva para harmonia e perfeita convivência comunitária;\n\nXIV- Responder de maneira correta a todas as correspondências encaminhadas Síndico, concernentes a assuntos de interesse do condomínio;\n\nXV - Manter o condomínio sempre informando do endereço atualizado quando o condômino não residir em sua unidade autônoma;…"
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "área comum",
+        "pet"
+      ],
+      "texto_artigo": "XXXI- Permanecer com qualquer animal de estimação, mesmo de pequeno porte, doméstico ou não, inclusive aves em gaiolas, nas áreas comuns do prédio;\n\nXXXII-"
+    },
+    "animais_elevador_social": {
+      "titulo": "Animal no Elevador Social",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "animal",
+        "elevador",
+        "pet",
+        "social"
+      ],
+      "texto_artigo": "XXXII- Utilizar os elevadores sociais para transportar animais, salvo situação emergência devidamente comprovada ou impossibilidade técnica;\n\nXXXIII- Permitir a entrada ou saída de animais desacompanhados, sem coleiras, sem focinheiras quando obrigatórias por lei, sujos, cabendo ao dono ou tutor do animal providenciar, imediatamente, às suas expensas, a devida limpeza caso venha a ocorrer um imprevisto;\n\nXXXIV- Transportar pelos elevadores sociais bagagem, carga, compras, objetos volumosos, equipamentos esportivos, bicicletas, veículos infantis e animais, ainda que no colo; salvo situação de emergência devidamente comprovada ou impossibilidade técnica;\n\nXXXV- Instalar antenas de qualquer espécie na sacada do apartamento;\n\nXXXVI- Instalar antenas de televisão individuais no alto do prédio, sem que sejam as do sistema de antenas coletivas;\n\nXXXVII-"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Objetos Visíveis na Varanda",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "roupas",
+        "varanda",
+        "janela",
+        "varal"
+      ],
+      "texto_artigo": "XXVIII- Colocar objetos visíveis da rua, tais como roupas, calçados, casos de plantas e etc, nos peitoris das janelas e varanda, salvo se a varanda estiver fechada no padrão estabelecido;\n\nXXIX- Utilizar o telefone da portaria para fins particulares;\n\nXXX - Permitir a permanência de crianças de 0 a 12 anos nas garagens desacompanhadas de seus responsáveis;\n\nXXXI-"
+    },
+    "lavar_veiculo": {
+      "titulo": "Lavagem ou Conserto de Veículos",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "lavar carro",
+        "conserto",
+        "veículo",
+        "garagem"
+      ],
+      "texto_artigo": "XLIV- Realizar lavagem ou conserto de veículos em qualquer área do condomínio, exceto consertos de caráter emergencial que não causem transtornos nem sujeira;\n\nXLV-"
+    },
+    "garagem": {
+      "titulo": "Estacionar em Local Proibido",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "garagem",
+        "estacionar",
+        "rampa",
+        "circulação"
+      ],
+      "texto_artigo": "XLV- Parar ou estacionar veículos ou assemelhados em frente às áreas de acesso às portas de entrada e saída do Edifício, inclusive dos elevadores na garagem do subsolo, assim como sobre as calçadas, rampas e demais áreas de circulação;\n\nXLVI- Permitir o uso dos elevadores por crianças menores de 10 anos desacompanhadas do responsável;\n\nXLVII- Desobedecer à sinalização e às indicações de trânsito nas garagens e demais áreas comuns do prédio, eximindo-se o Condomínio e o Síndico de qualquer ônus relativo à tal desobediência;\n\nXLVIII- Utilizar os jardins e canteiros do edifício de modo predatório, bem como retirar ou adicionar plantas ou mudas dos mesmos;\n\nXLIX- Ornamentar o Hall Social com itens de decoração ou modificar a cor padrão do edifício, fora do estabelecido em assembleia;\n\nL- Utilizar interfone para comunicação com a portaria ou outros moradores além do tempo estritamente necessário:\n\nLI- Fumar nos recintos do condomínio fora dos locais predeterminados e que se localizam no lado externo do salão de festas e no térreo ao lado da marquise.\n\nIII - DOS DEVERES"
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "elevador",
+        "garagem"
+      ],
+      "texto_artigo": "XXXVII- Fumar nas áreas comuns do edifício, nas garagens e nos elevadores;\n\nXXXVIII-Depredar, pichar ou danificar de qualquer modo as áreas internas ou externas do edifício, objetos, equipamentos ou mobiliário do condomínio;\n\nXXXIX- Promover, em qualquer área comum do prédio a reunião de pessoas para a prática de jogos de azar, culto religioso e de cunho político partidário;\n\nXL- Deixar de reparar, às suas expensas e sob sua responsabilidade, em no máximo 24 (vinte e quatro) horas, os vazamentos ocorridos na canalização interna que sirva a sua unidade autônoma, assim como as decorrentes infiltrações em paredes e pisos verificadas em partes comuns ou em outros apartamentos;\n\nXLI- Utilizar botijões de gás nas unidades autônomas e áreas de uso comum;\n\nXLII- Estacionar bicicletas e similares em qualquer área comum, exceto na área determinada para esse fim;\n\nXLIII- Permitir ou autorizar o trânsito de prestadores de serviços contratados pelos condôminos nas áreas comuns do prédio, sendo permitido apenas no trajeto entre a portaria/apartamento e vice-versa, nos dias e horários estabelecidos e devidamente identificada, com a anuência do zelador e conhecimento da portaria, não se aplicando tal proibição quando acompanhado pelo proprietário ou locatário do apartamento.\n\nXLIV-"
+    },
+    "objetos_janela": {
+      "titulo": "Atirar Objetos ou Líquidos pelas Janelas",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "jogar lixo",
+        "janela",
+        "varanda",
+        "líquidos"
+      ],
+      "texto_artigo": "XXI- Atirar pelas varandas, janelas ou portas, para áreas externas, áreas comuns, elevadores, hall social e de serviço, escadas, garagem e demais dependências do edifício, fragmentos de lixo, papéis, pontas de cigarros, ou quaisquer detritos ou objetos;\n\nXXII- Expor ou sacudir toalhas, tapetes e outros objetos, nas janelas ou varandas;\n\nXXIII- Atirar ou permitir que caia água ou qualquer outro líquido pelas janelas ou sacadas, inclusive em decorrência de limpeza;\n\nXXIV- Ter, manter, usar ou guardar materiais ou substâncias insalubres ou perigosas à segurança do edifício ou dos seus moradores, que possam afetar a saúde e a tranquilidade dos demais condôminos, tais como produtos químicos, inflamáveis e explosivos;\n\nXXV- Fazer qualquer instalação de equipamentos, incluindo ar-condicionado, que importe em sobrecarga para o edifício, quer de peso, quer de energia elétrica, sem o devido deferimento do Síndico ante a devida apresentação da ART de profissional habilitado. Obrigatório seguir as orientações do Manual do Proprietário em qualquer intervenção;\n\nXXVI- Manter aberta a porta do elevador durante período superior ao necessário para a entrada e saída de pessoas ou objetos;\n\nXXVII- Dar acesso a vendedores, pedintes, propagandistas e angariadores de donativos às áreas comuns do edifício;\n\nXXVIII-"
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "Art. 4º- É proibido aos condôminos:",
+      "palavras_chave": [
+        "fachada",
+        "varanda",
+        "pintura",
+        "aparência"
+      ],
+      "texto_artigo": "XVII- Alterar de qualquer modo a forma ou aspecto externo do edifício, sem prévia autorização da Assembleia Geral;\n\nXVIII - Realizar a queima de fogos de artifício, soltar bombas, pipas ou balões, fazer fogueiras ou utilizar qualquer produto ou objeto que gere risco de incêndio, áreas comuns do edifício ou nas sacadas dos apartamentos;\n\nXIX –"
+    }
+  }
+}

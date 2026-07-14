@@ -1,0 +1,157 @@
+{
+  "id": "nascente-do-jaragua",
+  "superlogica_nome": "Nascente do Jaraguá",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 18",
+    "texto": "Artigo 18\nA falta de cumprimento de quaisquer das cláusulas do Estatuto da Associação e deste Regimento Interno, para qual a lei, s, o Estatuto, s. e presente Regimento Interno, não imponham penalidade especial, será o ASSOCIADO faltoso advertido por escrito na primeira vez, e em sendo reincidente, passível de multa, em importância correspondente a até 5 (cinco) vezes o valor da taxa de manutenção fixada para cada lote no mês anterior à data do respectivo pagamento, sendo esta advertência, bem como a multa, que serão aplicadas pelo Diretor Administrativo, e decidida em Assembleia especialmente convocada para tal finalidade. Parágrafo Primeiro: O ASSOCIADO que, por seu reiterado comportamento anti-social, gerar incompatibilidade de convivência com os demais, poderá ser constrangido a pagar multa correspondente a até 10 (dez) vezes o valor da taxa de manutenção fixada para cada lote no mês anterior à data do respectivo pagamento, devendo a advertência, bem como a multa, ser aplicadas pelo Diretor Administrativo, após decisão da Assembleia especialmente convocada para tal finalidade, tudo de acordo com o parágrafo único do artigo 1337 do Código Civil Brasileiro. Parágrafo Segundo: O ASSOCIADO que não estiver em dia com suas contribuições, não poderá votar nas Assembleias de acordo com o inciso III do artigo 1335 do Código Civil Brasileiro.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "animais_proibidos_lote": {
+      "titulo": "Criação de Animais nos Lotes",
+      "fundamento": "Artigo 8°",
+      "palavras_chave": [
+        "galinheiro",
+        "chiqueiro",
+        "canil",
+        "animais"
+      ],
+      "texto_artigo": "Artigo 8°\nÉ vedada a construção ou manutenção nos lotes, ainda que para uso particular, de galinheiros, chiqueiros, estábulos, canis e outros afins. Cães e gatos de quaisquer espécies, poderão ser conservados, desde que confinados nas respectivas residências e em condições de higiene que não criem incômodos aos vizinhos."
+    },
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial",
+      "fundamento": "Artigo 9°",
+      "palavras_chave": [
+        "comércio",
+        "atividade comercial",
+        "uso residencial",
+        "casa"
+      ],
+      "texto_artigo": "Artigo 9°\nAs construções serão destinadas exclusivamente e tão somente para fins residenciais."
+    },
+    "obra_sem_aprovacao": {
+      "titulo": "Obra sem Aprovação de Projeto",
+      "fundamento": "Artigo 6°",
+      "palavras_chave": [
+        "obra",
+        "planta",
+        "projeto",
+        "aprovação"
+      ],
+      "texto_artigo": "Artigo 6°\nOs proprietários dos lotes deverão submeter à autoridade competente Comissão de Obras, as plantas e projetos da construção que pretendem erigir em seu lote."
+    },
+    "entulho_sujeira_obra": {
+      "titulo": "Sujeira de Obra nas Áreas Comuns",
+      "fundamento": "Artigo 17",
+      "palavras_chave": [
+        "entulho",
+        "limpeza",
+        "obra",
+        "material de construção"
+      ],
+      "texto_artigo": "Artigo 17\nO ASSOCIADO que realizar obras em seu lote será responsável pela perfeita limpeza dos locais comuns por onde transitarem os materiais de construção ou entulho, correndo por sua conta exclusiva o risco, ônus ou prejuízos que forem causados às partes comuns. Parágrafo único:"
+    },
+    "argamassa_vias_circulacao": {
+      "titulo": "Preparo de Argamassa nas Vias",
+      "fundamento": "Artigo 17",
+      "palavras_chave": [
+        "argamassa",
+        "concreto",
+        "calçada",
+        "rua"
+      ],
+      "texto_artigo": "Será expressamente proibido o preparo de argamassa e concreto nas vias de circulação (calçadas e ruas)."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais nas Áreas Comuns",
+      "fundamento": "Artigo 26",
+      "palavras_chave": [
+        "cachorro",
+        "coleira",
+        "focinheira",
+        "fezes"
+      ],
+      "texto_artigo": "Artigo 26\nÉ proibida a permanência e a circulação de animais, especialmente cachorros, nas áreas comuns do loteamento a eles não expressamente reservadas, ou seja, nas vias públicas e na área de recreação, salvo se na companhia de seus donos e adequadamente amarrados por guias e coleiras ou aparato similar, sendo necessário focinheira nos cachorros de raça conhecidamente violentas e de grande porte, devendo seu respectivo dono recolher a sujeira que eventualmente seu animal fizer."
+    },
+    "barulho_noturno": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "Artigo 28",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "silêncio",
+        "noite"
+      ],
+      "texto_artigo": "Artigo 28\nNo período das 22:00 horas às 8:00 horas, cumpre aos moradores guardarem silêncio, evitando a produção de ruídos ou sons que possam perturbar o sossego e o bem estar dos demais moradores do loteamento, com exceção aos sábados quando o horário poderá ser estendido até às 24:00 horas, sempre usando-se do bom senso."
+    },
+    "som_perturbando_vizinhos": {
+      "titulo": "Som que Perturba Vizinhos",
+      "fundamento": "Artigo 29",
+      "palavras_chave": [
+        "som alto",
+        "música",
+        "instrumento",
+        "vizinho"
+      ],
+      "texto_artigo": "Artigo 29\nEm qualquer horário, o uso de aparelhos que produzam som, ou instrumento musical, deve ser feito de modo a não perturbar os vizinhos, observadas as disposições das posturas municipais vigentes."
+    },
+    "portaria_permanencia": {
+      "titulo": "Permanência Indevida na Portaria",
+      "fundamento": "Artigo 32",
+      "palavras_chave": [
+        "portaria",
+        "reunião",
+        "conversa",
+        "aglomeração"
+      ],
+      "texto_artigo": "Artigo 32\nA Portaria é local de circulação, não devendo ser usada para reuniões, conversas, encontros demorados, ou permanência constantes. O porteiro permanecerá na portaria, em local apropriado, para atendimento ao público e para comunicação com os moradores, além da vigilância que deverá manter."
+    },
+    "reforma_fora_horario": {
+      "titulo": "Reforma Fora do Horário",
+      "fundamento": "Artigo 33",
+      "palavras_chave": [
+        "reforma",
+        "obra",
+        "trabalho noturno",
+        "horário"
+      ],
+      "texto_artigo": "Artigo 33\nOs serviços de reformas e construções serão permitidos de segunda à sábado das 7:00 horas as 18:00 horas, sendo proibido o início de carga e descarga de caminhões fora deste horário, bem como qualquer tipo de trabalho noturno. Excepcionalmente poderá ser permitido o trabalho além das 18 horas ou em turno noturno, quando, por razões técnicas, isso for imperativo."
+    },
+    "carga_descarga_fora_horario": {
+      "titulo": "Carga e Descarga Fora do Horário",
+      "fundamento": "Artigo 33",
+      "palavras_chave": [
+        "caminhão",
+        "carga",
+        "descarga",
+        "horário"
+      ],
+      "texto_artigo": "Artigo 33\nOs serviços de reformas e construções serão permitidos de segunda à sábado das 7:00 horas as 18:00 horas, sendo proibido o início de carga e descarga de caminhões fora deste horário, bem como qualquer tipo de trabalho noturno. Excepcionalmente poderá ser permitido o trabalho além das 18 horas ou em turno noturno, quando, por razões técnicas, isso for imperativo."
+    },
+    "velocidade_acima_limite": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "Artigo 34",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "moto",
+        "trânsito"
+      ],
+      "texto_artigo": "Artigo 34\nA velocidade máxima permitida dentro do loteamento é de 20 Km/h, e deverá ser respeitada por todos os moradores, bem como por terceiros que adentrarem no loteamento."
+    }
+  }
+}

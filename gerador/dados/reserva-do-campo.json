@@ -1,0 +1,170 @@
+{
+  "id": "reserva-do-campo",
+  "superlogica_nome": "Reserva do Campo",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "## 12. ADVERTÊNCIAS E MULTAS",
+    "texto": "12.2. No caso de reincidência da infração, ou no caso de uma nova infração, serão aplicadas as multas, as quais serão cobradas no boleto junto com as taxas de rateio/associativas. Os valores das multas definidos pelo conselho foram: para a primeira multa será cobrado o valor de uma taxa de rateio/associativa; para a segunda multa, serão cobradas duas taxas de rateio/associativa, e assim sucessivamente. Caso aconteça algo grave, o Conselho (formado pelo Diretor Presidente, Tesoureiro e Conselheiros fiscais) poderá deliberar sobre um valor maior, independentemente da quantidade de multas já aplicadas, ou se o morador possuir ou não advertência anterior ao fato.\n\n12.3. Das multas caberá recurso se protocolada na administração o recurso próprio e por escrito, no prazo de 05 dias contados do recebimento do aviso da multa.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "obra_fora_horario": {
+      "titulo": "Obra fora do horário permitido",
+      "fundamento": "2.15. O horário de trabalho no canteiro de obras",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "barulho",
+        "pedreiro",
+        "horário"
+      ],
+      "texto_artigo": "2.15. O horário de trabalho no canteiro de obras será, obrigatoriamente, limitado ao período das 07:00 (sete) horas às 17:00 (dezessete) horas, de segunda a sexta feira; aos sábados, das 08:00 (oito) horas às 13:00 (treze) horas, não sendo permitido o trabalho noturno, aos domingos e feriados. Excepcionalmente poderá ser permitido o trabalho além das 17:00 (dezessete) horas ou em turno noturno, quando por razões técnicas, isso for imperativo.\n\n2.15.1. É obrigatório o uso de caçamba para depósito e recolhimento de entulhos. As caçambas deverão ficar dentro da área do terreno em construção ou no lote de apoio.\n\n2.15.2. É obrigatório o uso de container para a guarda de ferramentas, equipamentos e demais materiais, devendo os mesmos possuir sanitários. A Associação não se responsabilizará por qualquer dano, furto e/ou extravio de ferramentas e/ou equipamentos deixados no canteiro de obras.\n\n2.15.3. Durante a construção, deverá ser mantido limpo a área frontal da área em construção, inclusive ao do lote de apoio (calçadas, asfalto, etc.)\n\nDo ingresso de visitantes no loteamento/Associação.\n\n2.16. Os visitantes somente adentrarão no loteamento/Associação, mediante sua prévia identificação na portaria pelo interfone de entrada pelo morador. Caso seja necessária a entrada motorizada do visitante, o morador fica responsável por qualquer dano causado.\n\n2.17. A burla do sistema de entrada/saída ocasionará penalização ao morador que estiver recebendo o visitante causador de tal…"
+    },
+    "velocidade": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "2.19. Não ultrapassar a velocidade de 20 km/h.",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "moto",
+        "rápido",
+        "trânsito"
+      ],
+      "texto_artigo": "2.19. Não ultrapassar a velocidade de 20 km/h.\n\n2.20. Todo proprietário/morador deverá obedecer aos limites de velocidade, quando estiverem transitando pelas dependências do loteamento. A este caberá informar a todos os seus prestadores de serviços e visitantes dos limites de velocidade e das normas gerais de comportamento.\n\n2.21. O prestador de serviço que exceder a velocidade, inicialmente será advertido verbalmente e o fato será informado ao proprietário do lote. Em caso de reincidência o prestador de serviços terá suspenso por 07 (sete) dias o seu ingresso com o veículo automotor nas dependências do loteamento; em caso de nova reincidência, será multado o associado responsável pelo prestador, sem prejuízo de nova suspensão.\n\n2.22. Desde a infração inicial o Associado será devidamente informado da infração."
+    },
+    "animais_areas_comuns": {
+      "titulo": "Animais soltos nas áreas comuns",
+      "fundamento": "3.1. Não é permitido manter animais soltos nas partes comuns do loteamento/Associação.",
+      "palavras_chave": [
+        "cachorro",
+        "pet",
+        "animal solto",
+        "coleira",
+        "área comum"
+      ],
+      "texto_artigo": "3.1. Não é permitido manter animais soltos nas partes comuns do loteamento/Associação.\n\n3.2. Os animais poderão transitar nas áreas comuns do loteamento/Associação, respeitadas as seguintes regras:\n\n3.2.1. Os animais deverão sempre estar de coleira, guias e com um supervisor\n\n3.2.2."
+    },
+    "animais_dejetos": {
+      "titulo": "Não recolher dejetos de animais",
+      "fundamento": "3.2.2. Os dejetos dos animais devem ser recolhidos pelos proprietários/tutores dos animais.",
+      "palavras_chave": [
+        "fezes",
+        "cachorro",
+        "pet",
+        "sujeira",
+        "recolher"
+      ],
+      "texto_artigo": "3.2.2. Os dejetos dos animais devem ser recolhidos pelos proprietários/tutores dos animais.\n\nATENÇÃO - Não é permitido que animais permaneçam sob supervisão de uma criança.\n\n3.3. Caso o animal escape, o mesmo será considerado como sendo mantido \"solto\" pelo seu proprietário nas áreas comuns do loteamento/Associação. Neste caso, o morador será responsabilizado por seus atos, e sendo primeiramente advertido e na reincidência multado, com uma taxa de rateio/associativa.\n\n3.4. No caso de agressão do animal a qualquer pessoa, o valor da multa será de 10 vezes a taxa associativa, respondendo o proprietário do animal agressor, pelos danos pessoais e patrimoniais na forma da Lei, que vier a causar, estando a Associação isenta de responsabilidade civil."
+    },
+    "skate_bicicleta_areas": {
+      "titulo": "Skates e bicicletas em áreas proibidas",
+      "fundamento": "4.6. Skates, bicicletas, patinetes e/ou similares ficam proibidos de transitar dentro do salão de festas, academia e quiosque da Associação.",
+      "palavras_chave": [
+        "skate",
+        "bicicleta",
+        "patinete",
+        "academia",
+        "quiosque"
+      ],
+      "texto_artigo": "4.6. Skates, bicicletas, patinetes e/ou similares ficam proibidos de transitar dentro do salão de festas, academia e quiosque da Associação."
+    },
+    "vidro_quiosque": {
+      "titulo": "Objetos de vidro no quiosque",
+      "fundamento": "5.5. Não será permitido deixar na área frascos, copos, garrafas, gêneros alimentícios, e etc., em vidro, porcelana, metal ou qualquer outro material que possa atentar contra a segurança dos frequentadores.",
+      "palavras_chave": [
+        "garrafa",
+        "vidro",
+        "copo",
+        "quiosque",
+        "segurança"
+      ],
+      "texto_artigo": "5.5. Não será permitido deixar na área frascos, copos, garrafas, gêneros alimentícios, e etc., em vidro, porcelana, metal ou qualquer outro material que possa atentar contra a segurança dos frequentadores.\n\n5.6. Para fazer uso do quiosque, deverá ser agendada a utilização com a Zeladoria, com antecedência mínima de 48 horas.\n\n5.7."
+    },
+    "barulho_quiosque": {
+      "titulo": "Ruído sonoro no quiosque após horário",
+      "fundamento": "5.7. O horário de funcionamento: das 09h00min até 23h00min, de domingo à sexta-feira e aos sábados das 09h00min até as 00h00min, realizando o cancelamento de ruídos sonoros a partir das 22h00",
+      "palavras_chave": [
+        "som alto",
+        "música",
+        "quiosque",
+        "barulho",
+        "noite"
+      ],
+      "texto_artigo": "5.7. O horário de funcionamento: das 09h00min até 23h00min, de domingo à sexta-feira e aos sábados das 09h00min até as 00h00min, realizando o cancelamento de ruídos sonoros a partir das 22h00 (respeitando sempre as regras de convivência e barulho).\n\n5.8. As desistências deverão ser comunicadas com até 24 horas de antecedência do referido uso agendado, sob pena de multa no valor de R$ 50,00, que será pago junto à próxima taxa associativa.\n\n5.9. O associado, deve entregar na portaria, com a devida antecedência (mínimo de 24:00 (vinte e quatro) horas), relação dos convidados (nome completo e RG) para facilitar o acesso dos convidados.\n\n5.10. Os visitantes poderão entrar no loteamento/Associação com seus veículos, podendo utilizar o estacionamento dentro do loteamento em local devidamente sinalizado, até o limite das vagas demarcadas. Não havendo vagas, os visitantes deverão apenas levar/buscar os passageiros, ficando proibida a permanência do veículo dentro do loteamento/Associação."
+    },
+    "vidro_piscina": {
+      "titulo": "Vidro ou comida na piscina",
+      "fundamento": "6.4.1. Levar qualquer tipo de recipiente de vidro ou comida nas dependências da piscina.",
+      "palavras_chave": [
+        "piscina",
+        "vidro",
+        "garrafa",
+        "comida",
+        "copo"
+      ],
+      "texto_artigo": "6.4.1. Levar qualquer tipo de recipiente de vidro ou comida nas dependências da piscina.\n\n6.4.2. Entrar na água com o corpo envolto com bronzeador ou similar. Neste caso, deverá ser usada a ducha para removê-los.\n\n6.4.3."
+    },
+    "som_piscina": {
+      "titulo": "Aparelhos sonoros na piscina",
+      "fundamento": "6.4.3. O uso de aparelhos sonoros.",
+      "palavras_chave": [
+        "caixa de som",
+        "som alto",
+        "música",
+        "piscina",
+        "aparelho sonoro"
+      ],
+      "texto_artigo": "",
+      "revisar": "bloco vazio/curto após fatiar"
+    },
+    "visitante_academia": {
+      "titulo": "Visitantes na academia",
+      "fundamento": "8.5. Não será permitida a utilização de visitantes e/ou convidados na academia, com exceção dos profissionais contratados pelo associado.",
+      "palavras_chave": [
+        "academia",
+        "visitante",
+        "convidado",
+        "treino",
+        "acesso"
+      ],
+      "texto_artigo": "8.5. Não será permitida a utilização de visitantes e/ou convidados na academia, com exceção dos profissionais contratados pelo associado.\n\n8.6. Tendo em vista a impossibilidade de manter um profissional para controlar o acesso no recinto, haverá um livro de registro para a identificação dos usuários. Tal medida é necessária, uma vez que a pessoa que retira a chave do recinto da portaria ficaria responsável até sua devolução, o que torna inviável tal prática.\n\n8.7. Caso um usuário encontre algum problema (dano na academia ou aparelhos), deverá relatar imediatamente ao zelador ou ao porteiro."
+    },
+    "lixo": {
+      "titulo": "Lixo em local inadequado",
+      "fundamento": "10.2. Não é permitido colocar o lixo em qualquer outro lugar do loteamento/Associação.",
+      "palavras_chave": [
+        "lixo",
+        "saco de lixo",
+        "descarte",
+        "sujeira",
+        "lixeira"
+      ],
+      "texto_artigo": "10.2. Não é permitido colocar o lixo em qualquer outro lugar do loteamento/Associação."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas áreas comuns",
+      "fundamento": "11.1. Não é permitido fumar nas áreas comuns, como salão de festas, varanda do salão de festas, piscina e academia.",
+      "palavras_chave": [
+        "cigarro",
+        "fumar",
+        "salão",
+        "piscina",
+        "academia"
+      ],
+      "texto_artigo": "11.1. Não é permitido fumar nas áreas comuns, como salão de festas, varanda do salão de festas, piscina e academia. O associado que o fizer será advertido e multado em uma taxa de rateio/associativa no caso de reincidência.\n\n11.2. Para os visitantes, serão autuados os associados responsáveis, nas formas do item anterior.\n\n11.3. No caso de o loteamento/Associação ser multado por tal infração, o valor da multa será repassado ao associado causador da infração."
+    }
+  }
+}

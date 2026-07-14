@@ -1,0 +1,157 @@
+{
+  "id": "atlanta",
+  "superlogica_nome": "Atlanta",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "### Artigo 127",
+    "texto": "Artigo 127\nO valor da multa será fixado em 01 Taxas Associativas Ordinárias, vigente no momento da infração, e no caso de reincidência sobre a mesma irregularidade em menos de 1 (um) ano, multa igual ao dobro do valor da última multa aplicada pela mesma irregularidade.",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "interferencia_seguranca": {
+      "titulo": "Interferência na rotina da segurança",
+      "fundamento": "§1° Fica expressamente proibido aos associados interferirem na rotina dos trabalhos dos colaboradores do corpo de segurança",
+      "palavras_chave": [
+        "segurança",
+        "porteiro",
+        "vigilante",
+        "interferência"
+      ],
+      "texto_artigo": "não devendo em hipóteses alguma usurpar a competência estatutária conferida à Diretoria no que se refere à orientação de trabalho, correções de procedimentos, etc. NR"
+    },
+    "cessao_sem_comunicacao": {
+      "titulo": "Cessão temporária sem aviso formal",
+      "fundamento": "### Artigo 21",
+      "palavras_chave": [
+        "casa emprestada",
+        "avisar administração",
+        "amigos",
+        "parentes"
+      ],
+      "texto_artigo": "Artigo 21\nNos casos de cessão do uso de residências temporariamente a amigos e parentes, os associados deverão avisar a administração de maneira formal (via fax, carta aviso ou e-mail) informando todos os dados necessários à identificação dos mesmos, tais como: nome, RG, CPF, especificações de veículos e período no qual permanecerão no loteamento, devendo também fornecer declaração formal do conhecimento do Regulamento Interno e das restrições de uso da unidade quanto à lei do silêncio e do bom costume."
+    },
+    "excesso_velocidade": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "### Artigo 26",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "moto",
+        "trânsito"
+      ],
+      "texto_artigo": "Artigo 26\nDeve ser rigorosamente obedecido o limite de velocidade máxima de 30 km/hora estabelecido para o interior do Empreendimento, cabendo à segurança e aos associados orientarem seus convidados e prestadores de serviço, sob pena de responder pelas notificações e multas previstas nesse Regulamento."
+    },
+    "corrida_veiculos": {
+      "titulo": "Corridas com Veículos",
+      "fundamento": "§ 4º - É expressamente proibido promover, incentivar ou permitir que se façam corridas com veículos automotores/ ciclomotores",
+      "palavras_chave": [
+        "racha",
+        "corrida",
+        "moto",
+        "bicicleta"
+      ],
+      "texto_artigo": "§ 4º - É expressamente proibido promover, incentivar ou permitir que se façam corridas com veículos automotores/ ciclomotores de qualquer potência ou cilindrada ou ainda bicicletas nas dependências do empreendimento."
+    },
+    "treino_direcao": {
+      "titulo": "Treinamento de Direção Irregular",
+      "fundamento": "§7° - É expressamente proibido acompanhar e/ou praticar o treinamento de direção de veículos por pessoas não habilitadas dentro do empreendimento.",
+      "palavras_chave": [
+        "aprender dirigir",
+        "sem habilitação",
+        "carro",
+        "direção"
+      ],
+      "texto_artigo": "§7° - É expressamente proibido acompanhar e/ou praticar o treinamento de direção de veículos por pessoas não habilitadas dentro do empreendimento."
+    },
+    "prestador_como_visitante": {
+      "titulo": "Prestador como Visitante",
+      "fundamento": "§5° Caso seja constatado que prestadores de serviços estão sendo recebidos por moradores na condição de visitantes",
+      "palavras_chave": [
+        "prestador",
+        "visitante",
+        "veículo",
+        "entrada irregular"
+      ],
+      "texto_artigo": "§5° Caso seja constatado que prestadores de serviços estão sendo recebidos por moradores na condição de visitantes, apenas para permanecerem com os veículos no interior da Associação, será aplicada multa de uma taxa associativa, sendo duplicada ou triplicada em casos de reincidências."
+    },
+    "prestadores_fora_horario": {
+      "titulo": "Prestadores Fora do Horário",
+      "fundamento": "### Artigo 37",
+      "palavras_chave": [
+        "obra",
+        "prestador",
+        "fora do horário",
+        "funcionário"
+      ],
+      "texto_artigo": "Artigo 37\nÉ proibida a permanência de empreiteiros, prestadores de serviços e funcionários fora do horário comercial indicado no artigo 14 deste Regulamento."
+    },
+    "animais_areas_esportivas": {
+      "titulo": "Animais em Áreas Esportivas",
+      "fundamento": "### Artigo 43",
+      "palavras_chave": [
+        "cachorro",
+        "quadra",
+        "playground",
+        "animal"
+      ],
+      "texto_artigo": "Artigo 43\nÉ vetada a circulação de animais domésticos nas quadras esportivas, playground e ambientes fechados."
+    },
+    "som_alto_areas_comuns": {
+      "titulo": "Som Alto nas Áreas Comuns",
+      "fundamento": "### Artigo 55",
+      "palavras_chave": [
+        "som alto",
+        "barulho",
+        "música",
+        "lei do silêncio"
+      ],
+      "texto_artigo": "Artigo 55\nÉ dever dos moradores, inquilinos, visitantes, associados, familiares, funcionários e prestadores de serviço, abster-se de produzir ruídos que possam incomodar os vizinhos e moradores durante qualquer horário, de domingo a domingo, principalmente após as 22 horas, ou realizar eventos em níveis de volume que incomodem os demais associados, devendo ser respeitada a Lei do Silêncio."
+    },
+    "animais_sem_controle": {
+      "titulo": "Animais sem Contenção",
+      "fundamento": "### Artigo 56",
+      "palavras_chave": [
+        "cachorro solto",
+        "coleira",
+        "focinheira",
+        "passeio"
+      ],
+      "texto_artigo": "Artigo 56\nOs animais deverão ser mantidos restritos aos limites do terreno de seu proprietário e, quando a passeio, deverão ser adequadamente contidos pela pessoa responsável, por meio de guias e coleiras próprias. No caso de raças de cães potencialmente agressivas, principalmente aquelas definidas no Decreto no. 48633 de 09/03/04 (Mastim Napolitano, Pit Bull. Rottwailler, American Stafforshire Terrief e raças derivadas ou variações de qualquer das raças indicadas anteriormente), nos termos da Lei Estadual de nº, 1 1631 e outros regulamentos, fica obrigatório a utilização de coleira, guia curta de condução, enforcador e focinheira."
+    },
+    "lixo_entulho_areas_comuns": {
+      "titulo": "Lixo e Entulho em Áreas Comuns",
+      "fundamento": "### Artigo 57",
+      "palavras_chave": [
+        "lixo",
+        "entulho",
+        "detritos",
+        "descarte"
+      ],
+      "texto_artigo": "Artigo 57\nÉ expressamente proibido, em qualquer circunstância, lançar lixo, entulho ou qualquer tipo de detritos em lote alheio e nas áreas internas de uso comum do empreendimento, devendo os mesmos serem obrigatoriamente descartados nos locais apropriados, de acordo com a legislação vigente, sob pena de multa ao infrator. A Associação disponibiliza apenas de local para o descarte do lixo doméstico e a fim de se adequar ao serviço de coleta seletiva imposta pelo município, os moradores deverão adotar a separação obrigatória do lixo orgânico do reciclável e adotar o seguinte procedimento quando do descarte desses:"
+    },
+    "obra_fora_horario": {
+      "titulo": "Obra Fora do Horário",
+      "fundamento": "§ 1º - É proibido o trabalho em obra no período diferente do horário estabelecido nesse Artigo.",
+      "palavras_chave": [
+        "obra",
+        "furadeira",
+        "reforma",
+        "horário"
+      ],
+      "texto_artigo": "§ 1º - É proibido o trabalho em obra no período diferente do horário estabelecido nesse Artigo. A presença do Associado na obra não autoriza o descumprimento desta proibição, cabendo ao órgão de Segurança do empreendimento suspender quaisquer atividades irregulares."
+    }
+  }
+}

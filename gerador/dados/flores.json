@@ -1,0 +1,157 @@
+{
+  "id": "flores",
+  "superlogica_nome": "Flores",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "ARTIGO 50°",
+    "texto": "ARTIGO 50°\n:- Além das penalidades cominadas em lei, fica ainda o condômino que, transitória ou eventualmente, perturbar o uso das coisas comuns ou der causa à despesas, por ato seu, ou de seus parentes, familiares, amigos, convidados, visitas ou inquilinos, sujeito à multa correspondente a 10% (dez por cento) do valor da contribuição condominial e, até o dobro em caso de reincidência, sem prejuízo das demais consequências civis e criminais de seus atos.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "uso_nao_residencial": {
+      "titulo": "Uso Não Residencial da Unidade",
+      "fundamento": "ARTIGO 4°",
+      "palavras_chave": [
+        "comércio",
+        "escritório",
+        "atividade",
+        "apartamento"
+      ],
+      "texto_artigo": "ARTIGO 4°:- Os apartamentos representados por cada uma das unidades autônomas, destinam-se, exclusivamente, à residência, sendo seu uso vedado para qualquer outra finalidade."
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Objetos nas Áreas Comuns",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 2)",
+      "palavras_chave": [
+        "objetos",
+        "corredor",
+        "área comum",
+        "material"
+      ],
+      "texto_artigo": "2).- Abandonar, depositar ou colocar quaisquer objetos ou outros materiais nos lugares de uso comum do condomínio, sob pena de imediata apreensão e somente serem devolvidos após o infrator pagar as despesas e danos porventura ocasionados e a multa a lhe ser aplicada, em consonância com o estipulado no artigo 50° desta convenção.\n\n3).- Guardar ou depositar explosivos ou inflamáveis nas dependências do condomínio. 4).-"
+    },
+    "fachada_alteracao": {
+      "titulo": "Alteração de Fachada",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 4)",
+      "palavras_chave": [
+        "fachada",
+        "persiana",
+        "toldo",
+        "pintura"
+      ],
+      "texto_artigo": "3).- Guardar ou depositar explosivos ou inflamáveis nas dependências do condomínio. 4).- Instalar persianas ou colocar iluminação diferente das usuais em todo o prédio, toldos ou cortinas, ou qualquer outro material que quebre a uniformidade da fachada, a decoração das paredes e esquadrias externas ou pintura em cores/ tonalidades diversas das empregadas no conjunto do edifício.\n\n5).- Colocar placas ou letreiros nas janelas ou vidros externos do edifício, ou avisos ou anúncios nas partes e coisas de uso comum.\n\n6).-"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas e Varais Visíveis",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 6)",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "6).- Estender, bater ou secar roupas, tapetes, toalhas, etc., nas janelas ou em outras áreas comuns, fronteiriças e que nas quais não poderão ser instalados varais de tipo a serem vistos do exterior.\n\n7).-"
+    },
+    "lancar_objetos": {
+      "titulo": "Lançamento de Objetos",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 7)",
+      "palavras_chave": [
+        "lixo",
+        "cigarro",
+        "objeto",
+        "janela"
+      ],
+      "texto_artigo": "7).- Atirar papeis, pontas de cigarros, líquidos e outros objetos nos corredores, janelas, escadas e outras áreas de uso comum ou nas vias públicas.\n\n8).-"
+    },
+    "barulho": {
+      "titulo": "Perturbação do Sossego",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 8)",
+      "palavras_chave": [
+        "som alto",
+        "televisão",
+        "música",
+        "barulho"
+      ],
+      "texto_artigo": "8).- Usar aparelhagem de som, televisão, ou quaisquer outros instrumentos, mesmo musicais, de maneira a incomodar os demais condôminos.\n\n9).- Manter animais domésticos ou aves, em quaisquer dependências do edifício, exceto cachorros e/ou animais de pequeno porte.\n\n10).-"
+    },
+    "animais": {
+      "titulo": "Animais em Desacordo",
+      "fundamento": "ARTIGO 8º",
+      "palavras_chave": [
+        "cachorro",
+        "animal",
+        "ave",
+        "pet"
+      ],
+      "texto_artigo": "n).- Não manter animais ou aves nas respectivas unidades autônomas ou demais dependências do edifício, exceto cachorro e/ou animais de pequeno porte e, desde que não perturbe o sossego dos demais moradores.\n\no).- Não fracionar a respectiva unidade autônoma, para fins de alienação ou aluguel, a mais de uma pessoa separadamente.\n\np).- Contribuir para as despesas comuns de manutenção do condomínio, na proporção das respectivas frações-ideais, efetuando o recolhimento nas ocasiões oportunas, fixadas pela assembleia geral ou extraordinária.\n\nq).- Contribuir para o custeio de obras na forma determinada na assembleia e, na proporção de sua respectiva fração-ideal.\n\nr).- Permitir o ingresso, em sua unidade autônoma, do síndico ou preposto dele, quando isto se torne indispensável à inspeção dos trabalhos relativos à estrutura geral do edifício, sua segurança, salubridade ou solidez, ou indispensável à realização de reparos em instalações, serviços e tubulações nas unidades autônomas vizinhas.\n\ns).- Não permitir a realização de jogos infantis em quaisquer das partes comuns do condomínio, que não sejam as determinadas para essa finalidade.\n\nt).- Comunicar imediatamente ao síndico a ocorrência de moléstia contagiosa em sua unidade autônoma.\n\nu).- Contribuir para o seguro geral do condomínio na proporção de sua fração-ideal, efetuando os recolhimentos na forma e prazos estipulados na assembleia geral.\n\nv).- Reparar, por conta própria, todos os danos causados nas partes e coisas comuns,…"
+    },
+    "festas_areas_comuns": {
+      "titulo": "Festas nas Áreas Comuns",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 10)",
+      "palavras_chave": [
+        "festa",
+        "garagem",
+        "recepção",
+        "sossego"
+      ],
+      "texto_artigo": "10).- Realizar festas ou recepções nas partes comuns do condomínio, inclusive garagens, susceptíveis de prejudicar as coisas comuns ou perturbar o sossego.\n\n11).- Pisar ou brincar nas partes que compõe o jardim, bem como nele intervir, adicionando ou removendo plantas ou mudando-lhe o arranjo à revelia do Síndico.\n\n12).- Modificar as disposições das paredes internas de divisão de seu apartamento, ou fazer em sua propriedade, qualquer instalação que importe em sobrecarga para o respectivo edifício, sem conhecimento e a prévia autorização do Síndico, e aprovação dos órgãos responsáveis, bem como modificar a forma ou aspecto externo do edifício, sem a prévia autorização da assembleia geral dos condôminos.\n\n13).- Ter ou usar instalações ou material susceptível de por qualquer forma, afetar a saúde, segurança, tranquilidade e o sossego dos demais condôminos ou inquilinos, ou que possam acarretar o aumento do seguro comum.\n\n14).- Utilizar os empregados e funcionários do condomínio, para serviços particulares, durante o horário normal de serviço.\n\n15).- Colocar vasos, antenas, varais, enfeites ou quaisquer outros objetos na parte externa, sobre os peitoris das janelas e áreas de uso comum do edifício.\n\n16).-"
+    },
+    "mudanca_sem_aviso": {
+      "titulo": "Mudança sem Aviso Prévio",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 16)",
+      "palavras_chave": [
+        "mudança",
+        "aviso",
+        "zeladoria",
+        "caminhão"
+      ],
+      "texto_artigo": "16).- Realizar mudanças, totais ou parciais, sem avisar previamente a zeladoria, com antecedência mínima de 1 (um) dia, a hora de sua efetivação.\n\n17).-"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança Fora do Horário",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 17)",
+      "palavras_chave": [
+        "mudança",
+        "horário",
+        "domingo",
+        "feriado"
+      ],
+      "texto_artigo": "17).- As mudanças referidas no item anterior, somente serão permitidas ne horário compreendido das 8:00 às 17:00 horas, de segunda a sábado, ficando excluído após o mencionado horário, inclusive domingos e feriados.\n\n18).- Subir com materiais de construção ou objetos pesados pela escada, sem avisar o Síndico, com antecedência mínima de 5 (cinco) horas, antes de sua efetivação.\n\n19).-"
+    },
+    "reforma_fora_horario": {
+      "titulo": "Obras Ruidosas Fora do Horário",
+      "fundamento": "ARTIGO 51° - A)= DAS PROIBIÇÕES AOS CONDÔMINOS: 19)",
+      "palavras_chave": [
+        "furadeira",
+        "pedreiro",
+        "marceneiro",
+        "obra"
+      ],
+      "texto_artigo": "19).- Realizar trabalhos ruidosos, serviços esses como por exemplo: marceneiros, pedreiros, encanadores, eletricistas, etc., fora do horário compreendido das 8:00 às 17:00 horas, de segunda às sextas feiras e, aos sábados das 8:00 às 12:00 horas. Domingos e feriados estão excluídos para estas atividades.\n\n20).- Usar as garagens para depósito de objetos pessoais, sendo permitido o uso da mesma, somente para estacionamento, em sua respectiva vaga, de automóveis, utilitários, motocicletas e bicicletas.\n\n21).- Estacionar veículo próprio ou de terceiros em vagas de garagem pertencente a outros condôminos.\n\n22).- Ceder a vaga de garagem a que tem direito, sob qualquer condição, sem prévia comunicação à administração.\n\n23).- Alugar ou sublocar a vaga da garagem que tem direito, à pessoa física ou jurídica, não moradora do condomínio.\n\n24).- Fumar ou portar cigarros acesos nas áreas indicadas por avisos.\n\n25).- Dispor do lixo nos respectivos reservatórios após às 12,00 horas aos domingos e feriados.\n\n26).- Utilizar o hall social, escadas, e garagem, para brincadeiras infantis, considerando se tratar de áreas com destinação específica e de uso comum.\n\n27).- Utilizar todas as áreas de uso comum, de maneira e forma que possam causar danos ao patrimônio comum e suas instalações.\n\n28).- Retirar do condomínio os bens móveis, ferramentas ou qualquer objeto pertencente ao condomínio, salvo para manutenção, mediante a prévia autorização do Síndico.\n\nB)= DO USO DAS GARAGENS:\n\n1).- As…"
+    },
+    "garagem_vaga_outro": {
+      "titulo": "Uso de Vaga de Outro Condômino",
+      "fundamento": "PARÁGRAFO PRIMEIRO",
+      "palavras_chave": [
+        "vaga",
+        "garagem",
+        "estacionar",
+        "carro"
+      ],
+      "texto_artigo": "PARÁGRAFO PRIMEIRO:- O condômino que por ato seu, ou de seus parentes, familiares, amigos, convidados, visitas ou inquilinos, guardar veículo ou ocupar a vaga na garagem, pertencente a outro condômino, será apenado com o pagamento de uma multa, no valor correspondente a 10% (dez por cento) do valor da contribuição condominial vigente no mês do efetivo pagamento dessa multa. Essa multa será aplicada a cada descumprimento desta norma, mesmo que reincidentemente. Os condôminos para utilizar, para si ou para parentes, familiares, amigos, convidados, visitas ou inquilinos, as vagas de outros condôminos, deverão primeiramente obter dos mesmos autorizações por escrito, para tal e, apresentar essa autorização ao Síndico que as arquivarão em pasta própria."
+    }
+  }
+}

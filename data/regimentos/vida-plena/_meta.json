@@ -1,11 +1,63 @@
 {
   "condominio": "Residencial Vida Plena Araraquara",
   "condominio_slug": "vida-plena",
-  "aliases": ["Vida Plena", "Residencial Vida Plena"],
+  "aliases": [
+    "Vida Plena",
+    "Residencial Vida Plena"
+  ],
   "endereco": "Avenida Doutor Leite de Moraes, 951, Vila Xavier – Araraquara/SP – CEP 14.810-120",
   "cnpj": "15.299.298/0001-50",
   "id_condominio_superlogica": 78,
-  "documentos": [],
+  "documentos": [
+    {
+      "arquivo": "ata-2024-06-26.md",
+      "chars": 5274,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "ata-2024-08-21.md",
+      "chars": 1833,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "ata-2025-04-16.md",
+      "chars": 5943,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "ata-2025-08-14.md",
+      "chars": 1883,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "ata-2025-11-26.md",
+      "chars": 4469,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "ata-2026-03-20.md",
+      "chars": 6332,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "convencao-vida-plena.md",
+      "chars": 32577,
+      "secoes_##": 0,
+      "artigos_###": 0
+    },
+    {
+      "arquivo": "regimento-interno-vida-plena.md",
+      "chars": 60528,
+      "secoes_##": 0,
+      "artigos_###": 0
+    }
+  ],
   "gerado_em": "2026-06-26",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
@@ -54,5 +106,6 @@
       }
     ]
   },
-  "fonte": "ATAs do Residencial Vida Plena enviadas pelo Fernando via Google Drive. ID Superlógica 78 resolvido via condominios/get?id=-1 (match por nome 'RESIDENCIAL VIDA PLENA ARARAQUARA') em 26/06/2026."
+  "fonte": "ATAs do Residencial Vida Plena enviadas pelo Fernando via Google Drive. ID Superlógica 78 resolvido via condominios/get?id=-1 (match por nome 'RESIDENCIAL VIDA PLENA ARARAQUARA') em 26/06/2026. | Ingestão 14/07/2026: documento faltante baixado do Drive Grupo NCS (pastas NOVOS / NOVOS (1) / pasta do condomínio), texto via Google Drive read_file_content, salvo verbatim. Para as associações, o ESTATUTO faz o papel da convenção. Revisão humana pendente.",
+  "atualizado_em": "2026-07-14"
 }

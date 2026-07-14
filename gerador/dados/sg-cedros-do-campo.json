@@ -1,0 +1,157 @@
+{
+  "id": "sg-cedros-do-campo",
+  "superlogica_nome": "Cedros do Campo",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "14. ADVERTÊNCIAS E MULTAS",
+    "texto": "14\\. ADVERTÊNCIAS E MULTAS: 14.1. Ao infringir este Regulamento, os associados terão a multa aplicada diretamente.\n\n14.2. No caso de reincidência da infração, ou no caso de uma nova infração, serão dobradas as multas, as quais serão cobradas no boleto junto com as taxas associativas. Os valores das multas definidos pelo conselho foram: para a primeira multa será cobrado o valor de uma taxa associativa; para a segunda multa, serão cobradas duas taxas associativa, e assim sucessivamente. Caso aconteça algo grave, o Conselho (formado pelo Diretor Presidente, Tesoureiro e Conselheiros fiscais) poderá deliberar sobre um valor maior, independentemente da quantidade de multas já aplicadas, ou se o morador possuir ou não advertência anterior ao fato.\n\nDas multas caberá recurso se protocolada na administração o recurso próprio e por escrito, no prazo de 05 dias contados do recebimento do aviso da multa.\n\n15\\. ENTREGAS DE ENCOMENDAS/CORRESPONDÊNCIAS:\n\n15.1. O horário de retirada das correspondências é o seguinte: das 08h00min às 22h00min; 15.2. A portaria não receberá e não armazenará eletrodomésticos de grande porte e materiais para obras 15.3. Entregadores (Delivery): Será permitida o ingresso de entregadores de delivery na associação, desde que o mesmo seja acompanhado pela ronda.\n\n16\\. MUDANÇAS: 16.1. Após emitida a autorização de mudança pela administradora, os horários dever seguidos rigorosamente\n\n16.2. No caso de aquisição de produtos em lojas, entregas de grande porte realizadas pelo próprio morador, o horário deve ser seguido: segunda a sábado das 08h00min às 18h00min.\n\n16.3. Qualquer descumprimento dos horários acarretará multa equivalente a uma taxa Associativa, no caso de reincidência duas taxas associativas, e assim por diante.\n\n17\\. ENTREGA DE CHAVES: 17.1. A…",
+    "fonte": "regimento_literal"
+  },
+  "catalogo_infracoes": {
+    "velocidade_excedida": {
+      "titulo": "Excesso de Velocidade",
+      "fundamento": "5. Da velocidade 5.1.",
+      "palavras_chave": [
+        "velocidade",
+        "carro",
+        "moto",
+        "20 km/h"
+      ],
+      "texto_artigo": "5\\. Da velocidade 5.1. Não é permitido a qualquer pessoa ultrapassar a velocidade de 20 km/h estando sujeita à multa no valor da menor taxa associativa cobrada á época do fato e, no caso de reincidência, a multa será o dobro da menor taxa associativa, e assim sucessivamente.\n\n5.2. O prestador de serviço que exceder a velocidade será suspenso de ingresso com veículo automotor na Associação, por uma semana; em caso de reincidência será multado o associado responsável pelo prestador.\n\n5.3. Desde a infração inicial o Associado será devidamente informado da infração.\n\n6\\. ANIMAIS 6.1."
+    },
+    "animais_soltos_areas_comuns": {
+      "titulo": "Animais Soltos nas Áreas Comuns",
+      "fundamento": "6. ANIMAIS 6.1.",
+      "palavras_chave": [
+        "cachorro",
+        "animal solto",
+        "área comum",
+        "pet"
+      ],
+      "texto_artigo": "6\\. ANIMAIS 6.1. Não é permitido manter animais soltos nas partes comuns da associação, sob pena de multa equivalente a uma taxa associativa vigente, no caso de reincidência a multa será o dobro da taxa associativa, e assim sucessivamente.\n\n6.2. Os animais poderão transitar nas áreas comuns da associação, respeitada as seguintes regras: Os animais deverão sempre estar de coleira e guias."
+    },
+    "dejetos_animais": {
+      "titulo": "Não Recolher Dejetos de Animais",
+      "fundamento": "6. ANIMAIS 6.2.",
+      "palavras_chave": [
+        "fezes",
+        "cachorro",
+        "recolher",
+        "pet"
+      ],
+      "texto_artigo": "Os dejetos dos animais devem ser recolhidos pelos proprietários, sob pena de multa equivalente a uma taxa associativa, no caso de reincidência o dobro da taxa associativa, e assim por sucessivamente. Animais de grande porte obrigatoriamente devem estar sempre com focinheira.\n\nATENÇÃO - NÃO é permitido que animais permaneçam sob supervisão de uma criança menor de 14 anos.\n\n6.3. Caso o animal escape, o mesmo será considerado como sendo manejo seu proprietário nas áreas comuns da Associação. Neste caso, o morador será responsabilizado por seus atos, sob pena de multa equivalente a uma taxa associativa, no caso de reincidência o dobro da taxa associativa, e assim por diante.\n\n6.4. É necessário o cadastro de todos os animais, junto a Portaria.\n\n7\\. USO DO PLAYGROUND\n\n7.1.O playground destina-se à recreação infantil e é de uso exclusivo dos moradores e des seus visitantes (no máximo 06), limitando-se às crianças até 10 anos de idade. Os pais ou responsáveis deverão orientar as crianças no sentido de preservar a área verde e os brinquedos.\n\n7.2. Não será permitida a prática de jogos ou brincadeiras que possam dificultar o uso da área aos demais frequentadores.\n\n7.3. Defeitos nos brinquedos devem ser imediatamente comunicados ao zelador ou ao corpo diretivo da Associação.\n\n7.4. O Associado ou responsável que violar as disposições legais, bem como as contidas neste regulamento, será multado pela Diretoria, além de ser compelido a abster-se do ato praticado, ou ainda a reparar os…"
+    },
+    "subir_arvores": {
+      "titulo": "Subir nas Árvores",
+      "fundamento": "7.5.",
+      "palavras_chave": [
+        "árvore",
+        "criança",
+        "brincadeira",
+        "playground"
+      ],
+      "texto_artigo": "7.5. É proibido subir nas árvores, ficando o morador que o fizer (no caso de crianças, o adulto pais ou anfitrião) responsável por quaisquer acidentes que possam ocorrer e ainda sujeitos a advertências e penalidades, na forma deste regulamento\n\n7.6. Skates, bicicletas, patinetes e/ou similares ficar proibidos de transitar dentro do salão de festas, academia e quiosque da Associação.\n\n8\\. USO DO QUIOSQUE 8.1. A área do quiosque é de uso exclusivo dos moradores, sendo permitida a frequência de visitantes, quando acompanhado dos moradores.\n\n8.2. Devido às dimensões da área dos quiosques, fica limitada a quantia de 20 pessoas por quiosque, incluindo-se menores e crianças.\n\n8.3."
+    },
+    "objetos_vidro_quiosque": {
+      "titulo": "Objetos de Vidro no Quiosque",
+      "fundamento": "8.3.",
+      "palavras_chave": [
+        "garrafa",
+        "vidro",
+        "quiosque",
+        "copo"
+      ],
+      "texto_artigo": "8.3. Não será permitido deixar na área os frascos, copos, garrafas, gêneros alimentícios, etc., em vidro, porcelana, metal ou qualquer outro material que possa atentar contra a segurança dos frequentadores.\n\n8.4. Para fazer uso do quiosque, deverá ser agendada a sua utilização com Zeladoria/Portaria, mediante a assinatura do Termo de Requisição, mínima de 24 horas.\n\n8.5. O Horário de funcionamento: das 09h00min até as 22h00min, de segunda-feira á quinta-feira, e ás sextas, sábados e domingos o horário será das 09h00 até as 00h00min (respeitando sempre as regras de convivência e barulho).\n\n8.6. As desistências deverão ser comunicadas com até 24 horas de antecedência.\n\n9\\. USO DO SALÃO DE FESTAS 9.1. Valor da Locação: Correspondente a 50% (cinquenta por cento) do valor da menor taxa associativa cobrada à época da locação, e será cobrada juntamente conta taxar associativa do mês subsequente ao da locação. Esse valor corresponde à manutenção/limpeza da área, não isentando o associado do recolhimento dos utensílios utilizados, tais como cadeiras, mesas e outros, acondicionando-os dentro do salão até a sua retirada, bem como retirar detritos ou outros objetos e materiais descartáveis, em sacos plásticos adequados e depositando no local destinado ao lixo.\n\n9.2. Será realizada somente uma festa por dia.\n\n9.3. As chaves deverão ser retiradas apenas no dia da festa, a partir das 08h30h e devolvidas na portaria ao final da festa. Havendo necessidade da retirada antes do dia da festa,…"
+    },
+    "musica_apos_horario_salao": {
+      "titulo": "Música Após o Horário no Salão",
+      "fundamento": "9.4.",
+      "palavras_chave": [
+        "som alto",
+        "música",
+        "salão de festas",
+        "horário"
+      ],
+      "texto_artigo": "Após esse horário não será permitido música e somente poderá permanecer no local o anfitrião para limpeza e organização do salão.\n\n9.5. Com relação a locação do espaço nas festas de final de ano, entendendo-se tais datas como natal e ano novo e suas vésperas, as inscrições de reservas para tais datas, deverão ser feitas do primeiro dia útil do mês de dezembro até o dia 08 de dezembro de cada ano. Havendo mais de um pretendente para a mesma data, deverá ser feito um sorteio entre os inscritos, independente da ordem de reserva.\n\n9.6. Uma vez reservado e locado a data da véspera dos dias aprazados, o mesmo proprietário não poderá solicitar a locação para o próprio dia de natal (25/12) e ano novo (01/01).\n\n9.7.O valor da taxa de locação das vésperas e dias de natal e ano novo, corresponderá a 01 taxa associativa integral do respectivo lote.\n\n9.8. Fica determinado que o horário de uso do espaço nas vésperas de natal e ano novo será até as 04h00min da manhã do respectivo dia (dia 25/12 ou 01/01), não sendo permitido música após as 01h00 da manhã e até o horário final determinado, deverá o anfitrião, promover a limpeza e organização do salão, para o uso do próximo locatário.\n\n9.9. Para evitar transtornos, será indicado pela portaria para que os visitantes parem seus veículos na guia demarcada e, no caso de não haver mais vagas, contar-se-á com o bom senso dos proprietários, realocando seus convidados para áreas em que não atrapalhar os demais vizinhos.\n\n10\\. USO DA ACADEMIA 10.1.…"
+    },
+    "visitantes_academia": {
+      "titulo": "Uso da Academia por Visitantes",
+      "fundamento": "10.4.",
+      "palavras_chave": [
+        "academia",
+        "visitante",
+        "convidado",
+        "uso indevido"
+      ],
+      "texto_artigo": "Não será permitida a utilização de visitantes e/ou convidados na academia, com exceção dos profissionais contratados pelo associado.\n\n10.7. A academia será aberta pela administração ás 05h00 e será fechada ás 22h00 Caso um usuário encontre algum problema (dano na academia ou aparelhos), deverá relatar imediatamente ao zelador ou porteiro.\n\n11\\. Quadra Poliesportiva e de Tênis. 11.1. A quadra poliesportiva e de tênis é de uso exclusivo dos moradores, sendo permitida a frequência de visitantes, mediante reserva do local, que deverá ser feita todo dia 01 de cada mês, respeitando a quantidade máxima de 2 reservas por semana\n\n11.2. Cada associado só poderá levar para uso da Quadra Poliesportiva, 12 convidados.\n\n11.3. A quadra tem por finalidade a prática dos esportes específicos à mesma, ou seja, tênis, vôlei, basquete, futebol de salão e handebol.\n\n11.4, fica estabelecido o horário das 8h00min às 22h00min para a sua utilização, devendo sua utilização sempre ser registrada na planilha da portaria.\n\n11.5. UM ÚNICO ESPORTE:\n\nHavendo jogadores na espera, no máximo UMA HORA POR PARTIDA.\n\n11.6. REVEZAMENTOS DE ESPORTES NA QUADRA:\n\nHavendo interessados em jogar outra modalidade, diferente da que estiver sendo jogados, os que estiverem na quadra jogará durante uma hora, devendo os interessados em outro esporte, comunicar aos ocupantes da quadra e ao funcionário encarregado da área de lazer a intenção de praticar outro jogo, com a finalidade de estabelecer a precedência para o…"
+    },
+    "objetos_vidro_quadra": {
+      "titulo": "Objetos de Vidro na Quadra",
+      "fundamento": "11.7.",
+      "palavras_chave": [
+        "garrafa",
+        "vidro",
+        "quadra",
+        "copo"
+      ],
+      "texto_artigo": "11.7. Não será permitido levar à quadra frascos, copos, garrafas, gêneros alimentícios, etc., em vidro, porcelana, metal ou qualquer material possa atentar contra a segurança dos frequentadores. Quando a quadra estiver molhada, podendo ocasionar acidentes, a mesma será fechada.\n\n11.8. DAS PENALIDADES 11.8.1. As penalidades previstas no Regulamento Interno são: I - MULTA; II - SUSPENSÃO.\n\n11.8.2 Determina-se o valor da multa o correspondente ao menor valor cobrado de taxa associativa á época dos fatos, excetuando-se as multas integrais previstas em artigos respectivos.\n\n11.9. O morador que violar as disposições legais, bem como as contidas na Convenção e no presente Regulamento, será multado em uma taxa associativa. Com relação as menores, seus pais ou responsáveis serão contatados para que intervenham visando cessar a irregularidade cometida e caso não compareçam para intervier será lavrada a multa respectiva.\n\nDEMAIS ORIENTAÇÕES GERAIS 12. LIXO:\n\n12.1. O lixo deverá ser armazenado em sacos apropriados, senda, coletado per funcionário da Associação, de segunda á sexta das 09h00 ás 09h30 e aos sábados das 11h00 às 11h30.\n\n12.2."
+    },
+    "lixo_fora_horario": {
+      "titulo": "Lixo Fora do Horário",
+      "fundamento": "12.2.",
+      "palavras_chave": [
+        "lixo",
+        "horário",
+        "coleta",
+        "rua"
+      ],
+      "texto_artigo": "12.2. O lixo só poderá ser colocado na rua, em até no máximo 02 (duas) horas antes do horário da coleta ser retirada, o morador que não respeitar o horário determinado por esse regulamento estará sujeito a multa no valor de uma taxa associativa.\n\n12.3. É permitido ao morador colocar diretamente seu lixo na central de resíduos, sendo- lhe vetado o colocar em qualquer outro lugar da associação, bem como do lado de fora do mesmo.\n\n13\\. LEI ANTIFUMO: 13.1."
+    },
+    "fumar_areas_comuns": {
+      "titulo": "Fumar nas Áreas Comuns",
+      "fundamento": "13.1.",
+      "palavras_chave": [
+        "cigarro",
+        "fumo",
+        "área comum",
+        "academia"
+      ],
+      "texto_artigo": "13\\. LEI ANTIFUMO: 13.1. Não é permitido fumar nas áreas comuns, como salão de festas, varanda do salão de festas e academia. O condômino que o fizer será advertido e multado em uma cota associativa.\n\n13.2. Para os visitantes, serão autuados os associados responsáveis, na forma do item anterior.\n\n14\\. ADVERTÊNCIAS E MULTAS: 14.1. Ao infringir este Regulamento, os associados terão a multa aplicada diretamente.\n\n14.2. No caso de reincidência da infração, ou no caso de uma nova infração, serão dobradas as multas, as quais serão cobradas no boleto junto com as taxas associativas. Os valores das multas definidos pelo conselho foram: para a primeira multa será cobrado o valor de uma taxa associativa; para a segunda multa, serão cobradas duas taxas associativa, e assim sucessivamente. Caso aconteça algo grave, o Conselho (formado pelo Diretor Presidente, Tesoureiro e Conselheiros fiscais) poderá deliberar sobre um valor maior, independentemente da quantidade de multas já aplicadas, ou se o morador possuir ou não advertência anterior ao fato.\n\nDas multas caberá recurso se protocolada na administração o recurso próprio e por escrito, no prazo de 05 dias contados do recebimento do aviso da multa.\n\n15\\. ENTREGAS DE ENCOMENDAS/CORRESPONDÊNCIAS:\n\n15.1. O horário de retirada das correspondências é o seguinte: das 08h00min às 22h00min; 15.2. A portaria não receberá e não armazenará eletrodomésticos de grande porte e materiais para obras 15.3. Entregadores (Delivery): Será permitida o…"
+    },
+    "mudanca_fora_horario": {
+      "titulo": "Mudança/Entrega de Grande Porte Fora do Horário",
+      "fundamento": "16.3.",
+      "palavras_chave": [
+        "mudança",
+        "entrega",
+        "horário",
+        "caminhão"
+      ],
+      "texto_artigo": "16.3. Qualquer descumprimento dos horários acarretará multa equivalente a uma taxa Associativa, no caso de reincidência duas taxas associativas, e assim por diante.\n\n17\\. ENTREGA DE CHAVES: 17.1. A portaria não tem permissão para ficar com chaves de casas e outros pertences de condôminos\n\n17.2. 14.2. As chaves do salão, academia, etc., não serão entregues às crianças e deverão ser devolvidas pelo morador responsável na portaria, mediante a assinatura na referida pasta. Antes de devolvê-las verificar se está tudo fechado corretamente e se as luzes foram todas apagadas.\n\n18, DIFAMAÇÃO/INJÚRIAS 18.1. A portaria não tem permissão para ouvir e/ou resolver problemas pessoais dos Condôminos. Os moradores devem registrar suas reclamações no livro de ocorrências, o qual é constantemente consultado pelo Diretor Presidente (a) e o Zelador da Associação Quando julgar necessário, os moradores também poderão se reportar diretamente a Administradora para quaisquer dúvidas e reclamações.\n\n18.2. Quaisquer ofensas proferidas aos porteiros pelos moradores, ou ofensas que forem proferidas na portaria entre moradores e presenciadas pelos porteiros serão informadas ao Diretor Presidente (a) para que sejam tomadas as devidas providências. Neste caso, os porteiros estão orientados a convidar os moradores para que se retirem da portaria para não constranger os demais moradores. No caso de agressão física, os porteiros estão orientados a acionar a polícia no número 190.\n\n18.3. FUNCIONÁRIOS DA…"
+    },
+    "sujar_ruas_obra": {
+      "titulo": "Sujar as Ruas com Obra",
+      "fundamento": "19.4.2.",
+      "palavras_chave": [
+        "obra",
+        "caminhão",
+        "terra",
+        "sujeira"
+      ],
+      "texto_artigo": "19.4.2. Caso os caminhões de terra ou de serviço do lote sujem as ruas da associação, caberá ao associado realizar a limpeza imediatamente.\n\n19.4.3. O associado que não realizar as práticas acima descritas, estará sujeito a multa no valor de uma taxa associativa vigente e ao pagamento dos custos que a associação terá para realizar a limpeza das vias.\n\n20\\. CONSIDERAÇÕES GERAIS 20.1. Os casos omissos serão solucionados pelo Conselho, ouvida a Assembleia mais oportuna, seja ela ordinária ou extraordinária.\n\n20.2. O presente Regulamento Interno considera-se, desde já, obrigatório, para todos os condôminos, familiares, sub-rogados, sucessores a qualquer título e prepostos, bem como a qualquer ocupante ou cessionário, ainda que eventual, do condomínio ou de qualquer de suas partes e, somente poderá ser modificado, alterado ou substituído em assembleia geral extraordinária, convocada especificamente para esse fim e pelo voto da maioria simples, representada por no mínimo de ¼ (um quarto) de condôminos do total das frações ideais do terreno e presentes à assembleia.\n\n20.3. Fica eleito o foro da comarca de Araraquara, como o competente para dirimir as dúvidas resultantes do presente Regulamento Interno\n\n20.4 O presente Regimento interno é composto de sete (09) laudas digitadas e foi provado nela Assembleia Geral Extraordinária realizada em 29 de Outubro de 2019."
+    }
+  }
+}

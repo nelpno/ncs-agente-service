@@ -5,20 +5,27 @@
   "id_condominio_superlogica": 164,
   "documentos": [
     {
-      "arquivo": "regimento-interno-tivoli.md",
-      "chars": 74783,
-      "secoes_##": 19,
-      "artigos_###": 182
+      "arquivo": "convencao-tivoli.md",
+      "chars": 28819,
+      "secoes_##": 0,
+      "artigos_###": 0
     },
     {
       "arquivo": "estatuto-tivoli.md",
       "chars": 28652,
       "secoes_##": 8,
       "artigos_###": 61
+    },
+    {
+      "arquivo": "regimento-interno-tivoli.md",
+      "chars": 74783,
+      "secoes_##": 19,
+      "artigos_###": 182
     }
   ],
   "gerado_em": "2026-06-18",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente."
+  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 18/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente. | Ingestão 14/07/2026: documento faltante baixado do Drive Grupo NCS (pastas NOVOS / NOVOS (1) / pasta do condomínio), texto via Google Drive read_file_content, salvo verbatim. Para as associações, o ESTATUTO faz o papel da convenção. Revisão humana pendente.",
+  "atualizado_em": "2026-07-14"
 }
