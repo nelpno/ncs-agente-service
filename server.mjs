@@ -1,5 +1,6 @@
 // server.mjs — webhook do Octadesk + chat de teste (/chat) com código de acesso.
 import http from 'node:http';
+import { pathToFileURL } from 'node:url';
 import { config } from './src/config.mjs';
 import { getSession, saveSession } from './src/memory.mjs';
 import { handleTurn } from './src/agent.mjs';
@@ -16,6 +17,68 @@ function parsePayload(p) {
   const fluxo = { botid: p?.botid || p?.botId || p?.bot?.id, componentid: p?.componentid || p?.componentId, roomkey: p?.roomkey || p?.roomKey };
   const sessionKey = String(fluxo.roomkey || chatId || p?.contact?.id || 'anon');
   return { text: typeof text === 'string' ? text : '', chatId, fluxo, sessionKey };
+}
+
+// ── /write/aprovar · /write/rejeitar — executor único de escrita (Onda 1, spec §4.4) ───────────────
+// O Portal (Estagiário) é UI; quem grava é o agente-service. Handlers PUROS (sem req/res do node):
+// recebem o body já parseado + as funções do motor INJETADAS, devolvem {status, json}. Assim dá pra
+// testar sem importar src/write/engine.mjs de verdade (que outro subagente ainda está migrando p/
+// Supabase — aprovarRascunhoPorId pode não existir ainda quando este arquivo é lido).
+export function criarHandlerAprovar({ aprovarRascunhoPorId } = {}) {
+  return async function handlerAprovar(body) {
+    const draftId = body?.draft_id;
+    const aprovador = body?.aprovador;
+    if (!draftId) return { status: 400, json: { ok: false, motivo: 'draft_id_obrigatorio' } };
+    if (!aprovador) return { status: 400, json: { ok: false, motivo: 'aprovador_obrigatorio' } };
+    if (typeof aprovarRascunhoPorId !== 'function') {
+      return { status: 501, json: { ok: false, motivo: 'aprovarRascunhoPorId_indisponivel', detalhe: 'engine.mjs ainda não expõe aprovarRascunhoPorId(draftId, {aprovador, correcoes})' } };
+    }
+    let out;
+    try { out = await aprovarRascunhoPorId(draftId, { aprovador, correcoes: body?.correcoes }); }
+    catch (e) { return { status: 500, json: { ok: false, motivo: 'erro_interno', detalhe: e.message } }; }
+    if (!out || out.ok !== true) {
+      const motivo = out?.motivo || 'falha';
+      const status = motivo === 'nao_encontrado' ? 404
+        : (motivo === 'ja_rejeitado' || motivo === 'expirado') ? 409
+        : motivo === 'invalido' ? 422
+        : motivo === 'erro_gravacao' ? 502
+        : 400;
+      return { status, json: { ok: false, gravado: false, motivo, erros: out?.erros, detalhe: out?.detalhe } };
+    }
+    return { status: 200, json: { ok: true, gravado: !!out.gravado, dryRun: !!out.dryRun, jaGravado: !!out.jaGravado } };
+  };
+}
+
+// Rejeição: o engine hoje só expõe rejeitarRascunho(token, ...) — não há variante por draft_id ainda.
+// Aceita as duas formas: se vier draft_id e o engine já tiver rejeitarRascunhoPorId, usa; senão exige
+// token e usa rejeitarRascunho. Se só vier draft_id e a variante por id não existir, sinaliza a
+// pendência ao chamador (não inventa um comportamento) — ver item de dúvidas/bloqueios no relatório.
+export function criarHandlerRejeitar({ rejeitarRascunhoPorId, rejeitarRascunho } = {}) {
+  return async function handlerRejeitar(body) {
+    const draftId = body?.draft_id;
+    const token = body?.token;
+    const aprovador = body?.aprovador;
+    const motivo = body?.motivo;
+    if (!aprovador) return { status: 400, json: { ok: false, motivo: 'aprovador_obrigatorio' } };
+    let out;
+    try {
+      if (draftId && typeof rejeitarRascunhoPorId === 'function') {
+        out = await rejeitarRascunhoPorId(draftId, { aprovador, motivo });
+      } else if (token && typeof rejeitarRascunho === 'function') {
+        out = await rejeitarRascunho(token, { aprovador, motivo });
+      } else if (draftId) {
+        return { status: 501, json: { ok: false, motivo: 'rejeitarRascunhoPorId_indisponivel', detalhe: 'engine.mjs só expõe rejeitarRascunho(token); passe "token" ou implemente a variante por draft_id' } };
+      } else {
+        return { status: 400, json: { ok: false, motivo: 'draft_id_ou_token_obrigatorio' } };
+      }
+    } catch (e) { return { status: 500, json: { ok: false, motivo: 'erro_interno', detalhe: e.message } }; }
+    if (!out || out.ok !== true) {
+      const m = out?.motivo || 'falha';
+      const status = m === 'nao_encontrado' ? 404 : m === 'ja_gravado' ? 409 : 400;
+      return { status, json: { ok: false, rejeitado: false, motivo: m } };
+    }
+    return { status: 200, json: { ok: true, rejeitado: !!out.rejeitado } };
+  };
 }
 
 const CHAT_HTML = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -128,6 +191,24 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [], drafts: r.drafts || [] });
     }
 
+    // Executor único de escrita (Onda 1 §4.4): o Portal (Estagiário) chama esta rota pra aprovar/rejeitar
+    // um rascunho — quem grava no Superlógica é SEMPRE o agente-service. Rota INTERNA (rede `edge` do VPS,
+    // sem exposição pública via Caddy — mesmo padrão do webhook do adapter Chatwoot). Reusa o guard do
+    // WEBHOOK_SECRET quando setado (defesa extra além do isolamento de rede); não é obrigatório hoje.
+    if (req.method === 'POST' && (req.url === '/write/aprovar' || req.url === '/write/rejeitar')) {
+      if (config.webhookSecret) {
+        const got = req.headers['x-webhook-secret'] || (req.headers['authorization'] || '').replace(/^Bearer /, '');
+        if (got !== config.webhookSecret) return json(res, 401, { ok: false, motivo: 'unauthorized' });
+      }
+      let body = {};
+      try { body = JSON.parse((await readBody(req)) || '{}'); } catch { return json(res, 400, { ok: false, motivo: 'json_invalido' }); }
+      const engine = await import('./src/write/engine.mjs').catch((e) => { console.warn('[srv] import engine.mjs falhou:', e.message); return {}; });
+      const out = req.url === '/write/aprovar'
+        ? await criarHandlerAprovar({ aprovarRascunhoPorId: engine.aprovarRascunhoPorId })(body)
+        : await criarHandlerRejeitar({ rejeitarRascunhoPorId: engine.rejeitarRascunhoPorId, rejeitarRascunho: engine.rejeitarRascunho })(body);
+      return json(res, out.status, out.json);
+    }
+
     // webhook Octadesk
     if (req.method !== 'POST' || !req.url.startsWith('/webhook')) return json(res, 404, { erro: 'not found' });
     if (config.webhookSecret) {
@@ -153,4 +234,20 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, { reply: 'Tive um problema aqui, vou te encaminhar para um atendente.', erro: true });
   }
 });
-server.listen(config.port, () => console.log(`[ncs-agente] ouvindo :${config.port} | modelo ${config.agentModel} | dryRun=${config.dryRunWrites} | chat=${config.chatPasscode ? 'on' : 'off'}`));
+// Guard de entrypoint (mesmo padrão do adapter Chatwoot): importar este arquivo num teste NÃO sobe o
+// server nem o worker do outbox — só `node server.mjs` direto (é o CMD do Dockerfile) faz o boot real.
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isMain) {
+  server.listen(config.port, async () => {
+    console.log(`[ncs-agente] ouvindo :${config.port} | modelo ${config.agentModel} | dryRun=${config.dryRunWrites} | chat=${config.chatPasscode ? 'on' : 'off'}`);
+    // Worker do outbox de notificações (Onda 1 §4.3): defensivo — se src/outbox.mjs ainda não existir
+    // ou falhar ao iniciar, não derruba o boot do server (o /webhook e o /chat continuam no ar).
+    try {
+      const { startOutboxWorker } = await import('./src/outbox.mjs');
+      if (typeof startOutboxWorker === 'function') { startOutboxWorker(); console.log('[ncs-agente] outbox worker iniciado'); }
+      else console.warn('[ncs-agente] outbox.mjs presente mas sem startOutboxWorker() — worker não iniciado');
+    } catch (e) {
+      console.warn('[ncs-agente] outbox worker não iniciado (módulo ausente/erro):', e.message);
+    }
+  });
+}

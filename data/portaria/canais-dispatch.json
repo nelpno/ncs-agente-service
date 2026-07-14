@@ -1,0 +1,26 @@
+{
+  "_fonte": "Vídeos da recepção + feedback do Fernando (11/07/2026) + revisão Fable. CHAVEADO POR tipo_portaria (Humana/Virtual/Hibrida), NÃO por sistema de acesso. MULTI-DESTINO: o síndico recebe SEMPRE. 'Shielder' é o app de ACESSO, não o canal do aviso.",
+  "_nota_contatos": "Os ENDEREÇOS (zap do síndico, JID do grupo da portaria, e-mail da portaria remota, contatos das 'pessoas') vivem em condominio_contatos.json (a preencher com o Fernando). Aqui ficam só as REGRAS de destino + endereços de SISTEMA já conhecidos.",
+  "defaults_por_tipo": {
+    "Humana":  [ { "papel": "portaria", "canal": "zap_grupo" },      { "papel": "sindico", "canal": "zap_individual" } ],
+    "Virtual": [ { "papel": "portaria", "canal": "email" },          { "papel": "sindico", "canal": "zap_individual" } ],
+    "Hibrida": [ { "papel": "portaria", "canal": "zap_grupo" },      { "papel": "sindico", "canal": "zap_individual" } ]
+  },
+  "excecoes_sistema": {
+    "GatWay":          [ { "papel": "sindico", "canal": "zap_individual" } ],
+    "Synnus":          [ { "papel": "portaria", "canal": "zap_individual", "via": "zeladora" }, { "papel": "sindico", "canal": "zap_individual" } ],
+    "Portaria Synnus": [ { "papel": "portaria", "canal": "zap_individual", "via": "zeladora" }, { "papel": "sindico", "canal": "zap_individual" } ]
+  },
+  "enderecos_sistema": {
+    "Alarm System": { "portaria_email": "portaria@alarmsystem.com.br" }
+  },
+  "overrides_condominio": {
+    "atlanta": [ { "papel": "portaria", "canal": "zap_individual", "via": "Tiago (gerente operacional/zelador)" }, { "papel": "sindico", "canal": "zap_individual" } ],
+    "flores":  [ { "papel": "portaria", "canal": "email", "via": "síndica" }, { "papel": "sindico", "canal": "zap_individual" } ]
+  },
+  "_pendencias_a_confirmar_com_fernando": {
+    "hibrida": "regra de aviso p/ tipo_portaria Hibrida (ex.: Garden Place) — default por ora = como Humana",
+    "gatway_sindico": "Fernando aprovou 'não avisar a portaria' no GatWay; confirmar se o síndico ainda recebe (default por ora = SIM)",
+    "contatos": "zap do síndico + JID do grupo da portaria por condomínio (Fernando levanta)"
+  }
+}

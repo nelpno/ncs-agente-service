@@ -11,11 +11,13 @@ import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, rateLoginIp, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
-import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao } from "./src/usuarios.mjs";
+import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao, definirPodeAprovar } from "./src/usuarios.mjs";
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
 import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
+import { podeVerAprovacoes, listarPendentes as listarAprovacoesPendentes, aprovar as aprovarDraft, rejeitar as rejeitarDraft } from "./src/aprovacoes.mjs"; // aba Aprovações (spec Onda 1 §4.4)
+import { podeVerPendencias, listarPendentes as listarNotificacoesPendentes } from "./src/pendencias.mjs"; // aba Pendências / outbox (spec Onda 1 §4.3)
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // cache-busting: versiona os links de /assets pelo hash do app.css → mudança de visual aparece na hora (sem limpar cache)
@@ -24,6 +26,8 @@ const ver = (s) => s.replace(/(\/assets\/[\w.-]+)/g, `$1?v=${ASSET_VER}`);
 const CHAT_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "chat.html"), "utf8"));
 const LOGIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "login.html"), "utf8"));
 const ADMIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "admin.html"), "utf8"));
+const APROVACOES_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "aprovacoes.html"), "utf8"));
+const PENDENCIAS_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "pendencias.html"), "utf8"));
 const PORT = parseInt(process.env.PORT || "8090", 10);
 const COOKIE = "ncs_sess";
 const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
@@ -173,7 +177,7 @@ const server = http.createServer(async (req, res) => {
 
     // ---------- GUARDA (tudo abaixo exige sessão) ----------
     const sess = await carregarSessao(parseCookies(req)[COOKIE], porId);
-    const isPage = req.method === "GET" && (url === "/" || url === "/chat" || url === "/admin");
+    const isPage = req.method === "GET" && (url === "/" || url === "/chat" || url === "/admin" || url === "/aprovacoes" || url === "/pendencias");
     if (!sess) {
       if (isPage) return redirect(res, "/login");
       return json(res, 401, { erro: "não autenticado" }); // API (/chat-send, /doc/, /api/*) → 401
@@ -189,8 +193,8 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, { ok: true });
     }
 
-    // "quem sou eu" — o chat usa pra decidir se mostra o link do Painel; devolve só nome/papel do próprio usuário
-    if (req.method === "GET" && url === "/api/me") return json(res, 200, { nome: sess.nome, papel: sess.papel });
+    // "quem sou eu" — as telas usam pra decidir quais itens de nav mostrar; nunca vaza email/id
+    if (req.method === "GET" && url === "/api/me") return json(res, 200, { nome: sess.nome, papel: sess.papel, podeAprovar: sess.podeAprovar });
 
     // download da minuta/relatório gerado — AGORA protegido por sessão (era aberto)
     if (req.method === "GET" && url.startsWith("/doc/")) {
@@ -205,6 +209,54 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "GET" && (url === "/" || url === "/chat")) return html(res, 200, CHAT_HTML);
+
+    // ---------- Aprovações (spec Onda 1 §4.4) — Portal é UI; quem GRAVA é o executor único (agente-service) ----------
+    // A página em si é servida pra qualquer sessão válida (mesmo padrão do /admin: o acesso de
+    // verdade é decidido pela API abaixo, que devolve 403 e a tela mostra "sem permissão").
+    if (req.method === "GET" && url === "/aprovacoes") return html(res, 200, APROVACOES_HTML);
+
+    if (req.method === "GET" && url === "/api/aprovacoes") {
+      if (!podeVerAprovacoes(sess)) return json(res, 403, { erro: "acesso restrito" });
+      try {
+        const itens = await listarAprovacoesPendentes();
+        return json(res, 200, { itens });
+      } catch (e) {
+        console.error("[chat-ncs] aprovacoes list:", e.message);
+        return json(res, 502, { erro: "não foi possível carregar as aprovações agora" });
+      }
+    }
+
+    const mDecisao = url.match(/^\/api\/aprovacoes\/([^/]{1,64})\/(aprovar|rejeitar)$/);
+    if (req.method === "POST" && mDecisao) {
+      if (!podeVerAprovacoes(sess)) return json(res, 403, { erro: "acesso restrito" });
+      if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+      const [, draftId, acao] = mDecisao;
+      const d = JSON.parse((await readBody(req, 4_000)) || "{}");
+      // identidade de quem decidiu — SEMPRE da sessão (nunca do body, senão dava pra forjar o aprovador)
+      const aprovador = { user_id: sess.uid, nome: sess.nome, papel: sess.papel };
+      try {
+        const executar = acao === "aprovar" ? aprovarDraft : rejeitarDraft;
+        const out = await executar({ draftId: decodeURIComponent(draftId), aprovador, motivo: d.motivo || null });
+        return json(res, 200, { ok: true, resultado: out });
+      } catch (e) {
+        console.error(`[chat-ncs] aprovacoes ${acao}:`, e.message);
+        return json(res, 502, { erro: "não foi possível concluir agora. Tente de novo." });
+      }
+    }
+
+    // ---------- Pendências (outbox de notificações, spec Onda 1 §4.3) — fila SÓ LEITURA ----------
+    if (req.method === "GET" && url === "/pendencias") return html(res, 200, PENDENCIAS_HTML);
+
+    if (req.method === "GET" && url === "/api/pendencias") {
+      if (!podeVerPendencias(sess)) return json(res, 403, { erro: "acesso restrito" });
+      try {
+        const itens = await listarNotificacoesPendentes();
+        return json(res, 200, { itens });
+      } catch (e) {
+        console.error("[chat-ncs] pendencias list:", e.message);
+        return json(res, 502, { erro: "não foi possível carregar as pendências agora" });
+      }
+    }
 
     if (req.method === "POST" && url === "/chat-send") {
       if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
@@ -260,8 +312,8 @@ const server = http.createServer(async (req, res) => {
         usersRaw.forEach((u) => { nomes[u.id] = u.nome; papeis[u.id] = u.papel; });
         const resumo = resumoPeriodo(rows, process.env);
         if (!isOwner) delete resumo.custoBRL; // admin cliente não vê o total em R$
-        const equipe = usersRaw.map((u) => ({ id: u.id, nome: u.nome, email: u.email, papel: u.papel, ativo: u.ativo, ultimo_acesso: u.ultimo_acesso, convitePendente: !!u.convite_token_hash }));
-        return json(res, 200, { desde, isOwner, me: { nome: sess.nome, papel: sess.papel }, resumo, tags: porTag(rows), condominios: porCondominio(rows), pessoas: porPessoa(rows, process.env, { comCusto: isOwner, nomes, papeis }), equipe });
+        const equipe = usersRaw.map((u) => ({ id: u.id, nome: u.nome, email: u.email, papel: u.papel, ativo: u.ativo, ultimo_acesso: u.ultimo_acesso, convitePendente: !!u.convite_token_hash, podeAprovar: !!u.pode_aprovar }));
+        return json(res, 200, { desde, isOwner, me: { nome: sess.nome, papel: sess.papel, podeAprovar: sess.podeAprovar }, resumo, tags: porTag(rows), condominios: porCondominio(rows), pessoas: porPessoa(rows, process.env, { comCusto: isOwner, nomes, papeis }), equipe });
       }
 
       if (req.method === "POST" && url === "/api/admin/usuarios") {
@@ -290,6 +342,19 @@ const server = http.createServer(async (req, res) => {
         }
         if (acao === "ativar") { await reativar(id); return json(res, 200, { ok: true }); }
         if (acao === "reenviar") { return json(res, 200, { ok: true, link: linkConvite(req, await regenerarConvite(id)) }); }
+      }
+
+      // liga/desliga a aba Aprovações da pessoa (spec Onda 1 §4.4) — mesmo guard owner/admin acima
+      const mPA = url.match(/^\/api\/admin\/usuarios\/([0-9a-fA-F-]{36})\/pode_aprovar$/);
+      if (req.method === "POST" && mPA) {
+        if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+        const [, id] = mPA;
+        const target = await porId(id);
+        if (!target) return json(res, 404, { erro: "usuário não encontrado" });
+        if (target.papel === "owner" && !isOwner) return json(res, 403, { erro: "só o dono gerencia o dono" });
+        const d = JSON.parse((await readBody(req, 4_000)) || "{}");
+        await definirPodeAprovar(id, !!d.valor);
+        return json(res, 200, { ok: true, podeAprovar: !!d.valor });
       }
 
       return json(res, 404, { erro: "not found" });

@@ -14,8 +14,12 @@ create table if not exists usuarios (
   convite_token_hash text,                      -- só o hash; null após ativar
   convite_expira timestamptz,
   ultimo_acesso timestamptz,
-  criado_em timestamptz not null default now()
+  criado_em timestamptz not null default now(),
+  pode_aprovar boolean not null default false   -- Onda 1 (design 2026-07-11 §4.4): abre a aba "Aprovações" no Portal.
+                                                 -- Sem RBAC — é um único flag; liga/desliga por owner/admin no painel gestão.
 );
+-- idempotente: cobre banco que já tinha `usuarios` sem a coluna (a coluna já existe no Supabase do NCS).
+alter table usuarios add column if not exists pode_aprovar boolean not null default false;
 
 create table if not exists interacoes (
   id uuid primary key default gen_random_uuid(),
@@ -45,3 +49,7 @@ create index if not exists interacoes_data on interacoes (criado_em);
 alter table usuarios enable row level security;
 alter table interacoes enable row level security;
 revoke all on usuarios, interacoes from anon, authenticated;
+
+-- NOTA (Onda 1, design 2026-07-11 §4.3/§4.4): `escrita_drafts` e `notificacoes` são do MESMO
+-- Supabase (dcirzddyoctxugfowvob), mas a tabela/migração é OWNED pelo agente-service (não por
+-- este schema — o Portal só LÊ, nunca cria/altera). Ver estagiario/src/{aprovacoes,pendencias}.mjs.

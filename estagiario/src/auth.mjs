@@ -112,12 +112,15 @@ export function rateLoginIp(ip) {
 
 // ---------- guarda de sessão ----------
 // Verifica o cookie, busca o usuário FRESCO no banco e confere ativo + sessao_versao.
-// `buscarPorId(uid) => usuario|null` (async). Retorna { uid, papel, nome } ou null.
+// `buscarPorId(uid) => usuario|null` (async). Retorna { uid, papel, nome, podeAprovar } ou null.
+// `podeAprovar` (spec §4.4) vem do banco A CADA request (igual `papel`) — revogar o toggle no
+// admin.html já tranca a aba Aprovações no PRÓXIMO request, sem precisar bump de sessao_versao
+// (esse campo só derruba o cookie inteiro; não é necessário aqui porque não há credencial em jogo).
 export async function carregarSessao(cookie, buscarPorId) {
   const o = verificarCookie(cookie);
   if (!o || !o.uid) return null;
   const u = await buscarPorId(o.uid);
   if (!u || !u.ativo) return null;
   if (Number(u.sessao_versao) !== Number(o.sv)) return null; // reset/reativação derruba cookies antigos
-  return { uid: u.id, papel: u.papel, nome: u.nome, sv: Number(u.sessao_versao) };
+  return { uid: u.id, papel: u.papel, nome: u.nome, sv: Number(u.sessao_versao), podeAprovar: !!u.pode_aprovar };
 }

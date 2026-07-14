@@ -1,0 +1,421 @@
+{
+  "_fonte": "Excel \"GRUPO DE WHATSAPP - PORTARIA\" (Natanael, 13/07/2026) + seeds 13/07. sindico_whatsapp=TELEFONE SINDICOS; portaria_tem_grupo=coluna GRUPO PORTARIA (JID @g.us AINDA a capturar adicionando o nº de avisos ao grupo); portaria_email quando remota. _tel_suspeito=telefone repetido em vários condos (revisar com o Natanael).",
+  "_schema_por_condo": {
+    "sindico_nome": "",
+    "sindico_whatsapp": "55...",
+    "portaria_grupo_jid": "@g.us (a capturar)",
+    "portaria_email": "",
+    "pessoa_nome": "",
+    "pessoa_whatsapp": "",
+    "pessoa_email": ""
+  },
+  "condominios": {
+    "alto-da-boa-vista": {
+      "sindico_nome": "MÁRCIA NEIDE FURLAN DE MELO",
+      "sindico_whatsapp": "5516996217929",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "allure": {
+      "sindico_nome": "WILMAR ALVES LIMA",
+      "sindico_whatsapp": "5516997610549",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "residencial-piemonte": {
+      "sindico_nome": "CLAUDINEI BELISÁRIO DE SILVA",
+      "sindico_whatsapp": "5516981555279",
+      "portaria_email": "portaria24piemonte@gmail.com",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": "Shielder"
+    },
+    "reserva-do-campo": {
+      "sindico_nome": "CLAUDIO EDUARDO FERREIRA",
+      "sindico_whatsapp": "5516997736533",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": "Shielder"
+    },
+    "altos-do-jaragua": {
+      "sindico_nome": "ÂNGELA CHRISTINA RODRIGUES LEONARDI",
+      "sindico_whatsapp": "5516997707798",
+      "pessoa_whatsapp": "5516997340313",
+      "_grupo_raw": "16 99734-0313",
+      "_empresa": "Shielder"
+    },
+    "summertime": {
+      "sindico_nome": "FABRÍCIO MEIRELES MONTEIRO",
+      "sindico_whatsapp": "5516997169398",
+      "_grupo_raw": "não- geralmente aviso o sindico",
+      "_empresa": "Shielder"
+    },
+    "acacias-i": {
+      "sindico_nome": "OTEMAR GEBIN SBAGLIA",
+      "sindico_whatsapp": "5516997870197",
+      "_grupo_raw": "não- aviso o presidente",
+      "_empresa": "Shielder"
+    },
+    "atlanta": {
+      "sindico_nome": "CELINA  LUCIA CAVALINI SANTESSO GARRIDO",
+      "sindico_whatsapp": "5516999919877",
+      "portaria_email": "diretoriapatlanta@gmail.com",
+      "_grupo_raw": "não- geralmente aviso o sindico",
+      "_empresa": "Shielder",
+      "pessoa_nome": "Tiago (gerente operacional/zelador)",
+      "pessoa_whatsapp": "5516994411154"
+    },
+    "sg-cedros-do-campo": {
+      "sindico_nome": "VLADMIR ALVIM VIEIRA MAGALHAES",
+      "sindico_whatsapp": "5516997281020",
+      "portaria_email": "cedrosdocampo@gmail.com",
+      "_grupo_raw": "salto cedros",
+      "_empresa": "Shielder"
+    },
+    "magnolias": {
+      "sindico_nome": "ANA CAROLINA SIGOLO MADURO",
+      "sindico_whatsapp": "5516981132633",
+      "portaria_email": "condmagnolias1@hotmail.com",
+      "pessoa_whatsapp": "5516997882539",
+      "_grupo_raw": "zap portaria 16 99788-2539",
+      "_empresa": "Shielder"
+    },
+    "salto-grande-i": {
+      "sindico_nome": "RENATA BERNARDI BOSCHIERO",
+      "sindico_whatsapp": "5516997770168",
+      "portaria_email": "sg1.zeladoria@gmail.com",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": "Shielder"
+    },
+    "salto-grande-iii": {
+      "sindico_nome": "IZAQUE CESAR TAMPELLINI",
+      "sindico_whatsapp": "5516981735885",
+      "portaria_email": "saltograndeiii@gmail.com",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": "Shielder"
+    },
+    "nascente-do-jaragua": {
+      "sindico_nome": "HELOISA HELENA CHAVES TAHA",
+      "sindico_whatsapp": "5516997078789",
+      "_grupo_raw": "aviso a presidente",
+      "_empresa": "Gatway"
+    },
+    "tivoli": {
+      "sindico_nome": "GILSANDRO DE OLIVEIRA",
+      "sindico_whatsapp": "5516997988696",
+      "portaria_email": "portariativoliara@gmail.com",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "attuale": {
+      "sindico_nome": "LEANDRO ROCHA ALVES",
+      "sindico_whatsapp": "5516981236944",
+      "portaria_email": "portariaattuale@outlook.com",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "cocisa-3": {
+      "sindico_nome": "CARLOS HENRIQUE GALLUPI",
+      "sindico_whatsapp": "5516996233486",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": null
+    },
+    "cdhu": {
+      "sindico_nome": "ANILA APARECIDA DA SILVA",
+      "sindico_whatsapp": "5516997628508",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": null
+    },
+    "barbieri": {
+      "sindico_nome": "DURVAL SCUTARI JUNIOR",
+      "sindico_whatsapp": "5516997825520",
+      "portaria_email": "condominiobarbieriedfbarbierii@gmail.com",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": "Shielder"
+    },
+    "angelo-smirne": {
+      "sindico_nome": "CARLOS ALBERTO BONANI",
+      "sindico_whatsapp": "5516997831980",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": "Gatway"
+    },
+    "aristocrata": {
+      "sindico_nome": "DANIEL ANTÔNIO NUNES DE MENDONÇA",
+      "sindico_whatsapp": "5516996285367",
+      "_grupo_raw": "aviso o Daniel",
+      "_empresa": "Alarm System"
+    },
+    "city-center": {
+      "sindico_nome": "ROSÂNGELA APARECIDA GARCIA DE LIMA",
+      "sindico_whatsapp": "5516997660043",
+      "_grupo_raw": "aviso  zeladora",
+      "_empresa": "Alarm System"
+    },
+    "dom-pedro": {
+      "sindico_nome": "HELOISA ROSA DO NASCIMENTO",
+      "sindico_whatsapp": "5516997746660",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "Nada",
+      "_empresa": null
+    },
+    "monte-carlo": {
+      "sindico_nome": "CARLOS HENRIQUE AIELLO",
+      "sindico_whatsapp": "5516997666023",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "TW Virtua"
+    },
+    "casablanca": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "TW Virtua",
+      "_sindico_multi_condominios": true
+    },
+    "park": {
+      "sindico_nome": "MARIA TEREZA DE PAULA CARDILI",
+      "sindico_whatsapp": "5516991565945",
+      "_grupo_raw": "aviso a sindica",
+      "_empresa": null
+    },
+    "rosas-de-ouro": {
+      "sindico_nome": "FLAVIANE TOZATTI DA COSTA OLIVEIRA",
+      "sindico_whatsapp": "5516997334866",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": null
+    },
+    "roseiras-ii": {
+      "sindico_nome": "CARLOS ALBERTO PIRES",
+      "sindico_whatsapp": "5516997952114",
+      "_grupo_raw": "aviso o sindico",
+      "_empresa": null
+    },
+    "san-marco": {
+      "sindico_nome": "HEBERT FERNANDES DOS SANTOS",
+      "sindico_whatsapp": "5516997269787",
+      "_grupo_raw": "aviso a zeladora",
+      "_empresa": null
+    },
+    "shop-do-carmo": {
+      "sindico_nome": "ELIANE SOUZA FERREIRA",
+      "sindico_whatsapp": "5516997382936",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": null,
+      "_sindico_multi_condominios": true
+    },
+    "flores": {
+      "sindico_nome": "JULIANA CRISTINA BRANDI",
+      "sindico_whatsapp": "5516988176413",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": "Shielder",
+      "portaria_email": "crf.aqa@gmail.com",
+      "_obs": "2º e-mail p/ cópia: simone@camelo.com.br"
+    },
+    "residencial-das-paineiras": {
+      "sindico_nome": "MARIA LUISA NEVES PRANDO",
+      "sindico_whatsapp": "5516997019336",
+      "_grupo_raw": "aviso a Lais",
+      "_empresa": null
+    },
+    "garden-place": {
+      "sindico_nome": "CESAR ALEXANDRE SARTORI",
+      "sindico_whatsapp": "5516999645310",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": "Shielder"
+    },
+    "mayorca": {
+      "sindico_nome": "EDUARDO FABRICIO DE ANDRADE",
+      "sindico_whatsapp": "5516997012866",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": null
+    },
+    "riacho-doce": {
+      "sindico_nome": "CONCEIÇÃO APARECIDA MONTOVANI",
+      "sindico_whatsapp": "5516997239663",
+      "_grupo_raw": "aviso a sindica",
+      "_empresa": "Shielder"
+    },
+    "sevilha": {
+      "sindico_nome": "FÁBIO HENRIQUE BARBIERI",
+      "sindico_whatsapp": "5516981448723",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "nada",
+      "_empresa": null
+    },
+    "aracaju": {
+      "sindico_nome": "ANA CÂNDIDA BARBIERI LAMANTE CARRASCOZA",
+      "sindico_whatsapp": "5516981161822",
+      "_grupo_raw": "aviso a zeladora",
+      "_empresa": "Gatway",
+      "pessoa_nome": "Amanda (zeladora)",
+      "pessoa_whatsapp": "5516997951056"
+    },
+    "vancouver": {
+      "sindico_nome": "MARIA DE FÁTIMA DOS SANTOS",
+      "sindico_whatsapp": "5516981427779",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "vale-supremo": {
+      "sindico_nome": "GABRIEL PEREIRA DA SILVA",
+      "sindico_whatsapp": "5516981194073",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "haddad": {
+      "sindico_nome": "ADRIANA PIRES DE PAULO",
+      "sindico_whatsapp": "5516997933050",
+      "_grupo_raw": "aviso a sindica",
+      "_empresa": "Shielder"
+    },
+    "jatiuca": {
+      "sindico_nome": "CAROLINE MERONHA DE LIMA",
+      "sindico_whatsapp": "5514997941871",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": null
+    },
+    "mario-de-andrade": {
+      "sindico_nome": "ANA LIRDE JAFELICE",
+      "sindico_whatsapp": "5516981693922",
+      "_grupo_raw": "a sindica que faz todo o cadastro ou verifica com a vitoria",
+      "_empresa": "Shielder"
+    },
+    "triade": {
+      "sindico_nome": "JOSÉ ANTÔNIO DINIZ JUNQUEIRA NETO",
+      "sindico_whatsapp": "5517997928521",
+      "_grupo_raw": "zap triade",
+      "_empresa": "Alarm System"
+    },
+    "royal-garden": {
+      "sindico_nome": "MÔNICA AQUINO CLEMENTE",
+      "sindico_whatsapp": "5516988280007",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Gatway"
+    },
+    "five": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "_grupo_raw": "zap zeladora",
+      "_empresa": "Alarm System",
+      "_sindico_multi_condominios": true
+    },
+    "lharmonie": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "lume": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "monet": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "moove": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "amarige": {
+      "sindico_nome": "ELIANE SOUZA FERREIRA",
+      "sindico_whatsapp": "5516997382936",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Gatway",
+      "_sindico_multi_condominios": true
+    },
+    "parque-dos-trilhos": {
+      "sindico_nome": "WASHINGTON LUIZ PINTO DE SOUZA E SILVA",
+      "sindico_whatsapp": "5516997847707",
+      "_grupo_raw": "avisar sindico",
+      "_empresa": "TW Virtua"
+    },
+    "vida-plena": {
+      "sindico_nome": "ALEXANDRE AUGUSTO SCALISE",
+      "sindico_whatsapp": "5516997689249",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "vila-rio-preto": {
+      "sindico_nome": "EDINALDO RAIMUNDO DA SILVA",
+      "sindico_whatsapp": "5516996059993",
+      "portaria_tem_grupo": false,
+      "_grupo_raw": "não",
+      "_empresa": null
+    },
+    "abbocato": {
+      "sindico_nome": "DIEGO FERNANDO DÓRIA",
+      "sindico_whatsapp": "5516997766412",
+      "portaria_email": "portaria.abbocato@gmail.com",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "vistas-botanico-cedros": {
+      "sindico_nome": "ANDRE LUIZ SANTIAGO DE OLIVEIRA",
+      "sindico_whatsapp": "5516997334698",
+      "portaria_email": "zelador.cedros@gmail.com",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "ipe-roxo": {
+      "sindico_nome": "ELIANE SOUZA FERREIRA",
+      "sindico_whatsapp": "5516997382936",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder",
+      "_sindico_multi_condominios": true
+    },
+    "pairas": {
+      "sindico_nome": "MARIANA LETICIA FERREIRA BRITO SILVA ALBERTO",
+      "sindico_whatsapp": "5516988392312",
+      "portaria_tem_grupo": true,
+      "_grupo_raw": "sim",
+      "_empresa": "Shielder"
+    },
+    "pracas-do-sol": {
+      "sindico_nome": "EDUARDO CORREA DA SILVA JUNIOR",
+      "sindico_whatsapp": "5516992008025",
+      "_grupo_raw": "tem grupo da portaria mas só cadastro no shielder",
+      "_empresa": "Shielder"
+    }
+  }
+}

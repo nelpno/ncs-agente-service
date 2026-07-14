@@ -86,12 +86,17 @@ function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
   tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
 })();
 document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
-// perfil do usuário logado + acesso ao painel (o link só aparece p/ owner/admin)
+// perfil do usuário logado + itens de gestão (Painel/Aprovações/Pendências — cada um só aparece p/ quem tem acesso)
 fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():null;}).then(function(me){
   if(!me)return;
   if(me.nome){document.getElementById('uname').textContent=me.nome;
     document.getElementById('av').textContent=(me.nome.split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('')||'–').toUpperCase();}
-  if(me.papel==='owner'||me.papel==='admin')document.getElementById('navgestao').style.display='flex';
+  var nav=document.getElementById('navgestao');clear(nav);
+  var isGestao=me.papel==='owner'||me.papel==='admin';
+  if(isGestao)nav.appendChild(el('a',{class:'nav-item',href:'/admin'},[el('span',{class:'ic',text:'📊'}),document.createTextNode(' Painel de uso')]));
+  if(me.podeAprovar)nav.appendChild(el('a',{class:'nav-item',href:'/aprovacoes'},[el('span',{class:'ic',text:'✅'}),document.createTextNode(' Aprovações')]));
+  if(me.podeAprovar||isGestao)nav.appendChild(el('a',{class:'nav-item',href:'/pendencias'},[el('span',{class:'ic',text:'📋'}),document.createTextNode(' Pendências')]));
+  if(nav.children.length)nav.style.display='flex';
 }).catch(function(){});
 // menu ☰ (mobile): abre/fecha a barra lateral como gaveta
 var _app=document.querySelector('.app');

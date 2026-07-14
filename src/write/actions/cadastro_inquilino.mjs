@@ -2,6 +2,7 @@
 import { registerAction } from '../registry.mjs';
 import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
 import { slPut as _slPut } from '../../superlogica_write.mjs';
+import { enfileirarAvisos } from '../../outbox.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
@@ -95,4 +96,26 @@ function render(d, snap) {
   };
 }
 
-Object.assign(cadastroInquilino, { checarConflito, snapshot, gravar, render });
+// posGravar — side-effects APÓS o cadastro gravar. Enfileira o aviso no outbox (spec Onda 1 §4.3); não envia
+// aqui, só grava a pendência (o worker do outbox entrega). Precisa do NOME do condomínio (dados.condominio_nome,
+// informado pela Ana) — sem nome, o plano fica sem resolver e o outbox devolve enfileirados:0.
+// ⚠️ draftId: o engine chama posGravar(dados,{dryRun}) SEM passar o id do draft (piloto) → dados.__draftId
+// fica undefined/null na prática; a linha em `notificacoes` nasce com draft_id:null. Documentado, não é bug —
+// vira relevante quando o Portal quiser cruzar notificação↔draft (Onda futura).
+// Async e defensivo: o engine.mjs já embrulha posGravar em try/catch, mas nunca deve lançar por conta própria.
+async function posGravar(dados) {
+  try {
+    const aviso = await enfileirarAvisos({
+      evento: 'cadastro',
+      condominio: dados.condominio_nome,
+      ator: { nome: dados.nome, papel: dados.papel || 'inquilino', unidade: dados.unidade_label, telefone: dados.telefone },
+      draftId: dados.__draftId || null,
+    });
+    return { aviso };
+  } catch (e) {
+    console.warn('[cadastro_inquilino] posGravar falhou (defensivo, não derruba a gravação):', e.message);
+    return { aviso: { ok: false, motivo: 'erro_posgravar', detalhe: e.message, enfileirados: 0, pendente_humano: 0 } };
+  }
+}
+
+Object.assign(cadastroInquilino, { checarConflito, snapshot, gravar, render, posGravar });

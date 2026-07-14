@@ -95,6 +95,14 @@ export async function criarComSenha({ nome, email, papel = "funcionario", senha 
 export async function listar(db = realDb) {
   return db.sbSelect(
     "usuarios",
-    "select=id,nome,email,papel,ativo,ultimo_acesso,convite_token_hash,convite_expira,criado_em&order=criado_em.asc",
+    "select=id,nome,email,papel,ativo,ultimo_acesso,convite_token_hash,convite_expira,criado_em,pode_aprovar&order=criado_em.asc",
   );
+}
+
+// Liga/desliga o campo `pode_aprovar` (spec §4.4) — quem gerencia é owner/admin no painel gestão
+// (mesmo guard de acesso das outras ações de usuário no server.mjs). Sem sessao_versao aqui: a
+// sessão já relê o usuário fresco a cada request (ver carregarSessao em auth.mjs), então o efeito
+// é imediato no próximo request sem precisar derrubar o login da pessoa.
+export async function definirPodeAprovar(id, valor, db = realDb) {
+  return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, { pode_aprovar: !!valor });
 }

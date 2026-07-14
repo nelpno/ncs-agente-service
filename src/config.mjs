@@ -35,6 +35,11 @@ export const config = {
   // Redis (memória persistente de sessão)
   redisUrl: env.REDIS_URL || '',
   sessionTtlS: parseInt(env.SESSION_TTL_S || '172800', 10),
+  // Supabase dedicado do NCS (mesmo do Estagiário) — motor de escritas/outbox/contatos (Onda 1).
+  // Vazio => módulos caem no fallback Redis/in-memory (DRY_RUN local, testes offline).
+  supabaseUrl: env.SUPABASE_URL || '',
+  supabaseServiceKey: env.SUPABASE_SERVICE_KEY || '',
+  sbTimeoutMs: parseInt(env.SB_TIMEOUT_MS || '15000', 10),
   // --- Motor de escritas ---
   auditLogPath: env.AUDIT_LOG_PATH || './.data/audit/escritas.jsonl',
   approvalPasscode: env.APPROVAL_PASSCODE || env.CHAT_PASSCODE || '',

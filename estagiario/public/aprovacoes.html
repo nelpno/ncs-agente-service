@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('ncs_theme')==='dark'?'dark':'light');</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aprovações — NCS</title>
+<link rel="stylesheet" href="/assets/app.css">
+<style>
+  #lista{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+  .draft{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:16px 18px}
+  .draft .dh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .draft .acao{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--olive-ink)}
+  .draft .grow{flex:1}
+  .draft dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:8px 0;font-size:13.5px}
+  .draft dt{color:var(--muted)}
+  .draft dd{margin:0;color:var(--ink);word-break:break-word}
+  .conflito{margin-top:10px;background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid var(--warn);
+    border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink)}
+  .conflito .ct{font-weight:700;color:var(--warn);margin-bottom:4px}
+  .draft .rodape{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .draft .quando{font-size:12px;color:var(--muted)}
+  .btn-aprovar,.btn-rejeitar{border:none;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;cursor:pointer}
+  .btn-aprovar{background:linear-gradient(180deg,var(--lime-bright),var(--lime));color:#20210d}
+  .btn-aprovar:hover{filter:brightness(1.04)}
+  .btn-rejeitar{background:transparent;border:1.5px solid var(--crit);color:var(--crit)}
+  .btn-rejeitar:hover{background:color-mix(in srgb,var(--crit) 10%,transparent)}
+  .btn-aprovar:disabled,.btn-rejeitar:disabled{opacity:.5;cursor:default}
+  .p-empty{color:var(--muted);font-size:13px;padding:6px 2px}
+  .forbidden{text-align:center;padding:60px 16px;color:var(--muted)}
+  .forbidden .ttl{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
+  .load-err{text-align:center;padding:24px 8px;color:var(--muted)}
+  .tt{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:15px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+  .tt:hover{background:var(--surface-2);color:var(--ink)}
+  @media(pointer:coarse){.tt{min-width:40px;min-height:40px}}
+</style>
+</head>
+<body data-screen="painel">
+  <section class="screen" id="s-painel">
+    <div class="app">
+      <div class="drawer-backdrop" id="backdrop"></div>
+      <aside class="side">
+        <div class="side-brand">
+          <img src="/assets/side-logo.png" alt="NCS">
+          <span class="wm"><span class="g">Grupo</span><span class="n">NCS</span><span class="role">Estagiário</span></span>
+        </div>
+        <a class="newchat" href="/chat">💬 Ir para o chat</a>
+        <div class="side-lbl">Gestão</div>
+        <div class="side-nav" id="navgestao"></div>
+        <div style="flex:1"></div>
+        <div class="side-user">
+          <div class="avatar" id="av">–</div>
+          <div class="who"><div class="nm" id="uname">—</div><div class="rl" id="urole"></div></div>
+          <button class="gear" id="sair" title="Sair" aria-label="Sair">⎋</button>
+        </div>
+      </aside>
+      <div class="main">
+        <div class="topbar">
+          <button class="menu-btn" id="menu" title="Menu" aria-label="Menu">☰</button>
+          <h2>Aprovações</h2>
+          <div class="grow"></div>
+          <span class="pill" id="periodo">…</span>
+          <button class="tt" id="theme" title="Tema" aria-label="Alternar tema">🌙</button>
+        </div>
+        <div class="painel-scroll">
+          <div class="painel-inner" id="painelInner">
+            <div class="card" style="grid-column:1/-1">
+              <div class="card-h"><h3>Pendentes de aprovação</h3><div class="grow"></div><span class="hint">a equipe confere; quem grava é o sistema</span></div>
+              <div id="lista"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<script>
+function el(tag,props,kids){var e=document.createElement(tag);if(props)for(var k in props){if(k==='class')e.className=props[k];else if(k==='text')e.textContent=props[k];else if(k==='style')e.setAttribute('style',props[k]);else if(k==='on')e.onclick=props[k];else e.setAttribute(k,props[k]);}(kids||[]).forEach(function(c){if(c!=null)e.appendChild(typeof c==='object'?c:document.createTextNode(String(c)));});return e;}
+function clear(n){while(n.firstChild)n.removeChild(n.firstChild);}
+(function(){
+  var root=document.documentElement;
+  var tb=document.getElementById('theme');
+  function icon(){tb.textContent=root.getAttribute('data-theme')==='dark'?'☀️':'🌙';}icon();
+  tb.onclick=function(){var d=root.getAttribute('data-theme')==='dark';root.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ncs_theme',d?'light':'dark');icon();};
+})();
+document.getElementById('sair').onclick=function(){fetch('/logout',{method:'POST',headers:{'Origin':location.origin}}).then(function(){location.href='/login';});};
+var _app=document.querySelector('.app');
+document.getElementById('menu').onclick=function(){_app.classList.toggle('drawer-open');};
+document.getElementById('backdrop').onclick=function(){_app.classList.remove('drawer-open');};
+
+var PAPEL={owner:'Dono',admin:'Admin',funcionario:'Funcionário'};
+function iniciais(n){return (n||'?').split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();}
+function quando(iso){if(!iso)return '—';var d=new Date(iso);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+
+// nav de gestão — os mesmos 3 itens condicionais aparecem em chat/admin/aprovações/pendências
+fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():null;}).then(function(me){
+  if(!me)return;
+  document.getElementById('uname').textContent=me.nome||'—';
+  document.getElementById('urole').textContent=PAPEL[me.papel]||'';
+  document.getElementById('av').textContent=iniciais(me.nome);
+  var nav=document.getElementById('navgestao');clear(nav);
+  nav.appendChild(el('a',{class:'nav-item',href:'/chat'},[el('span',{class:'ic',text:'💬'}),document.createTextNode(' Chat')]));
+  if(me.papel==='owner'||me.papel==='admin')nav.appendChild(el('a',{class:'nav-item',href:'/admin'},[el('span',{class:'ic',text:'📊'}),document.createTextNode(' Painel de uso')]));
+  if(me.podeAprovar)nav.appendChild(el('a',{class:'nav-item on',href:'/aprovacoes'},[el('span',{class:'ic',text:'✅'}),document.createTextNode(' Aprovações')]));
+  if(me.podeAprovar||me.papel==='owner'||me.papel==='admin')nav.appendChild(el('a',{class:'nav-item',href:'/pendencias'},[el('span',{class:'ic',text:'📋'}),document.createTextNode(' Pendências')]));
+}).catch(function(){});
+
+function showForbidden(){
+  document.getElementById('periodo').textContent='Sem permissão';
+  var pi=document.getElementById('painelInner');clear(pi);
+  pi.appendChild(el('div',{class:'forbidden'},[
+    el('div',{class:'ttl',text:'Você não tem acesso a esta área'}),
+    el('a',{href:'/chat',class:'btn-ghost',style:'display:inline-block;width:auto;padding:9px 18px;text-decoration:none',text:'Voltar ao chat'})
+  ]));
+}
+function showLoadError(){
+  var l=document.getElementById('lista');clear(l);
+  l.appendChild(el('div',{class:'load-err'},[
+    el('div',{text:'Não foi possível carregar as aprovações.'}),
+    el('button',{class:'btn-primary',style:'width:auto;padding:9px 18px;margin-top:12px',text:'Tentar de novo',on:function(){load();}})
+  ]));
+}
+
+function campo(dados,chave,rotulo){
+  var v=dados&&dados[chave];
+  if(v==null||v==='')return null;
+  return el('div',null,[el('dt',{text:rotulo}),el('dd',{text:typeof v==='object'?JSON.stringify(v):String(v)})]);
+}
+function renderDl(dados){
+  var dl=el('dl');
+  if(!dados||typeof dados!=='object'){dl.appendChild(el('dd',{text:'—'}));return dl;}
+  Object.keys(dados).forEach(function(k){
+    var v=dados[k];
+    dl.appendChild(el('dt',{text:k}));
+    dl.appendChild(el('dd',{text:v==null?'—':(typeof v==='object'?JSON.stringify(v):String(v))}));
+  });
+  return dl;
+}
+function renderCard(d){
+  var kids=[
+    el('div',{class:'dh'},[el('span',{class:'acao',text:d.acao||'ação'}),el('div',{class:'grow'}),el('span',{class:'pill',text:(d.time_aprovador||'Atendimento geral')})]),
+    renderDl(d.dados)
+  ];
+  if(d.conflito){
+    kids.push(el('div',{class:'conflito'},[el('div',{class:'ct',text:'⚠ Conflito detectado'}),el('div',{text:JSON.stringify(d.conflito)})]));
+  }
+  var aprBtn=el('button',{class:'btn-aprovar',text:'Aprovar'});
+  var rejBtn=el('button',{class:'btn-rejeitar',text:'Rejeitar'});
+  aprBtn.onclick=function(){decidir(d.id,'aprovar',null,aprBtn,rejBtn);};
+  rejBtn.onclick=function(){var motivo=prompt('Motivo da rejeição (opcional):')||'';decidir(d.id,'rejeitar',motivo,aprBtn,rejBtn);};
+  kids.push(el('div',{class:'rodape'},[
+    aprBtn,rejBtn,
+    el('span',{class:'quando',text:(d.solicitante?('Solicitado por '+d.solicitante+' · '):'')+quando(d.criado_em)})
+  ]));
+  return el('div',{class:'draft'},kids);
+}
+function render(itens){
+  var l=document.getElementById('lista');clear(l);
+  document.getElementById('periodo').textContent=itens.length+(itens.length===1?' pendente':' pendentes');
+  if(!itens.length){l.appendChild(el('div',{class:'p-empty',text:'Nenhuma aprovação pendente no momento.'}));return;}
+  itens.forEach(function(d){l.appendChild(renderCard(d));});
+}
+function decidir(id,acao,motivo,aprBtn,rejBtn){
+  aprBtn.disabled=true;rejBtn.disabled=true;
+  fetch('/api/aprovacoes/'+encodeURIComponent(id)+'/'+acao,{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin},body:JSON.stringify({motivo:motivo})})
+    .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+    .then(function(x){if(!x.ok){alert(x.j.erro||'Não foi possível concluir.');aprBtn.disabled=false;rejBtn.disabled=false;return;}load();})
+    .catch(function(){alert('Problema de conexão. Tente de novo.');aprBtn.disabled=false;rejBtn.disabled=false;});
+}
+function load(){
+  fetch('/api/aprovacoes',{headers:{'Accept':'application/json'}}).then(function(r){
+    if(r.status===401){location.href='/login';return null;}
+    if(r.status===403){showForbidden();return null;}
+    return r.json();
+  }).then(function(d){if(d)render(d.itens||[]);}).catch(function(){showLoadError();});
+}
+load();
+</script>
+</body>
+</html>

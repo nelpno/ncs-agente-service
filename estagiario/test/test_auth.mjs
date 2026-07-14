@@ -78,7 +78,7 @@ let ok = 0;
 // --- guarda de sessão (papel vem do BANCO, não do cookie) ---
 {
   const exp = Date.now() + 60000;
-  const u = { id: "u1", papel: "admin", nome: "Nelson", ativo: true, sessao_versao: 3 };
+  const u = { id: "u1", papel: "admin", nome: "Nelson", ativo: true, sessao_versao: 3, pode_aprovar: true };
   const buscar = async (id) => (id === "u1" ? u : null);
   const cookieOk = auth.assinarCookie({ uid: "u1", exp, sv: 3 });
   const s = await auth.carregarSessao(cookieOk, buscar);
@@ -86,6 +86,10 @@ let ok = 0;
   assert.strictEqual(s.nome, "Nelson");
   assert.strictEqual(s.uid, "u1");
   assert.strictEqual(s.sv, 3, "sv volta do banco (p/ renovar cookie)");
+  assert.strictEqual(s.podeAprovar, true, "pode_aprovar do banco vira podeAprovar na sessão (Onda 1 §4.4)");
+  // pode_aprovar ausente/false no banco → false na sessão (nunca undefined, nunca lança)
+  const s2 = await auth.carregarSessao(cookieOk, async () => ({ ...u, pode_aprovar: undefined }));
+  assert.strictEqual(s2.podeAprovar, false, "campo ausente → false (não undefined)");
   // inativo → null
   assert.strictEqual(await auth.carregarSessao(cookieOk, async () => ({ ...u, ativo: false })), null);
   // sessao_versao diferente (cookie velho, sv=2) → null

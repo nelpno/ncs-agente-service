@@ -1,6 +1,6 @@
 // engine.mjs — máquina genérica de escrita com aprovação. Agnóstica ao tipo de ação.
 import { getAction } from './registry.mjs';
-import { criarDraft, getDraftByToken, updateDraft } from './drafts.mjs';
+import { criarDraft, getDraft, getDraftByToken, updateDraft, aprovarDraftCAS } from './drafts.mjs';
 import { registrarEvento } from './auditoria.mjs';
 import { config } from '../config.mjs';
 
@@ -23,12 +23,20 @@ export async function criarRascunho(acaoId, dados, ctx = {}) {
   };
 }
 
-export async function aprovarRascunho(token, { aprovador, correcoes } = {}) {
-  const draft = await getDraftByToken(token);
+// Núcleo compartilhado por aprovarRascunho(token) e aprovarRascunhoPorId(id) — mesmo fluxo,
+// só muda como o draft é resolvido. CAS (pendente->aprovando) ANTES de gravar no Superlógica:
+// evita que 2 aprovadores concorrentes gravem 2x o mesmo rascunho.
+async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   if (!draft) return { ok: false, motivo: 'nao_encontrado' };
   if (draft.status === 'gravado') return { ok: true, jaGravado: true, draft };
   if (draft.status === 'rejeitado') return { ok: false, motivo: 'ja_rejeitado' };
-  if (draft.expiraEm <= Date.now()) { await updateDraft(draft.id, { status: 'expirado' }); return { ok: false, motivo: 'expirado' }; }
+  if (draft.status === 'expirado') return { ok: false, motivo: 'expirado' };
+  if (draft.expiraEm <= Date.now()) {
+    await updateDraft(draft.id, { status: 'expirado' });
+    await registrarEvento({ tipo: 'expirado', draftId: draft.id });
+    await notificarMorador(draft, 'Sua solicitação expirou sem aprovação; caso ainda precise, é só me chamar de novo.');
+    return { ok: false, motivo: 'expirado' };
+  }
 
   const acao = getAction(draft.acao);
   let dados = draft.dados;
@@ -39,6 +47,10 @@ export async function aprovarRascunho(token, { aprovador, correcoes } = {}) {
   }
   const v = acao.validar(dados);
   if (!v.ok) return { ok: false, motivo: 'invalido', erros: v.erros };
+
+  // Reivindica o draft atomicamente. Se perder (outro aprovador já pegou), não grava de novo.
+  const claimed = await aprovarDraftCAS(draft.id, aprovador);
+  if (!claimed) return { ok: false, motivo: 'ja_em_processamento' };
 
   const payload = acao.montarPayload(dados); // computa 1x; reusa no gravar e na auditoria
   let res;
@@ -55,18 +67,53 @@ export async function aprovarRascunho(token, { aprovador, correcoes } = {}) {
   }
   await updateDraft(draft.id, { status: 'gravado', resultado: { idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun } });
   await registrarEvento({ tipo: 'gravado', draftId: draft.id, aprovador, payload, resposta: res.resposta, idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun, snapshot: draft.snapshot });
+
+  // Conectores pós-gravação (ex.: avisar a portaria). Defensivo: nunca derruba a gravação já feita.
+  let conectores = null;
+  if (acao.posGravar) {
+    try {
+      conectores = await acao.posGravar(dados, { dryRun: res.dryRun });
+      if (conectores) await registrarEvento({ tipo: 'conectores', draftId: draft.id, conectores });
+    } catch (e) { console.warn('[engine] posGravar falhou:', e.message); }
+  }
+
   await notificarMorador(draft, `✅ Seu cadastro foi concluído${res.dryRun ? ' (simulação)' : ''}.`);
-  return { ok: true, gravado: true, dryRun: res.dryRun, draft, res };
+  return { ok: true, gravado: true, dryRun: res.dryRun, draft, res, conectores };
 }
 
-export async function rejeitarRascunho(token, { aprovador, motivo } = {}) {
+export async function aprovarRascunho(token, { aprovador, correcoes } = {}) {
   const draft = await getDraftByToken(token);
+  return executarAprovacao(draft, { aprovador, correcoes });
+}
+
+// Mesmo fluxo de aprovarRascunho, mas resolve o draft por ID (o executor HTTP interno
+// recebe draft_id do Portal, não o token — token é só para o link público do morador/painel).
+export async function aprovarRascunhoPorId(draftId, { aprovador, correcoes } = {}) {
+  const draft = await getDraft(draftId);
+  return executarAprovacao(draft, { aprovador, correcoes });
+}
+
+// Núcleo compartilhado por rejeitarRascunho(token) e rejeitarRascunhoPorId(id) — mesmo fluxo,
+// só muda como o draft é resolvido (token = link público; id = executor HTTP interno/Portal).
+async function executarRejeicao(draft, { aprovador, motivo } = {}) {
   if (!draft) return { ok: false, motivo: 'nao_encontrado' };
   if (draft.status === 'gravado') return { ok: false, motivo: 'ja_gravado' };
   await updateDraft(draft.id, { status: 'rejeitado' });
   await registrarEvento({ tipo: 'rejeitado', draftId: draft.id, aprovador, detalhe: motivo || '' });
   await notificarMorador(draft, 'Sua solicitação foi revisada pela equipe e precisa de um ajuste; já entramos em contato.');
   return { ok: true, rejeitado: true };
+}
+
+export async function rejeitarRascunho(token, { aprovador, motivo } = {}) {
+  const draft = await getDraftByToken(token);
+  return executarRejeicao(draft, { aprovador, motivo });
+}
+
+// Mesmo fluxo de rejeitarRascunho, mas resolve o draft por ID (o executor HTTP interno
+// recebe draft_id do Portal, não o token).
+export async function rejeitarRascunhoPorId(draftId, { aprovador, motivo } = {}) {
+  const draft = await getDraft(draftId);
+  return executarRejeicao(draft, { aprovador, motivo });
 }
 
 // Notifica o morador no canal de origem. Sem buraco: se não houver canal/URL, registra como pendente.

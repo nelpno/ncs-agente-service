@@ -35,5 +35,16 @@ ok(g.ok === true, 'gravar usa slPut injetado (DRY_RUN)');
 const rnd = cadastroInquilino.render(base, snap);
 ok(Array.isArray(rnd.campos) && rnd.campos.length > 0, 'render retorna campos p/ o painel');
 
+// posGravar (Onda 1): enfileira o aviso via outbox.mjs real (sem SUPABASE_URL no ambiente de teste →
+// cai no fallback in-memory; condomínio real "Lume" existe em data/portaria/sistemas-portaria.json).
+const dadosAviso = { ...base, condominio_nome: 'Lume', unidade_label: 'Apto 42' };
+const pos = await cadastroInquilino.posGravar(dadosAviso, { dryRun: true });
+ok(pos?.aviso?.ok === true, 'posGravar → enfileira aviso quando o condomínio resolve');
+ok(typeof pos.aviso.enfileirados === 'number' && pos.aviso.enfileirados > 0, 'posGravar → enfileirados > 0');
+
+// Async + nunca lança: condomínio não informado/não resolvido → aviso.ok:false, sem exceção
+const posSemCondo = await cadastroInquilino.posGravar({ ...base, condominio_nome: 'Condomínio Inexistente XPTO' }, { dryRun: true });
+ok(posSemCondo?.aviso?.ok === false && posSemCondo.aviso.enfileirados === 0, 'posGravar → sem condomínio resolvido, não lança, reporta 0');
+
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);

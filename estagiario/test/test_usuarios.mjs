@@ -124,13 +124,29 @@ function mkdb(overrides = {}) {
   ok++;
 }
 
-// listar: monta select com os campos do painel
+// listar: monta select com os campos do painel (incl. pode_aprovar — Onda 1 §4.4)
 {
   const db = mkdb({ selectRows: [{ id: "u1", nome: "A", papel: "admin" }] });
   const rows = await u.listar(db);
   assert.strictEqual(rows.length, 1);
   assert.ok(db.rec[0][2].includes("select="), "select de campos");
+  assert.ok(db.rec[0][2].includes("pode_aprovar"), "select inclui pode_aprovar (equipe do admin.html)");
   ok++;
 }
 
-console.log(`test_usuarios: ${ok}/10 OK`);
+// definirPodeAprovar: PATCH em pode_aprovar; sempre normaliza pra boolean (nunca grava truthy string/objeto)
+{
+  const db = mkdb();
+  await u.definirPodeAprovar("u1", true, db);
+  assert.strictEqual(db.rec[0][0], "update");
+  assert.strictEqual(db.rec[0][1], "usuarios");
+  assert.ok(db.rec[0][2].includes("id=eq.u1"));
+  assert.strictEqual(db.rec[0][3].pode_aprovar, true);
+
+  const db2 = mkdb();
+  await u.definirPodeAprovar("u2", 0, db2); // valor "falsy" não-boolean → normaliza
+  assert.strictEqual(db2.rec[0][3].pode_aprovar, false);
+  ok++;
+}
+
+console.log(`test_usuarios: ${ok}/11 OK`);

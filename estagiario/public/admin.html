@@ -49,6 +49,7 @@
           <a class="nav-item" href="/chat"><span class="ic">💬</span> Chat</a>
           <a class="nav-item on" href="/admin"><span class="ic">📊</span> Painel de uso</a>
         </div>
+        <div class="side-nav" id="navextra"></div>
         <div style="flex:1"></div>
         <div class="side-user">
           <div class="avatar" id="av">–</div>
@@ -146,7 +147,12 @@ function load(){
   }).then(function(d){
     if(!d)return;
     IS_OWNER=d.isOwner;
-    if(d.me){document.getElementById('uname').textContent=d.me.nome||'—';document.getElementById('urole').textContent=PAPEL[d.me.papel]||'';document.getElementById('av').textContent=iniciais(d.me.nome);}
+    if(d.me){
+      document.getElementById('uname').textContent=d.me.nome||'—';document.getElementById('urole').textContent=PAPEL[d.me.papel]||'';document.getElementById('av').textContent=iniciais(d.me.nome);
+      var nav=document.getElementById('navextra');clear(nav);
+      if(d.me.podeAprovar)nav.appendChild(el('a',{class:'nav-item',href:'/aprovacoes'},[el('span',{class:'ic',text:'✅'}),document.createTextNode(' Aprovações')]));
+      if(d.me.podeAprovar||IS_OWNER||d.me.papel==='admin')nav.appendChild(el('a',{class:'nav-item',href:'/pendencias'},[el('span',{class:'ic',text:'📋'}),document.createTextNode(' Pendências')]));
+    }
     document.getElementById('periodo').textContent='Desde '+new Date(d.desde).toLocaleDateString('pt-BR');
 
     var kpis=[['Interações',d.resumo.interacoes]];
@@ -178,7 +184,7 @@ function load(){
     bars(document.getElementById('condos'),d.condominios,'condominio');
 
     var eEl=document.getElementById('equipe');clear(eEl);
-    var eh=el('tr');['Nome','E-mail','Função','Status',''].forEach(function(t){eh.appendChild(el('th',{text:t}));});
+    var eh=el('tr');['Nome','E-mail','Função','Status','Aprovações',''].forEach(function(t){eh.appendChild(el('th',{text:t}));});
     var etb=el('tbody');
     d.equipe.forEach(function(u){
       var pill=!u.ativo?el('span',{class:'pill',text:'Inativo'}):(u.convitePendente?el('span',{class:'chip',text:'Convite pendente'}):el('span',{class:'chip',text:'Ativo'}));
@@ -187,7 +193,15 @@ function load(){
         if(u.convitePendente||!u.ativo)acts.appendChild(el('button',{class:'minibtn',text:'Reenviar link',on:function(){reenviar(u.id);}}));
         acts.appendChild(u.ativo?el('button',{class:'minibtn',text:'Desativar',on:function(){if(!confirm('Desativar o acesso de '+u.nome+'?'))return;setAtivo(u.id,'desativar');}}):el('button',{class:'minibtn',text:'Reativar',on:function(){setAtivo(u.id,'ativar');}}));
       }
-      etb.appendChild(el('tr',null,[el('td',{text:u.nome}),el('td',{text:u.email}),el('td',{text:PAPEL[u.papel]||'—'}),el('td',null,[pill]),acts]));
+      // toggle "pode_aprovar": abre/fecha a aba Aprovações da pessoa (spec Onda 1 §4.4). Só o dono mexe no próprio dono.
+      var podeTogglePA=u.papel!=='owner'||IS_OWNER;
+      var paCell=el('td');
+      if(podeTogglePA){
+        paCell.appendChild(el('button',{class:'minibtn',text:u.podeAprovar?'Revogar':'Permitir aprovar',on:function(){setPodeAprovar(u.id,!u.podeAprovar);}}));
+      }else{
+        paCell.appendChild(el('span',{class:'pill',text:u.podeAprovar?'Sim':'Não'}));
+      }
+      etb.appendChild(el('tr',null,[el('td',{text:u.nome}),el('td',{text:u.email}),el('td',{text:PAPEL[u.papel]||'—'}),el('td',null,[pill]),paCell,acts]));
     });
     eEl.appendChild(el('table',null,[el('thead',null,[eh]),etb]));
   }).catch(function(){showLoadError();});
@@ -205,6 +219,7 @@ document.getElementById('addbtn').onclick=function(){
 };
 function reenviar(id){fetch('/api/admin/usuarios/'+id+'/reenviar',{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)showLink(x.j.link);else alert(x.j.erro||'Falhou.');});}
 function setAtivo(id,acao){fetch('/api/admin/usuarios/'+id+'/'+acao,{method:'POST',headers:{'Origin':location.origin}}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)load();else alert(x.j.erro||'Falhou.');});}
+function setPodeAprovar(id,valor){fetch('/api/admin/usuarios/'+id+'/pode_aprovar',{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin},body:JSON.stringify({valor:valor})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(x){if(x.ok)load();else alert(x.j.erro||'Falhou.');});}
 load();
 </script>
 </body>

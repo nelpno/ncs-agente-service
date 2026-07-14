@@ -9,7 +9,10 @@
     "dev": "node --watch server.mjs"
   },
   "dependencies": {
-    "ioredis": "^5.4.1"
+    "ioredis": "^5.4.1",
+    "nodemailer": "^9.0.3"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }
