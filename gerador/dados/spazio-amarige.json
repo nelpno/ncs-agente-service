@@ -1,6 +1,8 @@
 {
   "id": "spazio-amarige",
-  "superlogica_nome": "Spazio Amarige",
+  "superlogica_nome": "Parque Amarige",
+  "aliases": ["Spazio Amarige", "Parque Amarige", "Amarige"],
+  "_nota_nome": "MESMO condomínio (id 177, MRV, Av. Dr. Miguel Couto 493) — confirmado pelo Fernando em 22/06. No Superlógica só existe como PARQUE AMARIGE; o nome do arquivo/regimento é Spazio Amarige. superlogica_nome PRECISA ser o nome do Superlógica: é ele que resolve_condominio usa p/ achar o cadastro e o morador. Ver _meta.json do regimento.",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",
   "responsavel": {

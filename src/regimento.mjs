@@ -43,6 +43,22 @@ const SYN = {
   alugar:['locacao','aluguel','temporada','inquilino','destinacao'], aluguel:['locacao','alugar','temporada'],
   temporada:['locacao','alugar','airbnb','hospedagem'], airbnb:['locacao','temporada','alugar','hospedagem'],
   locacao:['alugar','aluguel','inquilino','destinacao'], hospedagem:['locacao','temporada','airbnb'],
+  // Financeiro/cobrança (14/07): a pessoa fala "cobrança de inadimplentes"; a Convenção fala "em atraso…
+  // pagarão multa de 2%". O artigo-alvo não tem NENHUMA forma de "inadimpl-" nem "cobran-" — o vão é de
+  // vocabulário, não de plural. Sem isso o robô respondia "não achei" com a regra na mão (caso real, Abbocato Art. 29º).
+  // ⚠️ NUNCA pôr 'mora' aqui: o match é por substring e 'mora' ⊂ 'MORAdor' → casa em todo documento.
+  // ⚠️ NÃO pôr 'pagamento'/'taxa': aparecem em dezenas de artigos e só diluem o ranking.
+  cobranca:['atraso','multa','juros','debito','inadimplencia','vencimento'],
+  cobrancas:['atraso','multa','juros','debito','inadimplencia','vencimento'],
+  cobrar:['cobranca','atraso','multa','juros','debito'],
+  inadimplente:['inadimplencia','atraso','multa','juros','debito'],
+  inadimplentes:['inadimplencia','inadimplente','atraso','multa','juros','debito'],
+  inadimplencia:['inadimplente','atraso','multa','juros','debito'],
+  atraso:['multa','juros','debito','inadimplencia'],
+  atrasado:['atraso','multa','juros'], atrasada:['atraso','multa','juros'],
+  juros:['multa','atraso'],
+  debito:['atraso','multa','juros','divida'], divida:['debito','atraso','multa','juros'], dividas:['debito','atraso','multa','juros'],
+  extrajudicial:['cobranca','atraso','multa','juros','debito'],
 };
 
 let _index = null; // { slug: { nome, chunks:[{docLabel,docTipo,secao,texto,ntexto,nsecao,ataData}] } }

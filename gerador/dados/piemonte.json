@@ -1,6 +1,8 @@
 {
   "id": "piemonte",
-  "superlogica_nome": "Piemonte",
+  "superlogica_nome": "Residencial Piemonte",
+  "aliases": ["Piemonte", "Residencial Piemonte"],
+  "_nota_nome": "Só 'Piemonte' é AMBÍGUO no Superlógica: casa o id 105 (RESIDENCIAL PIEMONTE, este) e também o id 181 (RESERVA DO CAMPO), cuja razão social é 'ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE'. Com o nome ambíguo o resolver recusa e o condomínio não gera documento nenhum. superlogica_nome tem que ser o nome exato do sistema.",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",
   "responsavel": {
