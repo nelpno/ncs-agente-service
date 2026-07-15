@@ -166,8 +166,23 @@ const CONFIRM_RE = /(confirmar?|conferir)[^.!?]*(correto|certo|acrescentar|adici
  * Garante o handoff determinístico (G1): se o modelo diz que vai encaminhar mas não chamou
  * transferir_humano, força a chamada uma vez antes de devolver a resposta.
  */
+/**
+ * _ancorarSystemPrompt — garante que a sessão carregue o system prompt ATUAL.
+ * ⚠️ O prompt só entrava em sessão VAZIA. Com a memória por MORADOR (chave `ct-`, janela de
+ * 120min), a sessão vive por horas → ela congelava a versão VELHA do prompt e o deploy não pegava
+ * em quem já estava conversando (15/07: deploy 20:24, teste 20:28, a Ana ainda usava a regra
+ * antiga). Antes, cada conversa nova nascia com o prompt fresco e isso não aparecia.
+ * Atualizar a msg [0] custa UMA quebra de cache naquela conversa — de propósito.
+ */
+export function _ancorarSystemPrompt(session, systemPrompt) {
+  const m0 = session.messages[0];
+  if (!m0) { session.messages.push({ role: 'system', content: systemPrompt }); return 'inserido'; }
+  if (m0.role === 'system' && m0.content !== systemPrompt) { m0.content = systemPrompt; return 'atualizado'; }
+  return 'ok';
+}
+
 export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool) {
-  if (!session.messages.length) session.messages.push({ role: 'system', content: systemPrompt });
+  _ancorarSystemPrompt(session, systemPrompt);
   // ⚠️ O `ctx` é NOVO a cada requisição (o /chat-send e o adapter montam um do zero) → o que uma tool
   // guarda nele MORRE no fim do turno. Quem sobrevive entre turnos é a `session` (Redis, 48h).
   // Ancorar o mapa de unidades na sessão (mesma referência) faz o rótulo colhido pelo
