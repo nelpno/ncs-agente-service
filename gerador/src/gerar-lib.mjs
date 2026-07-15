@@ -9,12 +9,18 @@ import { htmlParaWord } from "./render-word.mjs";
 
 export const RAIZ = path.dirname(path.dirname(url.fileURLToPath(import.meta.url)));
 
+// `prep` = a preposição que liga o papel ao apartamento. Não é fixa: "proprietário DO
+// apartamento" está certo, mas "responsável DO apartamento" não existe em português — é PELO.
+// E `responsavel` é o termo neutro e o DEFAULT do motor (desde o 3fba039, com `papel` opcional
+// no schema, virou o caminho comum), então o erro saía na maioria dos documentos assinados.
 const PAPEL = {
-  proprietario: { F: "proprietária", M: "proprietário" },
-  morador:      { F: "moradora", M: "morador" },
-  inquilino:    { F: "inquilina", M: "inquilino" },
-  responsavel:  { F: "responsável", M: "responsável" },
+  proprietario: { F: "proprietária", M: "proprietário", prep: "do" },
+  morador:      { F: "moradora",     M: "morador",      prep: "do" },
+  inquilino:    { F: "inquilina",    M: "inquilino",    prep: "do" },
+  responsavel:  { F: "responsável",  M: "responsável",  prep: "pelo" },
 };
+// Gênero fora de F/M cai aqui: "condômino(a) do apartamento" (a prep acompanha o termo).
+const CONDOMINO = { F: "condômino(a)", M: "condômino(a)", prep: "do" };
 const ORDINAL_FEM = { 1: "1ª", 2: "2ª", 3: "3ª", 4: "4ª", 5: "5ª" };
 const EXTENSO = { 1: "uma", 2: "duas", 3: "três", 4: "quatro", 5: "cinco" };
 
@@ -71,9 +77,12 @@ export function montarDoc(dados, oc, cadastro) {
   if (!oc.data_documento) throw new Error("data_documento é obrigatória.");
 
   const g = (oc.destinatario.genero || "M").toUpperCase();
-  const papelNome = (PAPEL[oc.destinatario.papel] || PAPEL.responsavel)[g] || "condômino(a)";
+  // papel ausente/fora do enum → neutro "responsável"; gênero fora de F/M → "condômino(a)".
+  // Em qualquer ramo o termo e a preposição saem do MESMO lugar, então a frase fecha sempre.
+  const papelEntry = PAPEL[oc.destinatario.papel] || PAPEL.responsavel;
+  const termo = papelEntry[g] ? papelEntry : CONDOMINO;
   const tratamento = g === "F" ? "À Sra." : "Ao Sr.";
-  const saudacao = `${tratamento} ${oc.destinatario.nome}, ${papelNome} do apartamento ${oc.destinatario.apartamento},`;
+  const saudacao = `${tratamento} ${oc.destinatario.nome}, ${termo[g]} ${termo.prep} apartamento ${oc.destinatario.apartamento},`;
 
   let titulo, penalidade_paragrafo = null, penalidade_marcas = null;
   if (oc.tipo === "multa") {

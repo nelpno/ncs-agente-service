@@ -41,10 +41,14 @@ const gerar = (destinatario) => {
   return semTags(html);
 };
 
+// A preposição é "pelo" só para o neutro ("responsável PELO apartamento"; "do" não existe em
+// português aqui) — ver test_saudacao_preposicao.mjs. O que ESTE teste guarda é a PALAVRA do
+// papel, não a preposição; nas negativas ela é frouxa de propósito, para pegar o termo proibido
+// sob qualquer regência.
 const semPapel = gerar({ nome: 'Joao Carlos da Silva', genero: 'M', apartamento: '101' });
-check(/respons[áa]vel do apartamento 101/i.test(semPapel), 'sem papel → deveria sair "responsável" (neutro)');
-check(!/morador do apartamento 101/i.test(semPapel), 'sem papel NÃO pode afirmar "morador" (dado que ninguém informou)');
-check(!/propriet[áa]rio do apartamento 101/i.test(semPapel), 'sem papel NÃO pode afirmar "proprietário" (relação jurídica falsa)');
+check(/respons[áa]vel pelo apartamento 101/i.test(semPapel), 'sem papel → deveria sair "responsável" (neutro)');
+check(!/morador (do|pelo) apartamento 101/i.test(semPapel), 'sem papel NÃO pode afirmar "morador" (dado que ninguém informou)');
+check(!/propriet[áa]rio (do|pelo) apartamento 101/i.test(semPapel), 'sem papel NÃO pode afirmar "proprietário" (relação jurídica falsa)');
 
 // ---- 3) Com papel informado, nada muda (não pode regredir) ----------------------------------
 check(/propriet[áa]rio do apartamento 101/i.test(gerar({ nome: 'Joao Carlos da Silva', genero: 'M', papel: 'proprietario', apartamento: '101' })),
