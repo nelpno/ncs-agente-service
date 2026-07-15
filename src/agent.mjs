@@ -55,6 +55,23 @@ const TOOLS = [
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
 
+/**
+ * _pushAnexo — registra o PDF p/ o adapter entregar no canal real, COM a identificação da unidade.
+ * O rótulo vem do ERP (`ctx.unidades`, colhido pelo resolver_cadastro), NUNCA do LLM: com dois
+ * boletos na mesma conversa ("de ambos"), é isso que faz cada PDF dizer de qual unidade é — e o
+ * que impede trocar a etiqueta de um pelo outro. Sem rótulo conhecido → null (não inventa).
+ * Ver test/test_anexo_rotulo.mjs e .tmp/test_legenda_anexo.mjs (o outro lado, no adapter).
+ */
+export function _pushAnexo(ctx, info, idUnidade) {
+  (ctx.attachments ||= []).push({
+    url: info.pdf_url,
+    filename: info.filename,
+    kind: 'pdf',
+    unidade: ctx.unidades?.[String(idUnidade)] || null,
+    vencimento: info.vencimento || null,
+  });
+}
+
 async function runToolReal(name, args, ctx) {
   switch (name) {
     // ctx.lastCondo rastreia o condomínio em foco (id + nome) p/ rotear a cobrança no handoff (ver transferir_humano).
@@ -88,7 +105,7 @@ async function runToolReal(name, args, ctx) {
       }
       // Outros canais (Chatwoot via adapter): registra o anexo p/ o caller baixar e postar no canal real.
       // A UI de teste HTML ignora o campo (não renderiza anexo), mas o canal real (Chatwoot) entrega de fato.
-      (ctx.attachments ||= []).push({ url: info.pdf_url, filename: info.filename, kind: 'pdf' });
+      _pushAnexo(ctx, info, args.id_unidade);
       return { enviado: true, canal_externo: true, vencimento: info.vencimento, valor: info.valor };
     }
     case 'enviar_cnd': {
