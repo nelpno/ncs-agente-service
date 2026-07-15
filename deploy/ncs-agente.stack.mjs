@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:37a8395ddb872026dee41299b4f79f960e636b84ce14fb4167594d3dd8822f90"; // db13234: janela de continuidade + resolver acha unidade em outro condominio (confirmada por conteudo: os 2 testes novos rodam dentro dela)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:132be8b52585366b7864cf262bc7dd899ed0c874ede5557c0b85b68d95ecbbf5"; // 9a72fd4: "de ambos" + cada boleto diz de qual unidade e (confirmada por conteudo: test_anexo_rotulo roda dentro dela)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
