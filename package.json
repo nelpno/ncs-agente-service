@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "ioredis": "^5.4.1",
-    "nodemailer": "^9.0.3"
+    "nodemailer": "^9.0.3",
+    "unpdf": "^1.6.2"
   },
   "engines": {
     "node": ">=20"

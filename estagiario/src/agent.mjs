@@ -11,6 +11,7 @@ import * as MUD from "../../src/mudanca.mjs";    // REUSO: regra de mudança por
 import * as PORT from "../../src/portaria.mjs";  // REUSO: sistema/tipo de portaria por condo — dúvida de morador
 import * as GRUVI from "../../src/gruvi.mjs";    // REUSO: vídeo tutorial do app Gruvi — dúvida de morador
 import * as TAXA from "../../src/taxa.mjs";      // REUSO: o que é incluso na taxa (gás/água/internet) por condo — dúvida de morador
+import * as VTAXA from "./valor_taxa.mjs";       // NOVO: VALOR em R$ da taxa por unidade (≠ TAXA, que é o que está incluso)
 import * as DOC from "./documentos.mjs";                         // NOVO: motor de geração de PDF
 import * as REL from "./relatorio.mjs";                          // NOVO: relatório de prestação de contas
 
@@ -51,6 +52,7 @@ const TOOLS = [
   { type: "function", function: { name: "consultar_sistema_portaria", description: "PORTARIA de um condomínio: se é HUMANA, VIRTUAL ou HÍBRIDA (campo tipo_portaria) e qual o app/sistema (Shielder, GatWay, Synnus, Alarm System, TW Virtua). Use em 'a portaria do Studio Five é humana ou remota?', 'qual o app de portaria?'. Informe o condomínio. Retorna { encontrou, condominio, sistema, tipo_portaria, tipo_conhecido, sistema_conhecido, ... }. 'Humana ou virtual?' responde-se SÓ pelo tipo_portaria — o app NÃO define isso. tipo_conhecido/sistema_conhecido/encontrou=false → não invente. Boleto nunca é pela portaria, é pelo app Gruvi.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
   { type: "function", function: { name: "consultar_video_app", description: "Acha o VÍDEO tutorial oficial do app Gruvi (1º acesso/login, cadastrar facial, validar documento, pegar boleto, reservar área, cadastrar veículo, liberar visitante/prestador, ver comunicados/documentos etc.). Use em 'como o morador faz X no app', 'como acesso o Gruvi', 'como pego o boleto no app'. Passe o assunto em texto livre. Retorna { encontrou, titulo, url } — se encontrou, passe a URL pra equipe repassar.", parameters: { type: "object", properties: { assunto: { type: "string", description: "O que a pessoa quer fazer no app, em texto livre (ex.: 'pegar boleto', 'cadastrar facial')." } }, required: ["assunto"] } } },
   { type: "function", function: { name: "consultar_taxa_condominial", description: "O que é INCLUSO NA TAXA CONDOMINIAL (gás, água, internet) de um condomínio. Use em 'o gás está incluso na taxa?', 'a água é inclusa?', 'quais provedores de internet o condomínio libera?'. Informe o condomínio. Retorna { encontrou, condominio, itens:{ gas:{incluso, empresa}, agua:{incluso}, internet:[...] }, resumo }. encontrou=false → não invente, oriente confirmar com a administração.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
+  { type: "function", function: { name: "consultar_valor_taxa", description: "VALOR em R$ da taxa condominial de UMA unidade, decomposto (Taxa Condomínio, Taxa Extra, Fundo de Reserva...). Use em 'qual a taxa do Lume?', 'quanto paga o apto 203?'. NÃO confunda com consultar_taxa_condominial (essa diz o que está INCLUSO: gás/água/internet). ⚠️ EXIGE a unidade: o mesmo condomínio tem valores diferentes por fração ideal (metragem) — se a pessoa não disser a unidade, PERGUNTE de qual é, explicando o motivo; nunca responda um valor 'do condomínio'. Retorna { ok, condominio, unidade, vencimento, total_formatado, rubricas:[{descricao, valor_formatado}], encargos:[...] }. ok=false: informe_unidade=pergunte a unidade; ambiguo=confirme qual (veja opcoes); sem_boleto/composicao_indisponivel/composicao_nao_confere=NÃO invente valor, diga que precisa conferir no Superlógica. encargos = juros/multa por atraso, fora da taxa.", parameters: { type: "object", properties: { condominio: { type: "string", description: "Nome do condomínio (ex.: Lume)." }, unidade: { type: "string", description: "Apartamento/unidade como a pessoa falou (ex.: '203', 'apto 101')." }, bloco: { type: "string", description: "Bloco/torre, se houver (ex.: '1')." } }, required: ["condominio", "unidade"] } } },
 ];
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
@@ -65,6 +67,7 @@ async function runTool(name, args, ctx) {
     case "consultar_sistema_portaria": return PORT.consultar_sistema_portaria(args);
     case "consultar_video_app": return GRUVI.buscar_video(args.assunto);
     case "consultar_taxa_condominial": return TAXA.consultar_taxa_condominial(args);
+    case "consultar_valor_taxa": return await VTAXA.consultar_valor_taxa(args);
     case "gerar_documento": {
       const out = await DOC.gerar_documento(args);
       if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };
