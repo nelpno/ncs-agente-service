@@ -1,5 +1,12 @@
 {
   "id": "alto-da-boa-vista",
+  "condominio": {
+    "nome": "ASSOCIACAO DE MORADORES DO RESIDENCIAL ALTO DA BOA VISTA",
+    "endereco": "ESTRADA VICINAL FRANCISCO JOSE ZANIN, 1650 - 7. DISTRITO INDUSTRIAL",
+    "cep": "14800659",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Alto da Boa Vista",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

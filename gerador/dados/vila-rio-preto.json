@@ -1,5 +1,12 @@
 {
   "id": "vila-rio-preto",
+  "condominio": {
+    "nome": "RESIDENCIAL VILA RIO PRETO",
+    "endereco": "RUA: SÃO JOSÉ DO RIO PRETO, 719 - JD. AMÉRICA",
+    "cep": "14811-256",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Residencial Vila Rio Preto",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

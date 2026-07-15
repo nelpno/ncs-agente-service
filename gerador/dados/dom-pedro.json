@@ -1,5 +1,12 @@
 {
   "id": "dom-pedro",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFÍCIO DOM PEDRO",
+    "endereco": "AV. PEDRO ARANHA DO AMARAL, 735 - SÃO JOSÉ",
+    "cep": "14800-490",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Condomínio Edifício Dom Pedro",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

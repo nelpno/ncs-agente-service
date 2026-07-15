@@ -1,5 +1,12 @@
 {
   "id": "nascente-do-jaragua",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO NASCENTE DO JARAGUÁ",
+    "endereco": "AVENIDA GOVERNADOR ORESTES QUERCIA, N° 43 - NASCENTE DO JARAGUÁ",
+    "cep": "14804700",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Nascente do Jaraguá",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "spazio-aracaju",
+  "condominio": {
+    "nome": "CONDOMÍNIO RESIDENCIAL SPAZIO ARACAJU",
+    "endereco": "RUA JOÃO GURGEL, 1131 - JD. DO CARMO",
+    "cep": "14800-180",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Spazio Aracaju",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

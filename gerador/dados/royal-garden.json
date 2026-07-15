@@ -1,5 +1,12 @@
 {
   "id": "royal-garden",
+  "condominio": {
+    "nome": "EDIFICIO ROYAL GARDEN I",
+    "endereco": "RUA ANTONIA DE CAMARGO ABREU, 51 - VILA VELOSA",
+    "cep": "14806-050",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Royal Garden I",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "mayorca",
+  "condominio": {
+    "nome": "CONDOMÍNIO RESIDENCIAL MAYORCA",
+    "endereco": "RUA BENEDITO JESUS SANTOS MIGUEL, 46 - VILA XAVIER",
+    "cep": "14810-112",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Mayorca",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

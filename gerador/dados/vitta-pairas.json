@@ -1,5 +1,12 @@
 {
   "id": "vitta-pairas",
+  "condominio": {
+    "nome": "VITTA PAIRÁS",
+    "endereco": "RUA NELSON BERNARDI, 345 - JARDIM NOVO MUNDO",
+    "cep": "15997-448",
+    "cidade_uf": "MATÃO/SP",
+    "cidade_fecho": "Matão"
+  },
   "superlogica_nome": "Vitta Pairás",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

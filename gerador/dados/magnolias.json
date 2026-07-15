@@ -1,5 +1,12 @@
 {
   "id": "magnolias",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO JARDIM MAGNOLIAS I",
+    "endereco": "RUA DIONÍSIO RAMOS LIMA, 109 - JARDIM MAGNÓLIAS",
+    "cep": "14802-796",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Jardim Magnólias I",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

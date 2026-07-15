@@ -1,5 +1,12 @@
 {
   "id": "triade",
+  "condominio": {
+    "nome": "EDIFICIO RESIDENCIAL TRIADE",
+    "endereco": "AVENIDA MAUÁ, 707 - CENTRO",
+    "cep": "14801-190",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Tríade",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

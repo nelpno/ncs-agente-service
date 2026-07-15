@@ -1,5 +1,12 @@
 {
   "id": "city-center",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFÍCIO CITY CENTER",
+    "endereco": "RUA SÃO BENTO, 1098 - CENTRO",
+    "cep": "14801-300",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "City Center",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

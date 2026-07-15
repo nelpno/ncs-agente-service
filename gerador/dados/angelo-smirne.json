@@ -1,5 +1,12 @@
 {
   "id": "angelo-smirne",
+  "condominio": {
+    "nome": "CONDOMINIO EDIFICIO ANGELO SMIRNE",
+    "endereco": "RUA CARLOS GOMES, 1263 - CENTRO",
+    "cep": "14801340",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Angelo Smirne",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

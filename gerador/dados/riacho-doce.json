@@ -1,5 +1,12 @@
 {
   "id": "riacho-doce",
+  "condominio": {
+    "nome": "CONDOMÍNIO RESIDENCIAL RIACHO DOCE",
+    "endereco": "AV.: DOM CARLOS CARMELO, 493 - JD. BOTÂNICO",
+    "cep": "14805-045",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Riacho Doce",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

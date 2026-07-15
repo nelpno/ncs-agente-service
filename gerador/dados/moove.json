@@ -1,5 +1,12 @@
 {
   "id": "moove",
+  "condominio": {
+    "nome": "MOOVE CONCEPT HOME",
+    "endereco": "RUA IMACULADA CONCEIÇÃO, 3377 - VILA YAMADA",
+    "cep": "14802-135",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Moove Concept Home",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

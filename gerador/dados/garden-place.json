@@ -1,5 +1,12 @@
 {
   "id": "garden-place",
+  "condominio": {
+    "nome": "CONDOMINIO RESIDENCIAL GARDEN PLACE",
+    "endereco": "AV NOSSA SENHORA DAS GRAÇAS 660 - VILA MELHADO",
+    "cep": "14807-066",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Garden Place",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

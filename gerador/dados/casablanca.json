@@ -1,5 +1,12 @@
 {
   "id": "casablanca",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL CASABLANCA",
+    "endereco": "AV. BRASIL, Nº 740 - CENTRO",
+    "cep": "14801-050",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Casablanca",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

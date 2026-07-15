@@ -1,5 +1,12 @@
 {
   "id": "haddad",
+  "condominio": {
+    "nome": "EDIFICIO HADDAD",
+    "endereco": "RUA VICENTE SATRIANI, 316 - JARDIM SAO JORGE",
+    "cep": "14807070",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Edifício Haddad",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,7 +1,18 @@
 {
   "id": "alto-do-jaragua",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO ALTOS DO JARAGUÁ",
+    "endereco": "AVENIDA GOVERNADOR ORESTES QUERCIA, 80 - ALTOS DO JARAGUÁ",
+    "cep": "14804-700",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Altos do Jaraguá",
-  "aliases": ["Alto do Jaraguá", "Altos do Jaraguá", "Associação Altos do Jaraguá"],
+  "aliases": [
+    "Alto do Jaraguá",
+    "Altos do Jaraguá",
+    "Associação Altos do Jaraguá"
+  ],
   "_nota_nome": "No Superlógica é 'ALTOS DO JARAGUÁ' (plural, id 41) — o catálogo nascera como 'Alto' (singular) e não resolvia. NÃO afrouxar para só 'Jaraguá': existe o NASCENTE DO JARAGUÁ (id 119), que é outro condomínio.",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

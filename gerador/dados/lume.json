@@ -1,5 +1,12 @@
 {
   "id": "lume",
+  "condominio": {
+    "nome": "LUME",
+    "endereco": "RUA DÍDIMO VIEIRA DA SILVA, 507 - VILA FERROVIÁRIA",
+    "cep": "14802-370",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Lume",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

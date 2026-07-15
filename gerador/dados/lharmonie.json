@@ -1,5 +1,12 @@
 {
   "id": "lharmonie",
+  "condominio": {
+    "nome": "LHARMONIE",
+    "endereco": "RUA HENRIQUE LUPO, 1261 - VILA HARMONIA",
+    "cep": "14802-446",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Lharmonie",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "salto-grande-iii",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO JARDIM SALTO GRANDE III",
+    "endereco": "RUA LILIA ELISA EBERLE LUPO, 501 - JARDIM SALTO GRANDE",
+    "cep": "14803-886",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Salto Grande III",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

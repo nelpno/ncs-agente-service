@@ -1,5 +1,12 @@
 {
   "id": "vancouver",
+  "condominio": {
+    "nome": "CONDOMINIO RESIDENCIAL VANCOUVER",
+    "endereco": "AVENIDA GUMERCINDO SIQUEIRA, 1130 - JARDIM MAGNOLIAS",
+    "cep": "14806485",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Vancouver",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

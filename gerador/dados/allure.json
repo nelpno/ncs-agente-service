@@ -1,5 +1,12 @@
 {
   "id": "allure",
+  "condominio": {
+    "nome": "ALLURE CONDOMÍNIO RESORT",
+    "endereco": "RUA MAURICIO GALLI, 1215 - VILA SEDENHO",
+    "cep": "14806-155",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Allure",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "summertime",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO DE MORADORES DO CONDOMÍNIO SUMMERTIME",
+    "endereco": "AVENIDA MARTINHO GERHARD ROLFSEN - JARDIM RESIDENCIAL SANTA MÔNICA",
+    "cep": "14801-095",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Summertime",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

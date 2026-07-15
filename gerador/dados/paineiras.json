@@ -1,5 +1,12 @@
 {
   "id": "paineiras",
+  "condominio": {
+    "nome": "CONDOMÍNIO RESIDENCIAL DAS PAINEIRAS",
+    "endereco": "AVENIDA CARLOS BATISTA MAGALHÃES, 545 - VILA XAVIER (VILA XAVIER)",
+    "cep": "14810-134",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Paineiras",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

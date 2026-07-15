@@ -1,5 +1,12 @@
 {
   "id": "parque-dos-trilhos",
+  "condominio": {
+    "nome": "RESIDENCIAL PARQUE DOS TRILHOS",
+    "endereco": "RUA AMÉRICO BRASILIENSE, 1125 - VILA FERROVIÁRIA",
+    "cep": "14802-340",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Parque dos Trilhos",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

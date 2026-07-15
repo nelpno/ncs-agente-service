@@ -1,5 +1,12 @@
 {
   "id": "tivoli",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO RESIDENCIAL TIVOLI",
+    "endereco": "RUA JOSÉ MARIA PAIXÃO, 441 - RESIDENCIAL TIVOLI",
+    "cep": "14801-690",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Tivoli",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

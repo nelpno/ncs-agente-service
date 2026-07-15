@@ -1,5 +1,12 @@
 {
   "id": "acacias-i",
+  "condominio": {
+    "nome": "ASSOCIAÇÃO DE MORADORES DO JARDIM ACÁCIAS",
+    "endereco": "RUA DAS MAGNÓLIAS, 250 - JARDIM MAGNÓLIAS",
+    "cep": "14802-795",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Acácias I",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

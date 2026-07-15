@@ -1,5 +1,12 @@
 {
   "id": "monte-carlo",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFÍCIO MONTE CARLO",
+    "endereco": "AVENIDA FEIJÓ, 769 - CENTRO",
+    "cep": "14801-140",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Monte Carlo",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

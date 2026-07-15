@@ -1,5 +1,12 @@
 {
   "id": "vistas-botanico-cedros",
+  "condominio": {
+    "nome": "VISTAS DO BOTANICO - CEDROS",
+    "endereco": "RUA ANTONIO FERNANDES, 251 - RESIDENCIAL CAMBUY",
+    "cep": "14805435",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Vistas do Botânico - Cedros",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

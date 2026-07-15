@@ -1,5 +1,12 @@
 {
   "id": "aristocrata",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFICIO ARISTOCRATA",
+    "endereco": "AV. PORTUGAL, 432 - CENTRO",
+    "cep": "14801-075",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Aristocrata",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

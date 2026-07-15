@@ -1,5 +1,12 @@
 {
   "id": "flores",
+  "condominio": {
+    "nome": "CONDOMINIO RESIDENCIAL DAS FLORES",
+    "endereco": "RUA ANTENOR BORBA N° 387 - PARQUE LARANJEIRAS",
+    "cep": "14801-565",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Flores",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

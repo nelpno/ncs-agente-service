@@ -1,5 +1,12 @@
 {
   "id": "salto-grande-i",
+  "condominio": {
+    "nome": "ASSOCIACAO JARDIM SALTO GRANDE I",
+    "endereco": "RUA LILIA ELISA EBERLE LUPO, 151 - JARDIM SALTO GRANDE I",
+    "cep": "14801970",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Salto Grande I",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

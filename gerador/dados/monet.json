@@ -1,5 +1,12 @@
 {
   "id": "monet",
+  "condominio": {
+    "nome": "MONET",
+    "endereco": "AVENIDA CRISTÓVÃO COLOMBO, 722 - CENTRO",
+    "cep": "14801-200",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Monet",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

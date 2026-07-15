@@ -1,5 +1,12 @@
 {
   "id": "barbieri",
+  "condominio": {
+    "nome": "CONDOMÍNIO BARBIERI EDIFICIO BARBIERI I",
+    "endereco": "RUA DR. WALDO BARBIERI, 41 - VILA XAVIER",
+    "cep": "14810-273",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Barbieri",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

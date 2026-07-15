@@ -1,5 +1,12 @@
 {
   "id": "studio-five",
+  "condominio": {
+    "nome": "EDIFÍCIO STUDIO FIVE",
+    "endereco": "RUA: VOLUNTÁRIOS DA PÁTRIA, 2525 - CENTRO",
+    "cep": "14801-320",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Studio Five",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

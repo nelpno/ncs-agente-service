@@ -1,5 +1,12 @@
 {
   "id": "roseiras-ii",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFICIO ROSEIRAS II",
+    "endereco": "AV. JOSÉ ZILIOLI, 61 - VILA SEDENHO",
+    "cep": "14806-025",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Roseiras II",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

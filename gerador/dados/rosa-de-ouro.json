@@ -1,5 +1,12 @@
 {
   "id": "rosa-de-ouro",
+  "condominio": {
+    "nome": "CONDOMINIO EDIFICIO ROSA DE OURO",
+    "endereco": "RUA CARLOS GOMES, 1884 - CENTRO",
+    "cep": "14801340",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Rosa de Ouro",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

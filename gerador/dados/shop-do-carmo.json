@@ -1,5 +1,12 @@
 {
   "id": "shop-do-carmo",
+  "condominio": {
+    "nome": "CONDOMÍNIO MINI SHOPPING DO CARMO",
+    "endereco": "AV. SETE  DE SETEMBRO, 1275 - CARMO",
+    "cep": "14800-390",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Shopping do Carmo",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "sg-cedros-do-campo",
+  "condominio": {
+    "nome": "ASSOCIACAO DOS MORADORES DO RESIDENCIAL SALTO GRANDE - CEDROS DO CAMPO",
+    "endereco": "RUA LILIA ELISA EBERLE LUPO, 1401 - JARDIM SALTO GRANDE",
+    "cep": "14803886",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Cedros do Campo",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

@@ -1,5 +1,12 @@
 {
   "id": "reserva-do-campo",
+  "condominio": {
+    "nome": "ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE - RESERVA DO CAMPO",
+    "endereco": "AVENIDA BELMIRO ROZATTO, 590 - RESIDENCIAL CAMPOS DE PIEMONTE",
+    "cep": "14810598",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Reserva do Campo",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

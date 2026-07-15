@@ -1,7 +1,17 @@
 {
   "id": "piemonte",
+  "condominio": {
+    "nome": "ASSOC DE MORADORES DO LOT FECHADO JD RES MAGGIORE - RESID PIEMONTE",
+    "endereco": "RUA: ERNESTO ANUCHI, 630 - JD. MAGGIORE",
+    "cep": "14806-434",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Residencial Piemonte",
-  "aliases": ["Piemonte", "Residencial Piemonte"],
+  "aliases": [
+    "Piemonte",
+    "Residencial Piemonte"
+  ],
   "_nota_nome": "Só 'Piemonte' é AMBÍGUO no Superlógica: casa o id 105 (RESIDENCIAL PIEMONTE, este) e também o id 181 (RESERVA DO CAMPO), cuja razão social é 'ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE'. Com o nome ambíguo o resolver recusa e o condomínio não gera documento nenhum. superlogica_nome tem que ser o nome exato do sistema.",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

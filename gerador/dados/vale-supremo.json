@@ -1,5 +1,12 @@
 {
   "id": "vale-supremo",
+  "condominio": {
+    "nome": "CONDOMINIO VALE SUPREMO",
+    "endereco": "AVENIDA CAPITAO NORAY DE PAULA E SILVA, 41 - VILA MELHADO",
+    "cep": "14807045",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Vale Supremo",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

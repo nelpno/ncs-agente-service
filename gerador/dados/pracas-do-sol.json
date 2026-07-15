@@ -1,5 +1,12 @@
 {
   "id": "pracas-do-sol",
+  "condominio": {
+    "nome": "VITTA PRACAS DO SOL",
+    "endereco": "AVENIDA JOAQUIM VIEIRA DOS SANTOS, 2929 - JARDIM BRASIL (VILA XAVIER)",
+    "cep": "14811120",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
   "superlogica_nome": "Vitta Praças do Sol",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

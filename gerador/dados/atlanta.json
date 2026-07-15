@@ -1,5 +1,12 @@
 {
   "id": "atlanta",
+  "condominio": {
+    "nome": "ASSOCIACAO DE PROPRIETARIOS EM LOTEAMENTO ATLANTA",
+    "endereco": "RUA MARIA MARCELINA DE CAMPOS, 790 - PARQUE ATLANTA",
+    "cep": "14804-332",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Atlanta",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

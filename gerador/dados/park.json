@@ -1,5 +1,12 @@
 {
   "id": "park",
+  "condominio": {
+    "nome": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL PARK",
+    "endereco": "RUA PADRE DUARTE, 2.605 - CENTRO",
+    "cep": "14801-310",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Residencial Park",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",

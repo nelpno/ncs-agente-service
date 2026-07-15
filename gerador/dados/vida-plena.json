@@ -1,5 +1,12 @@
 {
   "id": "vida-plena",
+  "condominio": {
+    "nome": "RESIDENCIAL VIDA PLENA ARARAQUARA",
+    "endereco": "AV. DOUTOR LEITE DE MORAES, 951 - VILA XAVIER",
+    "cep": "14810-120",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "Araraquara"
+  },
   "superlogica_nome": "Residencial Vida Plena Araraquara",
   "uso_juridico_liberado": false,
   "revisao_humana": "pendente",
