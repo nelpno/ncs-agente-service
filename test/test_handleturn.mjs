@@ -2,8 +2,17 @@
 // Outbound -> dangerouslyDisableSandbox. Valida que a Ana chama a tool e responde CITANDO a fonte.
 import fs from 'node:fs';
 
+// ⚠️ Teste AO VIVO: chama o Gemini de verdade e lê a chave de `.tmp/`, que fica FORA do repo.
+// Sem a chave ele PULA (exit 0) em vez de estourar — senão derruba o gate do CI (14/07) por
+// falta de segredo, e não por bug. E no CI ele NÃO deve rodar mesmo: gastaria dinheiro a cada
+// push e um teste de LLM é instável por natureza. O gate cobre os determinísticos; este é local.
+const KEY = new URL('../../../.tmp/gemini_key.txt', import.meta.url);
+if (!fs.existsSync(KEY)) {
+  console.log('test_handleturn: PULADO (sem .tmp/gemini_key.txt — teste ao vivo, roda só na máquina do dev)');
+  process.exit(0);
+}
 // configura o LLM ANTES de importar config/agent (config lê process.env no import)
-process.env.OPENROUTER_API_KEY = fs.readFileSync(new URL('../../../.tmp/gemini_key.txt', import.meta.url), 'utf8').trim();
+process.env.OPENROUTER_API_KEY = fs.readFileSync(KEY, 'utf8').trim();
 process.env.OPENROUTER_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai';
 process.env.AGENT_MODEL = process.env.AGENT_MODEL || 'gemini-2.5-flash';
 
