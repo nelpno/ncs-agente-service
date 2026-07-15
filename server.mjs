@@ -81,7 +81,10 @@ export function criarHandlerRejeitar({ rejeitarRascunhoPorId, rejeitarRascunho }
   };
 }
 
-const CHAT_HTML = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+// exportado p/ o test_chat_html.mjs compilar o <script> servido: esta é uma TEMPLATE STRING, então
+// um `\n` escrito aqui dentro vira quebra de linha REAL no HTML e parte a string do script ao meio
+// (foi o bug de 13-15/07: o botão Enviar morreu e nenhum teste viu, porque todos batem na API).
+export const CHAT_HTML = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ana — Agente NCS (teste)</title><style>
 *{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
 body{margin:0;background:#e5ddd5;height:100vh;display:flex;flex-direction:column}
@@ -119,7 +122,7 @@ function send(){
 async function flush(){
   if(debTimer){clearTimeout(debTimer);debTimer=null;}
   if(waitMsg){waitMsg.remove();waitMsg=null;}
-  const t=buf.join('\n'); buf=[]; if(!t)return;
+  const t=buf.join('\\n'); buf=[]; if(!t)return;
   const typing=add('Ana esta digitando...','typing'); const t0=Date.now();
   try{
     const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session,k:K})});
