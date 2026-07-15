@@ -1,3 +1,10 @@
+# ⚠️ VESTIGIAL — este arquivo NÃO é o que sobe no VPS.
+# O deploy monta o compose INLINE dentro de .tmp/deploy_chat_ncs.mjs (chat-only) e
+# .tmp/deploy_apps_ncs.mjs (full). Editar AQUI não muda produção — e mexer só num dos
+# dois scripts faz o outro apagar a mudança no próximo deploy (foi o que aconteceu com o
+# REDIS_URL: a linha existia aqui, os scripts nunca a definiam, e o Estagiário rodou
+# meses em memória, perdendo a conversa da equipe a cada redeploy).
+# Mudou env/serviço? Mexa nos DOIS scripts .tmp/deploy_{chat,apps}_ncs.mjs.
 services:
   # Chat NCS — assistente interno (mesma imagem da Ana, entrypoint do estagiário).
   # Stack SEPARADA: deploy independente, não recria o container da Ana. Túnel/código próprios.
