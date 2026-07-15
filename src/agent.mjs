@@ -66,6 +66,11 @@ async function runToolReal(name, args, ctx) {
       // O card de aprovação mostra isso em vez do id interno (14381), que o aprovador não acha no
       // Superlógica. Vem daqui e não do LLM justamente p/ não ser inventado.
       for (const u of us) if (u.id_unidade) (ctx.unidades ||= {})[String(u.id_unidade)] = u.identificacao || null;
+      // Idem p/ o NOME do condomínio. Não basta o ctx.lastCondo: além de morrer no fim do turno, ele
+      // é reescrito por get_boleto_2via como { id: novo, nome: ANTIGO } → trocar de condomínio deixa
+      // o nome errado. O mapa id→nome não desalinha. Sem o nome, o posGravar não resolve a portaria
+      // e o aviso NÃO sai ("condominio_nao_resolvido" — visto na aprovação real de 15/07).
+      for (const u of us) if (u.id_condominio) (ctx.condominios ||= {})[String(u.id_condominio)] = u.condominio || null;
       return r;
     }
     case 'get_boleto_2via': { if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome }; return await SL.get_boleto_2via(args); }
@@ -110,9 +115,11 @@ async function runToolReal(name, args, ctx) {
       const idu = String(args.id_unidade || '');
       const r = await ENGINE.criarRascunho('cadastro_inquilino', {
         id_condominio: idc, id_unidade: idu,
-        // rótulos p/ a tela do aprovador — do ERP (ctx), não do modelo
+        // rótulos p/ a tela do aprovador E p/ o aviso à portaria — do ERP (ctx), não do modelo.
+        // O condominio_nome é o que o posGravar usa p/ resolver portaria/síndico: sem ele o aviso
+        // não sai. Mapa primeiro (nunca desalinha); lastCondo só como reserva no mesmo turno.
         unidade_label: ctx.unidades?.[idu] || null,
-        condominio_nome: ctx.lastCondo?.nome || null,
+        condominio_nome: ctx.condominios?.[idc] || ctx.lastCondo?.nome || null,
         nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
         responsavel_cobranca: args.responsavel_cobranca,
@@ -154,6 +161,7 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   // ensaio em prod pegou; teste de unidade não passa pelo save/get).
   session.ctx ||= {};
   ctx.unidades = (session.ctx.unidades ||= {});
+  ctx.condominios = (session.ctx.condominios ||= {});
   // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
   // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
   session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
