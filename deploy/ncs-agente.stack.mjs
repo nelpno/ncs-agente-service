@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:ab5e79165954db1b8c626697e3858ac55bfe6a3b4d894ae4fb5ab24127a1c9b9"; // 1048fcd: responsavel_cobranca (4/7) + fila de aprovacao no Supabase + card do aprovador
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:5fb5d6e43631c69ffcb0ad237cc5e636b65067ba6200839d659d932f9db427a4"; // e799f72: + condominio_nome no rascunho (sem ele o aviso a portaria nao saia)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
