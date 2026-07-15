@@ -29,11 +29,16 @@ const base = {
 };
 // cadastro injetado = teste hermético (não depende do Superlógica nem de bloco fixo no catálogo).
 const CADASTRO = { nome: 'CONDOMINIO TESTE', endereco: 'RUA X, 1', cep: '14800-000', cidade_uf: 'ARARAQUARA/SP', cidade_fecho: 'Araraquara' };
+// Lê o TEXTO VISÍVEL do documento, não o HTML: o que importa aqui é a PALAVRA que sai para o
+// leitor ("responsável"/"proprietário"), não a marcação em volta. Sem isso o teste quebra por
+// formatação — o negrito estrutural (14/07) passou a envolver "apartamento 101" em <b>, e a frase
+// continua idêntica para quem lê. As asserções abaixo seguem as mesmas, agora à prova de tags.
+const semTags = (h) => h.replace(/<[^>]+>/g, '');
 const gerar = (destinatario) => {
   const r = gerarDocumento({ ocorrencia: { ...base, destinatario }, cadastro: CADASTRO, formato: 'word' });
   const html = fs.readFileSync(r.destino, 'utf8');
   try { fs.unlinkSync(r.destino); } catch {}
-  return html;
+  return semTags(html);
 };
 
 const semPapel = gerar({ nome: 'Joao Carlos da Silva', genero: 'M', apartamento: '101' });

@@ -12,6 +12,22 @@ function esc(s) {
 function par(s) {
   return esc(s).replace(/\n/g, "<br>");
 }
+// Negrito (pedido da equipe 14/07: "coloque em negrito as partes mais importantes").
+// ⚠️ ORDEM: escapa o texto E cada marca ANTES de embrulhar em <b> — assim a proteção contra
+// HTML no relato continua valendo e a marca casa com o texto já escapado. Marca que não casa é
+// ignorada em silêncio (falha graciosa: o documento sai igual, sem o destaque — nunca alterado).
+// Não parseamos "**": marcador vazado num documento que o síndico assina seria pior que sem negrito.
+function negritar(s, marcas) {
+  let out = esc(s);
+  for (const m of Array.isArray(marcas) ? marcas : []) {
+    const alvo = esc(m);
+    if (!alvo) continue;
+    const i = out.indexOf(alvo);
+    if (i < 0) continue; // não está no texto → não inventa destaque
+    out = out.slice(0, i) + "<b>" + alvo + "</b>" + out.slice(i + alvo.length);
+  }
+  return out.replace(/\n/g, "<br>");
+}
 
 export function renderHTML(doc) {
   const c = doc.condominio;
@@ -71,11 +87,11 @@ export function renderHTML(doc) {
     <tr><td>
       <div class="conteudo">
         <div class="titulo">${par(doc.titulo)}</div>
-        <div class="saudacao">${esc(doc.saudacao)}</div>
-        <div class="fundamento">${esc(doc.fundamento)}</div>
-        <div class="artigo">${par(doc.texto_artigo)}</div>
-        <div class="corpo">${par(doc.relato)}</div>
-        ${doc.penalidade_paragrafo ? `<div class="penalidade">${par(doc.penalidade_paragrafo)}</div>` : ""}
+        <div class="saudacao">${negritar(doc.saudacao, doc.saudacao_marcas)}</div>
+        <div class="fundamento">${negritar(doc.fundamento, doc.fundamento_marcas)}</div>
+        ${(doc.textos_artigo || [doc.texto_artigo]).map((t) => `<div class="artigo">${par(t)}</div>`).join("\n        ")}
+        <div class="corpo">${negritar(doc.relato, doc.relato_marcas)}</div>
+        ${doc.penalidade_paragrafo ? `<div class="penalidade">${negritar(doc.penalidade_paragrafo, doc.penalidade_marcas)}</div>` : ""}
         <div class="convencao-titulo">${esc(doc.convencao.capitulo)}</div>
         <div class="convencao">${par(doc.convencao.texto)}</div>
         <div class="fecho-bloco">

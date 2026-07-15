@@ -59,7 +59,7 @@ export async function gerar_documento(args = {}) {
     fs.mkdirSync(SAIDA, { recursive: true });
     const stamp = Date.now().toString(36);
     const ext = word ? "doc" : "pdf";
-    const arquivo = `${slugId(ocorrencia.condominio)}_${slugId(ocorrencia.tipo)}_${slugId(ocorrencia.infracao_id || "doc")}_${stamp}.${ext}`;
+    const arquivo = `${slugId(ocorrencia.condominio)}_${slugId(ocorrencia.tipo)}_${slugId([].concat(ocorrencia.infracao_id ?? []).join("-") || "doc").slice(0, 60)}_${stamp}.${ext}`;
     const destino = path.join(SAIDA, arquivo);
     const { titulo, formato: fmt } = gerarDocumento({ ocorrencia, destino, cadastro, formato });
     return { ok: true, titulo, arquivo, url: `/doc/${arquivo}`, formato: fmt, cadastro_fonte: cadastro ? "superlogica" : "catalogo" };
