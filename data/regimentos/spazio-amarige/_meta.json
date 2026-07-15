@@ -1,7 +1,9 @@
 {
-  "condominio": "Spazio Amarige",
+  "condominio": "Parque Amarige",
   "condominio_slug": "spazio-amarige",
-  "aliases": ["Parque Amarige"],
+  "aliases": [
+    "Parque Amarige"
+  ],
   "endereco": "Avenida Doutor Miguel Couto, 493, Araraquara - SP",
   "id_condominio_superlogica": 177,
   "documentos": [
