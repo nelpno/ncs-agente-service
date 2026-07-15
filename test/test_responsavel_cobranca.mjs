@@ -55,5 +55,25 @@ ok(/propriet[aá]rio/i.test(rProp.resumo), 'resumo: diz quem recebe o boleto (pa
 ok(/inquilino/i.test(rInq.resumo) && /boleto/i.test(rInq.resumo), 'resumo: no caso do inquilino responsável, diz que o boleto vai p/ ele');
 ok(!/undefined|\[object/.test(rProp.resumo + rInq.resumo), 'resumo: sem undefined/[object Object] vazando');
 
+// --- rótulo da unidade e data: quem lê o card é HUMANO, não quem tem acesso ao banco.
+// O Fernando já reportou esse bug uma vez (a CND saía com "unidade 997" = o id interno).
+// Pior no alerta: mandar "mude a unidade 14381" é instrução que o aprovador NÃO consegue executar,
+// porque no Superlógica a unidade se chama "QUADRA 20 / LOTE 0314".
+// O rótulo vem do ERP (resolver_cadastro.unidades[].identificacao), nunca do LLM.
+const comLabel = { ...base, unidade_label: 'QUADRA 20 / LOTE 0314' };
+const rl = cadastroInquilino.render(comLabel, []);
+ok(/QUADRA 20 \/ LOTE 0314/.test(rl.resumo), 'resumo usa o rótulo da unidade, não o id interno');
+ok(!/\b900\b/.test(rl.resumo), 'resumo NÃO mostra o id interno quando há rótulo');
+ok(/QUADRA 20 \/ LOTE 0314/.test(cadastroInquilino.render({ ...comLabel, responsavel_cobranca: 'inquilino' }, []).alertas[0]),
+  'alerta do flip cita a unidade que o aprovador acha no Superlógica (senão não dá p/ executar)');
+ok(/900/.test(rProp.resumo), 'sem rótulo → cai no id (compat, não quebra)');
+
+// data: MM/DD/AAAA é o que a API do Superlógica exige, mas ninguém lê "06/30/2026" em português
+ok(/30\/06\/2026/.test(rl.resumo), 'resumo mostra a data em DD/MM/AAAA');
+ok(cadastroInquilino.montarPayload(comLabel)['contatos[0][DT_ENTRADA_RES]'] === '06/30/2026',
+  'payload PRESERVA MM/DD/AAAA (a API exige) — a troca é só de exibição');
+ok(!JSON.stringify(cadastroInquilino.montarPayload(comLabel)).includes('QUADRA 20'),
+  'unidade_label não vaza pro payload da API');
+
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);

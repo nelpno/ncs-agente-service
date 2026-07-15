@@ -98,6 +98,18 @@ async function gravar(payload, { dados, io = {} } = {}) {
   return { ok: true, dryRun: !!res.dryRun, resposta: res.resposta, idCriado, candidatosId };
 }
 
+// Como a unidade aparece p/ HUMANO. `id_unidade` é chave de banco (14381): o aprovador não acha isso
+// no Superlógica, e o Fernando já reportou esse vazamento uma vez (CND com "unidade 997").
+// O rótulo vem do ERP (resolver_cadastro → unidades[].identificacao, ex. "QUADRA 20 / LOTE 0314"),
+// carregado no draft pela tool — nunca escrito pelo LLM. Sem rótulo, cai no id (não quebra).
+const unidadeVisivel = (d) => d.unidade_label || d.id_unidade;
+// A API do Superlógica exige MM/DD/AAAA; o texto para gente é DD/MM/AAAA. Só exibição — o payload
+// (DT_ENTRADA_RES) continua no formato da API.
+const dataBR = (s) => {
+  const m = String(s || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  return m ? `${m[2]}/${m[1]}/${m[3]}` : (s || '—');
+};
+
 // Frase única que o aprovador lê antes de decidir. Mora AQUI (na ação) porque é a ação que conhece
 // a semântica; o painel do piloto e o card do Portal só exibem — nenhum dos dois remonta a regra.
 function resumir(d) {
@@ -105,7 +117,7 @@ function resumir(d) {
   const quem = inquilinoRecebe(d)
     ? 'O boleto da taxa passa a ir para ele (o proprietário fica só com as cobranças extras).'
     : 'O boleto da taxa continua indo para o proprietário.';
-  return `${d.nome} entra como ${papel} da unidade ${d.id_unidade} a partir de ${d.data_entrada}. ${quem}`;
+  return `${d.nome} entra como ${papel} da unidade ${unidadeVisivel(d)} a partir de ${dataBR(d.data_entrada)}. ${quem}`;
 }
 
 function render(d, snap) {
@@ -113,22 +125,22 @@ function render(d, snap) {
   return {
     resumo: resumir(d),
     campos: [
-      { label: 'Condomínio', valor: d.id_condominio },
-      { label: 'Unidade', valor: d.id_unidade },
+      { label: 'Condomínio', valor: d.condominio_nome || d.id_condominio },
+      { label: 'Unidade', valor: unidadeVisivel(d) },
       { label: 'Nome', valor: d.nome },
       { label: 'Papel', valor: d.papel === 'dependente' ? 'Dependente' : 'Inquilino/Residente' },
-      { label: 'Entrada', valor: d.data_entrada },
+      { label: 'Entrada', valor: dataBR(d.data_entrada) },
       { label: 'E-mail', valor: d.email || '—' },
       { label: 'Telefone', valor: d.telefone || '—' },
       { label: 'CPF', valor: d.cpf || '—' },
       { label: 'Quem recebe o boleto', valor: recebe ? 'O inquilino (responsável pela cobrança)' : 'O proprietário (padrão)' },
     ],
-    diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${d.id_unidade}` }],
+    diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${unidadeVisivel(d)}` }],
     // alertas — o que o aprovador precisa FAZER e a Ana não faz sozinha. O flip do proprietário
     // (1 → 2 "só extras") é uma 2ª escrita, num contato que já existe: fica com o humano nesta onda.
     // Sem ele, proprietário e inquilino recebem a MESMA taxa (duplicação).
     alertas: recebe ? [
-      `Ao aprovar, mude o proprietário da unidade ${d.id_unidade} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`,
+      `Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`,
     ] : [],
     snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
   };

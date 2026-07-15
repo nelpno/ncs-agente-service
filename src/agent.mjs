@@ -59,7 +59,15 @@ async function runToolReal(name, args, ctx) {
   switch (name) {
     // ctx.lastCondo rastreia o condomínio em foco (id + nome) p/ rotear a cobrança no handoff (ver transferir_humano).
     // Setado pelas tools que recebem id_condominio explícito (sinal preciso) e pelo resolver quando há 1 única unidade.
-    case 'resolver_cadastro': { const r = await SL.resolver_cadastro(args); const us = r?.unidades || []; if (us.length === 1 && us[0].id_condominio) ctx.lastCondo = { id: String(us[0].id_condominio), nome: us[0].condominio }; return r; }
+    case 'resolver_cadastro': {
+      const r = await SL.resolver_cadastro(args); const us = r?.unidades || [];
+      if (us.length === 1 && us[0].id_condominio) ctx.lastCondo = { id: String(us[0].id_condominio), nome: us[0].condominio };
+      // Guarda o rótulo HUMANO de cada unidade vista ("QUADRA 20 / LOTE 0314"), direto do ERP.
+      // O card de aprovação mostra isso em vez do id interno (14381), que o aprovador não acha no
+      // Superlógica. Vem daqui e não do LLM justamente p/ não ser inventado.
+      for (const u of us) if (u.id_unidade) (ctx.unidades ||= {})[String(u.id_unidade)] = u.identificacao || null;
+      return r;
+    }
     case 'get_boleto_2via': { if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome }; return await SL.get_boleto_2via(args); }
     case 'get_inadimplencia': { if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome }; return await SL.get_inadimplencia(args); }
     case 'enviar_anexo_pdf': {
@@ -99,8 +107,12 @@ async function runToolReal(name, args, ctx) {
     case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); return { transferido: true }; }
     case 'criar_rascunho_cadastro': {
       const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
+      const idu = String(args.id_unidade || '');
       const r = await ENGINE.criarRascunho('cadastro_inquilino', {
-        id_condominio: idc, id_unidade: String(args.id_unidade || ''),
+        id_condominio: idc, id_unidade: idu,
+        // rótulos p/ a tela do aprovador — do ERP (ctx), não do modelo
+        unidade_label: ctx.unidades?.[idu] || null,
+        condominio_nome: ctx.lastCondo?.nome || null,
         nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
         responsavel_cobranca: args.responsavel_cobranca,
