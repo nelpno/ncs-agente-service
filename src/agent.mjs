@@ -144,6 +144,12 @@ const CONFIRM_RE = /(confirmar?|conferir)[^.!?]*(correto|certo|acrescentar|adici
  */
 export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool) {
   if (!session.messages.length) session.messages.push({ role: 'system', content: systemPrompt });
+  // ⚠️ O `ctx` é NOVO a cada requisição (o /chat-send e o adapter montam um do zero) → o que uma tool
+  // guarda nele MORRE no fim do turno. Quem sobrevive entre turnos é a `session` (Redis, 48h).
+  // Ancorar o mapa de unidades na sessão (mesma referência) faz o rótulo colhido pelo
+  // resolver_cadastro no 1º turno chegar ao criar_rascunho_cadastro lá no 4º — que é o caso real:
+  // ninguém identifica a unidade e pede o cadastro na mesma frase.
+  ctx.unidades = (session.unidades ||= {});
   // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
   // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
   session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
