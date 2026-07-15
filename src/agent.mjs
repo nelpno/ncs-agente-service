@@ -149,7 +149,11 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   // Ancorar o mapa de unidades na sessão (mesma referência) faz o rótulo colhido pelo
   // resolver_cadastro no 1º turno chegar ao criar_rascunho_cadastro lá no 4º — que é o caso real:
   // ninguém identifica a unidade e pede o cadastro na mesma frase.
-  ctx.unidades = (session.unidades ||= {});
+  // ⚠️⚠️ TEM que ser dentro de `session.ctx`: o saveSession() serializa SÓ {messages, ctx, touched}
+  // — qualquer outra chave no topo da sessão é descartada EM SILÊNCIO (foi o que aconteceu, e só o
+  // ensaio em prod pegou; teste de unidade não passa pelo save/get).
+  session.ctx ||= {};
+  ctx.unidades = (session.ctx.unidades ||= {});
   // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
   // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
   session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
