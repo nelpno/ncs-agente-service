@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:132be8b52585366b7864cf262bc7dd899ed0c874ede5557c0b85b68d95ecbbf5"; // 9a72fd4: "de ambos" + cada boleto diz de qual unidade e (confirmada por conteudo: test_anexo_rotulo roda dentro dela)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:e9a91a282712731fe31f7622690b20dfe40863909ec355e7406eda3341c2201f"; // 1cf23df: deploy de prompt pega em sessao viva (_ancorarSystemPrompt) + "de ambos"
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
