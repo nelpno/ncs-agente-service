@@ -40,6 +40,11 @@ export const CHAT_REQUIRED_ENV = [
   "USD_BRL",
   "MODEL_PRICE_GPT_5_4",
   "REDIS_URL",
+  // Onda 1: o Portal chama o executor unico (agente-service) p/ aprovar/rejeitar. A rota
+  // /write/aprovar exige `x-webhook-secret` quando o WEBHOOK_SECRET esta setado la (e esta) →
+  // sem o MESMO segredo aqui, o botao "Aprovar" da 401 e falha calado (bug visto ao vivo 15/07).
+  "WEBHOOK_SECRET",
+  "NCS_AGENTE_URL",
 ];
 
 const SESSION_SECRET_MIN = 32;
@@ -61,6 +66,7 @@ export function buildChatStack(secrets = {}) {
     supabaseServiceKey,
     sessionSecret,
     chatPasscode,
+    webhookSecret,
   } = secrets;
 
   const env = [
@@ -87,6 +93,9 @@ export function buildChatStack(secrets = {}) {
     { name: "MODEL_PRICE_GPT_5_4", value: "2.50/0.25/15" },
     // sessão da equipe sobrevive ao redeploy (TTL 48h). Sem isto o server cai em in-memory.
     { name: "REDIS_URL", value: "redis://redis:6379" },
+    // executor unico da Onda 1 (rede interna `edge` do VPS) + segredo compartilhado com a Ana
+    { name: "WEBHOOK_SECRET", value: webhookSecret },
+    { name: "NCS_AGENTE_URL", value: "http://ncs-agente:8080" },
   ];
 
   const missing = env.filter((e) => e.value == null || e.value === "").map((e) => e.name);

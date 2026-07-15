@@ -80,10 +80,17 @@ function agenteUrl() {
 }
 
 // Chama o executor único. fetchImpl injetável (teste sem rede real).
+// ⚠️ A rota /write/aprovar do agente-service exige `x-webhook-secret` QUANDO o WEBHOOK_SECRET está
+// setado lá (e está, em prod). Sem o header → 401 → o botão "Aprovar" falhava com "não foi possível
+// concluir agora" (bug achado ao vivo em 15/07). Os dois containers precisam do MESMO segredo.
 async function chamarExecutor(caminho, body, fetchImpl = fetch) {
+  const segredo = process.env.WEBHOOK_SECRET || "";
   const r = await fetchImpl(`${agenteUrl()}${caminho}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(segredo ? { "x-webhook-secret": segredo } : {}),
+    },
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(Number(process.env.NCS_AGENTE_TIMEOUT_MS || 15000)),
   });

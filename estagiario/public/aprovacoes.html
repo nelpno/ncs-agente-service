@@ -177,7 +177,10 @@ function renderCard(d){
   var det=el('details',null,[el('summary',{text:'Ver detalhes'}),renderDl(d.dados)]);
   if(!d.resumo){det.setAttribute('open','');}
   kids.push(det);
-  if(d.conflito){
+  // ⚠️ testar o OBJETO dava alarme falso: {conflito:false,candidatos:[]} é truthy → o card dizia
+  // "Conflito detectado" e despejava o JSON em TODO cadastro limpo (visto ao vivo 15/07).
+  // O que vale é o campo booleano de dentro.
+  if(d.conflito&&d.conflito.conflito){
     kids.push(el('div',{class:'conflito'},[
       el('div',{class:'ct',text:'⚠ Confira antes de aprovar'}),
       el('div',{text:(d.conflito.detalhe||'Possível duplicidade nesta unidade.')})

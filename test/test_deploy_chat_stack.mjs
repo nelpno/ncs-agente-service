@@ -29,6 +29,9 @@ const FAKE = {
   supabaseServiceKey: "svc-fake",
   sessionSecret: "x".repeat(64),
   chatPasscode: "pass-fake",
+  // Onda 1: sem o MESMO segredo da Ana, o Portal chama /write/aprovar sem o header
+  // `x-webhook-secret` → 401 → o botão "Aprovar" falha com erro genérico (bug ao vivo 15/07).
+  webhookSecret: "wh-fake",
 };
 
 // ---------------------------------------------------------------- env
