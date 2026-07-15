@@ -188,7 +188,7 @@ const server = http.createServer(async (req, res) => {
       const data = JSON.parse((await readBody(req)) || '{}');
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: 'código inválido' });
       const chatKey = 'chat-' + (data.session || 'anon');
-      const session = await getSession(chatKey);
+      const session = await getSession(chatKey, { maxIdleMs: config.sessionContinuityMin * 60_000 });
       const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null, cacheKey: chatKey });
       await saveSession(chatKey, session);
       return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [], drafts: r.drafts || [] });
@@ -223,7 +223,7 @@ const server = http.createServer(async (req, res) => {
     const { text, chatId, fluxo, sessionKey } = parsePayload(payload);
     console.log(`[webhook] keys=${Object.keys(payload).join(',')} chatId=${chatId} len=${text.length}`);
     if (!text) return json(res, 200, { reply: '', nota: 'sem texto' });
-    const session = await getSession(sessionKey);
+    const session = await getSession(sessionKey, { maxIdleMs: config.sessionContinuityMin * 60_000 });
     const ctx = { chatId, fluxo, transferred: null, cacheKey: sessionKey };
     const { reply, transferred } = await handleTurn(session, text, ctx);
     await saveSession(sessionKey, session);

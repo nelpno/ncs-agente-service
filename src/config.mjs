@@ -35,6 +35,10 @@ export const config = {
   // Redis (memória persistente de sessão)
   redisUrl: env.REDIS_URL || '',
   sessionTtlS: parseInt(env.SESSION_TTL_S || '172800', 10),
+  // Janela de continuidade: a memória segue o MORADOR (não o ticket), mas silêncio maior que
+  // isto = assunto novo → sessão limpa (não arrasta contexto velho nem infla tokens).
+  // 0 = desliga a janela (só o TTL de 48h corta). Ver test_sessao_janela.mjs.
+  sessionContinuityMin: parseInt(env.SESSION_CONTINUITY_MIN || '60', 10),
   // Supabase dedicado do NCS (mesmo do Estagiário) — motor de escritas/outbox/contatos (Onda 1).
   // Vazio => módulos caem no fallback Redis/in-memory (DRY_RUN local, testes offline).
   supabaseUrl: env.SUPABASE_URL || '',

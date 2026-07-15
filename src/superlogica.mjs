@@ -104,7 +104,8 @@ export function _match(r, { cpfd, telTail, nomeN, unidadeQ }) {
 // resolver_cadastro: identidade por CPF, telefone do titular (do canal) ou nome+condomínio.
 // Retorna { encontrado, criterio, confianca, unidades:[{id_unidade, identificacao, condominio, id_condominio, papel, nome, ex_morador}] }
 // ou { encontrado:false, motivo }. confianca alta=cpf/telefone (própria pessoa); media/baixa=nome → o agente CONFIRMA antes de entregar dado sensível (LGPD).
-export async function resolver_cadastro({ cpf, nome, condominio, telefone, unidade } = {}) {
+// deps = injeção só para teste (fixture sem API/PII). Produção não passa nada → usa o real.
+export async function resolver_cadastro({ cpf, nome, condominio, telefone, unidade } = {}, deps = {}) {
   const cpfd = _digits(cpf);
   const teld = _digits(telefone);
   const telTail = teld.length >= 8 ? teld.slice(-8) : null;
@@ -114,7 +115,10 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
   // busca SÓ por nome/unidade sem condomínio é proibida (homônimos/aptos repetidos em 54 condos) → exige o condomínio.
   if (!cpfd && !telTail && (nomeN || unidadeQ) && !condominio) return { encontrado: false, motivo: 'nome_exige_condominio' };
 
-  let condos = await listCondominios();
+  const _listCondominios = deps.listCondominios || listCondominios;
+  const _slGet = deps.slGet || slGet;
+
+  let condos = await _listCondominios();
   if (condominio) {
     const alvo = condos.filter((c) => c.nome.toLowerCase().includes(String(condominio).toLowerCase()));
     if (alvo.length) condos = alvo;
@@ -122,9 +126,12 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
 
   const q = { cpfd, telTail, nomeN, unidadeQ };
   const matches = [];
-  const CONC = 8;
+  // 30 = 2 rodadas nos ~59 condomínios. Medido contra a API real (15/07): 8→22,2s · 16→11,8s ·
+  // 30→8,4s · 59→6,4s, ZERO erro em todos. Ficou mais rápido que os 22s que a busca por CPF
+  // não-encontrado já custava. Teto fixo (não 59) p/ não escalar sozinho conforme a base cresce.
+  const CONC = 30;
   async function scan(c) {
-    let resp; try { resp = await slGet('responsaveis/index', { idCondominio: c.id }); } catch { return; }
+    let resp; try { resp = await _slGet('responsaveis/index', { idCondominio: c.id }); } catch { return; }
     for (const r of (Array.isArray(resp) ? resp : [])) {
       const m = _match(r, q);
       if (m) matches.push({ ...m, unidade: {
@@ -136,10 +143,13 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
       } });
     }
   }
-  // condomínio informado = 1 lote; senão varre em lotes e para ao achar match forte (cpf/telefone).
+  // Varre TODOS os condomínios do escopo antes de decidir.
+  // ⚠️ Havia um `break` ao achar match forte ("achei o CPF, pronto") — a premissa "1 CPF = 1
+  // condomínio" é FALSA: 207 CPFs da base têm unidade em 2+ condomínios e 181 deles tinham a
+  // segunda FORA do 1º lote de 8 → a Ana entregava um boleto e era cega ao outro, calada.
+  // Quando o condomínio é informado, `condos` já vem filtrado acima → continua barato (1 rodada).
   for (let i = 0; i < condos.length; i += CONC) {
     await Promise.all(condos.slice(i, i + CONC).map(scan));
-    if (condominio || matches.some((m) => m.score >= 80)) break;
   }
   if (!matches.length) return { encontrado: false, unidades: [], motivo: (cpfd ? 'cpf' : telTail ? 'telefone' : (unidadeQ && !nomeN) ? 'unidade' : 'nome') + '_nao_encontrado' };
 

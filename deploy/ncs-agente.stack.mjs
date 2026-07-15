@@ -45,6 +45,7 @@ export const ANA_REQUIRED_ENV = [
   "CHAT_PASSCODE",
   "REDIS_URL",
   "SESSION_TTL_S",
+  "SESSION_CONTINUITY_MIN",
   "DRY_RUN_WRITES",
   "AUDIT_LOG_PATH",
   "APPROVAL_PASSCODE",
@@ -115,6 +116,10 @@ export function buildAnaStack(secrets = {}) {
     { name: "CHAT_PASSCODE", value: chatPasscode },
     { name: "REDIS_URL", value: "redis://redis:6379" },
     { name: "SESSION_TTL_S", value: "172800" },
+    // Janela de continuidade da memória (a sessão segue o MORADOR, não o ticket): silêncio maior
+    // que isto = assunto novo → sessão limpa. 120 = as ~2h que o Fernando pediu ("deixar a
+    // conversa meia aberta"); o default do código é 60. Ajuste aqui = redeploy SEM rebuild.
+    { name: "SESSION_CONTINUITY_MIN", value: "120" },
     // gate da escrita real no Superlógica (Onda 1 roda em DRY_RUN até liberar)
     { name: "DRY_RUN_WRITES", value: "true" },
     { name: "AUDIT_LOG_PATH", value: "/data/audit/escritas.jsonl" },

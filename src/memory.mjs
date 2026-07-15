@@ -60,9 +60,15 @@ const SESS_PREFIX = 'sess:';
 /**
  * Retorna (ou cria) a sessão para a key dada.
  * NUNCA lança — em caso de erro no Redis cai pro Map silenciosamente.
+ *
+ * opts.maxIdleMs — JANELA DE CONTINUIDADE (opcional): sessão parada há mais que isso volta
+ * VAZIA (assunto novo começa limpo, sem arrastar histórico velho nem inflar tokens). Omitido
+ * = comportamento de sempre (só o TTL de 48h corta). Ver test_sessao_janela.mjs.
  */
-export async function getSession(key) {
+export async function getSession(key, opts = {}) {
   const now = Date.now();
+  const maxIdleMs = opts.maxIdleMs || 0;
+  const expirou = (touched) => maxIdleMs > 0 && touched && now - touched > maxIdleMs;
 
   if (useRedis()) {
     try {
@@ -72,6 +78,9 @@ export async function getSession(key) {
         // garante estrutura mínima
         if (!parsed.messages) parsed.messages = [];
         if (!parsed.ctx) parsed.ctx = {};
+        // fora da janela → sessão limpa. Não apaga o Redis: o saveSession do fim do turno
+        // sobrescreve. (Se o turno morrer antes, a velha segue expirada — mesmo resultado.)
+        if (expirou(parsed.touched)) return { messages: [], ctx: {}, touched: now };
         parsed.touched = now;
         return parsed;
       }
@@ -82,9 +91,9 @@ export async function getSession(key) {
 
   // fallback: Map
   let s = sessions.get(key);
-  if (!s || now - s.touched > TTL_MS) {
+  if (!s || now - s.touched > TTL_MS || expirou(s.touched)) {
     s = { messages: [], ctx: {}, touched: now };
-    sessions.set(key, s);
+    sessions.set(key, s); // substitui a velha: o Map guarda por referência, senão ela ressuscita
   }
   s.touched = now;
   return s;
