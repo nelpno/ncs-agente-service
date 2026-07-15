@@ -52,7 +52,16 @@ export const ANA_REQUIRED_ENV = [
   "ADAPTER_NOTIFY_URL",
   "SUPERLOGICA_WRITE_APP_TOKEN",
   "SUPERLOGICA_WRITE_ACCESS_TOKEN",
+  // Onda 1 §4.4 — sem estes dois, sbEnabled()=false e os rascunhos caem no Redis; a aba
+  // "Aprovações" do Portal lê `escrita_drafts` no Supabase e fica vazia. Medido em prod 14/07:
+  // ncs-agente NÃO tinha SUPABASE_*, ncs-chat tinha → as duas telas em bancos diferentes.
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_KEY",
 ];
+
+// Exceção à regra "vazio é legítimo na Ana": aqui vazio == o serviço sobe e SÓ a fila morre,
+// em silêncio. Vale mais abortar o deploy do que descobrir pela aba vazia semanas depois.
+const NAO_PODE_VAZIA = new Set(["SUPABASE_URL", "SUPABASE_SERVICE_KEY"]);
 
 /**
  * Monta o stack da Ana. Segredos entram por parâmetro (o script de deploy os lê do .env / .tmp).
@@ -78,6 +87,8 @@ export function buildAnaStack(secrets = {}) {
     adapterNotifyUrl = "",
     superlogicaWriteAppToken = "",
     superlogicaWriteAccessToken = "",
+    supabaseUrl,
+    supabaseServiceKey,
   } = secrets;
 
   const env = [
@@ -112,10 +123,17 @@ export function buildAnaStack(secrets = {}) {
     { name: "ADAPTER_NOTIFY_URL", value: adapterNotifyUrl },
     { name: "SUPERLOGICA_WRITE_APP_TOKEN", value: superlogicaWriteAppToken },
     { name: "SUPERLOGICA_WRITE_ACCESS_TOKEN", value: superlogicaWriteAccessToken },
+    // Onda 1: a fila de aprovação (escrita_drafts/escrita_eventos) vive no Supabase do NCS,
+    // o MESMO que o Portal (ncs-chat) lê. Sem elas, a Ana grava no Redis e a aba fica vazia.
+    { name: "SUPABASE_URL", value: supabaseUrl },
+    { name: "SUPABASE_SERVICE_KEY", value: supabaseServiceKey },
   ];
 
-  // Só null/ausente aborta. Vazio é estado legítimo aqui (ver JSDoc).
-  const missing = env.filter((e) => e.value == null).map((e) => e.name);
+  // Só null/ausente aborta — vazio é estado legítimo aqui (ver JSDoc), EXCETO nas de NAO_PODE_VAZIA,
+  // onde vazio é indistinguível do bug que elas existem para evitar (fallback silencioso p/ Redis).
+  const missing = env
+    .filter((e) => e.value == null || (NAO_PODE_VAZIA.has(e.name) && e.value === ""))
+    .map((e) => e.name);
 
   const envLines = env.map((e) => `      - ${e.name}=${e.value ?? ""}`).join("\n");
   const compose = `services:

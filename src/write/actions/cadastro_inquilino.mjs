@@ -6,6 +6,19 @@ import { enfileirarAvisos } from '../../outbox.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
+// ID_TIPORESP_TRES — quem recebe a cobrança. A doc oficial (pág.26) lista só 1/2/4 e OMITE o 7,
+// que é o valor que a NCS de fato usa. Medido em 25 condos / 3.330 responsáveis ativos
+// (.tmp/superlogica_tiporesp_{unidade,confound,prova,valores}.mjs, 14/07):
+//   · inquilino NÃO responsável → 4, com o proprietário em 1 — 416/416 unidades
+//   · inquilino É   responsável → 7, com o proprietário em 2 ("só extras") — 140/140 unidades
+//   · inquilino com 1: 0 de 872 → escrever 1 (como dizia o plano) inventaria estado inexistente
+//   · 0 unidades com inquilino=7 E proprietário=1 → sem o flip do proprietário os DOIS recebem a
+//     taxa normal (a duplicação que o Fernando quis evitar). Por isso o render alerta o aprovador:
+//     o flip é uma 2ª escrita, num contato que JÁ existe, e não sai daqui (ver render/alertas).
+const TIPORESP_NAO_RECEBE = '4';
+const TIPORESP_INQUILINO_RESPONSAVEL = '7';
+const RESPONSAVEIS = ['proprietario', 'inquilino'];
+
 // nomes EXATOS dos campos opcionais a confirmar em descoberta/api-superlogica-doc.md (pág 26-27)
 const MAP_OPCIONAIS = {
   email: 'contatos[0][ST_EMAIL_CON]',
@@ -18,8 +31,13 @@ function validar(d) {
   for (const k of ['id_condominio', 'id_unidade', 'nome', 'data_entrada']) if (!d?.[k]) erros.push(`faltou ${k}`);
   if (d?.papel && !['inquilino', 'dependente'].includes(d.papel)) erros.push('papel inválido');
   if (d?.data_entrada && !DATA_RE.test(d.data_entrada)) erros.push('data_entrada deve ser MM/DD/AAAA');
+  if (d?.responsavel_cobranca && !RESPONSAVEIS.includes(d.responsavel_cobranca)) erros.push('responsavel_cobranca inválido');
+  // dependente nunca recebe cobrança (141/141 no dado real) — pedir isso é erro de coleta, não um caso raro
+  if (d?.papel === 'dependente' && d?.responsavel_cobranca === 'inquilino') erros.push('dependente não pode ser o responsável pela cobrança');
   return { ok: erros.length === 0, erros };
 }
+
+const inquilinoRecebe = (d) => d?.papel !== 'dependente' && d?.responsavel_cobranca === 'inquilino';
 
 function montarPayload(d) {
   const p = {
@@ -28,7 +46,7 @@ function montarPayload(d) {
     'contatos[0][ST_NOME_CON]': d.nome,
     'contatos[0][DT_ENTRADA_RES]': d.data_entrada,
     'contatos[0][ID_LABEL_TRES]': d.papel === 'dependente' ? '4' : '7',
-    'contatos[0][ID_TIPORESP_TRES]': '4', // NÃO_RECEBER (default p/ inquilino; confirmar regra contábil — spec §13#4)
+    'contatos[0][ID_TIPORESP_TRES]': inquilinoRecebe(d) ? TIPORESP_INQUILINO_RESPONSAVEL : TIPORESP_NAO_RECEBE,
     'contatos[0][ID_TIPOCONTATO_TCON]': '1', // condômino
   };
   for (const [campo, chave] of Object.entries(MAP_OPCIONAIS)) if (d[campo]) p[chave] = d[campo];
@@ -38,6 +56,7 @@ function montarPayload(d) {
 export const cadastroInquilino = {
   id: 'cadastro_inquilino',
   descricao: 'Cadastrar inquilino/residente ou dependente numa unidade',
+  titulo: 'Cadastro de inquilino', // cabeçalho na tela do aprovador (o `id` é enum de banco, não texto)
   timeAprovador: 'Recepção',
   validar,
   montarPayload,
@@ -79,8 +98,20 @@ async function gravar(payload, { dados, io = {} } = {}) {
   return { ok: true, dryRun: !!res.dryRun, resposta: res.resposta, idCriado, candidatosId };
 }
 
+// Frase única que o aprovador lê antes de decidir. Mora AQUI (na ação) porque é a ação que conhece
+// a semântica; o painel do piloto e o card do Portal só exibem — nenhum dos dois remonta a regra.
+function resumir(d) {
+  const papel = d.papel === 'dependente' ? 'dependente' : 'inquilino';
+  const quem = inquilinoRecebe(d)
+    ? 'O boleto da taxa passa a ir para ele (o proprietário fica só com as cobranças extras).'
+    : 'O boleto da taxa continua indo para o proprietário.';
+  return `${d.nome} entra como ${papel} da unidade ${d.id_unidade} a partir de ${d.data_entrada}. ${quem}`;
+}
+
 function render(d, snap) {
+  const recebe = inquilinoRecebe(d);
   return {
+    resumo: resumir(d),
     campos: [
       { label: 'Condomínio', valor: d.id_condominio },
       { label: 'Unidade', valor: d.id_unidade },
@@ -90,8 +121,15 @@ function render(d, snap) {
       { label: 'E-mail', valor: d.email || '—' },
       { label: 'Telefone', valor: d.telefone || '—' },
       { label: 'CPF', valor: d.cpf || '—' },
+      { label: 'Quem recebe o boleto', valor: recebe ? 'O inquilino (responsável pela cobrança)' : 'O proprietário (padrão)' },
     ],
     diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${d.id_unidade}` }],
+    // alertas — o que o aprovador precisa FAZER e a Ana não faz sozinha. O flip do proprietário
+    // (1 → 2 "só extras") é uma 2ª escrita, num contato que já existe: fica com o humano nesta onda.
+    // Sem ele, proprietário e inquilino recebem a MESMA taxa (duplicação).
+    alertas: recebe ? [
+      `Ao aprovar, mude o proprietário da unidade ${d.id_unidade} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`,
+    ] : [],
     snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
   };
 }

@@ -31,6 +31,11 @@ const FAKE = {
   adapterNotifyUrl: "",
   superlogicaWriteAppToken: "",
   superlogicaWriteAccessToken: "",
+  // Onda 1: sem estes dois a Ana grava os rascunhos no REDIS e a aba "Aprovações" do Portal
+  // (que lê `escrita_drafts` no Supabase) fica vazia PARA SEMPRE — medido em prod 14/07:
+  // ncs-agente sem SUPABASE_*, ncs-chat com, as duas telas em bancos diferentes.
+  supabaseUrl: "https://fake.supabase.co",
+  supabaseServiceKey: "svc-fake",
 };
 
 // ---------------------------------------------------------------- env
@@ -65,6 +70,29 @@ const FAKE = {
   const { missing } = buildAnaStack({ ...FAKE, openaiKey: undefined, superlogicaAppToken: null });
   check(missing.includes("OPENROUTER_API_KEY"), "segredo ausente tem que entrar em missing (OPENROUTER_API_KEY)");
   check(missing.includes("SUPERLOGICA_APP_TOKEN"), "segredo null tem que entrar em missing (SUPERLOGICA_APP_TOKEN)");
+}
+
+// ------------------------------------------- Supabase: a fila de aprovação (Onda 1 §4.4)
+{
+  const { env } = buildAnaStack(FAKE);
+  check(env.find((e) => e.name === "SUPABASE_URL")?.value === "https://fake.supabase.co",
+    "SUPABASE_URL ausente → drafts vão pro Redis e a aba Aprovações do Portal fica vazia");
+  check(env.find((e) => e.name === "SUPABASE_SERVICE_KEY")?.value === "svc-fake",
+    "SUPABASE_SERVICE_KEY ausente → idem (sbEnabled()=false, fallback silencioso)");
+  check(ANA_REQUIRED_ENV.includes("SUPABASE_URL") && ANA_REQUIRED_ENV.includes("SUPABASE_SERVICE_KEY"),
+    "SUPABASE_* tem que estar no espelho de prod (senão o próximo deploy as perde de novo)");
+
+  // ⚠️ Exceção deliberada à regra "vazio é legítimo na Ana": para ESTES dois, vazio == o bug.
+  // Com "" o serviço sobe, atende, e só a fila morre — calado. Melhor abortar o deploy.
+  const vazio = buildAnaStack({ ...FAKE, supabaseServiceKey: "" });
+  check(vazio.missing.includes("SUPABASE_SERVICE_KEY"),
+    "service key VAZIA tem que abortar o deploy (senão volta o fallback silencioso p/ Redis)");
+  const vazioUrl = buildAnaStack({ ...FAKE, supabaseUrl: "" });
+  check(vazioUrl.missing.includes("SUPABASE_URL"), "SUPABASE_URL vazia tem que abortar o deploy");
+
+  // controle: os opcionais de verdade continuam podendo ser vazios (não quebrei a regra geral)
+  check(buildAnaStack({ ...FAKE, autentiqueToken: "", adapterNotifyUrl: "" }).missing.length === 0,
+    "vazio segue legítimo nos opcionais (AUTENTIQUE_TOKEN/ADAPTER_NOTIFY_URL) — regra geral intacta");
 }
 
 // ---------------------------------------------------------------- imagem

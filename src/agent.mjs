@@ -48,6 +48,8 @@ const TOOLS = [
       nome: { type: 'string' }, papel: { type: 'string', enum: ['inquilino', 'dependente'] },
       data_entrada: { type: 'string', description: 'MM/DD/AAAA' },
       email: { type: 'string' }, telefone: { type: 'string' }, cpf: { type: 'string' },
+      responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
+        description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
     }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
 ];
 
@@ -101,6 +103,7 @@ async function runToolReal(name, args, ctx) {
         id_condominio: idc, id_unidade: String(args.id_unidade || ''),
         nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
+        responsavel_cobranca: args.responsavel_cobranca,
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,

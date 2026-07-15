@@ -15,6 +15,23 @@
   .draft dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:8px 0;font-size:13.5px}
   .draft dt{color:var(--muted)}
   .draft dd{margin:0;color:var(--ink);word-break:break-word}
+  /* resumo = a informação principal: é o que decide Aprovar/Rejeitar sem ler o resto */
+  .draft .resumo{font-size:15px;line-height:1.45;color:var(--ink);margin:2px 0 4px}
+  /* detalhes crus recolhidos: só quem quer conferir abre (antes o card despejava as chaves) */
+  .draft details{margin-top:6px}
+  .draft summary{font-size:12.5px;color:var(--muted);cursor:pointer;list-style:none;user-select:none;
+    display:inline-flex;align-items:center;gap:5px;padding:3px 0}
+  .draft summary::-webkit-details-marker{display:none}
+  .draft summary::before{content:'▸';display:inline-block;transition:transform .15s}
+  .draft details[open] summary::before{transform:rotate(90deg)}
+  .draft summary:hover{color:var(--ink)}
+  /* alerta da AÇÃO: o aprovador precisa FAZER isso à mão junto com o OK. Se passar batido,
+     o boleto de um morador sai errado → borda grossa, cor crítica, e sempre acima dos botões. */
+  .acao-alerta{margin-top:12px;background:color-mix(in srgb,var(--crit) 10%,transparent);
+    border:1px solid var(--crit);border-left:4px solid var(--crit);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink)}
+  .acao-alerta .at{font-weight:700;color:var(--crit);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+  .acao-alerta ul{margin:0;padding-left:18px}
+  .acao-alerta li+li{margin-top:5px}
   .conflito{margin-top:10px;background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid var(--warn);
     border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink)}
   .conflito .ct{font-weight:700;color:var(--warn);margin-bottom:4px}
@@ -125,23 +142,54 @@ function campo(dados,chave,rotulo){
   if(v==null||v==='')return null;
   return el('div',null,[el('dt',{text:rotulo}),el('dd',{text:typeof v==='object'?JSON.stringify(v):String(v)})]);
 }
+// Rótulos em português p/ os campos crus. Chave sem rótulo aqui é interna (id_condominio,
+// __draftId…) e NÃO vai pra tela — o aprovador não decide nada com id de banco.
+var ROTULOS={nome:'Nome',papel:'Papel',data_entrada:'Entrada',id_unidade:'Unidade',
+  email:'E-mail',telefone:'Telefone',cpf:'CPF',responsavel_cobranca:'Quem recebe o boleto'};
+var VALORES={inquilino:'Inquilino/residente',dependente:'Dependente',proprietario:'O proprietário'};
+// responsavel_cobranca='inquilino' precisa ler como pessoa, não como enum solto
+function valorLegivel(chave,v){
+  if(v==null||v==='')return null;
+  if(typeof v==='object')return JSON.stringify(v);
+  if(chave==='responsavel_cobranca')return v==='inquilino'?'O próprio inquilino':(VALORES[v]||String(v));
+  return VALORES[v]||String(v);
+}
 function renderDl(dados){
   var dl=el('dl');
   if(!dados||typeof dados!=='object'){dl.appendChild(el('dd',{text:'—'}));return dl;}
-  Object.keys(dados).forEach(function(k){
-    var v=dados[k];
-    dl.appendChild(el('dt',{text:k}));
-    dl.appendChild(el('dd',{text:v==null?'—':(typeof v==='object'?JSON.stringify(v):String(v))}));
+  var vazio=true;
+  Object.keys(ROTULOS).forEach(function(k){
+    var v=valorLegivel(k,dados[k]);
+    if(v==null)return;
+    vazio=false;
+    dl.appendChild(el('dt',{text:ROTULOS[k]}));
+    dl.appendChild(el('dd',{text:v}));
   });
+  if(vazio){dl.appendChild(el('dd',{text:'—'}));}
   return dl;
 }
 function renderCard(d){
   var kids=[
-    el('div',{class:'dh'},[el('span',{class:'acao',text:d.acao||'ação'}),el('div',{class:'grow'}),el('span',{class:'pill',text:(d.time_aprovador||'Atendimento geral')})]),
-    renderDl(d.dados)
+    el('div',{class:'dh'},[el('span',{class:'acao',text:d.titulo||d.acao||'ação'}),el('div',{class:'grow'}),el('span',{class:'pill',text:(d.time_aprovador||'Atendimento geral')})])
   ];
+  // a frase vem pronta da AÇÃO (fonte única). Sem ela (ação antiga), cai nos campos.
+  if(d.resumo){kids.push(el('div',{class:'resumo',text:d.resumo}));}
+  var det=el('details',null,[el('summary',{text:'Ver detalhes'}),renderDl(d.dados)]);
+  if(!d.resumo){det.setAttribute('open','');}
+  kids.push(det);
   if(d.conflito){
-    kids.push(el('div',{class:'conflito'},[el('div',{class:'ct',text:'⚠ Conflito detectado'}),el('div',{text:JSON.stringify(d.conflito)})]));
+    kids.push(el('div',{class:'conflito'},[
+      el('div',{class:'ct',text:'⚠ Confira antes de aprovar'}),
+      el('div',{text:(d.conflito.detalhe||'Possível duplicidade nesta unidade.')})
+    ]));
+  }
+  // ALERTAS por último, colados nos botões: é o que a pessoa tem que fazer à mão junto com o OK.
+  if(d.alertas&&d.alertas.length){
+    var itens=el('ul');
+    d.alertas.forEach(function(a){itens.appendChild(el('li',{text:a}));});
+    kids.push(el('div',{class:'acao-alerta'},[
+      el('div',{class:'at',text:'⚠️ Antes de aprovar'}),itens
+    ]));
   }
   var aprBtn=el('button',{class:'btn-aprovar',text:'Aprovar'});
   var rejBtn=el('button',{class:'btn-rejeitar',text:'Rejeitar'});

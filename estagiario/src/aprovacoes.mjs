@@ -5,6 +5,12 @@
 // gravação/CAS/posGravar que já vive no agente-service (princípio "um único executor", §2.3).
 import * as realDb from "./db.mjs";
 import { mascararCpf } from "./registro.mjs";
+// O Portal roda a MESMA imagem do agente-service (ncs-chat e ncs-agente compartilham
+// ghcr.io/nelpno/ncs-agente-service) → dá p/ chamar a própria `acao.render()` em vez de
+// reimplementar a regra aqui. Mantém a ação como fonte única (§2.3) e o alerta nunca fica velho:
+// é recalculado a partir do `dados` do draft, inclusive depois de uma correção.
+import "../../src/write/actions/cadastro_inquilino.mjs"; // side-effect: registerAction
+import { getAction } from "../../src/write/registry.mjs";
 
 const enc = encodeURIComponent;
 
@@ -28,11 +34,32 @@ export function mascararObjeto(v) {
   return v;
 }
 
+// `resumo` (frase de decisão) e `alertas` (o que o humano faz à mão junto com o OK) vêm da AÇÃO.
+// Defensivo: ação desconhecida ou render que lança NÃO pode derrubar a fila inteira — o card
+// aparece sem os extras e o aprovador ainda vê os dados.
+function extrasDaAcao(draft) {
+  const fallback = { resumo: null, alertas: [], titulo: draft.acao || "Pedido" };
+  try {
+    const acao = getAction(draft.acao);
+    if (!acao) return fallback;
+    const titulo = acao.titulo || draft.acao;
+    if (!acao.render) return { ...fallback, titulo };
+    const r = acao.render(draft.dados || {}, draft.snapshot || []) || {};
+    return { resumo: r.resumo || null, alertas: Array.isArray(r.alertas) ? r.alertas : [], titulo };
+  } catch {
+    return fallback;
+  }
+}
+
 // Monta o card exibido na tela — só os campos que a UI precisa, CPF sempre mascarado.
 export function paraCard(draft) {
+  const { resumo, alertas, titulo } = extrasDaAcao(draft);
   return {
     id: draft.id,
     acao: draft.acao,
+    titulo,
+    resumo: mascararObjeto(resumo),
+    alertas: mascararObjeto(alertas),
     dados: mascararObjeto(draft.dados),
     conflito: mascararObjeto(draft.conflito || null),
     solicitante: draft.solicitante || null,

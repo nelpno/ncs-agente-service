@@ -7,6 +7,11 @@ export function renderPainel(draft, k = '') {
   const r = draft.render || { campos: [], diff: [] };
   const linhas = r.campos.map((c) => `<tr><th style="text-align:left;padding:4px 12px 4px 0">${esc(c.label)}</th><td>${esc(c.valor)}</td></tr>`).join('');
   const alerta = draft.conflito?.conflito ? `<p style="background:#fde68a;padding:8px;border-radius:6px">&#9888;&#65039; ${esc(draft.conflito.detalhe || 'possível duplicidade — confira')}</p>` : '';
+  // alertas da AÇÃO = o que o aprovador precisa fazer à mão junto com o OK (ex.: virar o proprietário
+  // para "só extras" quando o inquilino assume a cobrança). Fica em vermelho e ACIMA dos botões:
+  // se não aparecer na tela, o efeito colateral acontece calado.
+  const alertasAcao = (r.alertas || []).map((a) =>
+    `<p style="background:#fecaca;padding:8px;border-radius:6px;border-left:4px solid #b91c1c">&#9888;&#65039; <b>Antes de aprovar:</b> ${esc(a)}</p>`).join('');
   const jaResolvido = draft.status !== 'pendente' ? `<p>Status: <b>${esc(draft.status)}</b> (nenhuma ação disponível)</p>` : '';
   const acoes = draft.status === 'pendente' ? `
     <form method="POST" action="/aprovacao/${esc(draft.token)}/aprovar"><input type="hidden" name="k" value="${esc(k)}"><input name="aprovador" placeholder="Seu nome" required><button>Aprovar</button></form>
@@ -14,6 +19,6 @@ export function renderPainel(draft, k = '') {
   return `<!doctype html><meta charset="utf-8"><title>Aprovação — ${esc(draft.acao)}</title>
 <body style="font-family:system-ui;max-width:560px;margin:40px auto">
 <h2>Aprovar escrita — ${esc(draft.time)}</h2>${alerta}
-<table>${linhas}</table><p><small>${esc(r.snapshotResumo || '')}</small></p>
+<table>${linhas}</table><p><small>${esc(r.snapshotResumo || '')}</small></p>${alertasAcao}
 ${jaResolvido}${acoes}</body>`;
 }
