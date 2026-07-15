@@ -11,6 +11,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # GATE: a suíte determinística roda ANTES do build. Falhou = sem imagem = sem deploy.
+      # Existia mas não travava nada: o test_documento_word ficou VERMELHO de 13/07 a 14/07
+      # (o 58ca0d1 tirou o bloco `condominio` dos catálogos) e a gente deployou assim mesmo —
+      # o bug só apareceria com o Superlógica fora do ar, quando a equipe não emitisse mais
+      # documento nenhum. Sem este step, todo guard novo é opcional.
+      # A suíte é hermética: passa com `env -i` (zero variáveis), sem rede e sem segredo.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'   # casa com o node:20-alpine do Dockerfile
+          cache: npm
+      - run: npm ci
+      - name: suíte determinística (gate do build)
+        run: |
+          set -e
+          for f in test/test_*.mjs estagiario/test/test_*.mjs; do
+            echo "→ $f"
+            node "$f"
+          done
+
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
