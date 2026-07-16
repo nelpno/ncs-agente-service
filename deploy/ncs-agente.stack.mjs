@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:705dd094e664cb85c1ca86e0fbee7581d52924ab4440fbd4b2d5738bbf1ce33f"; // 207413e: CPF obrigatorio no cadastro + aviso com quadra/lote e data + fix do rotulo no DocIA + transporte de WhatsApp do outbox (desligado por padrao)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:fc0a2729f4bdb087fcc141699e7a26e4acca537989207ab9ddacbe310feac8dd"; // 21c880a: DocIA 'outro_assunto' (compra e venda nao vira pendencia fantasma) + transporte de WhatsApp do outbox (desligado por padrao) + CPF obrigatorio no cadastro
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
