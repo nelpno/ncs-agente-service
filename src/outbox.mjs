@@ -6,6 +6,7 @@
 import crypto from 'node:crypto';
 import { planejarAviso as _planejarAviso } from './portaria_dispatch.mjs';
 import { enviarEmail as _enviarEmail } from './mailer.mjs';
+import { enviarZap as _enviarZap } from './zap.mjs';
 import { sbEnabled as _sbEnabled, sbInsert as _sbInsert, sbSelect as _sbSelect, sbUpdate as _sbUpdate } from './db_ncs.mjs';
 
 const TABLE = 'notificacoes';
@@ -96,18 +97,21 @@ async function marcar(row, patch, { usaSb, sbUpdate }) {
  *  - email → mailer (DRY por padrão; só envia de verdade com SMTP configurado). Sucesso → 'enviado'.
  *    Falha → tentativas++; ao atingir MAX_TENTATIVAS vira 'pendente_humano', senão continua 'pendente'
  *    (próxima passada tenta de novo).
- *  - zap_grupo/zap_individual → transporte WhatsApp AINDA NÃO DECIDIDO (spec §5: Cloud API oficial não manda
- *    a grupo; Zuck é risco de ban). Decisão: NUNCA finge envio — marca 'pendente_humano' na hora
- *    com ultimo_erro='transporte_zap_indefinido'. É o caminho mais honesto até o §5 ser resolvido.
+ *  - zap_grupo/zap_individual → zap.mjs (Zuck), DESLIGADO por padrão + allowlist obrigatória (spec §5 em
+ *    aberto: Cloud API oficial não manda a grupo; Zuck é risco de ban). Com ZAP_ENABLED != 'true' devolve
+ *    semRetry e a linha vira 'pendente_humano' com ultimo_erro='transporte_zap_indefinido' — idêntico ao
+ *    que este arquivo fazia antes do transporte existir. NUNCA finge envio.
+ *    Ligado: entrega só para JID na ZAP_ALLOWLIST; fora dela → 'pendente_humano' (fora_da_allowlist).
  *  - exceção inesperada (não um simples ok:false) → 'falhou' (distinto de pendente_humano; fica visível
  *    pra investigação, mas não é automaticamente re-tentado nesta versão — YAGNI de requeue).
- * deps injetável p/ teste: { sbEnabled, sbSelect, sbUpdate, enviarEmail }.
+ * deps injetável p/ teste: { sbEnabled, sbSelect, sbUpdate, enviarEmail, enviarZap }.
  */
 export async function processarPendentes(deps = {}) {
   const sbEnabled = deps.sbEnabled || _sbEnabled;
   const sbSelect = deps.sbSelect || _sbSelect;
   const sbUpdate = deps.sbUpdate || _sbUpdate;
   const enviarEmail = deps.enviarEmail || _enviarEmail;
+  const enviarZap = deps.enviarZap || _enviarZap;
   const usaSb = sbEnabled();
 
   const pendentes = usaSb
@@ -133,8 +137,26 @@ export async function processarPendentes(deps = {}) {
           }
         }
       } else if (row.canal === 'zap_grupo' || row.canal === 'zap_individual') {
-        await marcar(row, { status: 'pendente_humano', ultimo_erro: 'transporte_zap_indefinido' }, { usaSb, sbUpdate });
-        pendenteHumano++;
+        // Transporte Zuck: DESLIGADO por padrão (ZAP_ENABLED != 'true') → devolve semRetry com o MESMO
+        // motivo de antes ('transporte_zap_indefinido') → esta linha vira pendente_humano na hora, igual
+        // ao comportamento anterior. Ligado, só entrega para JID da allowlist (ver zap.mjs).
+        const r = await enviarZap({ para: row.endereco, texto: row.payload?.texto || '' });
+        if (r.ok) {
+          await marcar(row, { status: 'enviado', enviado_em: new Date().toISOString() }, { usaSb, sbUpdate });
+          enviados++;
+        } else if (r.semRetry) {
+          // Decisão de configuração, não falha transitória: re-tentar não muda o resultado.
+          await marcar(row, { status: 'pendente_humano', ultimo_erro: r.motivo }, { usaSb, sbUpdate });
+          pendenteHumano++;
+        } else {
+          const tentativas = (row.tentativas || 0) + 1;
+          if (tentativas >= MAX_TENTATIVAS) {
+            await marcar(row, { status: 'pendente_humano', tentativas, ultimo_erro: r.motivo || 'falha_envio' }, { usaSb, sbUpdate });
+            pendenteHumano++;
+          } else {
+            await marcar(row, { status: 'pendente', tentativas, ultimo_erro: r.motivo || 'falha_envio' }, { usaSb, sbUpdate });
+          }
+        }
       } else {
         await marcar(row, { status: 'pendente_humano', ultimo_erro: `canal_desconhecido:${row.canal}` }, { usaSb, sbUpdate });
         pendenteHumano++;
