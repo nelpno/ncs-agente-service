@@ -59,9 +59,23 @@ function resolverEndereco(condo, papel, canal, regras, contatosCondo) {
   return null;
 }
 
+// A API do Superlógica fala MM/DD/AAAA; gente lê DD/MM/AAAA. Só exibição — o payload do ERP não muda.
+const dataBR = (s) => {
+  const m = String(s || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  return m ? `${m[2]}/${m[1]}/${m[3]}` : (s || '');
+};
+
 function varsDoTexto(evento, ator, condo) {
   const quem = ator.papel === 'dependente' ? 'dependente' : (ator.papel || 'morador');
-  return { papel: quem, nome: ator.nome || '', unidade: ator.unidade || '', condominio: condo.nome, telefone: ator.telefone || '' };
+  return {
+    papel: quem, nome: ator.nome || '', unidade: ator.unidade || '', condominio: condo.nome,
+    telefone: ator.telefone || '',
+    // Pedido do Fernando (15/07, no grupo de teste): a portaria precisa saber QUANDO a pessoa entra.
+    // ⚠️ É a data de ENTRADA do cadastro, não a data da MUDANÇA — mudança tem fluxo próprio
+    // (formulário de agendamento) e pode ser outro dia. Rotular uma como a outra faria a portaria
+    // se planejar para o dia errado; por isso o template diz "Data de entrada".
+    data: dataBR(ator.data),
+  };
 }
 
 /**

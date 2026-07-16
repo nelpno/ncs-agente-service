@@ -14,10 +14,15 @@ import { cadastroInquilino } from '../src/write/actions/cadastro_inquilino.mjs';
 let ok = 0;
 const t = (nome, fn) => { try { fn(); console.log('  ok  ' + nome); ok++; } catch (e) { console.error('  FALHOU  ' + nome + '\n      ' + e.message); process.exitCode = 1; } };
 
+// Cadastro COMPLETO: é o caso normal depois que a Ana passou a pedir CPF/e-mail/telefone (15/07).
+// Os testes de "falta dado" abaixo derivam daqui tirando o campo — assim, o dia em que um deles virar
+// obrigatório, é o teste específico que fala, não um assert de alertas vazios em outro lugar.
 const BASE = {
   id_condominio: '179', id_unidade: '14381', unidade_label: 'APTO 101 / BLOCO A',
   condominio_nome: 'LUME', nome: 'Maria Souza', papel: 'inquilino', data_entrada: '10/05/2026',
+  cpf: '12345678901', email: 'maria@email.com', telefone: '16991234567',
 };
+const sem = (campo) => { const d = { ...BASE }; delete d[campo]; return d; };
 const laudo = (over = {}) => ({
   parecer: 'pendente', confianca: 0.72,
   conferencias: [
@@ -89,7 +94,30 @@ t('reprovado fala com o aprovador, sem jargão', () => {
   assert.ok(/REPROVADO/.test(r.resumo), 'reprovado não apareceu no resumo');
 });
 
-console.log('\n[3] o alerta que evita boleto duplicado não pode ser abafado');
+console.log('\n[3] e-mail e telefone: avisam, mas não travam (Fernando, 15/07)');
+
+t('sem e-mail → alerta (é para onde o boleto é enviado)', () => {
+  const r = render(sem('email'));
+  assert.ok(r.alertas.some((a) => /e-mail/i.test(a) && /boleto/i.test(a)), 'faltou avisar que sem e-mail o boleto não é enviado');
+});
+
+t('sem telefone → alerta (entra no sistema da portaria)', () => {
+  assert.ok(render(sem('telefone')).alertas.some((a) => /telefone/i.test(a)), 'faltou avisar do telefone');
+});
+
+t('com e-mail e telefone → nenhum alerta desses (sem ruído)', () => {
+  assert.ok(!render(BASE).alertas.some((a) => /e-mail|telefone/i.test(a)), 'alertou sobre dado que está lá');
+});
+
+t('e-mail/telefone NÃO travam o rascunho (só o CPF trava)', () => {
+  // Fernando graduou os três: o telefone "não era muito necessário". Travar aqui empurraria a Ana
+  // para o loop de reparo que já custou caro no Estagiário ([[ncs-estagiario-papel-opcional]]).
+  assert.equal(cadastroInquilino.validar(sem('email')).ok, true, 'sem e-mail o rascunho tem que passar');
+  assert.equal(cadastroInquilino.validar(sem('telefone')).ok, true, 'sem telefone o rascunho tem que passar');
+  assert.equal(cadastroInquilino.validar(sem('cpf')).ok, false, 'sem CPF o rascunho NÃO pode passar');
+});
+
+console.log('\n[4] o alerta que evita boleto duplicado não pode ser abafado');
 
 t('o flip do proprietário continua, e vem ANTES do contrato', () => {
   const d = { ...BASE, responsavel_cobranca: 'inquilino', laudo: laudo() };

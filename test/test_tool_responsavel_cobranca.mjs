@@ -30,7 +30,7 @@ ok(Array.isArray(prop?.enum) && prop.enum.includes('proprietario') && prop.enum.
   'schema restringe a proprietario|inquilino (enum evita valor inventado)');
 
 // 2) pass-through: o que a Ana manda chega no draft
-const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026' };
+const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901' };
 const rInq = await runToolReal('criar_rascunho_cadastro', { ...base, responsavel_cobranca: 'inquilino' }, { chatId: null });
 ok(rInq.criado === true, 'cria rascunho com responsavel_cobranca=inquilino');
 const dInq = await getDraft(rInq.protocolo);

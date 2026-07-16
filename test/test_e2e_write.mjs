@@ -13,7 +13,7 @@ mod.cadastroInquilino.checarConflito = async () => ({ conflito: false, candidato
 
 let falhas = 0; const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falhas++; };
 const ctx = { chatId: null };
-const r = await runToolReal('criar_rascunho_cadastro', { id_condominio: '181', id_unidade: '900', nome: 'Maria Teste', data_entrada: '10/06/2026' }, ctx);
+const r = await runToolReal('criar_rascunho_cadastro', { id_condominio: '181', id_unidade: '900', nome: 'Maria Teste', data_entrada: '10/06/2026', cpf: '12345678901' }, ctx);
 ok(r.criado === true, 'tool criou rascunho');
 const token = ctx.draft[0].token;
 const ap = await aprovarRascunho(token, { aprovador: 'Recepcao' });

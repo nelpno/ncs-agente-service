@@ -33,7 +33,7 @@ cadastroInquilino.checarConflito = async () => ({ conflito: false, candidatos: [
 let falhas = 0;
 const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falhas++; };
 
-const base = { id_condominio: '181', id_unidade: '14381', nome: 'Marcos Ribeiro', data_entrada: '08/01/2026' };
+const base = { id_condominio: '181', id_unidade: '14381', nome: 'Marcos Ribeiro', data_entrada: '08/01/2026', cpf: '12345678901' };
 
 // turno 4: ctx NOVO, mas a sessão trouxe o que o resolver_cadastro colheu no turno 1
 const ctx = { chatId: null, unidades: { '14381': 'QUADRA 20 / LOTE 0314' }, condominios: { '181': 'Reserva do Campo' } };

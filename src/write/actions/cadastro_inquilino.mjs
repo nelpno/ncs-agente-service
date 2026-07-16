@@ -30,6 +30,14 @@ const MAP_OPCIONAIS = {
 function validar(d) {
   const erros = [];
   for (const k of ['id_condominio', 'id_unidade', 'nome', 'data_entrada']) if (!d?.[k]) erros.push(`faltou ${k}`);
+  // CPF do inquilino — Fernando, 15/07: "o CPF, para gerar o boleto da taxa de condomínio... sem o
+  // CPF a gente não consegue gerar". Sem ele o cadastro ENTRA e não serve para nada: a equipe não
+  // emite o boleto e o caso volta. Travar aqui faz a Ana pedir, em vez de mandar para a fila um
+  // rascunho natimorto. Dependente não recebe cobrança (141/141 no dado real) → não precisa.
+  // ⚠️ e-mail e telefone NÃO travam de propósito: o Fernando graduou os três ("o telefone não era
+  // muito necessário"), e exigir o que o motor não precisa é o que travou o Estagiário em 14/07.
+  // Eles viram ALERTA no card (ver render) — visíveis para o aprovador, sem bloquear o atendimento.
+  if (d?.papel !== 'dependente' && !d?.cpf) erros.push('faltou cpf (sem ele a equipe não gera o boleto da taxa)');
   if (d?.papel && !['inquilino', 'dependente'].includes(d.papel)) erros.push('papel inválido');
   if (d?.data_entrada && !DATA_RE.test(d.data_entrada)) erros.push('data_entrada deve ser MM/DD/AAAA');
   if (d?.responsavel_cobranca && !RESPONSAVEIS.includes(d.responsavel_cobranca)) erros.push('responsavel_cobranca inválido');
@@ -175,6 +183,10 @@ function render(d, snap) {
     // O flip vem PRIMEIRO: é ação de escrita; o do contrato é conferência de papel.
     alertas: [
       ...(recebe ? [`Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`] : []),
+      // Dado que falta e a equipe precisa buscar — é ação, por isso é alerta e não campo vazio.
+      // O CPF não aparece aqui porque nem chega: `validar` barra antes (a Ana pede no atendimento).
+      ...(!d.email ? ['Sem e-mail: é para onde o boleto é enviado — peça antes de aprovar.'] : []),
+      ...(!d.telefone ? ['Sem telefone: é o contato que entra no sistema da portaria.'] : []),
       ...doc.alertas,
     ],
     snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
@@ -193,7 +205,7 @@ async function posGravar(dados) {
     const aviso = await enfileirarAvisos({
       evento: 'cadastro',
       condominio: dados.condominio_nome,
-      ator: { nome: dados.nome, papel: dados.papel || 'inquilino', unidade: dados.unidade_label, telefone: dados.telefone },
+      ator: { nome: dados.nome, papel: dados.papel || 'inquilino', unidade: dados.unidade_label, telefone: dados.telefone, data: dados.data_entrada },
       draftId: dados.__draftId || null,
     });
     return { aviso };

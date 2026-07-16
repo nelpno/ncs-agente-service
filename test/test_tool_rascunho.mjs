@@ -24,7 +24,7 @@ const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falha
 
 ok(TOOLS.some((t) => t.function.name === 'criar_rascunho_cadastro'), 'tool registrada em TOOLS');
 const ctx = { chatId: null };
-const r = await runToolReal('criar_rascunho_cadastro', { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026' }, ctx);
+const r = await runToolReal('criar_rascunho_cadastro', { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901' }, ctx);
 ok(r.criado === true && r.aguardando_aprovacao === true, 'retorna criado + aguardando_aprovacao');
 ok(Array.isArray(ctx.draft) && ctx.draft[0]?.url.includes('/aprovacao/'), 'ctx.draft populado com url');
 const inval = await runToolReal('criar_rascunho_cadastro', { id_condominio: '179', nome: 'X' }, { chatId: null });

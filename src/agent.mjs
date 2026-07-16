@@ -146,7 +146,10 @@ async function runToolReal(name, args, ctx) {
           const dono = (contatos || []).find((c) => ['1', '2'].includes(String(c.id_tiporesp_tres ?? '')) || /propriet/i.test(String(c.st_label_tres || '')));
           erp = {
             unidade_existe: (contatos || []).length > 0,
-            unidade_label: ctx.unidades?.[String(args.id_unidade)]?.identificacao || null,
+            // ⚠️ ctx.unidades[id] JÁ É a string "QUADRA 21 / LOTE 0351" (ver o push logo acima, no
+            // resolver_cadastro) — ler `.identificacao` dela dava undefined→null e o DocIA cruzava o
+            // contrato com um rótulo VAZIO, calado: o check da unidade nunca podia bater.
+            unidade_label: ctx.unidades?.[String(args.id_unidade)] || null,
             proprietario_nome: dono?.st_nome_con || null,
             condominio_nome: ctx.lastCondo?.nome || null,
           };

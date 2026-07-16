@@ -5,8 +5,20 @@ const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falha
 
 // validar: campos obrigatórios
 ok(cadastroInquilino.validar({}).ok === false, 'vazio é inválido');
-const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026' };
+const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901' };
 ok(cadastroInquilino.validar(base).ok === true, 'campos obrigatórios → válido');
+
+// ── CPF do inquilino (Fernando, 15/07) ────────────────────────────────────────────────────────────
+// "o CPF, para gerar o boleto da taxa de condomínio... sem o CPF a gente não consegue gerar."
+// Um cadastro de inquilino sem CPF ENTRA e não serve para nada — a equipe não emite o boleto. Então
+// trava aqui: a Ana pede o CPF em vez de mandar para a fila um rascunho natimorto.
+const semCpf = { ...base }; delete semCpf.cpf;
+ok(cadastroInquilino.validar(semCpf).ok === false, 'inquilino SEM CPF → inválido (sem CPF não se gera o boleto)');
+ok(/cpf/i.test(cadastroInquilino.validar(semCpf).erros.join(' ')), 'o erro diz que faltou o CPF');
+// papel ausente = inquilino (default do agent.mjs) → mesma exigência
+ok(cadastroInquilino.validar({ ...semCpf, papel: undefined }).ok === false, 'papel ausente (=inquilino) sem CPF → inválido');
+// Dependente NÃO recebe cobrança (141/141 no dado real) → boleto não existe → CPF não trava.
+ok(cadastroInquilino.validar({ ...semCpf, papel: 'dependente' }).ok === true, 'dependente sem CPF → válido (não recebe boleto)');
 ok(cadastroInquilino.validar({ ...base, data_entrada: '30/06/2026' }).ok === false, 'data fora de MM/DD/AAAA → inválido');
 ok(cadastroInquilino.validar({ ...base, papel: 'sindico' }).ok === false, 'papel inválido rejeitado');
 
