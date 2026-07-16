@@ -101,11 +101,21 @@ async function runTool(name, args, ctx) {
  * usage = tokens deste turno (LOCAL — nunca global, p/ não misturar custo entre pessoas/turnos concorrentes).
  * toolsUsed = [{name, args}] das tools chamadas (base p/ a tag determinística + condomínio do log).
  * ctx._chat: seam de teste (default = o chat real do llm.mjs). */
+/** _ancorarSystemPrompt — garante que a sessão carregue o system prompt ATUAL.
+ * A sessão é Redis 48h e a equipe deixa a aba aberta o dia todo: inserir o prompt só quando
+ * `messages` está vazio CONGELA a versão velha, e um deploy de prompt não pega em quem já estava
+ * conversando (mesmo buraco que mordeu a Ana em 15/07 — ver test_prompt_ancora_estag.mjs).
+ * Atualizar custa uma quebra de cache naquela conversa, de propósito. */
+export function _ancorarSystemPrompt(session, systemPrompt) {
+  const m0 = session.messages[0];
+  if (!m0) { session.messages.push({ role: "system", content: systemPrompt }); return "inserido"; }
+  if (m0.role === "system" && m0.content !== systemPrompt) { m0.content = systemPrompt; return "atualizado"; }
+  return "ok";
+}
+
 export async function handleTurn(session, userText, ctx = {}) {
   const llm = ctx._chat || chat;
-  if (!session.messages.length) {
-    session.messages.push({ role: "system", content: SYSTEM_PROMPT });
-  }
+  _ancorarSystemPrompt(session, SYSTEM_PROMPT);
   // F3 — a data vai DENTRO da msg do turno (não concatenada no system na criação da sessão):
   // o prefixo [system+histórico] fica estável entre turnos (não quebra o cache) e a data está
   // sempre correta, mesmo numa sessão que atravessa a virada do dia (Redis, TTL 48h).
