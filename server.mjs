@@ -7,6 +7,7 @@ import { handleTurn } from './src/agent.mjs';
 import { responder } from './src/octadesk.mjs';
 import { sinalCobranca } from './src/cobranca.mjs';
 import { servirPdf } from './src/cnd.mjs';
+import * as DOSSIE from './src/docia/dossie.mjs';
 
 function readBody(req) { return new Promise((r) => { let d = ''; req.on('data', (c) => (d += c)); req.on('end', () => r(d)); }); }
 function json(res, code, obj) { res.writeHead(code, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
@@ -17,6 +18,28 @@ function parsePayload(p) {
   const fluxo = { botid: p?.botid || p?.botId || p?.bot?.id, componentid: p?.componentid || p?.componentId, roomkey: p?.roomkey || p?.roomKey };
   const sessionKey = String(fluxo.roomkey || chatId || p?.contact?.id || 'anon');
   return { text: typeof text === 'string' ? text : '', chatId, fluxo, sessionKey };
+}
+
+// ── DocIA: o BINÁRIO do anexo entra no dossiê do morador ───────────────────────────────────────────
+// O adapter já tem os bytes na mão (é o que ele manda pro Gemini) e os passa em `anexos:[{mime,base64}]`.
+// O OCR continua chegando como TEXTO dentro de `message` — o multimodal de 06/07 segue intacto. Isto aqui
+// é o binário, que o texto NÃO substitui: o DocIA precisa ver a página (assinatura, carimbo, rasura).
+//
+// A chave é a MESMA da sessão (`chat-ct-<contato>`) de propósito: dossiê e memória seguem o MORADOR, não a
+// conversa. Ver [[ncs-ana-memoria-por-morador]] — a Ana era trocada de conversa no meio do atendimento, e um
+// dossiê chaveado por conversa perderia a página 1 exatamente quando o Chatwoot abrisse a conversa nova.
+//
+// Só acumula com a flag LIGADA: desligado, guardar PII na memória do processo não entregaria nada em troca.
+export function guardarAnexosNoDossie(chave, anexos, add = DOSSIE.adicionarPeca) {
+  if (process.env.DOCIA_ATIVO !== '1') return [];
+  const out = [];
+  for (const a of (Array.isArray(anexos) ? anexos : [])) {
+    if (!a || !a.base64) continue;
+    // base64 podre não lança — vira buffer vazio, e `adicionarPeca` devolve {ok:false,motivo:'formato'}.
+    const buf = Buffer.from(String(a.base64), 'base64');
+    out.push(add(chave, { mime: a.mime, buf, nome: a.nome }));
+  }
+  return out;
 }
 
 // ── /write/aprovar · /write/rejeitar — executor único de escrita (Onda 1, spec §4.4) ───────────────
@@ -97,20 +120,33 @@ button{background:#fff;color:#075e54;border:none;padding:6px 12px;border-radius:
 .sys{align-self:center;background:#ffe0b2;color:#5a3210;font-size:13px;border-radius:8px;text-align:center}
 .typing{align-self:flex-start;color:#888;font-style:italic;font-size:14px}
 footer{display:flex;padding:10px;gap:8px;background:#f0f0f0}
-input{flex:1;padding:11px 14px;border:1px solid #ccc;border-radius:20px;font-size:15px;outline:none}
+input[type=text]{flex:1;padding:11px 14px;border:1px solid #ccc;border-radius:20px;font-size:15px;outline:none}
 #send{background:#075e54;color:#fff;border-radius:20px;padding:0 18px}
+#clip{display:flex;align-items:center;justify-content:center;width:42px;height:42px;background:#fff;border-radius:50%;cursor:pointer;font-size:19px;flex:0 0 auto;box-shadow:0 1px 1px rgba(0,0,0,.1)}
 </style></head><body>
 <header><b>Ana — Agente NCS <small>(ambiente de teste)</small></b><button onclick="reset()">Nova conversa</button></header>
 <div id="chat"></div>
-<footer><input id="msg" placeholder="Escreva como um condomino (ex.: quero a 2a via, sou do condominio X, CPF ...)" autocomplete="off"><button id="send" onclick="send()">Enviar</button></footer>
+<footer><label id="clip" title="Anexar contrato (foto ou PDF)">&#128206;<input type="file" id="file" accept="image/*,application/pdf" onchange="pick()" hidden></label><input type="text" id="msg" placeholder="Escreva como um condomino (ex.: quero a 2a via, sou do condominio X, CPF ...)" autocomplete="off"><button id="send" onclick="send()">Enviar</button></footer>
 <script>
 const params=new URLSearchParams(location.search); const K=params.get('k')||'';
 let session='web-'+Math.random().toString(36).slice(2);
 const chat=document.getElementById('chat'), inp=document.getElementById('msg');
 function add(text,cls){const d=document.createElement('div');d.className='b '+cls;d.textContent=text;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d;}
-function reset(){session='web-'+Math.random().toString(36).slice(2);if(debTimer)clearTimeout(debTimer);debTimer=null;buf=[];waitMsg=null;chat.replaceChildren();add('Ambiente de teste do agente. Fale como um condomino. (Le dados reais; informe o condominio junto do CPF.) Empilhamento de baloes ativo (~'+(DEB/1000)+'s); ?deb=0 envia na hora.','sys');}
+function reset(){session='web-'+Math.random().toString(36).slice(2);if(debTimer)clearTimeout(debTimer);debTimer=null;buf=[];anexos=[];waitMsg=null;chat.replaceChildren();add('Ambiente de teste do agente. Fale como um condomino. (Le dados reais; informe o condominio junto do CPF.) Empilhamento de baloes ativo (~'+(DEB/1000)+'s); ?deb=0 envia na hora. Clipe = anexar contrato (foto/PDF).','sys');}
+// Anexo: o binario vai no MESMO POST do /chat-send (campo anexos[]), igual ao adapter do Chatwoot faz
+// no canal real. Sem isto nao da p/ ensaiar o DocIA pela tela: o contrato so entraria pelo WhatsApp.
+function pick(){
+  const el=document.getElementById('file'); const f=el.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=function(){
+    anexos.push({mime:f.type||'application/octet-stream',base64:String(r.result).split(',')[1],nome:f.name});
+    add('anexo pronto: '+f.name+' ('+Math.round(f.size/1024)+' KB) - envie para a Ana conferir','sys');
+    el.value='';
+  };
+  r.readAsDataURL(f);
+}
 const DEB=(parseInt(params.get('deb'))||8)*1000; // janela p/ empilhar baloes (s); ?deb=0 envia na hora
-let buf=[], debTimer=null, waitMsg=null;
+let buf=[], debTimer=null, waitMsg=null, anexos=[];
 function send(){
   const t=inp.value.trim(); if(!t)return; inp.value='';
   add(t,'me'); buf.push(t);
@@ -122,10 +158,12 @@ function send(){
 async function flush(){
   if(debTimer){clearTimeout(debTimer);debTimer=null;}
   if(waitMsg){waitMsg.remove();waitMsg=null;}
-  const t=buf.join('\\n'); buf=[]; if(!t)return;
+  const t=buf.join('\\n'); buf=[]; const ax=anexos; anexos=[]; if(!t && !ax.length)return;
+  // So anexo, sem texto: manda uma frase p/ a Ana ter o que rotear (o canal real manda o OCR aqui).
+  const msg=t||('Segue o contrato em anexo: '+ax.map(function(a){return a.nome;}).join(', '));
   const typing=add('Ana esta digitando...','typing'); const t0=Date.now();
   try{
-    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,session,k:K})});
+    const r=await fetch('/chat-send',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session,k:K,anexos:ax})});
     const j=await r.json(); typing.remove();
     if(r.status===401){add('Codigo de acesso invalido. Use o link completo que voce recebeu.','sys');return;}
     add(j.reply||'(sem resposta)','ana');
@@ -188,8 +226,9 @@ const server = http.createServer(async (req, res) => {
       const data = JSON.parse((await readBody(req)) || '{}');
       if (config.chatPasscode && data.k !== config.chatPasscode) return json(res, 401, { reply: 'código inválido' });
       const chatKey = 'chat-' + (data.session || 'anon');
+      guardarAnexosNoDossie(chatKey, data.anexos); // antes do turno: a tool lê o dossiê já montado
       const session = await getSession(chatKey, { maxIdleMs: config.sessionContinuityMin * 60_000 });
-      const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null, cacheKey: chatKey });
+      const r = await handleTurn(session, data.message || '', { chatId: null, fluxo: {}, transferred: null, cacheKey: chatKey, dossieKey: chatKey });
       await saveSession(chatKey, session);
       return json(res, 200, { reply: r.reply, transferred: !!r.transferred, attachments: r.attachments || [], drafts: r.drafts || [] });
     }

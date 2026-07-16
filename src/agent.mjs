@@ -184,6 +184,11 @@ async function runToolReal(name, args, ctx) {
         nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
         responsavel_cobranca: args.responsavel_cobranca,
+        // Laudo do DocIA quando a pessoa mandou o contrato NESTE atendimento (senão null: nem todo
+        // cadastro vem com contrato, e com a flag desligada nunca vem). O card só exibe — a conferência
+        // é informativa e não gateia o botão. Não entra em montarPayload: o payload do ERP é montado
+        // campo a campo, então isto não vaza para o Superlógica.
+        laudo: ctx.ultimoLaudo || null,
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,

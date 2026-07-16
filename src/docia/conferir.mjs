@@ -14,7 +14,9 @@
 // dano jurídico ao condomínio. Toda regra abaixo pende na dúvida. Ausência de dado NUNCA vira `ok`
 // por omissão — vira `nao_verificavel` e aparece na tela (mesmo princípio do "0 boletos ≠ está em dia").
 
-const STATUS = { OK: 'ok', PENDENTE: 'pendente', DIVERGENTE: 'divergente', NAO_VERIF: 'nao_verificavel' };
+// Exportado porque o card do Portal CONTA as conferências por status: hardcodar 'ok' lá faria um
+// rename aqui zerar a contagem em silêncio ("0 conferências OK" num laudo inteiro verde).
+export const STATUS = { OK: 'ok', PENDENTE: 'pendente', DIVERGENTE: 'divergente', NAO_VERIF: 'nao_verificavel' };
 
 export const norm = (s) => String(s ?? '').toLowerCase().normalize('NFD')
   .replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/\s+/g, ' ').trim();

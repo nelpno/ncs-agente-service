@@ -3,6 +3,7 @@ import { registerAction } from '../registry.mjs';
 import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
 import { slPut as _slPut } from '../../superlogica_write.mjs';
 import { enfileirarAvisos } from '../../outbox.mjs';
+import { STATUS } from '../../docia/conferir.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
@@ -120,10 +121,41 @@ function resumir(d) {
   return `${d.nome} entra como ${papel} da unidade ${unidadeVisivel(d)} a partir de ${dataBR(d.data_entrada)}. ${quem}`;
 }
 
+// ── DocIA (Fase 0): a conferência do contrato no card ─────────────────────────────────────────────
+// INFORMATIVA: não bloqueia o botão nem decide nada — quem aprova é a pessoa. Sem laudo (a maioria dos
+// casos: nem todo cadastro vem com contrato, e com a flag desligada nunca vem) o card fica IDÊNTICO ao
+// de hoje — é o que torna esta mudança segura de deployar antes do ensaio.
+//
+// ⚠️ Check verde NÃO entra em `alertas[]`. Aquele canal significa "atenção, faça isto"; enchê-lo de OK
+// ensina o aprovador a passar o olho por cima — e aí ele perde o alerta que importa (o flip do
+// proprietário, que evita boleto duplicado). Os OK viram UMA linha em `campos[]`; em `alertas[]`, só o
+// que falhou. Mesma lição da pendência fantasma: ruído no canal de atenção mata o canal.
+// ⚠️ `confianca` NÃO vai para a tela: é número sem calibração (a régua ainda não foi medida com dado
+// real) e número na tela lê como certeza. Fica no laudo, para calibrar depois.
+function linhasDocia(l) {
+  if (!l) return { selo: '', campo: null, alertas: [] };
+  const conf = l.conferencias || [];
+  const oks = conf.filter((c) => c.status === STATUS.OK).length;
+  const naoVerif = conf.filter((c) => c.status === STATUS.NAO_VERIF).length;
+  const falhas = [...(l.divergencias || []), ...(l.pendencias || [])];
+  const selo = l.parecer === 'aprovado' ? 'sem pendências'
+    : l.parecer === 'reprovado' ? 'REPROVADO — confira o documento antes de aprovar'
+    : `${falhas.length} ${falhas.length === 1 ? 'item' : 'itens'} a resolver`;
+  // "não verificável" é dito em voz alta: silenciar vira "ok por omissão" — o que o motor recusa fazer.
+  const detalhe = [`✔ ${oks} ${oks === 1 ? 'conferência OK' : 'conferências OK'}`,
+    naoVerif ? `${naoVerif} não verificável(is)` : null].filter(Boolean).join(' · ');
+  return {
+    selo: ` · Contrato conferido: ${selo}.`,
+    campo: { label: 'Conferência do contrato (DocIA)', valor: `${selo} — ${detalhe}` },
+    alertas: falhas.map((f) => `Contrato: ${f}`),
+  };
+}
+
 function render(d, snap) {
   const recebe = inquilinoRecebe(d);
+  const doc = linhasDocia(d.laudo);
   return {
-    resumo: resumir(d),
+    resumo: resumir(d) + doc.selo,
     campos: [
       { label: 'Condomínio', valor: d.condominio_nome || d.id_condominio },
       { label: 'Unidade', valor: unidadeVisivel(d) },
@@ -134,14 +166,17 @@ function render(d, snap) {
       { label: 'Telefone', valor: d.telefone || '—' },
       { label: 'CPF', valor: d.cpf || '—' },
       { label: 'Quem recebe o boleto', valor: recebe ? 'O inquilino (responsável pela cobrança)' : 'O proprietário (padrão)' },
+      ...(doc.campo ? [doc.campo] : []),
     ],
     diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${unidadeVisivel(d)}` }],
     // alertas — o que o aprovador precisa FAZER e a Ana não faz sozinha. O flip do proprietário
     // (1 → 2 "só extras") é uma 2ª escrita, num contato que já existe: fica com o humano nesta onda.
     // Sem ele, proprietário e inquilino recebem a MESMA taxa (duplicação).
-    alertas: recebe ? [
-      `Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`,
-    ] : [],
+    // O flip vem PRIMEIRO: é ação de escrita; o do contrato é conferência de papel.
+    alertas: [
+      ...(recebe ? [`Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`] : []),
+      ...doc.alertas,
+    ],
     snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
   };
 }

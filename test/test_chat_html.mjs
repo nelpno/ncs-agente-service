@@ -36,4 +36,15 @@ check(quebradas.length === 0,
 check(/id=["']?msg/.test(CHAT_HTML), "campo de mensagem (#msg) existe");
 check(/id=["']?send/.test(CHAT_HTML), "botão Enviar (#send) existe");
 
+// Anexo (DocIA): sem clipe, não dá para ensaiar o contrato pela tela — o documento só entraria pelo
+// WhatsApp. Mesma lição do botão Enviar: a API aceitar `anexos` não prova que a TELA sabe mandar.
+check(/type=["']?file/.test(CHAT_HTML), "input de arquivo (clipe) existe");
+check(/id=["']?clip/.test(CHAT_HTML), "botão de clipe (#clip) existe");
+check(/onchange=["']?pick\(\)/.test(CHAT_HTML), "o clipe chama pick()");
+check(/function pick\(/.test(js), "pick() está definida no script servido");
+check(/readAsDataURL/.test(js), "pick() lê o arquivo como base64 (readAsDataURL)");
+// o campo tem que chegar no POST com o NOME que o server lê (`anexos`) — shape errado = dossiê vazio
+check(/anexos:\s*ax/.test(js), "o POST /chat-send manda o campo `anexos`");
+check(/#msg|input\[type=text\]/.test(CHAT_HTML), "o CSS não some com o campo de texto ao entrar o clipe");
+
 console.log(`test_chat_html: ${ok}/${total} OK`);
