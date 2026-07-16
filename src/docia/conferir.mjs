@@ -57,6 +57,25 @@ const acharAss = (e, rotulo) => (e.assinaturas || []).find((a) => norm(a.rotulo)
 // `reprova` marca o que não se conserta mandando outro papel (§ parecer).
 // ---------------------------------------------------------------------------
 const CHECKS = {
+  // Só roda no checklist 'outro' (ver CHECKLIST). Existe para o laudo DIZER o que o documento é, em vez
+  // de o motor seguir calado cobrando campo de locação. `reprova` porque não se conserta mandando o
+  // mesmo papel de novo: o cadastro de inquilino simplesmente não é o fluxo daquele documento.
+  tipo_documento: {
+    peso: 3,
+    reprova: true,
+    fn: (e) => {
+      const t = e.tipo_documento;
+      if (t === 'locacao_particular' || t === 'locacao_imobiliaria') {
+        return { status: STATUS.OK, evidencia: 'contrato de locação' };
+      }
+      return {
+        status: STATUS.DIVERGENTE,
+        evidencia: 'este documento não é um contrato de locação (parece compra e venda, escritura ou '
+          + 'matrícula) — cadastro de inquilino não se aplica; troca de dono é atualização de titularidade',
+      };
+    },
+  },
+
   legibilidade: {
     peso: 2,
     fn: (e) => {
@@ -244,6 +263,16 @@ const COMUNS_LOCACAO = [
 export const CHECKLIST = {
   locacao_particular: COMUNS_LOCACAO,
   locacao_imobiliaria: [...COMUNS_LOCACAO, 'dados_imobiliaria'],
+  // 'outro' (compra e venda, escritura, matrícula) NÃO roda o checklist de locação. Um documento de
+  // outro tipo não é "um contrato de locação com dados faltando" — é OUTRO ASSUNTO, e cobrar dele os
+  // campos da locação produz PENDÊNCIA FANTASMA. Medido em 15/07 com o contrato real da CAIXA (caso
+  // Yohan, compra e venda): o laudo dizia "contrato não traz o CPF de locador, locatário" num papel que
+  // traz os DOIS CPFs (vendedor e compradora) e cobrava "prazo/término da locação" de uma compra e
+  // venda. Pendência fantasma ensina o aprovador a ignorar pendência — é o mesmo defeito que o par
+  // locacao_particular×imobiliaria já custou uma vez.
+  // Ficam só os itens que valem para QUALQUER papel de imóvel + `tipo_documento`, que é quem diz em voz
+  // alta que este não é o fluxo (e reprova, para não seguir como cadastro de inquilino).
+  outro: ['tipo_documento', 'legibilidade', 'identificacao_imovel', 'unidade_existe_no_erp', 'paginas_completas'],
 };
 
 const brDate = (iso) => {
