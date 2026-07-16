@@ -79,12 +79,31 @@ async function snapshot(ctx, d, io = {}) {
   return respIndex(d.id_condominio, d.id_unidade);
 }
 
+// CPF de um contato como a API DEVOLVE. ⚠️ `responsaveis/index` retorna `st_cpf_con` — NÃO
+// `st_cpfcnpj_con`, que era o campo lido aqui e simplesmente não existe na resposta (medido no
+// snapshot real da unidade 4457/Allure em 16/07). Ler campo inexistente = comparação sempre falsa,
+// calada. O `st_cpfcnpj_con` fica no fallback porque é o nome usado na ESCRITA (contatos[0][ST_CPFCNPJ_CON]) —
+// a API do Superlógica é assimétrica entre ler e gravar, e um endpoint futuro pode devolvê-lo.
+const cpfDoContato = (c) => String(c?.st_cpf_con || c?.st_cpfcnpj_con || '').replace(/\D/g, '');
+const soDigitos = (s) => String(s || '').replace(/\D/g, '');
+
+// "Já existe alguém assim nesta unidade?" — CPF igual OU nome igual. Os dois, não um ou outro:
+// ⚠️ o `||` do nome NÃO pode ser condicionado a `!d.cpf` (era assim até 16/07). Quando o CPF virou
+// obrigatório (0103794, 15/07), essa condição passou a ser sempre falsa e a busca por nome MORREU —
+// junto com a comparação por CPF, que já lia o campo errado. Resultado: conflito nunca detectado, e
+// a Ana criaria um contato DUPLICADO da mesma pessoa, em silêncio. Provado com o dado real: Bruno
+// Muller já cadastrado na unidade (CPF 414…), e nem o CPF certo nem o nome o encontravam.
+// O CPF do cadastro pode estar vazio/desatualizado (o do morador na conversa é o atual) → por isso o
+// nome também vale, e por isso o CPF só conta quando existe DOS DOIS LADOS.
 async function checarConflito(ctx, d, io = {}) {
   const atuais = await snapshot(ctx, d, io);
-  const candidatos = atuais.filter((c) =>
-    (d.cpf && String(c.st_cpfcnpj_con || '').replace(/\D/g, '') === String(d.cpf).replace(/\D/g, '')) ||
-    (!d.cpf && norm(c.st_nome_con) === norm(d.nome))
-  );
+  const cpfInformado = soDigitos(d.cpf);
+  const candidatos = atuais.filter((c) => {
+    const cpfCadastro = cpfDoContato(c);
+    const mesmoCpf = !!cpfInformado && !!cpfCadastro && cpfCadastro === cpfInformado;
+    const mesmoNome = norm(c.st_nome_con) === norm(d.nome);
+    return mesmoCpf || mesmoNome;
+  });
   return { conflito: candidatos.length > 0, detalhe: candidatos.length ? 'já existe contato semelhante na unidade' : '', candidatos };
 }
 
@@ -97,10 +116,12 @@ async function gravar(payload, { dados, io = {} } = {}) {
   if (!res.dryRun && dados) {
     try {
       const depois = await (io.responsaveisIndex || _respIndex)(dados.id_condominio, dados.id_unidade);
-      candidatosId = depois.filter((c) =>
-        (dados.cpf && String(c.st_cpfcnpj_con || '').replace(/\D/g, '') === String(dados.cpf).replace(/\D/g, '')) ||
-        norm(c.st_nome_con) === norm(dados.nome)
-      ).map((c) => c.id_contato_con);
+      const cpfInformado = soDigitos(dados.cpf);
+      candidatosId = depois.filter((c) => {
+        const cpfCadastro = cpfDoContato(c); // st_cpf_con — ver nota em checarConflito
+        return (!!cpfInformado && !!cpfCadastro && cpfCadastro === cpfInformado)
+          || norm(c.st_nome_con) === norm(dados.nome);
+      }).map((c) => c.id_contato_con);
       idCriado = candidatosId.length === 1 ? candidatosId[0] : null;
     } catch {}
   }

@@ -1,4 +1,4 @@
-NCS — novo {{papel}} no {{condominio}}.
+NCS — *novo {{papel}} no {{condominio}}*.
 Nome: {{nome}}
 Unidade: {{unidade}}
 Telefone: {{telefone}}

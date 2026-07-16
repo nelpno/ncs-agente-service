@@ -32,14 +32,22 @@ ok(!('contatos[0][ST_EMAIL_CON]' in p), 'opcional ausente não vai no payload');
 ok('contatos[0][ST_EMAIL_CON]' in cadastroInquilino.montarPayload({ ...base, email: 'a@b.com' }), 'opcional presente entra');
 
 // IO injetável
+// ⚠️ o campo é `st_cpf_con` — é o que `responsaveis/index` devolve DE VERDADE. Esta fixture dizia
+// `st_cpfcnpj_con` (nome usado só na ESCRITA), campo que a leitura nunca traz: o teste ficava verde
+// enquanto, em produção, a comparação por CPF era sempre falsa e a duplicata passava. Fixture com
+// campo inventado não testa nada. Detalhe e casos em test_conflito_duplicata.mjs.
 const ioFake = {
-  responsaveisIndex: async () => ([{ id_unidade_uni: '900', st_cpfcnpj_con: '11122233344', st_nome_con: 'João Silva' }]),
+  responsaveisIndex: async () => ([{ id_unidade_uni: '900', st_cpf_con: '11122233344', st_nome_con: 'João Silva' }]),
   slPut: async () => ({ ok: true, dryRun: true, echo: {} }),
 };
 const conf = await cadastroInquilino.checarConflito({}, { ...base, cpf: '11122233344' }, ioFake);
 ok(conf.conflito === true, 'CPF já presente na unidade → conflito');
-const semConf = await cadastroInquilino.checarConflito({}, { ...base, cpf: '99999999999' }, ioFake);
-ok(semConf.conflito === false, 'CPF novo → sem conflito');
+// "Novo" = pessoa nova: CPF novo E nome novo. Só trocar o CPF mantendo o nome "João Silva" é a MESMA
+// pessoa com CPF novo/corrigido — e isso É conflito (o caso real do Bruno Muller, 16/07).
+const semConf = await cadastroInquilino.checarConflito({}, { ...base, nome: 'Joana Pereira Lima', cpf: '99999999999' }, ioFake);
+ok(semConf.conflito === false, 'pessoa nova (nome e CPF novos) → sem conflito');
+const mesmoNomeOutroCpf = await cadastroInquilino.checarConflito({}, { ...base, cpf: '99999999999' }, ioFake);
+ok(mesmoNomeOutroCpf.conflito === true, 'mesmo nome com CPF diferente → conflito (não duplica a pessoa)');
 const snap = await cadastroInquilino.snapshot({}, base, ioFake);
 ok(Array.isArray(snap) && snap.length === 1, 'snapshot lista contatos da unidade');
 const g = await cadastroInquilino.gravar(cadastroInquilino.montarPayload(base), { dados: base, io: ioFake });

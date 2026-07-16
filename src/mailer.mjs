@@ -21,8 +21,15 @@ async function getTransport() {
   return _transport;
 }
 
+// O MESMO template do aviso serve WhatsApp e e-mail (data/templates/<evento>-<papel>.md). O WhatsApp
+// renderiza *texto* como negrito — no e-mail o asterisco vai LITERAL e fica feio ("*novo inquilino*").
+// Tirar aqui, no transporte, mantém um template só: quem sabe o que o canal renderiza é o canal.
+// Só o par de destaque some; asterisco solto (raro, mas não inventado por nós) fica como está.
+export const semNegritoWhatsapp = (s) => String(s ?? '').replace(/\*([^*\n]+)\*/g, '$1');
+
 /** enviarEmail({ para, assunto, corpo, de? }) → { ok, dry, id?, para, assunto }. Nunca lança: erro vira {ok:false}. */
-export async function enviarEmail({ para, assunto, corpo, de } = {}) {
+export async function enviarEmail({ para, assunto, corpo: corpoBruto, de } = {}) {
+  const corpo = semNegritoWhatsapp(corpoBruto);
   if (!para || !/@/.test(para)) return { ok: false, motivo: 'destinatario_invalido', para };
   if (!habilitado()) {
     console.log(`[mailer] DRY — e-mail NÃO enviado (SMTP off): para=${para} | assunto="${assunto}"`);
