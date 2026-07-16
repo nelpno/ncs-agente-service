@@ -14,11 +14,16 @@ import * as A from "../src/aprovacoes.mjs";
 let ok = 0, total = 0;
 const check = (c, m) => { total++; assert(c, m); ok++; };
 
+// Cadastro COMPLETO — é o que chega na fila desde 15/07: `validar` exige o CPF, e a Ana passou a
+// pedir e-mail/telefone no atendimento. Fixture sem esses campos representa um draft que não existe,
+// e faz o controle abaixo ("sem alertas") reclamar de um alerta legítimo. Quem prova o alerta de
+// dado faltando é test_docia_card.mjs, do lado da ação — aqui o assunto é o flip do proprietário.
 const draftInq = {
   id: "d1", acao: "cadastro_inquilino", status: "pendente", time_aprovador: "Recepção",
   criado_em: "2026-07-14T10:00:00Z", snapshot: [],
   dados: { id_condominio: "179", id_unidade: "900", nome: "João Silva", papel: "inquilino",
-    data_entrada: "06/30/2026", responsavel_cobranca: "inquilino" },
+    data_entrada: "06/30/2026", responsavel_cobranca: "inquilino",
+    cpf: "12345678901", email: "joao@email.com", telefone: "16991234567" },
 };
 const draftProp = { ...draftInq, id: "d2", dados: { ...draftInq.dados, responsavel_cobranca: "proprietario" } };
 
