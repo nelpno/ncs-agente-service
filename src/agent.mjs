@@ -12,6 +12,8 @@ import * as PORT from './portaria.mjs';
 import * as GRUVI from './gruvi.mjs';
 import * as TAXA from './taxa.mjs';
 import * as CND from './cnd.mjs';
+import * as DOCIA from './docia/docia.mjs';
+import * as DOSSIE from './docia/dossie.mjs';
 import * as ENGINE from './write/engine.mjs';
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import { agoraContextoTemporal } from './tempo.mjs';
@@ -51,7 +53,19 @@ const TOOLS = [
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
     }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
+  { type: 'function', function: { name: 'analisar_contrato',
+    description: 'Confere o CONTRATO (locação) que a pessoa enviou por foto/PDF e devolve um laudo: o que está OK e o que FALTA. Use quando ela mandar o contrato para cadastro de inquilino ou troca de titularidade, DEPOIS de confirmar que enviou todas as páginas (pergunte "é só isso ou tem mais alguma página?" antes). Passe id_condominio e id_unidade (do resolver_cadastro) quando já souber — sem eles não dá para cruzar com o cadastro. Retorna { ok, parecer (aprovado|pendente|reprovado), pendencias[], divergencias[], unidade, locatario_nome, vigencia_fim, responsavel_taxa_sugerido }. ok:false motivo:"sem_documento" = não recebi nenhuma página; motivo:"ilegivel" = peça foto mais nítida (use a mensagem retornada). CONTE as pendências para a pessoa em português, para ela já mandar o que falta — mas NUNCA diga que o cadastro está aprovado: o laudo é uma conferência, quem aprova é a equipe. responsavel_taxa_sugerido é SUGESTÃO: confirme com a pessoa quem recebe o boleto, nunca decida sozinho.',
+    parameters: { type: 'object', properties: {
+      id_condominio: { type: 'string' }, id_unidade: { type: 'string' },
+      cpf: { type: 'string', description: 'CPF que a pessoa informou no atendimento (para comparar com o do contrato).' },
+    } } } },
 ];
+
+
+// DocIA (Fase 0) entra DESLIGADO. A imagem da Ana builda do HEAD do git: sem a flag, commitar o módulo
+// não muda uma vírgula do comportamento em produção, e ligar vira um ato deliberado (env, sem rebuild)
+// depois do ensaio. Filtrar aqui, e não no import, deixa o teste ligar/desligar sem ordem de import.
+const toolsAtivas = () => (process.env.DOCIA_ATIVO === '1' ? TOOLS : TOOLS.filter((t) => t.function.name !== 'analisar_contrato'));
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
 
@@ -118,6 +132,36 @@ async function runToolReal(name, args, ctx) {
       }
       (ctx.attachments ||= []).push({ url: r.url, filename: r.filename, kind: 'pdf' });
       return { enviado: true, canal_externo: true, tipo: 'informativo' };
+    }
+    case 'analisar_contrato': {
+      const pecas = DOSSIE.pecasDe(ctx.dossieKey);
+      if (!pecas.length) return { ok: false, motivo: 'sem_documento', mensagem: 'Ainda não recebi nenhuma foto ou PDF do contrato.' };
+      if (args.id_condominio) ctx.lastCondo = { id: String(args.id_condominio), nome: ctx.lastCondo?.nome };
+      // Cruzamento com o ERP é OPCIONAL e degrada com honestidade: sem id/unidade, ou com o Superlógica
+      // fora, o laudo marca esses itens como `nao_verificavel` — nunca `ok` por omissão.
+      let erp = null;
+      if (args.id_condominio && args.id_unidade) {
+        try {
+          const contatos = await SL.responsaveisIndex(args.id_condominio, args.id_unidade);
+          const dono = (contatos || []).find((c) => ['1', '2'].includes(String(c.id_tiporesp_tres ?? '')) || /propriet/i.test(String(c.st_label_tres || '')));
+          erp = {
+            unidade_existe: (contatos || []).length > 0,
+            unidade_label: ctx.unidades?.[String(args.id_unidade)]?.identificacao || null,
+            proprietario_nome: dono?.st_nome_con || null,
+            condominio_nome: ctx.lastCondo?.nome || null,
+          };
+        } catch (e) { console.warn('[docia] cruzamento com o ERP falhou (segue como nao_verificavel):', e.message); }
+      }
+      const r = await DOCIA.analisarContrato(pecas, {
+        hoje: new Date(), erp, informado: { cpf: args.cpf || null },
+        origem: { canal: ctx.canal || 'chat', conv: ctx.sessionKey || null },
+      });
+      // Limpa SEMPRE (inclusive na falha): página de um contrato não pode entrar calada na análise do
+      // próximo — a sessão do morador vive 120min. Se ela reenviar, manda o dossiê novo inteiro.
+      DOSSIE.limpar(ctx.dossieKey);
+      if (!r.ok) return { ok: false, motivo: r.motivo, mensagem: r.mensagem };
+      ctx.ultimoLaudo = r.laudo; // o rascunho leva o laudo junto (o card mostra as conferências)
+      return { ok: true, ...r.resumo };
     }
     case 'consultar_regimento': return REG.consultar_regimento(args);
     case 'consultar_base_geral': return BG.consultar_base_geral(args);
@@ -213,7 +257,7 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   const callModel = async (lowReasoning) => {
     let lastErr;
     for (let a = 0; a < 4; a++) { // gemini-3 em function-calling solta 400 transitório (thought_signature) que o llm.mjs NÃO re-tenta
-      try { return await chat({ messages: session.messages, tools: TOOLS, cacheKey: ctx?.cacheKey, ...(lowReasoning ? { reasoningEffort: 'none' } : {}) }); }
+      try { return await chat({ messages: session.messages, tools: toolsAtivas(), cacheKey: ctx?.cacheKey, ...(lowReasoning ? { reasoningEffort: 'none' } : {}) }); }
       catch (e) { lastErr = e; await new Promise((r) => setTimeout(r, 400 * (a + 1))); }
     }
     console.warn('[blip] callModel esgotou retries:', lastErr?.message);
@@ -281,4 +325,4 @@ export async function handleTurn(session, userText, ctx) {
   return runAgentLoop(session, SYSTEM_PROMPT, userText, ctx, runToolReal);
 }
 
-export { TOOLS, runToolReal };
+export { TOOLS, runToolReal, toolsAtivas };

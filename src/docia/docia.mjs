@@ -20,6 +20,15 @@ import { config } from '../config.mjs';
 
 const BUCKET = process.env.DOCIA_BUCKET || 'contratos';
 
+// Guardar o contrato no NOSSO bucket é DESLIGADO por padrão, de propósito.
+// O binário já vive no Chatwoot (o morador mandou por lá) e a Fase 0 não exibe o PDF no card — então
+// copiá-lo para cá hoje só adiciona PII (CPF, RG, endereço) sob nossa guarda, sem entregar valor.
+// E a regra de RETENÇÃO ainda é pergunta aberta ao cliente (§8.1 da arquitetura): guardar documento
+// antes de saber por quanto tempo pode guardar é exatamente o que não se faz com dado sensível.
+// A capacidade fica pronta; liga com DOCIA_GUARDAR_ARQUIVO=1 quando o cliente responder.
+// Desligado, o laudo ainda registra hash + tamanho de cada peça (prova de integridade sem guardar PII).
+const GUARDAR = () => process.env.DOCIA_GUARDAR_ARQUIVO === '1';
+
 const MSG = {
   sem_gemini: 'A leitura de documentos está indisponível no momento.',
   formato: 'Não recebi o arquivo direito.',
@@ -39,6 +48,7 @@ async function guardarArquivo(peca, id, i, { fetchImpl = fetch } = {}) {
   const d = new Date();
   const path = `${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${id}-p${i + 1}.${ext}`;
   const hash = 'sha256:' + (await import('node:crypto')).createHash('sha256').update(peca.buf).digest('hex');
+  if (!GUARDAR()) return { storage_path: null, hash, bytes: peca.buf.length, guardado: false, motivo: 'desligado' };
   if (!sbEnabled()) return { storage_path: null, hash, bytes: peca.buf.length, guardado: false, motivo: 'sem_supabase' };
   try {
     const r = await fetchImpl(`${config.supabaseUrl}/storage/v1/object/${BUCKET}/${path}`, {
