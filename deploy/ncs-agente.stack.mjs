@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:e9a91a282712731fe31f7622690b20dfe40863909ec355e7406eda3341c2201f"; // 1cf23df: deploy de prompt pega em sessao viva (_ancorarSystemPrompt) + "de ambos"
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:def3129153077483571f4085a8227b68d8a2ccd0732efbf6ad0dd978e00b9cb6"; // db17b78: DocIA (costura do binario + laudo no card + clipe no /chat) — INERTE, flag DOCIA_ATIVO desligada
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
@@ -53,6 +53,8 @@ export const ANA_REQUIRED_ENV = [
   "ADAPTER_NOTIFY_URL",
   "SUPERLOGICA_WRITE_APP_TOKEN",
   "SUPERLOGICA_WRITE_ACCESS_TOKEN",
+  "DOCIA_ATIVO",
+  "DOCIA_GEMINI_KEY",
   // Onda 1 §4.4 — sem estes dois, sbEnabled()=false e os rascunhos caem no Redis; a aba
   // "Aprovações" do Portal lê `escrita_drafts` no Supabase e fica vazia. Medido em prod 14/07:
   // ncs-agente NÃO tinha SUPABASE_*, ncs-chat tinha → as duas telas em bancos diferentes.
@@ -90,6 +92,9 @@ export function buildAnaStack(secrets = {}) {
     superlogicaWriteAccessToken = "",
     supabaseUrl,
     supabaseServiceKey,
+    // DocIA: default LIGADO (o ensaio de 15/07). `docia:false` desliga sem mexer no código.
+    docia = true,
+    dociaGeminiKey = "",
   } = secrets;
 
   const env = [
@@ -128,6 +133,18 @@ export function buildAnaStack(secrets = {}) {
     { name: "ADAPTER_NOTIFY_URL", value: adapterNotifyUrl },
     { name: "SUPERLOGICA_WRITE_APP_TOKEN", value: superlogicaWriteAppToken },
     { name: "SUPERLOGICA_WRITE_ACCESS_TOKEN", value: superlogicaWriteAccessToken },
+    // ── DocIA ────────────────────────────────────────────────────────────────────────────────────
+    // LIGADO para o ensaio do Nelson (15/07). É seguro AGORA por um motivo específico: o adapter do
+    // Chatwoot NÃO foi deployado, então nenhum morador consegue entregar binário — só a tela /chat
+    // (link com passcode) alcança o DocIA. O raio de alcance é a janela de teste, não a operação.
+    // Desligar = trocar para "0" e redeployar (env, sem rebuild).
+    { name: "DOCIA_ATIVO", value: docia ? "1" : "0" },
+    // 🔴 ANTES de deployar o adapter (= abrir o DocIA para o WhatsApp), esta chave TEM que ser
+    // própria. Vazia, o extrair.mjs cai na GEMINI_API_KEY — que é a MESMA do fallback cross-provider
+    // do llm.mjs (a rede que segurou o incidente de 07/07, OpenAI sem crédito) e do multimodal do
+    // adapter. Medido: ~20 análises seguidas estouraram a cota e deixaram o test_handleturn em 429.
+    // Contrato = rajada (4 fotos) → sem chave própria, o DocIA derruba a rede dos DOIS bots, calado.
+    { name: "DOCIA_GEMINI_KEY", value: dociaGeminiKey },
     // Onda 1: a fila de aprovação (escrita_drafts/escrita_eventos) vive no Supabase do NCS,
     // o MESMO que o Portal (ncs-chat) lê. Sem elas, a Ana grava no Redis e a aba fica vazia.
     { name: "SUPABASE_URL", value: supabaseUrl },
