@@ -71,9 +71,13 @@ function varsDoTexto(evento, ator, condo) {
     papel: quem, nome: ator.nome || '', unidade: ator.unidade || '', condominio: condo.nome,
     telefone: ator.telefone || '',
     // Pedido do Fernando (15/07, no grupo de teste): a portaria precisa saber QUANDO a pessoa entra.
-    // ⚠️ É a data de ENTRADA do cadastro, não a data da MUDANÇA — mudança tem fluxo próprio
-    // (formulário de agendamento) e pode ser outro dia. Rotular uma como a outra faria a portaria
-    // se planejar para o dia errado; por isso o template diz "Data de entrada".
+    //
+    // ⚠️ O VALOR é a data de ENTRADA do cadastro (DT_ENTRADA_RES), mas o RÓTULO no template diz
+    // "Data da mudança" — decisão do Fernando (16/07, com os 3 modelos escritos por ele no grupo de
+    // teste), tomada CIENTE da ressalva: em tese mudança tem fluxo próprio (formulário de agendamento)
+    // e poderia cair em outro dia. Ele é quem conhece a operação e escolheu a palavra que a portaria
+    // entende. Não "corrija" isto de volta para "Data de entrada" achando que é bug — é escolha do
+    // cliente. Se um dia a data da mudança física virar um campo próprio, aí sim são duas linhas.
     data: dataBR(ator.data),
   };
 }
