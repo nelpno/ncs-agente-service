@@ -51,15 +51,18 @@ t('não cobra prazo de locação de uma compra e venda', () => {
 
 console.log('\n[2] mas DIZ o que o documento é — silêncio aqui seria pior que a pendência fantasma');
 
-t('reprova (não segue como cadastro de inquilino)', () => {
+t('nao reprova quem mandou o papel CERTO — e tambem nao aprova', () => {
   const r = conferir(compraVenda, ctx);
-  assert.equal(r.parecer, 'reprovado', 'um documento que não é de locação não pode virar cadastro de inquilino');
+  assert.equal(r.parecer, "outro_assunto", "documento certo p/ outro fluxo nao e reprovado (nem aprovado)");
+  assert.notEqual(r.parecer, "aprovado", "aprovar afirmaria uma conferencia de compra e venda que nao existe");
 });
 
 t('explica o caminho certo (titularidade), sem jargão', () => {
   const r = conferir(compraVenda, ctx);
   const texto = r.divergencias.join(' | ');
-  assert.ok(/n[ãa]o [ée] um contrato de loca/i.test(texto), `não disse que não é locação: ${texto}`);
+  // Requisito, não frase: tem que (a) nomear o que o documento É e (b) apontar o fluxo certo.
+  assert.ok(/compra e venda|escritura|matr[íi]cula/i.test(texto), `não nomeou o documento: ${texto}`);
+  assert.ok(/n[ãa]o.{0,12}loca[çc][ãa]o/i.test(texto), `não disse que não é locação: ${texto}`);
   assert.ok(/titularidade/i.test(texto), `não apontou o caminho (titularidade): ${texto}`);
 });
 
@@ -91,10 +94,13 @@ t("checklist de locação segue com os itens de locação", () => {
   assert.ok(!CHECKLIST.locacao_particular.includes('tipo_documento'), 'o check de tipo é só do outro');
 });
 
-t('contrato de locação NÃO é reprovado pelo check de tipo', () => {
+t('contrato de locação NÃO cai no veredito de "outro assunto"', () => {
   const r = conferir(locacao, ctx);
-  const texto = r.divergencias.join(' | ');
-  assert.ok(!/n[ãa]o [ée] um contrato de loca/i.test(texto), `acusou locação de não ser locação: ${texto}`);
+  // O assert que importa é o PARECER: se a locação virasse 'outro_assunto', a Ana pararia de cadastrar
+  // inquilino — o fluxo principal morreria. (Antes este teste olhava a frase da divergência; mudar o
+  // texto do laudo o deixava passar sem verificar nada.)
+  assert.notEqual(r.parecer, 'outro_assunto', 'acusou um contrato de locação de ser de outro assunto');
+  assert.ok(!/titularidade/i.test(r.divergencias.join(' | ')), 'mandou uma locação para o fluxo de titularidade');
 });
 
 console.log(`\ntest_docia_tipo_outro: ${ok} OK`);

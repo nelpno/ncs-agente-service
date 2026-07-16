@@ -148,6 +148,9 @@ function linhasDocia(l) {
   const falhas = [...(l.divergencias || []), ...(l.pendencias || [])];
   const selo = l.parecer === 'aprovado' ? 'sem pendências'
     : l.parecer === 'reprovado' ? 'REPROVADO — confira o documento antes de aprovar'
+    // O documento está certo, mas é de OUTRO fluxo (ex.: compra e venda pedindo titularidade). Não é
+    // "reprovado" — o morador acertou o papel; é o pedido que não é cadastro de inquilino.
+    : l.parecer === 'outro_assunto' ? 'este documento é de outro assunto (titularidade) — não é cadastro de inquilino'
     : `${falhas.length} ${falhas.length === 1 ? 'item' : 'itens'} a resolver`;
   // "não verificável" é dito em voz alta: silenciar vira "ok por omissão" — o que o motor recusa fazer.
   const detalhe = [`✔ ${oks} ${oks === 1 ? 'conferência OK' : 'conferências OK'}`,

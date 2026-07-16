@@ -57,12 +57,17 @@ const acharAss = (e, rotulo) => (e.assinaturas || []).find((a) => norm(a.rotulo)
 // `reprova` marca o que não se conserta mandando outro papel (§ parecer).
 // ---------------------------------------------------------------------------
 const CHECKS = {
-  // Só roda no checklist 'outro' (ver CHECKLIST). Existe para o laudo DIZER o que o documento é, em vez
-  // de o motor seguir calado cobrando campo de locação. `reprova` porque não se conserta mandando o
-  // mesmo papel de novo: o cadastro de inquilino simplesmente não é o fluxo daquele documento.
+  // Só roda no checklist 'outro' (ver CHECKLIST). Existe para o laudo DIZER que o assunto é outro, em
+  // vez de o motor seguir calado cobrando campo de locação.
+  //
+  // ⚠️ NÃO usa `reprova` de propósito. No caso real (Yohan) o morador mandou o documento CERTO para o
+  // que pediu — quem está fora do lugar é o fluxo, não o papel dele. "REPROVADO" na tela diria
+  // "seu documento é ruim" para quem acertou, e é tão enganoso quanto a pendência fantasma.
+  // "Aprovado" também não: aprovar seria afirmar que a compra e venda foi conferida — e não há
+  // checklist de compra e venda (Fase 0 = locação). Afirmar conferência que não houve é exatamente o
+  // que o motor existe para impedir. Por isso o parecer próprio: `outro_assunto` (ver `conferir`).
   tipo_documento: {
     peso: 3,
-    reprova: true,
     fn: (e) => {
       const t = e.tipo_documento;
       if (t === 'locacao_particular' || t === 'locacao_imobiliaria') {
@@ -70,8 +75,8 @@ const CHECKS = {
       }
       return {
         status: STATUS.DIVERGENTE,
-        evidencia: 'este documento não é um contrato de locação (parece compra e venda, escritura ou '
-          + 'matrícula) — cadastro de inquilino não se aplica; troca de dono é atualização de titularidade',
+        evidencia: 'documento de compra e venda (escritura/matrícula), não de locação — o assunto é '
+          + 'atualização de titularidade (novo proprietário), não cadastro de inquilino',
       };
     },
   },
@@ -313,8 +318,17 @@ export function conferir(extracao, ctx = {}) {
 
   // REPROVADO ≠ PENDENTE (a distinção é do cliente): PENDENTE = "falta papel, traga e a gente aprova";
   // REPROVADO = "não dá para validar a legitimidade" — mandar outro documento não conserta.
+  //
+  // OUTRO_ASSUNTO é o terceiro caso, e não cabe em nenhum dos dois: o documento está CERTO, só que
+  // para outro fluxo (caso real: compra e venda pedindo troca de titularidade). Chamar de "reprovado"
+  // acusa de errado quem mandou o papel certo; chamar de "aprovado" afirmaria uma conferência que não
+  // existe (não há checklist de compra e venda). Então o laudo diz o que é e para onde vai — e quem
+  // decide segue sendo a pessoa. Vem ANTES dos outros: é sobre o documento inteiro, não sobre um item.
+  const outroAssunto = conferencias.some((c) => c.item === 'tipo_documento' && c.status === STATUS.DIVERGENTE);
   const reprovou = conferencias.some((c) => c.status === STATUS.DIVERGENTE && CHECKS[c.item]?.reprova);
-  const parecer = reprovou ? 'reprovado' : (divergencias.length || pendencias.length) ? 'pendente' : 'aprovado';
+  const parecer = outroAssunto ? 'outro_assunto'
+    : reprovou ? 'reprovado'
+    : (divergencias.length || pendencias.length) ? 'pendente' : 'aprovado';
 
   let pesoTot = 0, pontos = 0;
   for (const c of conferencias) {
