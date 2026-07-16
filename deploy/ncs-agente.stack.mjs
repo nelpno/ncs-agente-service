@@ -55,6 +55,11 @@ export const ANA_REQUIRED_ENV = [
   "SUPERLOGICA_WRITE_ACCESS_TOKEN",
   "DOCIA_ATIVO",
   "DOCIA_GEMINI_KEY",
+  // Onda 1 §5 (transporte do aviso por WhatsApp) — ver bloco no `env` abaixo.
+  "ZAP_ENABLED",
+  "ZUCK_BASE",
+  "ZUCK_TOKEN",
+  "ZAP_ALLOWLIST",
   // Onda 1 §4.4 — sem estes dois, sbEnabled()=false e os rascunhos caem no Redis; a aba
   // "Aprovações" do Portal lê `escrita_drafts` no Supabase e fica vazia. Medido em prod 14/07:
   // ncs-agente NÃO tinha SUPABASE_*, ncs-chat tinha → as duas telas em bancos diferentes.
@@ -95,6 +100,12 @@ export function buildAnaStack(secrets = {}) {
     // DocIA: default LIGADO (o ensaio de 15/07). `docia:false` desliga sem mexer no código.
     docia = true,
     dociaGeminiKey = "",
+    // Transporte do aviso por WhatsApp (Onda 1 §5). Default DESLIGADO: sem `zap:true` o
+    // comportamento é o de sempre (o aviso vira pendência humana). Ver bloco no `env`.
+    zap = false,
+    zuckToken = "",
+    zuckBase = "https://zuck.dynamicagents.tech",
+    zapAllowlist = "",
   } = secrets;
 
   const env = [
@@ -145,6 +156,20 @@ export function buildAnaStack(secrets = {}) {
     // adapter. Medido: ~20 análises seguidas estouraram a cota e deixaram o test_handleturn em 429.
     // Contrato = rajada (4 fotos) → sem chave própria, o DocIA derruba a rede dos DOIS bots, calado.
     { name: "DOCIA_GEMINI_KEY", value: dociaGeminiKey },
+    // ── Aviso da portaria por WhatsApp (Onda 1 §5) ───────────────────────────────────────────────
+    // Ligado SÓ para o ensaio filmado (15/07). O canal é o Zuck (não-oficial): a Cloud API oficial
+    // não entrega em GRUPO e o não-oficial tem risco de ban — por isso o §5 segue em aberto e o
+    // default do código é desligado (aí o aviso vira pendência visível, como antes).
+    // ⚠️ A ALLOWLIST é o freio que faz o ensaio ser seguro: condomínio "Humana" roteia o síndico
+    // para zap_individual = CELULAR PESSOAL dele. Só o JID do grupo de teste sai daqui; o resto
+    // vira 'fora_da_allowlist' (pendência), nunca uma mensagem para alguém de verdade.
+    // Em PRODUÇÃO: promover os 57 contatos para `condominio_contatos` (a tabela está VAZIA — o
+    // JSON com os contatos NÃO é lido enquanto sbEnabled()) + capturar o JID de cada grupo, e só
+    // então trocar a allowlist pelo conjunto real.
+    { name: "ZAP_ENABLED", value: zap ? "true" : "false" },
+    { name: "ZUCK_BASE", value: zuckBase },
+    { name: "ZUCK_TOKEN", value: zuckToken },
+    { name: "ZAP_ALLOWLIST", value: zapAllowlist },
     // Onda 1: a fila de aprovação (escrita_drafts/escrita_eventos) vive no Supabase do NCS,
     // o MESMO que o Portal (ncs-chat) lê. Sem elas, a Ana grava no Redis e a aba fica vazia.
     { name: "SUPABASE_URL", value: supabaseUrl },
