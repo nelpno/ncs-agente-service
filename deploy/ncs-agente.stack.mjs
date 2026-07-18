@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:fe3012c8427707f950b1d27408cea49a03bf8cd65c9fcc8582b069d94b156d59"; // 437aa57: fix da deteccao de duplicata (lia st_cpfcnpj_con, campo que a leitura nao devolve) + aviso em negrito e "Data da mudanca" (Fernando 16/07) + DocIA 'outro_assunto' + transporte de WhatsApp (desligado por padrao)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:7dc3d11d6e90db6d928e2fe9805bde163556166c026f09762ee5dd65b4ec4545"; // 909b135: excecao imobiliaria (boleto 2a via c/ CPF do titular + nome da unidade) + alias moove + infracao limpeza_higiene Vitta Paras (Fernando 17/07)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
