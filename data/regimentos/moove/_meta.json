@@ -1,6 +1,7 @@
 {
   "condominio": "Moove Concept Home",
   "condominio_slug": "moove",
+  "aliases": ["edifício moove", "edificio moove", "moove", "moove concept home"],
   "endereco": "Rua Imaculada Conceição, 3377 - Vila Yamada, Araraquara/SP",
   "id_condominio_superlogica": 174,
   "documentos": [

@@ -28,6 +28,21 @@
     "fonte": "convencao_literal"
   },
   "catalogo_infracoes": {
+    "limpeza_higiene": {
+      "titulo": "Falta de Limpeza e Higiene da Unidade",
+      "fundamento": "Parágrafo 6º",
+      "palavras_chave": [
+        "odor",
+        "mau cheiro",
+        "cheiro forte",
+        "falta de limpeza",
+        "higiene",
+        "sujeira",
+        "insalubridade",
+        "instalações sanitárias"
+      ],
+      "texto_artigo": "Parágrafo 6º - O serviço de limpeza das unidades autônomas e de seus móveis não deve prejudicar as partes comuns e os locais exclusivos dos demais condôminos. Incumbe a cada condômino manter limpa a sua unidade, sobretudo as instalações sanitárias."
+    },
     "barulho_noturno": {
       "titulo": "Perturbação do Sossego",
       "fundamento": "Parágrafo 20º",
