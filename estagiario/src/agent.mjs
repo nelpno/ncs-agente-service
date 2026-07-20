@@ -11,6 +11,7 @@ import * as MUD from "../../src/mudanca.mjs";    // REUSO: regra de mudança por
 import * as PORT from "../../src/portaria.mjs";  // REUSO: sistema/tipo de portaria por condo — dúvida de morador
 import * as GRUVI from "../../src/gruvi.mjs";    // REUSO: vídeo tutorial do app Gruvi — dúvida de morador
 import * as TAXA from "../../src/taxa.mjs";      // REUSO: o que é incluso na taxa (gás/água/internet) por condo — dúvida de morador
+import * as GAR from "../../src/garantidora.mjs"; // REUSO: base de garantidoras da Ana (condo com cobrança externa) — dúvida de morador
 import * as VTAXA from "./valor_taxa.mjs";       // NOVO: VALOR em R$ da taxa por unidade (≠ TAXA, que é o que está incluso)
 import * as DOC from "./documentos.mjs";                         // NOVO: motor de geração de PDF
 import * as REL from "./relatorio.mjs";                          // NOVO: relatório de prestação de contas
@@ -53,6 +54,7 @@ const TOOLS = [
   { type: "function", function: { name: "consultar_video_app", description: "Acha o VÍDEO tutorial oficial do app Gruvi (1º acesso/login, cadastrar facial, validar documento, pegar boleto, reservar área, cadastrar veículo, liberar visitante/prestador, ver comunicados/documentos etc.). Use em 'como o morador faz X no app', 'como acesso o Gruvi', 'como pego o boleto no app'. Passe o assunto em texto livre. Retorna { encontrou, titulo, url } — se encontrou, passe a URL pra equipe repassar.", parameters: { type: "object", properties: { assunto: { type: "string", description: "O que a pessoa quer fazer no app, em texto livre (ex.: 'pegar boleto', 'cadastrar facial')." } }, required: ["assunto"] } } },
   { type: "function", function: { name: "consultar_taxa_condominial", description: "O que é INCLUSO NA TAXA CONDOMINIAL (gás, água, internet) de um condomínio. Use em 'o gás está incluso na taxa?', 'a água é inclusa?', 'quais provedores de internet o condomínio libera?'. Informe o condomínio. Retorna { encontrou, condominio, itens:{ gas:{incluso, empresa}, agua:{incluso}, internet:[...] }, resumo }. encontrou=false → não invente, oriente confirmar com a administração.", parameters: { type: "object", properties: { condominio: { type: "string" } }, required: ["condominio"] } } },
   { type: "function", function: { name: "consultar_valor_taxa", description: "VALOR em R$ da taxa condominial de UMA unidade, decomposto (Taxa Condomínio, Taxa Extra, Fundo de Reserva...). Use em 'qual a taxa do Lume?', 'quanto paga o apto 203?'. NÃO confunda com consultar_taxa_condominial (essa diz o que está INCLUSO: gás/água/internet). ⚠️ EXIGE a unidade: o mesmo condomínio tem valores diferentes por fração ideal (metragem) — se a pessoa não disser a unidade, PERGUNTE de qual é, explicando o motivo; nunca responda um valor 'do condomínio'. Retorna { ok, condominio, unidade, vencimento, total_formatado, rubricas:[{descricao, valor_formatado}], encargos:[...] }. ok=false: informe_unidade=pergunte a unidade; ambiguo=confirme qual (veja opcoes); sem_boleto/composicao_indisponivel/composicao_nao_confere=NÃO invente valor, diga que precisa conferir no Superlógica. encargos = juros/multa por atraso, fora da taxa.", parameters: { type: "object", properties: { condominio: { type: "string", description: "Nome do condomínio (ex.: Lume)." }, unidade: { type: "string", description: "Apartamento/unidade como a pessoa falou (ex.: '203', 'apto 101')." }, bloco: { type: "string", description: "Bloco/torre, se houver (ex.: '1')." } }, required: ["condominio", "unidade"] } } },
+  { type: "function", function: { name: "consultar_garantidora", description: "Verifica se a cobrança de um condomínio é feita por uma GARANTIDORA externa (não pela NCS/Superlógica). Chame ANTES de orientar sobre boleto, 2ª via, quem emite a cobrança ou inadimplência de um condomínio NOMEADO. Retorna { tem, tipo, condominio, garantidora:{ nome, whatsapp, telefone, email, site } }. tipo:'total' = a NCS NÃO emite boleto/2ª via — é tudo pela garantidora: passe SÓ os canais retornados e NÃO oriente o app Gruvi. tipo:'allure' = o boleto normal sai pelo app Gruvi, mas negociação/inadimplência acima de 30 dias é com a garantidora. tem:false = condomínio SEM garantidora — siga a orientação normal (boleto pelo app Gruvi). Nunca invente garantidora nem canal: use só o que vier no retorno.", parameters: { type: "object", properties: { condominio: { type: "string", description: "Nome do condomínio (ex.: 'Praças do Sol', 'Vale Supremo')." }, id_condominio: { type: "string", description: "Id do condomínio no Superlógica, se souber (opcional)." } }, required: ["condominio"] } } },
 ];
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
@@ -68,6 +70,7 @@ async function runTool(name, args, ctx) {
     case "consultar_video_app": return GRUVI.buscar_video(args.assunto);
     case "consultar_taxa_condominial": return TAXA.consultar_taxa_condominial(args);
     case "consultar_valor_taxa": return await VTAXA.consultar_valor_taxa(args);
+    case "consultar_garantidora": return GAR.consultar_garantidora({ nome: args.condominio, id_condominio: args.id_condominio });
     case "gerar_documento": {
       const out = await DOC.gerar_documento(args);
       if (out.ok) ctx.lastDoc = { url: out.url, arquivo: out.arquivo, titulo: out.titulo };
@@ -146,4 +149,4 @@ export async function handleTurn(session, userText, ctx = {}) {
   return { reply: "Tive dificuldade em concluir — pode revisar os dados e tentar de novo?", doc: ctx.lastDoc || null, usage, toolsUsed };
 }
 
-export { TOOLS };
+export { TOOLS, runTool };
