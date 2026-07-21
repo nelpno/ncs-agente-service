@@ -17,6 +17,10 @@ const norm = (s) => (s || '')
   .toLowerCase().normalize('NFD').replace(DIACRITICOS, '')
   .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 
+// Sinônimos p/ o vão de vocabulário: o morador fala uma palavra, o dado usa outra (a categoria).
+// Só os CLAROS e é extensível; NUNCA mapear pra algo que não é sinônimo de verdade (evita match errado).
+const SINONIMOS = { farmacia: 'drogaria', farmacias: 'drogaria', remedio: 'drogaria', remedios: 'drogaria', medicamento: 'drogaria', medicamentos: 'drogaria' };
+
 let _lista = null; // [{nome, categoria, condicao, endereco, contato}]
 export function _reloadIndex() { _lista = null; }
 
@@ -60,10 +64,13 @@ export function consultar_clube({ termo } = {}) {
   }
 
   const t = norm(termo);
+  // expande o termo com sinônimos (ex.: "farmacia" também procura "drogaria")
+  const termos = new Set([t]);
+  for (const [k, v] of Object.entries(SINONIMOS)) if (t === k || t.includes(k)) termos.add(v);
   const matches = lista.filter((e) => {
     const n = norm(e.nome);
     const c = norm(e.categoria);
-    return n.includes(t) || t.includes(n) || c.includes(t) || t.includes(c);
+    return [...termos].some((tt) => n.includes(tt) || tt.includes(n) || c.includes(tt) || tt.includes(c));
   });
 
   if (!matches.length) {
@@ -79,6 +86,13 @@ export function consultar_clube({ termo } = {}) {
       condicao: e.condicao,
       endereco: e.endereco,
       contato: e.contato,
+      // texto já formatado (1 campo por linha) — nudge p/ o LLM não devolver tudo corrido numa linha só.
+      texto: [
+        `${e.nome}${e.categoria ? ` (${e.categoria})` : ''}`,
+        `Desconto: ${e.condicao}`,
+        e.endereco ? `Endereço: ${e.endereco}` : null,
+        e.contato ? `Contato: ${e.contato}` : null,
+      ].filter(Boolean).join('\n'),
     })),
   };
 }
