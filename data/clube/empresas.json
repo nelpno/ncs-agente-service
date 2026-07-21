@@ -1,0 +1,274 @@
+{
+  "fonte": "Tabela das Empresas Gráfica.xlsx — CLUBE NCS DE VANTAGENS / EDIÇÃO 2026-2027 (extraído 2026-07-21)",
+  "gerado_em": "2026-07-21",
+  "revisao_humana": "pendente",
+  "total": 38,
+  "empresas": [
+    {
+      "nome": "ALARM SYSTEM",
+      "categoria": "Monitoramento e Portaria Remota",
+      "condicao": "10% de desconto na compra de qualquer produto e 1ª parcela do contrato isenta",
+      "endereco": "Av. Queiroz Filho, 194 - Vila Sedenho",
+      "contato": "Zap (16) 3311-8800"
+    },
+    {
+      "nome": "AQUI TEM MALWEE",
+      "categoria": "Vestuário Adulto e Infantil",
+      "condicao": "15% de desconto na peça de maior valor da compra",
+      "endereco": "Rua 9 de Julho, 1760 - Centro - Loja 07 Galeria NYIKOS",
+      "contato": "Zap (16) 99744-8671"
+    },
+    {
+      "nome": "ATACADÃO DA LIMPEZA",
+      "categoria": "Produtos de Limpeza",
+      "condicao": "Descontos exclusivos e 5% de cashback no valor total da compra em produtos para próxima compra",
+      "endereco": "",
+      "contato": "Zap (16) 99729-7360 / www.karamatacadao.com.brwww.karamatacadao.com.br"
+    },
+    {
+      "nome": "BARBEARIA 7 DE SETEMBRO",
+      "categoria": "Beleza e Cuidados Pessoais",
+      "condicao": "10% de desconto em todos os serviços - exceto em assinaturas e promoções",
+      "endereco": "Av. 7 de Setembro, 1119 - Carmo",
+      "contato": "Zap (16) 2221-0507"
+    },
+    {
+      "nome": "BAR DO PORTUGUÊS",
+      "categoria": "Bar / Restaurante",
+      "condicao": "10% de desconto nas Porções, Drinks e Cervejas - exceto produtos em promoção",
+      "endereco": "Rua Napoleão Selmi Dei, 943 - Vila Harmonia",
+      "contato": "(16) 99740-4430"
+    },
+    {
+      "nome": "BAZAR SENSAÇÃO",
+      "categoria": "Papelaria",
+      "condicao": "5% de Desconto no preço à vista",
+      "endereco": "Rua Padre Duarte, 2219 - Centro",
+      "contato": "Zap (16) 99717-7166 / (16) 3336-7166"
+    },
+    {
+      "nome": "BR AR CONDICIONADO",
+      "categoria": "Ar Condicionado",
+      "condicao": "10% desconto na instalação e ganhe uma higienizacao preventiva gratuita nos primeiros 6 meses / 10% de desconto nas higienizações",
+      "endereco": "Rua Alvaro Alves da Silva, 441 - Jd. Maria Luiza",
+      "contato": "Zap (16) 98131-3945"
+    },
+    {
+      "nome": "Dra. CAMILA FERRI",
+      "categoria": "Ortodontia / Invisalign",
+      "condicao": "Avaliações sem custo / 10% de desconto na Limpeza, Clareamento, montagem do Aparelho fixo e Alinhadores Invisalign / 5% na entrada para Tratamento Ortopédico",
+      "endereco": "Av. Rodrigo Fernando Grillo nº 207 - Ed. Victoria Business - 3º andar - Sala 301",
+      "contato": "Zap (16) 99746-7184"
+    },
+    {
+      "nome": "CASA DU ÓCULOS",
+      "categoria": "Ótica",
+      "condicao": "15% de desconto em Óculos de Sol e de Grau completo ou 6x no cartão / Na compra de uma Armação + Lente, ganha um óculos de sol",
+      "endereco": "Alameda Paulista, 1434 - Vila Xavier",
+      "contato": "(16) 3114-2390 / Zap (16) 98196-0706"
+    },
+    {
+      "nome": "COWORKING BANDEIRANTES",
+      "categoria": "Sala de Reunião",
+      "condicao": "5% de desconto nos valores, sendo o 1º agendamento gratuito",
+      "endereco": "Av. Bandeirantes, 766 - Centro, Piso Superior",
+      "contato": "Zap (16) 3336-0658"
+    },
+    {
+      "nome": "CS FISIOTERAPIA PERSONALIZADA",
+      "categoria": "Saúde",
+      "condicao": "40% de desconto no tratatamento Fisioterápico, Funcional e Pilates Clínico",
+      "endereco": "Av. Joaquim Alves, 590 - Jd. Primavera",
+      "contato": "Zap (16) 3317-2705"
+    },
+    {
+      "nome": "CVL Arquitetura",
+      "categoria": "Arquitetura",
+      "condicao": "15% de desconto em Projetos de Design de Interiores e Arquitetura",
+      "endereco": "Rua Profº Dorival de Oliveira, 122 - Vila Godoi",
+      "contato": "Zap (16) 99766-4201"
+    },
+    {
+      "nome": "DOG INN HOTEL",
+      "categoria": "Petshop e Hotel",
+      "condicao": "10% de desconto nos serviços de Hotel e 10% de desconto nos serviços de Banho e Tosa",
+      "endereco": "Rua Geraldo Moreira, 708 - Parque Gramado",
+      "contato": "(16) 3461-1237 / Zap (16) 98814-0281"
+    },
+    {
+      "nome": "DROGAVEN",
+      "categoria": "Drogaria",
+      "condicao": "19% de desconto nos medicamentos referenciais e similares / 50% de desconto nos medicamentos genéricos",
+      "endereco": "Lojas de Araraquara",
+      "contato": "(16) 3336-9000"
+    },
+    {
+      "nome": "ELLAS BY ELAINE COMIN  STUDIO DE BELEZA",
+      "categoria": "Salão de Beleza",
+      "condicao": "10% de desconto em serviços de cabelo de 4ª à 6ª feira / 5% de desconto em Pedicure, Manicure e Estética de 4ª à 6ª feira",
+      "endereco": "Rua Gonçalves Dias, 1737 - Centro",
+      "contato": "(16) 3357-7540 / Zap (16) 99784-7400"
+    },
+    {
+      "nome": "GIOlaser",
+      "categoria": "Estética e Cuidados Pessoais",
+      "condicao": "80% de desc. na Depilação a Laser / 35% de desc. nos Tratamentos Corporais / 20% de desc. em Procedimentos Invasivos (promoção não cumulativa)",
+      "endereco": "Rua Napoleão Selmi Dei, 185 - Vila Harmonia",
+      "contato": "Zap (16) 99640-2027 / Zap (16) 99635-2026"
+    },
+    {
+      "nome": "GV Carnes Nobres",
+      "categoria": "Alimentação",
+      "condicao": "7% de desconto em todos os produtos + ofertas especiais restritas ao grupo",
+      "endereco": "Av. Napoleão Selmi Dei, 558 B - Vila Harmonia",
+      "contato": "Zap (16) 99115-6800"
+    },
+    {
+      "nome": "HIGIENIZA",
+      "categoria": "Higienização e Limpeza",
+      "condicao": "15% de desconto para o primeiro serviço / 10% para recorrência de serviços",
+      "endereco": "",
+      "contato": "Zap (16) 97400-6962"
+    },
+    {
+      "nome": "KINKAS",
+      "categoria": "Desinsetização e Limpeza",
+      "condicao": "3% de desconto em todos os serviços (exceto para condomínios e associações)",
+      "endereco": "Rua Princesa Isabel, 1116 - Vila Xavier",
+      "contato": "(16)3322-6421 / Zap (16)99627-4309"
+    },
+    {
+      "nome": "LAVANDEIRA RENOVA",
+      "categoria": "Lavanderia",
+      "condicao": "Planos mensais especiais / 10% de desconto na tabela de Avulsos",
+      "endereco": "Rua Voluntários da Pátria, 2520 - Centro",
+      "contato": "(16) 3331-7079 / Zap (16) 99799-7079"
+    },
+    {
+      "nome": "LOOT DELIVERY",
+      "categoria": "Serviços de Entrega",
+      "condicao": "Loja Virtual gratuita para empresas e gestão inteligente de entregas com 100% de desconto na implantação e sem taxa sobre os créditos",
+      "endereco": "Rua Professora Adélia Izique, 1101 - Santana",
+      "contato": "(16) 99458-0303"
+    },
+    {
+      "nome": "MERINO E JORGE CORRETORA",
+      "categoria": "Seguros",
+      "condicao": "Descontos nas coberturas de seguros, sendo 5% para Autos, 7% para Residência, 5% para Bike, 10% para Vida e de até 15% para Residencial",
+      "endereco": "Rua Aida Benetti Barbieri, 268 - Jd. Santa Monica",
+      "contato": "(16) 3332-8825 / Zap (16) 98124-0200"
+    },
+    {
+      "nome": "MONOBLOCO",
+      "categoria": "Mecânica",
+      "condicao": "10% de descontos nos serviços mecânicos e Alinhamento-Balanceamento / 5% de desconto em peças e produtos",
+      "endereco": "Rua Gonçalves Dias, 1849 - Centro",
+      "contato": "(16)3333-4648 / Zap (16) 99728-4648"
+    },
+    {
+      "nome": "MONTE VERDE STEAK PARRILLA",
+      "categoria": "Restaurante",
+      "condicao": "10% no rodízio e bebidas",
+      "endereco": "Rua Maurício Onofre Cardilli, 63 - Vila Suconasa",
+      "contato": "Zap (16) 99758-2007"
+    },
+    {
+      "nome": "MT MÓVEIS PLANEJADOS",
+      "categoria": "Móveis Planejados",
+      "condicao": "15% de desconto no orçamento",
+      "endereco": "Av. Francisco Vaz Filho, 2710 - Jd. América",
+      "contato": "Zap (16) 99707-4361"
+    },
+    {
+      "nome": "OVOS MORADA",
+      "categoria": "Mercadinho",
+      "condicao": "10% de desconto em todos os produtos no dinheiro ou pix: massas, salgados, doces, queijos, bolos, pães e ovos",
+      "endereco": "Rua Papa João XXIII, 961 - Jd. Martinez",
+      "contato": "Zap (16) 2315-1131"
+    },
+    {
+      "nome": "PEDRAS BRAZIL",
+      "categoria": "Pedras Decorativas",
+      "condicao": "10% de desconto para pagamento no dinheiro/pix em Mármore, Granito e Produtos para Paisagismo",
+      "endereco": "Av. Padre José de Anchieta, 427 - Parque Alvorada",
+      "contato": "(16) 3333-5253 / Zap (16) 99188-3573"
+    },
+    {
+      "nome": "PERSONAL VIRTUAL",
+      "categoria": "Personal Trainer",
+      "condicao": "50% de desconto via WhatsApp do Grupo NCS",
+      "endereco": "",
+      "contato": "Zap (16) 2334-0020 / www.personalvirtual.com"
+    },
+    {
+      "nome": "PITCHO PIZZARIA",
+      "categoria": "Pizzaria",
+      "condicao": "10% de desconto em pizzas não promocionais no Delivery / 10 % de desconto no Rodízio",
+      "endereco": "Rua 09 de Julho, 1895 - Centro",
+      "contato": "(16) 3397-9995"
+    },
+    {
+      "nome": "PRINCI PÉS PODOLOGIA",
+      "categoria": "Saúde e Cuidados Pessoais",
+      "condicao": "15% de desconto em qualquer procedimento (2ª, 3ª e 4ª feira) e 10% de desconto em qualquer procedimento (5ª, 6ª feiras e sábados)",
+      "endereco": "Av. Cristóvão Colombo, 409 - Centro",
+      "contato": "Zap (16)99646-2530 / (16) 3214-2530"
+    },
+    {
+      "nome": "RAVENA FEST",
+      "categoria": "Eventos",
+      "condicao": "15% de desconto nos finais de semana e 20% de desconto durante a semana nas locações do espaço para eventos",
+      "endereco": "Av. Luiz Manini, 565 – Jardim Universal",
+      "contato": "Zap (16) 99245-7767"
+    },
+    {
+      "nome": "RIGO ENERGIA",
+      "categoria": "Energia Renovável",
+      "condicao": "5% de desconto no projeto contratado",
+      "endereco": "Rua José do Patrocínio, 597 - Vila Xavier",
+      "contato": "(16) 3214-7603 / Zap (16) 99798-1764"
+    },
+    {
+      "nome": "RUSTICÃO ESPETOS",
+      "categoria": "Alimentação",
+      "condicao": "6% de desconto em todos os produtos do cardápio",
+      "endereco": "Rua Voluntários da Pátria, 2575 - Centro",
+      "contato": "Zap (16) 98114-3658"
+    },
+    {
+      "nome": "SMART HELP",
+      "categoria": "Celulares e Computadores",
+      "condicao": "5% de desconto em mautenção de Celulares, Notebooks, Smartwatch e Computadores e 10% de desconto para Acessórios",
+      "endereco": "Rua São Bento, 1014 - Centro",
+      "contato": "Zap (16) 98813-3120"
+    },
+    {
+      "nome": "SUPERMERCADOS 14",
+      "categoria": "Supermercado",
+      "condicao": "200 pontos para cada morador no Aplicativo Clube de Vantagens do próprio Supermercado 14",
+      "endereco": "Av. Padre Francisco Salles Coulturato, 270 - Centro / e Av. Francisco Vaz Filho, 1815 - Vila Xavier",
+      "contato": "(16) 3336-7430 / (16) 3397-1004"
+    },
+    {
+      "nome": "TIJUCA RESTAURANTE",
+      "categoria": "Restaurantes",
+      "condicao": "Descontos para o almoço: 10% no Dellivery / 10% no dinheiro ou PIX / 7% no débito / 5% no crédito",
+      "endereco": "Av. Bento de Abreu,1084 - Fonte",
+      "contato": "(16) 3357-4300 / Zap (16) 99606-2759"
+    },
+    {
+      "nome": "YELLOW BUS",
+      "categoria": "Escola Bilingue",
+      "condicao": "35% de desconto na mensalidade e 10% de desconto na matrícula",
+      "endereco": "Rua Barão do Rio Branco, 818 - Vila Xavier",
+      "contato": "(16) 3014-5206 / Zap (16) 99752-2157"
+    },
+    {
+      "nome": "YUPIK SORVETES",
+      "categoria": "Sorvetes",
+      "condicao": "10% de desconto nas compras realizadas na loja física",
+      "endereco": "Av. 7 de Setembro, 1088 - Carmo",
+      "contato": "(16) 3357-5009 / Zap (16) 99991-0158"
+    }
+  ]
+}
