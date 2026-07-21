@@ -17,6 +17,14 @@ async function octa(method, path, body) {
   try { return JSON.parse(txt); } catch { return txt; }
 }
 
+// Lista tickets (GET /tickets) — leitura PASSIVA usada pelo espelho (fase 0 da saída do Octadesk).
+// Não altera nada no Octadesk. Normaliza a resposta (o payload pode vir como array ou {data:[...]}).
+export async function listarTickets({ limit = 50, page = 1 } = {}) {
+  const j = await octa('GET', `/tickets?limit=${limit}&page=${page}`);
+  const arr = Array.isArray(j) ? j : (j?.data || j?.items || j?.tickets || []);
+  return Array.isArray(arr) ? arr : [];
+}
+
 // Responder no chat aberto (POST /chat/{id}/messages)
 export async function responder(chatId, texto) {
   return octa('POST', `/chat/${chatId}/messages`, { message: { text: texto }, type: 'text' });

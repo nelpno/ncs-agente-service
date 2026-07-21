@@ -116,7 +116,10 @@ fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return
   document.getElementById('av').textContent=iniciais(me.nome);
   var nav=document.getElementById('navgestao');clear(nav);
   nav.appendChild(el('a',{class:'nav-item',href:'/chat'},[el('span',{class:'ic',text:'💬'}),document.createTextNode(' Chat')]));
-  if(me.papel==='owner'||me.papel==='admin')nav.appendChild(el('a',{class:'nav-item',href:'/admin'},[el('span',{class:'ic',text:'📊'}),document.createTextNode(' Painel de uso')]));
+  if(me.papel==='owner'||me.papel==='admin'){
+    nav.appendChild(el('a',{class:'nav-item',href:'/admin'},[el('span',{class:'ic',text:'📊'}),document.createTextNode(' Painel de uso')]));
+    nav.appendChild(el('a',{class:'nav-item',href:'/solicitacoes'},[el('span',{class:'ic',text:'🎟️'}),document.createTextNode(' Solicitações')]));
+  }
   if(me.podeAprovar)nav.appendChild(el('a',{class:'nav-item on',href:'/aprovacoes'},[el('span',{class:'ic',text:'✅'}),document.createTextNode(' Aprovações')]));
   if(me.podeAprovar||me.papel==='owner'||me.papel==='admin')nav.appendChild(el('a',{class:'nav-item',href:'/pendencias'},[el('span',{class:'ic',text:'📋'}),document.createTextNode(' Pendências')]));
 }).catch(function(){});

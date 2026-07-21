@@ -18,6 +18,7 @@ import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
 import { podeVerAprovacoes, listarPendentes as listarAprovacoesPendentes, aprovar as aprovarDraft, rejeitar as rejeitarDraft } from "./src/aprovacoes.mjs"; // aba Aprovações (spec Onda 1 §4.4)
 import { podeVerPendencias, listarPendentes as listarNotificacoesPendentes } from "./src/pendencias.mjs"; // aba Pendências / outbox (spec Onda 1 §4.3)
+import { podeVerSolicitacoes, listarSolicitacoes } from "./src/solicitacoes.mjs"; // aba Solicitações / espelho do Octadesk
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // cache-busting: versiona os links de /assets pelo hash do app.css → mudança de visual aparece na hora (sem limpar cache)
@@ -28,6 +29,7 @@ const LOGIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "login.htm
 const ADMIN_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "admin.html"), "utf8"));
 const APROVACOES_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "aprovacoes.html"), "utf8"));
 const PENDENCIAS_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "pendencias.html"), "utf8"));
+const SOLICITACOES_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "solicitacoes.html"), "utf8"));
 const PORT = parseInt(process.env.PORT || "8090", 10);
 const COOKIE = "ncs_sess";
 const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
@@ -177,7 +179,7 @@ const server = http.createServer(async (req, res) => {
 
     // ---------- GUARDA (tudo abaixo exige sessão) ----------
     const sess = await carregarSessao(parseCookies(req)[COOKIE], porId);
-    const isPage = req.method === "GET" && (url === "/" || url === "/chat" || url === "/admin" || url === "/aprovacoes" || url === "/pendencias");
+    const isPage = req.method === "GET" && (url === "/" || url === "/chat" || url === "/admin" || url === "/aprovacoes" || url === "/pendencias" || url === "/solicitacoes");
     if (!sess) {
       if (isPage) return redirect(res, "/login");
       return json(res, 401, { erro: "não autenticado" }); // API (/chat-send, /doc/, /api/*) → 401
@@ -255,6 +257,21 @@ const server = http.createServer(async (req, res) => {
       } catch (e) {
         console.error("[chat-ncs] pendencias list:", e.message);
         return json(res, 502, { erro: "não foi possível carregar as pendências agora" });
+      }
+    }
+
+    // ---------- Solicitações (espelho passivo do Octadesk, tabela `solicitacoes`) — fila SÓ LEITURA ----------
+    if (req.method === "GET" && url === "/solicitacoes") return html(res, 200, SOLICITACOES_HTML);
+
+    if (req.method === "GET" && url === "/api/solicitacoes") {
+      if (!podeVerSolicitacoes(sess)) return json(res, 403, { erro: "acesso restrito" });
+      try {
+        const qs = new URLSearchParams(req.url.split("?")[1] || "");
+        const itens = await listarSolicitacoes({ tipo: qs.get("tipo") || undefined, status: qs.get("status") || undefined });
+        return json(res, 200, { itens });
+      } catch (e) {
+        console.error("[chat-ncs] solicitacoes list:", e.message);
+        return json(res, 502, { erro: "não foi possível carregar as solicitações agora" });
       }
     }
 

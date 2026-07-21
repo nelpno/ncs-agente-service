@@ -94,6 +94,7 @@ fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return
   var nav=document.getElementById('navgestao');clear(nav);
   var isGestao=me.papel==='owner'||me.papel==='admin';
   if(isGestao)nav.appendChild(el('a',{class:'nav-item',href:'/admin'},[el('span',{class:'ic',text:'📊'}),document.createTextNode(' Painel de uso')]));
+  if(isGestao)nav.appendChild(el('a',{class:'nav-item',href:'/solicitacoes'},[el('span',{class:'ic',text:'🎟️'}),document.createTextNode(' Solicitações')]));
   if(me.podeAprovar)nav.appendChild(el('a',{class:'nav-item',href:'/aprovacoes'},[el('span',{class:'ic',text:'✅'}),document.createTextNode(' Aprovações')]));
   if(me.podeAprovar||isGestao)nav.appendChild(el('a',{class:'nav-item',href:'/pendencias'},[el('span',{class:'ic',text:'📋'}),document.createTextNode(' Pendências')]));
   if(nav.children.length)nav.style.display='flex';

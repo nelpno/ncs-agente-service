@@ -291,5 +291,13 @@ if (isMain) {
     } catch (e) {
       console.warn('[ncs-agente] outbox worker não iniciado (módulo ausente/erro):', e.message);
     }
+    // Worker do ESPELHO do Octadesk (saída do Octadesk, fase 0): PASSIVO — só lê /tickets do Octadesk e
+    // escreve em `solicitacoes`. Auto-desligado por ESPELHO_ENABLED != 'true' (não faz nada até ligarmos).
+    try {
+      const { startEspelhoWorker } = await import('./src/espelho.mjs');
+      if (typeof startEspelhoWorker === 'function') startEspelhoWorker();
+    } catch (e) {
+      console.warn('[ncs-agente] espelho worker não iniciado (módulo ausente/erro):', e.message);
+    }
   });
 }
