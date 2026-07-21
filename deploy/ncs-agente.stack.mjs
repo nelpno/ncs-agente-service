@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:7dc3d11d6e90db6d928e2fe9805bde163556166c026f09762ee5dd65b4ec4545"; // 909b135: excecao imobiliaria (boleto 2a via c/ CPF do titular + nome da unidade) + alias moove + infracao limpeza_higiene Vitta Paras (Fernando 17/07)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:5768338cb5a53bfff52cce074ae3af17ab646b1d961f28d470189073506db5d2"; // cf52c6c: fase 1 - assinatura concisa (sem listar plataforma) + pedir proprietario atual no fluxo de contrato (20/07)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
