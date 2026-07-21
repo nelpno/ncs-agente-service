@@ -65,6 +65,9 @@ export const ANA_REQUIRED_ENV = [
   // ncs-agente NÃO tinha SUPABASE_*, ncs-chat tinha → as duas telas em bancos diferentes.
   "SUPABASE_URL",
   "SUPABASE_SERVICE_KEY",
+  // Espelho do Octadesk (saída fase 0, PASSIVO): o worker (server.mjs) só inicia com "true".
+  // Depende de OCTADESK_* + SUPABASE_* (todas acima) — nenhuma dependência nova.
+  "ESPELHO_ENABLED",
 ];
 
 // Exceção à regra "vazio é legítimo na Ana": aqui vazio == o serviço sobe e SÓ a fila morre,
@@ -106,6 +109,10 @@ export function buildAnaStack(secrets = {}) {
     zuckToken = "",
     zuckBase = "https://zuck.dynamicagents.tech",
     zapAllowlist = "",
+    // Espelho do Octadesk (saída fase 0). Default LIGADO: é PASSIVO (só lê /tickets do Octadesk e
+    // escreve em `solicitacoes` no NOSSO Supabase — não responde ticket, não muda nada no Octadesk),
+    // Fernando validou a tela (21/07). Desligar = `espelho:false` + redeploy (env, sem rebuild).
+    espelho = true,
   } = secrets;
 
   const env = [
@@ -174,6 +181,10 @@ export function buildAnaStack(secrets = {}) {
     // o MESMO que o Portal (ncs-chat) lê. Sem elas, a Ana grava no Redis e a aba fica vazia.
     { name: "SUPABASE_URL", value: supabaseUrl },
     { name: "SUPABASE_SERVICE_KEY", value: supabaseServiceKey },
+    // ── Espelho do Octadesk (saída fase 0) ───────────────────────────────────────────────────────
+    // "true" = o worker do server.mjs sobe e a cada 5min lê /tickets do Octadesk → `solicitacoes`.
+    // PASSIVO e reversível: com "false" o worker nem inicia (env, sem rebuild). Ver src/espelho.mjs.
+    { name: "ESPELHO_ENABLED", value: espelho ? "true" : "false" },
   ];
 
   // Só null/ausente aborta — vazio é estado legítimo aqui (ver JSDoc), EXCETO nas de NAO_PODE_VAZIA,
