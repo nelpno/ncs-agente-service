@@ -1,0 +1,16 @@
+{
+  "_fonte": "Fernando (áudio WhatsApp 21/07/2026): na REFORMA do Vancouver, alguns moradores financiaram a parte deles pela 6P Bank. Esse saldo de financiamento NÃO aparece no Superlógica → a Ana não pode declarar quitação (CND) nem cravar 'em dia'. A listagem de quais apartamentos têm saldo em aberto está DESATUALIZADA; o Fernando vai pegar a lista certa com a 6P e passar. Depois a dívida foi cedida a outra empresa (caso complexo).",
+  "_ponte": "Enquanto a lista de apartamentos não chega, o escopo é 'condominio' = bloqueia CND e ressalva a quitação no Vancouver INTEIRO (conservador). Quando a lista chegar: trocar escopo para 'unidades' e preencher 'unidades' com os id_unidade afetados — aí o resto do condomínio volta ao normal.",
+  "instituicoes": {
+    "6P Bank": { "canal": "a equipe da NCS confirma o saldo diretamente com a 6P Bank" }
+  },
+  "condominios": {
+    "178": {
+      "nome": "Vancouver",
+      "instituicao": "6P Bank",
+      "escopo": "condominio",
+      "unidades": [],
+      "aviso": "Pode haver saldo de financiamento da reforma (6P Bank) que não aparece no Superlógica; a quitação total precisa ser confirmada com a equipe."
+    }
+  }
+}

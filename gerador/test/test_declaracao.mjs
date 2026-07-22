@@ -22,10 +22,11 @@ function assert(label, cond, detalhe = '') {
 
 const CONDO_MOCK = { nome: 'RESIDENCIAL LUME', endereco: 'Rua das Flores, 123', cidade_uf: 'Araraquara / SP' };
 
-function makeDeps({ status = 'sem_debito_vencido', no_juridico = false, isGar = false, condoNull = false } = {}) {
+function makeDeps({ status = 'sem_debito_vencido', no_juridico = false, isGar = false, condoNull = false, finExterno = false } = {}) {
   return {
     getInadimplencia: async () => ({ status, no_juridico, qtd_cobrancas_em_aberto: status === 'inadimplente' ? 3 : 0, qtd_processos: no_juridico ? 1 : 0 }),
     isGarantidora: () => isGar,
+    checarFinanciamento: () => finExterno ? { afeta: true, instituicao: '6P Bank', canal: 'a equipe confirma com a 6P Bank', aviso: 'saldo de financiamento da reforma (6P Bank)' } : { afeta: false },
     getDadosCondominio: async () => condoNull ? null : CONDO_MOCK,
     getIdentificacaoUnidade: async () => 'Bloco A / Apto 12',
   };
@@ -109,6 +110,26 @@ console.log('\n=== GATE: gerido_por_garantidora (retorno do get_inadimplencia) �
   const r = await gerarDeclaracaoQuitacao({ id_condominio: 182, id_unidade: 9999 }, deps);
   assert('ok:false', r.ok === false, JSON.stringify(r));
   assert('motivo=garantidora_ou_cego', r.motivo === 'garantidora_ou_cego', r.motivo);
+}
+
+console.log('\n=== GATE: financiamento externo (6P Bank / Vancouver) → ok:false, não emite CND ===');
+{
+  const r = await gerarDeclaracaoQuitacao(
+    { id_condominio: 178, id_unidade: 441 }, // Vancouver apto 441 — em dia no Superlógica, MAS tem financiamento 6P
+    makeDeps({ status: 'sem_debito_vencido', no_juridico: false, finExterno: true })
+  );
+  assert('ok:false', r.ok === false, JSON.stringify(r));
+  assert('motivo=financiamento_externo', r.motivo === 'financiamento_externo', r.motivo);
+  assert('traz a instituição (6P Bank) para a Ana explicar', /6P Bank/.test(JSON.stringify(r)), JSON.stringify(r));
+}
+
+console.log('\n=== GATE: financiamento afeta:false → NÃO bloqueia (não regride o caso em dia) ===');
+{
+  const r = await gerarDeclaracaoQuitacao(
+    { id_condominio: 179, id_unidade: 9999, dataPosicao: '2026-06-26' },
+    makeDeps({ status: 'sem_debito_vencido', no_juridico: false, finExterno: false })
+  );
+  assert('ok:true (financiamento não afeta este condo)', r.ok === true, JSON.stringify(r));
 }
 
 console.log('\n=== GATE: parâmetros inválidos → ok:false ===');

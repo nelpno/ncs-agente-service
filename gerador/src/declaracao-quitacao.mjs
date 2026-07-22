@@ -55,6 +55,7 @@ async function getRealDeps() {
   // Importa de ../src/ (Ana) — nunca copia, nunca edita.
   const sl = await import('../../src/superlogica.mjs');
   const gar = await import('../../src/garantidora.mjs');
+  const fin = await import('../../src/financiamento.mjs');
   _realDeps = {
     getInadimplencia: sl.get_inadimplencia,
     // isGarantidora: retorna o registro do condomínio se for garantidora tipo 'total' (inclui Flores 182).
@@ -63,6 +64,9 @@ async function getRealDeps() {
       const r = gar.consultar_garantidora({ id_condominio });
       return r.tem && r.tipo === 'total';
     },
+    // checarFinanciamento: unidade/condomínio com financiamento externo (ex.: reforma via 6P Bank no Vancouver)
+    //   cujo saldo NÃO aparece no Superlógica → NÃO declarar quitação. Retorna { afeta, instituicao, canal, aviso }.
+    checarFinanciamento: ({ id_condominio, id_unidade }) => fin.consultar_financiamento({ id_condominio, id_unidade }),
     // getDadosCondo: resolve nome+endereço+cidade do condo via Superlógica.
     //   Tenta resolver_cadastro (dados de unidade) para obter o nome do condomínio e,
     //   combinado com condominios/get para o endereço quando disponível.
@@ -186,6 +190,7 @@ export async function gerarDeclaracaoQuitacao(
   const real = await getRealDeps().catch(() => null);
 
   const _isGarantidora = deps.isGarantidora ?? (real ? real.isGarantidora : () => false);
+  const _checarFinanciamento = deps.checarFinanciamento ?? (real ? real.checarFinanciamento : () => ({ afeta: false }));
   const _getInadimplencia = deps.getInadimplencia ?? (real ? real.getInadimplencia : null);
   const _getDadosCondominio = deps.getDadosCondominio ?? (
     real && real._slGetCondo
@@ -201,6 +206,22 @@ export async function gerarDeclaracaoQuitacao(
   try { bloqueadoGarantidora = _isGarantidora({ id_condominio }); } catch { bloqueadoGarantidora = true; }
   if (bloqueadoGarantidora) {
     return { ok: false, motivo: 'garantidora_ou_cego', detalhe: 'Condomínio gerido por garantidora externa ou cego ao token — NCS não verifica adimplência. Encaminhar ao canal da garantidora.' };
+  }
+
+  // ----- GATE 1.5: Financiamento externo (ex.: reforma via 6P Bank no Vancouver) -----
+  // O saldo do financiamento NÃO aparece no Superlógica → "em dia" no ERP não garante quitação total.
+  // NÃO emite CND; encaminha para a equipe confirmar o saldo na instituição. Na dúvida (erro), bloqueia.
+  let finExterno = { afeta: false };
+  try { finExterno = _checarFinanciamento({ id_condominio, id_unidade }); }
+  catch { finExterno = { afeta: true, instituicao: null, canal: null, aviso: 'Não foi possível verificar financiamento externo.' }; }
+  if (finExterno && finExterno.afeta) {
+    return {
+      ok: false,
+      motivo: 'financiamento_externo',
+      detalhe: `${finExterno.aviso || 'Unidade com financiamento externo cujo saldo não aparece no Superlógica.'}${finExterno.canal ? ' ' + finExterno.canal + '.' : ''}`,
+      instituicao: finExterno.instituicao || null,
+      canal: finExterno.canal || null,
+    };
   }
 
   // ----- GATE 2: Adimplência via get_inadimplencia -----
