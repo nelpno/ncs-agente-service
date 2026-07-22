@@ -21,6 +21,15 @@ export const config = {
   slBase: env.SUPERLOGICA_BASE_URL || 'https://api.superlogica.net/v2/condor',
   slApp: req('SUPERLOGICA_APP_TOKEN'),
   slAccess: req('SUPERLOGICA_ACCESS_TOKEN'),
+  // Secullum Ponto Web (ponto/afastamento dos terceirizados) — LEITURA, insumo do RH via Estagiário.
+  // Env-gated: sem SECULLUM_USER/PASS a tool consultar_ponto responde "indisponível" (não usa req(): a Ana
+  // importa este config e não usa Secullum → não poluir o log dela com aviso). Gotchas em secullum.mjs.
+  secullumUser: env.SECULLUM_USER || '',
+  secullumPass: env.SECULLUM_PASS || '',
+  secullumClientId: env.SECULLUM_CLIENT_ID || '3',      // produto PontoWeb (NÃO o 1 do link do painel)
+  secullumBanco: env.SECULLUM_BANCO || '107803',        // id NUMÉRICO do banco GRUPO NCS (NÃO o GUID identificador)
+  secullumAuthBase: env.SECULLUM_AUTH_BASE || 'https://autenticador.secullum.com.br',
+  secullumDadosBase: env.SECULLUM_DADOS_BASE || 'https://pontowebintegracaoexterna.secullum.com.br/IntegracaoExterna',
   // segurança
   webhookSecret: env.WEBHOOK_SECRET || '',
   chatPasscode: env.CHAT_PASSCODE || '',

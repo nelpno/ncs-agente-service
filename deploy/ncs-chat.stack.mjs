@@ -67,6 +67,8 @@ export function buildChatStack(secrets = {}) {
     sessionSecret,
     chatPasscode,
     webhookSecret,
+    secullumUser,   // OPCIONAL (env-gated): ponto/afastamento dos terceirizados no Estagiário
+    secullumPass,
   } = secrets;
 
   const env = [
@@ -96,9 +98,16 @@ export function buildChatStack(secrets = {}) {
     // executor unico da Onda 1 (rede interna `edge` do VPS) + segredo compartilhado com a Ana
     { name: "WEBHOOK_SECRET", value: webhookSecret },
     { name: "NCS_AGENTE_URL", value: "http://ncs-agente:8080" },
+    // Secullum (ponto/afastamento dos terceirizados p/ o RH) — OPCIONAL/env-gated: FORA de
+    // CHAT_REQUIRED_ENV de propósito. Sem estas a tool `consultar_ponto` responde "indisponível"
+    // (não aborta o deploy). Por isso ficam fora do cálculo de `missing` abaixo.
+    { name: "SECULLUM_USER", value: secullumUser || "" },
+    { name: "SECULLUM_PASS", value: secullumPass || "" },
   ];
 
-  const missing = env.filter((e) => e.value == null || e.value === "").map((e) => e.name);
+  // opcionais não entram em `missing` (a tool degrada sozinha; o deploy do Estagiário não pode parar por elas)
+  const OPCIONAIS = new Set(["SECULLUM_USER", "SECULLUM_PASS"]);
+  const missing = env.filter((e) => !OPCIONAIS.has(e.name) && (e.value == null || e.value === "")).map((e) => e.name);
   const fraco = !sessionSecret || sessionSecret.length < SESSION_SECRET_MIN;
 
   const envLines = env.map((e) => `      - ${e.name}=${e.value ?? ""}`).join("\n");
