@@ -27,6 +27,35 @@ export function sanitizarAssunto(s = '') {
     .slice(0, 300);
 }
 
+// ---------------------------------------------------------------------------------------------------
+// Decisão (b) — a fila só recebe HANDOFF ESTRUTURADO. `transferir_humano` é o escalonamento genérico;
+// hoje ele criava linha p/ TODO handoff, inclusive o PURO ("quero um humano"). Isso pendura linha
+// "Aberta" que nada fecha — a conversa do Chatwoot JÁ é o ticket daquele handoff (status/label/CSAT).
+// Só ESTES tipos viram linha a partir de um handoff. Note o que fica FORA de propósito:
+//  - família `cadastro` (cadastro_inquilino/dependente/cadastro): cadastro real entra pela
+//    criar_rascunho_cadastro (com draft_id + card de Aprovações); um motivo `cadastro_*` num handoff é
+//    falha de lookup, não pedido de cadastro → não vira ticket estruturado.
+//  - `negociacao`/cobrança: frente própria, sem ação na fila ainda (incluir quando a F2 dela existir).
+//  - boleto/cnd/clube/evento/prestador/portaria_acesso/outro: a Ana resolve, ou é "pessoa insiste" = puro.
+const HANDOFF_ESTRUTURADO = new Set(['titularidade', 'mudanca', 'ocorrencia']);
+
+/**
+ * decidirHandoff(motivo, resumo, jaRegistrado) — decide se um `transferir_humano` vira linha na fila.
+ * PURA (não checa a flag nem toca rede) → testável no gate. Classifica o `motivo` (enum deliberado da
+ * tool, ex.: agendamento_mudanca→mudanca, reclamacao→ocorrencia) PRIMEIRO; se não for estruturado, dá
+ * 2ª chance ao `resumo` (texto rico, ex.: "vazamento no teto"→ocorrencia). A família cadastro nunca
+ * entra por aqui (ver acima). `jaRegistrado`=true (já carimbou um handoff nesta sessão) → não repete.
+ * @returns {registrar:false} | {registrar:true, tipo, assunto} — assunto = resumo||motivo (item 6: enriquecido).
+ */
+export function decidirHandoff(motivo = '', resumo = '', jaRegistrado = false) {
+  if (jaRegistrado) return { registrar: false, motivoSkip: 'ja_registrado_na_sessao' };
+  const tm = classificar(motivo).tipo;
+  let tipo = HANDOFF_ESTRUTURADO.has(tm) ? tm : null;
+  if (!tipo) { const tr = classificar(resumo).tipo; if (HANDOFF_ESTRUTURADO.has(tr)) tipo = tr; }
+  if (!tipo) return { registrar: false };
+  return { registrar: true, tipo, assunto: resumo || motivo };
+}
+
 /**
  * registrarSolicitacao({tipo?, assunto, requester?, canal?, draftId?}, io?) — insere um ticket da Ana.
  * @param io injetável ({sbInsert, sbUpdate}) para teste sem rede.

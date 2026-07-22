@@ -177,7 +177,22 @@ async function runToolReal(name, args, ctx) {
     case 'consultar_taxa_condominial': return TAXA.consultar_taxa_condominial(args);
     case 'consultar_clube': return CLUBE.consultar_clube(args);
     case 'marcar_tag': { if (ctx.chatId) await OCTA.marcar_tag(ctx.chatId, args.tag); return { ok: true }; }
-    case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); try { await FILA.registrarSolicitacao({ assunto: args.motivo || args.resumo || 'Atendimento humano', requester: ctx.solicitante || null }); } catch (e) { console.warn('[fila] handoff nao registrado:', e.message); } return { transferido: true }; }
+    case 'transferir_humano': {
+      ctx.transferred = { motivo: args.motivo, resumo: args.resumo };
+      if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome });
+      // Decisão (b): só HANDOFF ESTRUTURADO (ocorrência/mudança/titularidade) vira linha na fila; handoff
+      // puro ("quero um humano") NÃO — a conversa do Chatwoot já é o ticket. Dedup por sessão (flag em
+      // session.ctx, sobrevive no Redis) evita 2ª linha quando a pessoa repete o pedido de humano.
+      // A flag FILA_ANA_ENABLED continua sendo o gate dentro de registrarSolicitacao (off = no-op).
+      const d = FILA.decidirHandoff(args.motivo, args.resumo, !!ctx.sessionCtx?.handoffFilaFeito);
+      if (d.registrar) {
+        try {
+          const r = await FILA.registrarSolicitacao({ tipo: d.tipo, assunto: d.assunto, requester: ctx.solicitante || null });
+          if (r?.ok && ctx.sessionCtx) ctx.sessionCtx.handoffFilaFeito = true;
+        } catch (e) { console.warn('[fila] handoff nao registrado:', e.message); }
+      }
+      return { transferido: true };
+    }
     case 'criar_rascunho_cadastro': {
       const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
       const idu = String(args.id_unidade || '');
@@ -252,6 +267,9 @@ export async function runAgentLoop(session, systemPrompt, userText, ctx, runTool
   session.ctx ||= {};
   ctx.unidades = (session.ctx.unidades ||= {});
   ctx.condominios = (session.ctx.condominios ||= {});
+  // Referência à ctx da SESSÃO (Redis) p/ o dedup de handoff na fila sobreviver entre turnos: repetir
+  // "quero um humano" no turno seguinte não deve gerar 2ª linha. O `ctx` da requisição morre no fim do turno.
+  ctx.sessionCtx = session.ctx;
   // Hora real (Brasília) a cada turno: o LLM não tem relógio. Remove o marcador stale do turno anterior
   // (evita "agora são X" antigos acumulados) e injeta o atual logo antes da fala do usuário.
   session.messages = session.messages.filter((m) => !(m.role === 'system' && typeof m.content === 'string' && m.content.startsWith('Contexto temporal')));
