@@ -97,3 +97,29 @@ export async function registrarSolicitacao(
   }
   return { ok: true, protocolo, row: { ...row, protocolo_ncs: protocolo } };
 }
+
+/**
+ * marcarPorDraft(draftId, status, {por}, io?) — F2: fecha a(s) linha(s) vinculada(s) a um rascunho de
+ * escrita-ERP. Chamado pelo engine ao APROVAR (status 'gravado') o cadastro → a linha da fila vira
+ * 'resolvida' sozinha (o ticket fecha junto com a aprovação, sem 2º lugar pra fechar).
+ * ⚠️ GUARDA CRITICA: sem `draftId` NÃO roda UPDATE — um WHERE vazio fecharia a fila INTEIRA.
+ * Nunca lança (a fila não é caminho crítico do atendimento nem da aprovação).
+ * @returns {ok:false,motivo} | {ok:true, atualizadas:<n>}
+ */
+export async function marcarPorDraft(draftId, status = 'resolvida', { por = null } = {}, io = {}) {
+  // NÃO gated pela flag de propósito: FILA_ANA_ENABLED gateia a CRIAÇÃO da linha; FECHAR uma linha
+  // existente é sempre seguro (casa 0 ou 1). Se a flag fosse revertida com linhas abertas, elas ainda
+  // precisam fechar na aprovação (o Portal que lista nem conhece a flag da Ana).
+  if (!draftId) return { ok: false, motivo: 'sem_draft' }; // guarda: sem draft NÃO roda UPDATE (fecharia a fila toda)
+  const sbUpdate = io.sbUpdate || _sbUpdate;
+  const patch = { status, resolvido_em: new Date().toISOString(), ...(por ? { resolvido_por: por } : {}) };
+  try {
+    const rows = await sbUpdate('solicitacoes', `draft_id=eq.${encodeURIComponent(draftId)}`, patch);
+    const n = Array.isArray(rows) ? rows.length : 0;
+    if (n === 0) console.warn('[fila] marcarPorDraft: nenhuma linha p/ draft', draftId, '(dessincronia fila×drafts, ou fila estava off na criação)');
+    return { ok: true, atualizadas: n };
+  } catch (e) {
+    console.warn('[fila] marcarPorDraft falhou:', e.message);
+    return { ok: false, motivo: 'erro', detalhe: e.message };
+  }
+}

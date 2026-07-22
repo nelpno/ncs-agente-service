@@ -18,7 +18,7 @@ import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
 import { podeVerAprovacoes, listarPendentes as listarAprovacoesPendentes, aprovar as aprovarDraft, rejeitar as rejeitarDraft } from "./src/aprovacoes.mjs"; // aba Aprovações (spec Onda 1 §4.4)
 import { podeVerPendencias, listarPendentes as listarNotificacoesPendentes } from "./src/pendencias.mjs"; // aba Pendências / outbox (spec Onda 1 §4.3)
-import { podeVerSolicitacoes, listarSolicitacoes } from "./src/solicitacoes.mjs"; // aba Solicitações / espelho do Octadesk
+import { podeVerSolicitacoes, listarSolicitacoes, resolverSolicitacao } from "./src/solicitacoes.mjs"; // aba Solicitações / espelho do Octadesk
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // cache-busting: versiona os links de /assets pelo hash do app.css → mudança de visual aparece na hora (sem limpar cache)
@@ -272,6 +272,21 @@ const server = http.createServer(async (req, res) => {
       } catch (e) {
         console.error("[chat-ncs] solicitacoes list:", e.message);
         return json(res, 502, { erro: "não foi possível carregar as solicitações agora" });
+      }
+    }
+
+    // F2: fechar manualmente uma solicitação (processo humano). Escrita-ERP fecha sozinha na aprovação.
+    const mResolver = url.match(/^\/api\/solicitacoes\/([^/]{1,64})\/resolver$/);
+    if (req.method === "POST" && mResolver) {
+      if (!podeVerSolicitacoes(sess)) return json(res, 403, { erro: "acesso restrito" });
+      if (!mesmaOrigem(req)) return json(res, 403, { erro: "origem inválida" });
+      try {
+        // identidade de quem resolveu SEMPRE da sessão (nunca do body, senão dava pra forjar)
+        const out = await resolverSolicitacao(decodeURIComponent(mResolver[1]), { por: sess.nome || null });
+        return json(res, 200, { ok: true, resultado: out });
+      } catch (e) {
+        console.error("[chat-ncs] solicitacoes resolver:", e.message);
+        return json(res, 502, { erro: "não foi possível concluir agora. Tente de novo." });
       }
     }
 

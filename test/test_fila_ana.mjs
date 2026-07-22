@@ -3,7 +3,7 @@
 // Prova: (1) flag off = byte-idêntico ao de hoje (nada insere); (2) flag on grava origem/status
 // PRÓPRIOS ('ana'/'aberta'); (3) LGPD — assunto sanitizado (sem CPF/telefone/email); (4) vínculo draft_id.
 import assert from 'node:assert';
-import { registrarSolicitacao, sanitizarAssunto, decidirHandoff } from '../src/fila.mjs';
+import { registrarSolicitacao, sanitizarAssunto, decidirHandoff, marcarPorDraft } from '../src/fila.mjs';
 
 let n = 0;
 const ok = (c, m) => { assert.ok(c, m); n++; };
@@ -116,6 +116,30 @@ process.env.FILA_ANA_ENABLED = 'true';
 
   // DEDUP por sessao: ja carimbou um handoff nesta sessao -> nao repete a linha
   ok(decidirHandoff('agendamento_mudanca', 'mudanca dia 30', true).registrar === false, 'dedup: handoff ja registrado na sessao nao repete');
+}
+
+// ---------------------------------------------------- 6) F2: marcarPorDraft fecha a linha ao aprovar o rascunho
+{
+  process.env.FILA_ANA_ENABLED = 'true';
+  let cap = null;
+  const io = { sbUpdate: async (_t, q, patch) => { cap = { q, patch }; return [{ id: 'r1' }]; } };
+  const r = await marcarPorDraft('draft-xyz', 'resolvida', { por: 'Fernando' }, io);
+  ok(r.ok === true && r.atualizadas === 1, 'marcarPorDraft: ok, 1 atualizada');
+  ok(/draft_id=eq\.draft-xyz/.test(cap.q), 'WHERE por draft_id (nunca a fila inteira)');
+  ok(cap.patch.status === 'resolvida', 'seta status resolvida');
+  ok(cap.patch.resolvido_por === 'Fernando' && !!cap.patch.resolvido_em, 'seta resolvido_por + resolvido_em');
+
+  // ⚠️ guarda CRITICA: sem draft_id NAO pode rodar UPDATE (fecharia TODA a fila).
+  const nod = await marcarPorDraft('', 'resolvida', {}, io);
+  ok(nod.ok === false && nod.motivo === 'sem_draft', 'sem draft_id = no-op (nao fecha a fila toda)');
+
+  // fecha INDEPENDENTE da flag: FILA_ANA_ENABLED gateia a CRIACAO da linha, nao o fechamento (senao
+  // rollback da flag com linhas abertas deixaria zumbis, e o Portal que lista nem conhece a flag).
+  delete process.env.FILA_ANA_ENABLED;
+  cap = null;
+  const off = await marcarPorDraft('draft-xyz', 'resolvida', {}, io);
+  ok(off.ok === true && /draft_id=eq\.draft-xyz/.test(cap.q), 'fecha mesmo com a flag off');
+  process.env.FILA_ANA_ENABLED = 'true';
 }
 
 console.log(`test_fila_ana: ${n}/${n} OK`);

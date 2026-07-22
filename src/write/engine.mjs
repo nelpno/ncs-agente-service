@@ -3,6 +3,7 @@ import { getAction } from './registry.mjs';
 import { criarDraft, getDraft, getDraftByToken, updateDraft, aprovarDraftCAS } from './drafts.mjs';
 import { registrarEvento } from './auditoria.mjs';
 import { config } from '../config.mjs';
+import * as FILA from '../fila.mjs'; // F2: fecha a linha da fila (solicitacoes) vinculada ao rascunho ao aprovar
 
 export async function criarRascunho(acaoId, dados, ctx = {}) {
   const acao = getAction(acaoId);
@@ -23,6 +24,16 @@ export async function criarRascunho(acaoId, dados, ctx = {}) {
   };
 }
 
+// F2: fecha a linha da fila (solicitacoes) vinculada a este draft, seja qual for o desfecho — gravado
+// (resolvida), rejeitado (rejeitada) ou expirado (expirada). Senão a linha ficava "aberta" órfã (a
+// rejeição é o "Devolver", fluxo NORMAL, não exceção). Defensivo: nunca derruba o fluxo do engine, e
+// NÃO é gated pela flag (a flag gateia a CRIAÇÃO da linha; fechar linha existente é sempre seguro —
+// casa 0 ou 1 linha — e o Portal que lista nem conhece a flag da Ana).
+async function fecharFilaDoDraft(draftId, status, por) {
+  try { await FILA.marcarPorDraft(draftId, status, { por: por || null }); }
+  catch (e) { console.warn('[engine] marcarPorDraft (fila) falhou:', e.message); }
+}
+
 // Núcleo compartilhado por aprovarRascunho(token) e aprovarRascunhoPorId(id) — mesmo fluxo,
 // só muda como o draft é resolvido. CAS (pendente->aprovando) ANTES de gravar no Superlógica:
 // evita que 2 aprovadores concorrentes gravem 2x o mesmo rascunho.
@@ -34,6 +45,7 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   if (draft.expiraEm <= Date.now()) {
     await updateDraft(draft.id, { status: 'expirado' });
     await registrarEvento({ tipo: 'expirado', draftId: draft.id });
+    await fecharFilaDoDraft(draft.id, 'expirada'); // fecha a linha da fila (sem aprovador — expirou sozinho)
     await notificarMorador(draft, 'Sua solicitação expirou sem aprovação; caso ainda precise, é só me chamar de novo.');
     return { ok: false, motivo: 'expirado' };
   }
@@ -68,6 +80,9 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   await updateDraft(draft.id, { status: 'gravado', resultado: { idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun } });
   await registrarEvento({ tipo: 'gravado', draftId: draft.id, aprovador, payload, resposta: res.resposta, idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun, snapshot: draft.snapshot });
 
+  // F2: fecha a linha da fila (solicitacoes) vinculada a este rascunho — o ticket resolve JUNTO com a aprovação.
+  await fecharFilaDoDraft(draft.id, 'resolvida', aprovador?.nome);
+
   // Conectores pós-gravação (ex.: avisar a portaria). Defensivo: nunca derruba a gravação já feita.
   let conectores = null;
   if (acao.posGravar) {
@@ -100,6 +115,7 @@ async function executarRejeicao(draft, { aprovador, motivo } = {}) {
   if (draft.status === 'gravado') return { ok: false, motivo: 'ja_gravado' };
   await updateDraft(draft.id, { status: 'rejeitado' });
   await registrarEvento({ tipo: 'rejeitado', draftId: draft.id, aprovador, detalhe: motivo || '' });
+  await fecharFilaDoDraft(draft.id, 'rejeitada', aprovador?.nome); // fecha a linha da fila (rejeição = "Devolver", fluxo normal)
   await notificarMorador(draft, 'Sua solicitação foi revisada pela equipe e precisa de um ajuste; já entramos em contato.');
   return { ok: true, rejeitado: true };
 }

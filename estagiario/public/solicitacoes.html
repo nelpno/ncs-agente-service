@@ -13,6 +13,13 @@
   .orig-pill{display:inline-flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.02em;
     padding:2px 9px;border-radius:999px;border:1px solid var(--line);white-space:nowrap;color:var(--muted)}
   .orig-pill.orig-ana{color:var(--olive);border-color:var(--olive)}
+  .acao-btn{border:1.5px solid var(--olive);background:transparent;color:var(--olive);font-family:inherit;
+    font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:9px;cursor:pointer;white-space:nowrap}
+  .acao-btn:hover{background:var(--olive);color:#fff}
+  .acao-btn:disabled{opacity:.55;cursor:default}
+  .acao-link{color:var(--olive);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+  .acao-link:hover{text-decoration:underline}
+  .acao-done{color:var(--muted);font-size:12px;white-space:nowrap}
   .s-empty{color:var(--muted);font-size:13px;padding:16px 18px}
   .forbidden{text-align:center;padding:60px 16px;color:var(--muted)}
   .forbidden .ttl{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
@@ -101,6 +108,30 @@ function origemLbl(o){return ORIGEM_LBL[o]||o||'Octadesk';}
 function statusLbl(s){if(!s)return '—';return s.charAt(0).toUpperCase()+s.slice(1);}
 function iniciais(n){return (n||'?').split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();}
 function quando(iso){if(!iso)return '—';var d=new Date(iso);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
+// fecha = qualquer desfecho (resolvida na aprovação/manual, rejeitada, expirada) — a linha não é mais acionável
+function isResolvida(s){return /resolv|fechad|closed|rejeitad|expirad/i.test(s||'');}
+function doneLbl(n){
+  var s=n.status||'';
+  var base=/rejeitad/i.test(s)?'✕ Rejeitada':/expirad/i.test(s)?'⌛ Expirada':'✓ Resolvida';
+  return base+(n.resolvido_por?' · '+n.resolvido_por:'');
+}
+// Célula de Ação (F2). Só linhas da ANA são acionáveis: a espelhada do Octa tem o status vindo de lá e o
+// worker do espelho sobrescreveria qualquer mudança nossa. Escrita-ERP (tem draft_id) fecha na aprovação
+// → leva ao card; human-process (ocorrência/mudança/titularidade) fecha no botão Resolver.
+function acaoCell(n){
+  if(n.origem!=='ana') return el('td',{class:'acao-done',text:'—'});
+  if(isResolvida(n.status)) return el('td',null,[el('span',{class:'acao-done',text:doneLbl(n)})]);
+  if(n.draft_id) return el('td',null,[el('a',{class:'acao-link',href:'/aprovacoes',text:'Ver nas Aprovações →'})]);
+  return el('td',null,[el('button',{class:'acao-btn',on:function(){resolver(n.id,this);}},['Resolver'])]);
+}
+function resolver(id,btn){
+  if(!id)return;
+  if(btn){btn.disabled=true;btn.textContent='…';}
+  fetch('/api/solicitacoes/'+encodeURIComponent(id)+'/resolver',{method:'POST',headers:{'Content-Type':'application/json','Origin':location.origin}})
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){if(d&&d.ok){load();}else{if(btn){btn.disabled=false;btn.textContent='Tente de novo';}}})
+    .catch(function(){if(btn){btn.disabled=false;btn.textContent='Tente de novo';}});
+}
 
 fetch('/api/me',{headers:{'Accept':'application/json'}}).then(function(r){return r.ok?r.json():null;}).then(function(me){
   if(!me)return;
@@ -169,7 +200,7 @@ function render(itens){
   var l=document.getElementById('lista');clear(l);
   document.getElementById('periodo').textContent=itens.length+(itens.length===1?' solicitação':' solicitações');
   if(!itens.length){l.appendChild(el('div',{class:'s-empty',text:'Nenhuma solicitação com esse filtro.'}));return;}
-  var cols=['Protocolo','Origem','Tipo','Setor','Assunto','Status','Solicitante','Data'];
+  var cols=['Protocolo','Origem','Tipo','Setor','Assunto','Status','Solicitante','Data','Ação'];
   var htr=el('tr');cols.forEach(function(c){htr.appendChild(el('th',{text:c}));});
   var tb=el('tbody');
   itens.forEach(function(n){
@@ -185,6 +216,7 @@ function render(itens){
       el('td',null,[pill]),
       el('td',{text:n.requester||'—'}),
       el('td',{text:quando(n.criado_em)}),
+      acaoCell(n),
     ]));
   });
   l.appendChild(el('table',null,[el('thead',null,[htr]),tb]));
