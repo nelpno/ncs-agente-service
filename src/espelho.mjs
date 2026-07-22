@@ -31,6 +31,14 @@ export function classificar(assunto = '') {
   return { tipo: 'outro', setor: 'Atendimento geral' };
 }
 
+// setor canônico de um tipo (fonte única = REGRAS). Usado quando o tipo JÁ é conhecido a montante
+// (ex.: escrita-ERP, em que a Ana sabe que é cadastro_inquilino) e não dá p/ derivar do assunto.
+// Tipo fora do mapa → 'Atendimento geral'.
+export function setorDoTipo(tipo) {
+  const r = REGRAS.find((x) => x.tipo === tipo);
+  return r ? r.setor : 'Atendimento geral';
+}
+
 // Protocolo NCS próprio (rastreável ao número do Octadesk, mas o prefixo NCS começa a independência).
 export function protocoloNcs(octadeskNumber, octadeskId) {
   const n = String(octadeskNumber ?? '').replace(/\D/g, '');
