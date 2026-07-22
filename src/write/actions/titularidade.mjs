@@ -66,6 +66,15 @@ export const titularidade = {
 };
 registerAction(titularidade);
 
+// Extrai os PROPRIETÁRIOS ATUAIS (quem sai numa troca) de responsaveis/index: id_label_tres 1/2
+// (proprietário) e SEM data de saída (ativo — raio-x 22/07: dt_saida_res vazio = ativo). Exportado p/ a
+// tool `criar_rascunho_titularidade` preencher `proprietarios_atuais` do ERP, NUNCA do LLM (anti-alucinação).
+export function extrairProprietariosAtuais(contatos = []) {
+  return (contatos || [])
+    .filter((c) => ['1', '2'].includes(String(c.id_label_tres ?? '')) && !String(c.dt_saida_res || '').trim())
+    .map((c) => ({ id_contato_con: c.id_contato_con, nome: c.st_nome_con, cpf: c.st_cpf_con || c.st_cpfcnpj_con }));
+}
+
 async function snapshot(ctx, d, io = {}) {
   const respIndex = io.responsaveisIndex || _respIndex;
   return respIndex(d.id_condominio, d.id_unidade);
@@ -86,14 +95,14 @@ async function checarConflito(ctx, d, io = {}) {
 async function gravar(payload, { dados, io = {} } = {}) {
   const put = io.slPut || _slPut;
   // 1ª escrita: cadastra o novo proprietário. Falhou aqui → aborta (não dá saída em ninguém).
-  const rNovo = await put('unidades/post', payload.novo);
+  const rNovo = await put('unidades/post', payload.novo, 'PUT', 'titularidade'); // actionId → gate WRITE_REAL_ACTIONS
   if (!rNovo.ok) return { ok: false, etapa: 'novo_proprietario', resposta: rNovo.resposta, status: rNovo.status };
   // 2ª+: dá saída em cada proprietário atual. A API do Superlógica NÃO tem transação → se uma saída
   // falhar DEPOIS do novo entrar, retorna ok:true mas marca saidasFalhas>0 (o aprovador/auditoria veem;
   // a Onda C trata no teste controlado). Fingir atomicidade seria pior que reportar o estado parcial.
   const saidas = [];
   for (const s of payload.saidas) {
-    const r = await put('unidades/post', s);
+    const r = await put('unidades/post', s, 'PUT', 'titularidade'); // actionId → gate WRITE_REAL_ACTIONS
     saidas.push({ id_contato_con: s['contatos[0][ID_CONTATO_CON]'], ok: r.ok, dryRun: !!r.dryRun, status: r.status, resposta: r.resposta });
   }
   const saidasFalhas = saidas.filter((s) => !s.ok).length;

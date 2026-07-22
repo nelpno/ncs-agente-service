@@ -109,7 +109,7 @@ async function checarConflito(ctx, d, io = {}) {
 
 async function gravar(payload, { dados, io = {} } = {}) {
   const put = io.slPut || _slPut;
-  const res = await put('unidades/post', payload);
+  const res = await put('unidades/post', payload, 'PUT', 'cadastro_inquilino'); // actionId → gate WRITE_REAL_ACTIONS (fica DRY até estar no allowlist)
   if (!res.ok) return { ok: false, resposta: res.resposta, status: res.status };
   // ID do contato criado é indocumentado → reler e casar (match não único → registra candidatos, não adivinha)
   let idCriado = null, candidatosId = [];

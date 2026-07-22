@@ -1,7 +1,7 @@
 // test_titularidade.mjs — WriteAction #2 (Onda C, DRY). Troca de titularidade: cadastra o novo
 // proprietário + dá saída (DT_SAIDA_RES) no antigo. io injetável (slPut/responsaveisIndex) — sem rede/PII.
 import assert from 'node:assert';
-import { titularidade as T } from '../src/write/actions/titularidade.mjs';
+import { titularidade as T, extrairProprietariosAtuais } from '../src/write/actions/titularidade.mjs';
 
 let n = 0;
 const ok = (c, m) => { assert.ok(c, m); n++; };
@@ -86,6 +86,23 @@ const baseOK = {
   // 2 proprietarios -> alerta extra
   const r2 = T.render({ ...baseOK, proprietarios_atuais: [{ id_contato_con: '1', nome: 'A' }, { id_contato_con: '2', nome: 'B' }] }, []);
   ok(r2.alertas.some((a) => /TODOS recebem data de saída/i.test(a)), '2 proprietarios -> alerta de "todos saem"');
+}
+
+// ---------------------------------------------------- 6) extrairProprietariosAtuais (a tool preenche do ERP)
+{
+  const contatos = [
+    { id_contato_con: '1', st_nome_con: 'Dono Ativo', id_label_tres: '1', dt_saida_res: '', st_cpf_con: '111' },
+    { id_contato_con: '2', st_nome_con: 'Co-dono', id_label_tres: '2', dt_saida_res: null, st_cpf_con: '222' },
+    { id_contato_con: '3', st_nome_con: 'Inquilino', id_label_tres: '7', dt_saida_res: '', st_cpf_con: '333' },
+    { id_contato_con: '4', st_nome_con: 'Ex-dono', id_label_tres: '1', dt_saida_res: '01/01/2020 00:00:00', st_cpf_con: '444' },
+  ];
+  const p = extrairProprietariosAtuais(contatos);
+  ok(p.length === 2, 'só proprietarios ATIVOS (label 1/2, sem dt_saida) — exclui inquilino e ex-dono');
+  ok(p.some((x) => x.id_contato_con === '1') && p.some((x) => x.id_contato_con === '2'), 'pega os 2 donos ativos');
+  ok(!p.some((x) => x.id_contato_con === '3'), 'exclui inquilino (label 7)');
+  ok(!p.some((x) => x.id_contato_con === '4'), 'exclui ex-dono (já tem dt_saida_res)');
+  ok(p.every((x) => x.id_contato_con && x.nome), 'traz id_contato_con + nome (p/ dar a saída)');
+  ok(extrairProprietariosAtuais([]).length === 0 && extrairProprietariosAtuais().length === 0, 'vazio/undefined -> []');
 }
 
 console.log(`test_titularidade: ${n}/${n} OK`);

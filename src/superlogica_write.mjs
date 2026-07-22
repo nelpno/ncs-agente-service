@@ -11,11 +11,24 @@ function writeAuth() {
   };
 }
 
-export async function slPut(controllerAction, fields, method = 'PUT') {
-  if (config.dryRunWrites) {
-    console.log(`[slPut] DRY_RUN ${method} ${controllerAction} (${Object.keys(fields).length} campos)`);
+// WRITE_REAL_ACTIONS — sair do DRY POR AÇÃO (não o DRY_RUN_WRITES global). Lista CSV de ids de ação
+// (ex.: "titularidade") que gravam DE VERDADE mesmo com DRY_RUN_WRITES=true. Vazio (default) = tudo DRY.
+// É como a Onda C ativa UMA ação (com OK do Fernando + teste controlado) sem destravar TODAS as escritas.
+export function acaoGravaReal(actionId) {
+  if (!actionId) return false;
+  const allow = String(process.env.WRITE_REAL_ACTIONS || '').split(',').map((s) => s.trim()).filter(Boolean);
+  return allow.includes(actionId);
+}
+
+export async function slPut(controllerAction, fields, method = 'PUT', actionId = null) {
+  const real = acaoGravaReal(actionId);
+  // DRY quando o global está ligado E esta ação NÃO está no allowlist de escrita real.
+  if (config.dryRunWrites && !real) {
+    console.log(`[slPut] DRY_RUN ${method} ${controllerAction} (${Object.keys(fields).length} campos)${actionId ? ' [' + actionId + ']' : ''}`);
     return { ok: true, dryRun: true, echo: fields };
   }
+  // escrita real POR AÇÃO enquanto o global ainda é DRY = evento de auditoria (loga alto).
+  if (config.dryRunWrites && real) console.warn(`[slPut] ⚠️ ESCRITA REAL via WRITE_REAL_ACTIONS: ${actionId} ${method} ${controllerAction}`);
   const url = `${config.slBase}/${controllerAction}`;
   const body = new URLSearchParams(fields).toString();
   const r = await fetch(url, {

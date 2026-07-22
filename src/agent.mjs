@@ -18,6 +18,7 @@ import * as DOSSIE from './docia/dossie.mjs';
 import * as ENGINE from './write/engine.mjs';
 import * as FILA from './fila.mjs'; // F1: a Ana carimba o ticket na fila `solicitacoes` (flag FILA_ANA_ENABLED)
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
+import * as TITU from './write/actions/titularidade.mjs'; // registra a ação titularidade + extrairProprietariosAtuais (tool gated por TITULARIDADE_ENABLED)
 import { agoraContextoTemporal } from './tempo.mjs';
 import { podarHistorico } from './history.mjs';
 
@@ -56,6 +57,15 @@ const TOOLS = [
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
     }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
+  { type: 'function', function: { name: 'criar_rascunho_titularidade',
+    description: 'Prepara a TROCA DE TITULARIDADE de uma unidade (compra e venda / novo proprietário). NÃO grava: monta o pedido — cadastra o novo dono e dá saída no proprietário atual — e envia para a equipe aprovar. O proprietário atual é lido do sistema; você não precisa informá-lo. Use quando a pessoa comprou a unidade e quer passá-la para o nome dela.',
+    parameters: { type: 'object', properties: {
+      id_condominio: { type: 'string' }, id_unidade: { type: 'string' },
+      nome: { type: 'string', description: 'Nome do NOVO proprietário.' },
+      cpf: { type: 'string', description: 'CPF do novo proprietário (necessário para gerar o boleto da taxa).' },
+      data_transferencia: { type: 'string', description: 'Data da compra/transferência, MM/DD/AAAA.' },
+      email: { type: 'string' }, telefone: { type: 'string' },
+    }, required: ['id_unidade', 'nome', 'cpf', 'data_transferencia'] } } },
   { type: 'function', function: { name: 'analisar_contrato',
     description: 'Confere o CONTRATO (locação) que a pessoa enviou por foto/PDF e devolve um laudo: o que está OK e o que FALTA. Use quando ela mandar o contrato para cadastro de inquilino ou troca de titularidade, DEPOIS de confirmar que enviou todas as páginas (pergunte "é só isso ou tem mais alguma página?" antes). Passe id_condominio e id_unidade (do resolver_cadastro) quando já souber — sem eles não dá para cruzar com o cadastro. Retorna { ok, parecer (aprovado|pendente|reprovado), pendencias[], divergencias[], unidade, locatario_nome, vigencia_fim, responsavel_taxa_sugerido }. ok:false motivo:"sem_documento" = não recebi nenhuma página; motivo:"ilegivel" = peça foto mais nítida (use a mensagem retornada). CONTE as pendências para a pessoa em português, para ela já mandar o que falta — mas NUNCA diga que o cadastro está aprovado: o laudo é uma conferência, quem aprova é a equipe. responsavel_taxa_sugerido é SUGESTÃO: confirme com a pessoa quem recebe o boleto, nunca decida sozinho.',
     parameters: { type: 'object', properties: {
@@ -68,7 +78,13 @@ const TOOLS = [
 // DocIA (Fase 0) entra DESLIGADO. A imagem da Ana builda do HEAD do git: sem a flag, commitar o módulo
 // não muda uma vírgula do comportamento em produção, e ligar vira um ato deliberado (env, sem rebuild)
 // depois do ensaio. Filtrar aqui, e não no import, deixa o teste ligar/desligar sem ordem de import.
-const toolsAtivas = () => (process.env.DOCIA_ATIVO === '1' ? TOOLS : TOOLS.filter((t) => t.function.name !== 'analisar_contrato'));
+const toolsAtivas = () => {
+  let t = process.env.DOCIA_ATIVO === '1' ? TOOLS : TOOLS.filter((x) => x.function.name !== 'analisar_contrato');
+  // Titularidade (Onda C): tool ESCONDIDA até o OK do Fernando. Sem a flag, o LLM nem a vê → a Ana segue
+  // mandando o formulário de titularidade (comportamento de hoje). Ativar = TITULARIDADE_ENABLED=1 + prompt.
+  if (process.env.TITULARIDADE_ENABLED !== '1') t = t.filter((x) => x.function.name !== 'criar_rascunho_titularidade');
+  return t;
+};
 
 function safeParse(s) { try { return JSON.parse(s); } catch { return {}; } }
 
@@ -219,6 +235,28 @@ async function runToolReal(name, args, ctx) {
       try { await FILA.registrarSolicitacao({ tipo: 'cadastro_inquilino', assunto: `Cadastro de inquilino${ctx.condominios?.[idc] ? ' - ' + ctx.condominios[idc] : ''}`, requester: ctx.solicitante || null, draftId: r.draftId }); } catch (e) { console.warn('[fila] cadastro nao registrado:', e.message); }
       return { criado: true, protocolo: r.draftId, aguardando_aprovacao: true,
         aviso: r.conflito?.conflito ? 'já existe contato semelhante — a equipe vai conferir' : undefined };
+    }
+    case 'criar_rascunho_titularidade': {
+      const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
+      const idu = String(args.id_unidade || '');
+      // proprietário(s) ATUAL(is) = quem sai. Lido do ERP (NUNCA do LLM): id_label_tres 1/2 + sem data de saída.
+      let atuais = [];
+      try { atuais = TITU.extrairProprietariosAtuais(await SL.responsaveisIndex(idc, idu)); }
+      catch (e) { console.warn('[titularidade] leitura dos proprietarios atuais falhou:', e.message); }
+      const r = await ENGINE.criarRascunho('titularidade', {
+        id_condominio: idc, id_unidade: idu,
+        unidade_label: ctx.unidades?.[idu] || null,
+        condominio_nome: ctx.condominios?.[idc] || ctx.lastCondo?.nome || null,
+        nome: args.nome, cpf: args.cpf, data_transferencia: args.data_transferencia,
+        email: args.email, telefone: args.telefone,
+        proprietarios_atuais: atuais,
+      }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
+      if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
+      (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
+        resumo: `Troca de titularidade da unidade ${idu} para ${args.nome}` });
+      try { await FILA.registrarSolicitacao({ tipo: 'titularidade', assunto: `Troca de titularidade${ctx.condominios?.[idc] ? ' - ' + ctx.condominios[idc] : ''}`, requester: ctx.solicitante || null, draftId: r.draftId }); } catch (e) { console.warn('[fila] titularidade nao registrada:', e.message); }
+      return { criado: true, protocolo: r.draftId, aguardando_aprovacao: true,
+        aviso: atuais.length === 0 ? 'não identifiquei o proprietário atual no sistema — a equipe vai conferir' : (atuais.length > 1 ? `${atuais.length} proprietários atuais serão marcados como saída` : undefined) };
     }
     default: return { erro: `tool desconhecida: ${name}` };
   }
