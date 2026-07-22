@@ -16,6 +16,7 @@ import * as CND from './cnd.mjs';
 import * as DOCIA from './docia/docia.mjs';
 import * as DOSSIE from './docia/dossie.mjs';
 import * as ENGINE from './write/engine.mjs';
+import * as FILA from './fila.mjs'; // F1: a Ana carimba o ticket na fila `solicitacoes` (flag FILA_ANA_ENABLED)
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import { agoraContextoTemporal } from './tempo.mjs';
 import { podarHistorico } from './history.mjs';
@@ -176,7 +177,7 @@ async function runToolReal(name, args, ctx) {
     case 'consultar_taxa_condominial': return TAXA.consultar_taxa_condominial(args);
     case 'consultar_clube': return CLUBE.consultar_clube(args);
     case 'marcar_tag': { if (ctx.chatId) await OCTA.marcar_tag(ctx.chatId, args.tag); return { ok: true }; }
-    case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); return { transferido: true }; }
+    case 'transferir_humano': { ctx.transferred = { motivo: args.motivo, resumo: args.resumo }; if (ctx.chatId) await OCTA.transferir_humano({ chatId: ctx.chatId, motivo: args.motivo, resumo: args.resumo, fluxo: ctx.fluxo, id_condominio: ctx.lastCondo?.id, nome: ctx.lastCondo?.nome }); try { await FILA.registrarSolicitacao({ assunto: args.motivo || args.resumo || 'Atendimento humano', requester: ctx.solicitante || null }); } catch (e) { console.warn('[fila] handoff nao registrado:', e.message); } return { transferido: true }; }
     case 'criar_rascunho_cadastro': {
       const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
       const idu = String(args.id_unidade || '');
@@ -199,6 +200,8 @@ async function runToolReal(name, args, ctx) {
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
         resumo: `Cadastro de ${args.nome} na unidade ${args.id_unidade}` });
+      // F1: carimba a solicitação de escrita-ERP na fila, VINCULADA ao rascunho (draft_id). Flag off = no-op.
+      try { await FILA.registrarSolicitacao({ tipo: 'cadastro_inquilino', assunto: `Cadastro de inquilino${ctx.condominios?.[idc] ? ' - ' + ctx.condominios[idc] : ''}`, requester: ctx.solicitante || null, draftId: r.draftId }); } catch (e) { console.warn('[fila] cadastro nao registrado:', e.message); }
       return { criado: true, protocolo: r.draftId, aguardando_aprovacao: true,
         aviso: r.conflito?.conflito ? 'já existe contato semelhante — a equipe vai conferir' : undefined };
     }

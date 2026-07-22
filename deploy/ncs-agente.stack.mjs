@@ -68,6 +68,9 @@ export const ANA_REQUIRED_ENV = [
   // Espelho do Octadesk (saída fase 0, PASSIVO): o worker (server.mjs) só inicia com "true".
   // Depende de OCTADESK_* + SUPABASE_* (todas acima) — nenhuma dependência nova.
   "ESPELHO_ENABLED",
+  // F1 (a Ana carimba o ticket na fila `solicitacoes`): default OFF = a Ana NÃO grava (byte-idêntico
+  // ao de hoje). Ligar quando a fila estiver pronta pra receber trabalho. Depende de SUPABASE_* (acima).
+  "FILA_ANA_ENABLED",
 ];
 
 // Exceção à regra "vazio é legítimo na Ana": aqui vazio == o serviço sobe e SÓ a fila morre,
@@ -113,6 +116,9 @@ export function buildAnaStack(secrets = {}) {
     // escreve em `solicitacoes` no NOSSO Supabase — não responde ticket, não muda nada no Octadesk),
     // Fernando validou a tela (21/07). Desligar = `espelho:false` + redeploy (env, sem rebuild).
     espelho = true,
+    // F1: a Ana carimba o ticket na fila `solicitacoes`. Default DESLIGADO — com off a Ana NÃO grava
+    // nada (comportamento de hoje). Ligar (`filaAna:true`) só quando a fila estiver pronta (F2).
+    filaAna = false,
   } = secrets;
 
   const env = [
@@ -185,6 +191,10 @@ export function buildAnaStack(secrets = {}) {
     // "true" = o worker do server.mjs sobe e a cada 5min lê /tickets do Octadesk → `solicitacoes`.
     // PASSIVO e reversível: com "false" o worker nem inicia (env, sem rebuild). Ver src/espelho.mjs.
     { name: "ESPELHO_ENABLED", value: espelho ? "true" : "false" },
+    // ── F1: a Ana carimba o ticket na fila `solicitacoes` ─────────────────────────────────────────
+    // "true" = os enxertos do runToolReal (transferir_humano / criar_rascunho_cadastro) inserem na fila.
+    // Default "false" = no-op (prod byte-idêntico). Reversível por env, sem rebuild.
+    { name: "FILA_ANA_ENABLED", value: filaAna ? "true" : "false" },
   ];
 
   // Só null/ausente aborta — vazio é estado legítimo aqui (ver JSDoc), EXCETO nas de NAO_PODE_VAZIA,
