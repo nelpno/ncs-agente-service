@@ -116,9 +116,10 @@ export function buildAnaStack(secrets = {}) {
     // escreve em `solicitacoes` no NOSSO Supabase — não responde ticket, não muda nada no Octadesk),
     // Fernando validou a tela (21/07). Desligar = `espelho:false` + redeploy (env, sem rebuild).
     espelho = true,
-    // F1: a Ana carimba o ticket na fila `solicitacoes`. Default DESLIGADO — com off a Ana NÃO grava
-    // nada (comportamento de hoje). Ligar (`filaAna:true`) só quando a fila estiver pronta (F2).
-    filaAna = false,
+    // F1: a Ana carimba o ticket na fila `solicitacoes`. LIGADO (go-live 21/07): a Ana grava HANDOFF
+    // e escrita-ERP com status próprio ('aberta'). Provado sem-humano em prod (NCS-A-2, LGPD ok).
+    // Desligar = `filaAna:false` + redeploy (env, sem rebuild). Enxerto é try/catch: nunca derruba o atendimento.
+    filaAna = true,
   } = secrets;
 
   const env = [
