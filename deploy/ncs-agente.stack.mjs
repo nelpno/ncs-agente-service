@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:7971726faa278703d1d72b858ed8a72cb3af3fb9af2e1356257f4268ea430f6c"; // 851bf08: F1 fila (a Ana carimba o ticket) DORMANTE — FILA_ANA_ENABLED off; guard Vancouver/6P + clube + espelho + fase1 mantidos (21/07)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:95a6dbf3fee0e26a817e2c1a930c484c17b48a8f6595e868f7d21f2631d2d596"; // 9c1bf5a: Decisão (b) — só handoff ESTRUTURADO (ocorrência/mudança/titularidade) vira linha na fila; handoff puro não cria linha (dedup por sessão). F1 FILA_ANA_ENABLED=true (22/07)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
