@@ -11,7 +11,8 @@ export function podeVerSolicitacoes(sess) {
 }
 
 // Só os campos estruturados que a tela usa — nunca `raw` (jsonb cru do ticket) nem `octadesk_id`/`id`.
-const SELECT = "protocolo_ncs,octadesk_number,tipo,setor,assunto,status,requester,criado_em,atualizado_em";
+// `origem` ('ana' | 'octadesk') deixa o Portal distinguir a linha própria da Ana (F1) da espelhada do Octa.
+const SELECT = "protocolo_ncs,octadesk_number,origem,tipo,setor,assunto,status,requester,criado_em,atualizado_em";
 
 export async function listarSolicitacoes({ tipo, status } = {}, db = realDb) {
   let q = `select=${SELECT}&order=criado_em.desc&limit=200`;

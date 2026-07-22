@@ -10,6 +10,9 @@
   .tbl-wrap{overflow-x:auto}
   .status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
     padding:3px 11px;border-radius:999px;border:1px solid var(--line);white-space:nowrap;color:var(--muted)}
+  .orig-pill{display:inline-flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.02em;
+    padding:2px 9px;border-radius:999px;border:1px solid var(--line);white-space:nowrap;color:var(--muted)}
+  .orig-pill.orig-ana{color:var(--olive);border-color:var(--olive)}
   .s-empty{color:var(--muted);font-size:13px;padding:16px 18px}
   .forbidden{text-align:center;padding:60px 16px;color:var(--muted)}
   .forbidden .ttl{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
@@ -57,7 +60,7 @@
         <div class="painel-scroll">
           <div class="painel-inner" id="painelInner">
             <div class="card" style="grid-column:1/-1">
-              <div class="card-h"><h3>Fila espelhada do Octadesk</h3><div class="grow"></div><span class="hint">só leitura — a fonte é o Octadesk</span></div>
+              <div class="card-h"><h3>Fila de solicitações</h3><div class="grow"></div><span class="hint" id="fonteHint">só leitura</span></div>
               <div class="tipo-counts" id="tipoCounts"></div>
               <div class="filtros">
                 <span><label for="fTipo">Tipo</label><select id="fTipo"><option value="">Todos</option></select></span>
@@ -92,6 +95,9 @@ var TIPO_LBL={
   evento:'Evento', portaria_acesso:'Portaria/acesso', ocorrencia:'Ocorrência', cadastro:'Cadastro', outro:'Outro'
 };
 function tipoLbl(t){return TIPO_LBL[t]||t||'—';}
+// origem da linha: 'ana' (a Ana carimbou, F1) x 'octadesk' (espelho passivo). null/desconhecido = octadesk (default da migração).
+var ORIGEM_LBL={ana:'Ana',octadesk:'Octadesk'};
+function origemLbl(o){return ORIGEM_LBL[o]||o||'Octadesk';}
 function statusLbl(s){if(!s)return '—';return s.charAt(0).toUpperCase()+s.slice(1);}
 function iniciais(n){return (n||'?').split(/\s+/).slice(0,2).map(function(w){return w[0]||'';}).join('').toUpperCase();}
 function quando(iso){if(!iso)return '—';var d=new Date(iso);return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
@@ -130,11 +136,17 @@ function showLoadError(){
 var TODOS=[]; // cache do último fetch (sem filtro) — filtro/contagem é tudo client-side sobre esse array
 
 function popularFiltros(itens){
-  var contTipo={},contStatus={};
+  var contTipo={},contStatus={},contOrig={ana:0,octadesk:0};
   itens.forEach(function(n){
     if(n.tipo)contTipo[n.tipo]=(contTipo[n.tipo]||0)+1;
     if(n.status)contStatus[n.status]=(contStatus[n.status]||0)+1;
+    contOrig[n.origem==='ana'?'ana':'octadesk']++;
   });
+  // header honesto: enquanto só houver espelho, "fonte é o Octadesk"; quando a Ana já carimba (F1), mostra a divisão.
+  var fh=document.getElementById('fonteHint');
+  if(fh)fh.textContent=contOrig.ana>0
+    ? 'só leitura · Octadesk '+contOrig.octadesk+' · Ana '+contOrig.ana
+    : 'só leitura · espelho do Octadesk';
   var tc=document.getElementById('tipoCounts');clear(tc);
   Object.keys(contTipo).sort(function(a,b){return contTipo[b]-contTipo[a];}).forEach(function(t){
     tc.appendChild(el('span',{class:'pill'},[document.createTextNode(tipoLbl(t)+' '),el('b',{text:String(contTipo[t])})]));
@@ -157,13 +169,16 @@ function render(itens){
   var l=document.getElementById('lista');clear(l);
   document.getElementById('periodo').textContent=itens.length+(itens.length===1?' solicitação':' solicitações');
   if(!itens.length){l.appendChild(el('div',{class:'s-empty',text:'Nenhuma solicitação com esse filtro.'}));return;}
-  var cols=['Protocolo','Tipo','Setor','Assunto','Status','Solicitante','Data'];
+  var cols=['Protocolo','Origem','Tipo','Setor','Assunto','Status','Solicitante','Data'];
   var htr=el('tr');cols.forEach(function(c){htr.appendChild(el('th',{text:c}));});
   var tb=el('tbody');
   itens.forEach(function(n){
     var pill=el('span',{class:'status-pill',text:statusLbl(n.status)});
+    var orig=n.origem==='ana'?'ana':'octadesk';
+    var origBadge=el('span',{class:'orig-pill'+(orig==='ana'?' orig-ana':''),text:origemLbl(orig)});
     tb.appendChild(el('tr',null,[
       el('td',{text:n.protocolo_ncs||'—'}),
+      el('td',null,[origBadge]),
       el('td',{text:tipoLbl(n.tipo)}),
       el('td',{text:n.setor||'—'}),
       el('td',{text:n.assunto||'—'}),
