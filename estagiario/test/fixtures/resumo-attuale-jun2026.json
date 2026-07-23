@@ -1,0 +1,738 @@
+{
+ "meta": {
+  "condominio": "ATTUALE",
+  "id": 169,
+  "mes": 6,
+  "ano": 2026,
+  "fonte": "API Superlogica live 23/07/2026"
+ },
+ "balancete": [
+  {
+   "conta": "1",
+   "descricao": "1 Receitas",
+   "valor": 114709.51,
+   "natureza": "0"
+  },
+  {
+   "conta": "1.1",
+   "descricao": "1.1  Taxa Condomínio",
+   "valor": 102475.86,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.3",
+   "descricao": "1.3  Fundo de Reserva",
+   "valor": 5162.43,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.5",
+   "descricao": "1.5  Alugueis",
+   "valor": 1912.48,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.7",
+   "descricao": "1.7   Rendimentos",
+   "valor": 5609.71,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.9",
+   "descricao": "1.9  Multa",
+   "valor": 197.43,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.10",
+   "descricao": "1.10  Juros",
+   "valor": 49.25,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.15",
+   "descricao": "1.15  Honorarios Extrajudicial",
+   "valor": 10.47,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.22",
+   "descricao": "1.22  Taxa Cobrança",
+   "valor": -708.12,
+   "natureza": "1"
+  },
+  {
+   "conta": "2",
+   "descricao": "2 Despesas",
+   "valor": 98107.79,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.1",
+   "descricao": "2.1  DESPESAS DE PESSOAL",
+   "valor": 2354.45,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.1.1",
+   "descricao": "2.1.1  Salário Zeladoria",
+   "valor": 2354.45,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.2",
+   "descricao": "2.2  ENCARGOS",
+   "valor": 3300.64,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.2.2",
+   "descricao": "2.2.2  FGTS - Folha de Pagamento",
+   "valor": 1297.64,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.2.7",
+   "descricao": "2.2.7  Cesta Basica ou Vale Refeições",
+   "valor": 854.91,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.2.10",
+   "descricao": "2.2.10  Rec. Previdenciario",
+   "valor": 1148.09,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.3",
+   "descricao": "2.3  SERV PRESTADOS POR TERCEIROS",
+   "valor": 47152.46,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.3.2",
+   "descricao": "2.3.2  Serviços Portaria",
+   "valor": 26494.2,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.3.5",
+   "descricao": "2.3.5  Ressarcimento Honorários Dvs",
+   "valor": 418.69,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.3.8",
+   "descricao": "2.3.8  Serviços Limpeza",
+   "valor": 20239.57,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4",
+   "descricao": "2.4  ENCARGOS SOBRE PREST. SERVIÇOS",
+   "valor": 359.32,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.4.1",
+   "descricao": "2.4.1  Rec. Previdenciario - Serviços",
+   "valor": 78.1,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.4",
+   "descricao": "2.4.4  CSLL - Terceiros",
+   "valor": 60.48,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.5",
+   "descricao": "2.4.5  PIS",
+   "valor": 39.31,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.9",
+   "descricao": "2.4.9  Cofins",
+   "valor": 181.43,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5",
+   "descricao": "2.5  AGUA LUZ TELEFONE e IPTU",
+   "valor": 15170.81,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.5.1",
+   "descricao": "2.5.1  CPFL - Energia Elétrica",
+   "valor": 14461.86,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.2",
+   "descricao": "2.5.2  DAAE - Água e Esgoto",
+   "valor": 305.98,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.3",
+   "descricao": "2.5.3  Telefone",
+   "valor": 58.99,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.7",
+   "descricao": "2.5.7  Internet",
+   "valor": 343.98,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6",
+   "descricao": "2.6  DESPESAS COM MANUTENÇÃO",
+   "valor": 21158.65,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.6.1",
+   "descricao": "2.6.1  Elevadores - Contratos",
+   "valor": 5194.24,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.3",
+   "descricao": "2.6.3  Manutenção Jardim e Plantas",
+   "valor": 1462.5,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.7",
+   "descricao": "2.6.7  Mão de Obra - Elétrica",
+   "valor": 1200,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.8",
+   "descricao": "2.6.8  Materiais Hidráulicos",
+   "valor": 152,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.10",
+   "descricao": "2.6.10   Materiais de Limpeza - Higiene",
+   "valor": 1625.38,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.11",
+   "descricao": "2.6.11  Mão de Obra - Pintura",
+   "valor": 2800,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.14",
+   "descricao": "2.6.14   Material - Predial",
+   "valor": 864.66,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.17",
+   "descricao": "2.6.17  Manut Piscina",
+   "valor": 631.89,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.20",
+   "descricao": "2.6.20  Manut. Portões - Peças-Mão Obra",
+   "valor": 2886.87,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.25",
+   "descricao": "2.6.25  Controle de Acesso",
+   "valor": 4341.11,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7",
+   "descricao": "2.7  DESPESAS ADMINISTRATIVAS",
+   "valor": 8357.71,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.7.1",
+   "descricao": "2.7.1  Serviços Escritório - Adm",
+   "valor": 2139.96,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.8",
+   "descricao": "2.7.8  Ressarcimento Honorarios Acordos",
+   "valor": 2200.95,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.10",
+   "descricao": "2.7.10  Remun. Sindico",
+   "valor": 3400,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.29",
+   "descricao": "2.7.29  Mat Escritorio",
+   "valor": 44.7,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.39",
+   "descricao": "2.7.39  Sistema Portaria",
+   "valor": 572.1,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.8",
+   "descricao": "2.8  DESPESAS EVENTUAIS",
+   "valor": 253.75,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.8.13",
+   "descricao": "2.8.13  Bens Semi-Duraveis",
+   "valor": 253.75,
+   "natureza": "2"
+  }
+ ],
+ "caixa": [
+  {
+   "saldoinicialconta": "570881.00",
+   "st_descricao_mov": "Saldo anterior"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "451.81"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1052.83"
+  },
+  {
+   "st_descricao_mov": "Katia Rumi Kasahara (Recibo)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-418.69"
+  },
+  {
+   "st_descricao_mov": "Katia Rumi Kasahara (Recibo)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1360.77"
+  },
+  {
+   "st_descricao_mov": "8",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "2593.94"
+  },
+  {
+   "st_descricao_mov": "Verocheque Refeiçoes LTDA  (7811980)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-854.91"
+  },
+  {
+   "st_descricao_mov": "MARCIANO FRANCISCO DA SILVA SEVERO (Holerite)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-2354.45"
+  },
+  {
+   "st_descricao_mov": "5",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "2302.39"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "25.95"
+  },
+  {
+   "st_descricao_mov": "9",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "4742.95"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "18.78"
+  },
+  {
+   "st_descricao_mov": "16",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "6877.84"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "23.82"
+  },
+  {
+   "st_descricao_mov": "38",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "17508.60"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "37.63"
+  },
+  {
+   "st_descricao_mov": "OPTTO TELECOMUNICACOES LTDA (Boleto)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-36.71"
+  },
+  {
+   "st_descricao_mov": "Weclix Telecom S.A. (Boleto)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-177.20"
+  },
+  {
+   "st_descricao_mov": "Marcatto Piscinas Eireli ME (6176)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-631.89"
+  },
+  {
+   "st_descricao_mov": "20",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "10149.12"
+  },
+  {
+   "st_descricao_mov": "3",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "63.58"
+  },
+  {
+   "st_descricao_mov": "TORRE FORTE ELETRICA E HIDRAULICA LTDA (34153)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-782.06"
+  },
+  {
+   "st_descricao_mov": "Karam Atacadao da Limpeza (37117)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1625.38"
+  },
+  {
+   "st_descricao_mov": "105",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "52562.47"
+  },
+  {
+   "st_descricao_mov": "8",
+   "st_descricao_cb": "Sicoob Corrente",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "182.04"
+  },
+  {
+   "st_descricao_mov": "5",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "2285.83"
+  },
+  {
+   "st_descricao_mov": "KELLY CRISTIANE FRANCISCO DIAS (185)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-378.00"
+  },
+  {
+   "st_descricao_mov": "KELLY CRISTIANE FRANCISCO DIAS (25)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-685.00"
+  },
+  {
+   "st_descricao_mov": "KELLY CRISTIANE FRANCISCO DIAS (31 / 180)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-907.57"
+  },
+  {
+   "st_descricao_mov": "Prever Seg Segurança Eletrônica (1600 / 1601 / 1602 / 1603)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1200.00"
+  },
+  {
+   "st_descricao_mov": "KELLY CRISTIANE FRANCISCO DIAS (56)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1823.87"
+  },
+  {
+   "st_descricao_mov": "Mobile Araraquara Serviços Combinados de Apoio para Condominios LTDA (1169126)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-2139.96"
+  },
+  {
+   "st_descricao_mov": "Mobile Araraquara Serviços Combinados de Apoio para Condominios LTDA (1167001)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-20239.57"
+  },
+  {
+   "st_descricao_mov": "Mobile Araraquara Serviços Combinados de Apoio para Condominios LTDA (1167001)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-26494.20"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1135.58"
+  },
+  {
+   "st_descricao_mov": "MERCADO PAGO INSTITUICAO DE PAGAMENTO LTDA (766617)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-253.75"
+  },
+  {
+   "st_descricao_mov": "DAL RI PAISAGISMO LTDA (89)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1462.50"
+  },
+  {
+   "st_descricao_mov": "KELLY CRISTIANE FRANCISCO DIAS (54)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-3433.54"
+  },
+  {
+   "st_descricao_mov": "5",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1131.59"
+  },
+  {
+   "st_descricao_mov": "CLARO S.A. (D.A )",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-58.99"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1030.17"
+  },
+  {
+   "st_descricao_mov": "TORRE FORTE ELETRICA E HIDRAULICA LTDA (34257)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-82.60"
+  },
+  {
+   "st_descricao_mov": "5",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "338.33"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (1416)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-3.90"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (1416)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-6.00"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (1416)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-18.00"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (87019)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-35.41"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (87019)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-54.48"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (6176)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-78.10"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (87019)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-163.43"
+  },
+  {
+   "st_descricao_mov": "Receita Federal do Brasil (Guia DARF)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1148.09"
+  },
+  {
+   "st_descricao_mov": "FGTS Fundo de G. do T. de Serviço (Guia FGTS)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-1297.64"
+  },
+  {
+   "st_descricao_mov": "Weclix Telecom S.A. (Boleto)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-130.07"
+  },
+  {
+   "st_descricao_mov": "MERCADO PAGO INSTITUICAO DE PAGAMENTO LTDA (82863)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-152.00"
+  },
+  {
+   "st_descricao_mov": "Companhia Paulista de Força e Luz. (4002003070)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-14461.86"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "462.25"
+  },
+  {
+   "st_descricao_mov": "Leandro Rocha Alves (Recibo)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-3400.00"
+  },
+  {
+   "st_descricao_mov": "3",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "768.03"
+  },
+  {
+   "st_descricao_mov": "3",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1143.77"
+  },
+  {
+   "st_descricao_mov": "Shielder Tecnologia em Desenvolvimento de Programas Ltda (1745)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-572.10"
+  },
+  {
+   "st_descricao_mov": "Katia Rumi Kasahara (Recibo)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-840.18"
+  },
+  {
+   "st_descricao_mov": "WENDEL GOMES DOS SANTOS (Recibo)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-2800.00"
+  },
+  {
+   "st_descricao_mov": "Elevadores Otis  Ltda (87823)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-5194.24"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "481.78"
+  },
+  {
+   "st_descricao_mov": "2",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1112.50"
+  },
+  {
+   "st_descricao_mov": "Grafite Papelaria e Informatica LTDA (Cupom Fiscal)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-44.70"
+  },
+  {
+   "st_descricao_mov": "1",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "616.22"
+  },
+  {
+   "st_descricao_mov": "Departamento Autonomo de Agua e Esgoto de Araraquara (1240668)",
+   "st_descricao_cb": "Conta Corrente Sicoob",
+   "fl_dc_mov": "D",
+   "vl_valor_mov": "-305.98"
+  },
+  {
+   "st_descricao_mov": "Rendimentos",
+   "st_descricao_cb": "BTG Pactual - Fundo de Reserva",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "2286.61"
+  },
+  {
+   "st_descricao_mov": "Rendimentos",
+   "st_descricao_cb": "Sicoob Pós CDI",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1705.79"
+  },
+  {
+   "st_descricao_mov": "Rendimentos",
+   "st_descricao_cb": "XP Invest. - Fundo de Reserva",
+   "fl_dc_mov": "C",
+   "vl_valor_mov": "1617.31"
+  }
+ ],
+ "esperado": {
+  "receitaAjustada": 103937.37,
+  "despesaAjustada": 98107.79,
+  "saldoTotal": 587482.72,
+  "situacao": "Positiva",
+  "resultado": 5829.58
+ }
+}

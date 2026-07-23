@@ -14,6 +14,7 @@ import { textoRecomendacao } from "../../gerador-relatorio-contas/src/texto-exec
 import { htmlParaPdf } from "../../gerador/src/render-pdf.mjs";
 import { chat } from "../../src/llm.mjs";
 import { resolver_condominio } from "./superlogica.mjs";
+import { montarResumoFinanceiro, renderHTMLResumo } from "../../gerador-relatorio-contas/src/resumo-financeiro.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SAIDA = path.join(__dirname, "..", "saida");
@@ -165,6 +166,37 @@ export async function analisar_condominio({ condominio, mes_inicio, mes_fim, ano
         media_mensal: Math.round(modelo.resultado.media), meses_positivos: modelo.resultado.mesesPositivos,
       },
       texto_fonte: recom.fonte,
+    };
+  } catch (e) { return { ok: false, motivo: "erro", detalhe: e.message }; }
+}
+
+/**
+ * gerar_resumo_financeiro({ condominio, mes?, ano?, formato? }) → { ok, url, titulo, resumo }
+ * Informativo mensal enxuto (1 página) que a equipe manda aos gestores: saldo em conta,
+ * RECEITA ordinária (exclui Fundo de Reserva/Rendimentos/Taxa Extra), DESPESA ordinária
+ * (exclui Investimento), resultado e situação. Metodologia do Fernando, números 100% Superlógica.
+ */
+export async function gerar_resumo_financeiro({ condominio, mes, ano, formato } = {}) {
+  try {
+    const cond = await resolver_condominio({ nome: condominio });
+    if (!cond.encontrado) return { ok: false, motivo: "condominio_nao_encontrado", detalhe: cond.motivo, opcoes: cond.opcoes };
+
+    const def = ultimoMesFechado();
+    const M = normMes(mes) || def.mes;
+    const Y = Number(ano) || (normMes(mes) ? new Date().getFullYear() : def.ano);
+
+    const resumo = await montarResumoFinanceiro({ idCondominio: cond.id, ano: Y, mes: M, nomeCondominio: cond.nome });
+    const html = renderHTMLResumo(resumo);
+    const out = entregar(html, `resumo-financeiro_${slugId(cond.nome)}_${Y}-${String(M).padStart(2, "0")}`, formato);
+
+    return {
+      ok: true,
+      titulo: `Resumo Financeiro — ${cond.nome} — ${MESES[M]}/${Y}`,
+      arquivo: out.arquivo, url: out.url, formato: out.formato, periodo: `${MESES[M]}/${Y}`,
+      resumo: {
+        receita: resumo.receitaAjustada, despesa: resumo.despesaAjustada,
+        resultado: resumo.resultado, situacao: resumo.situacao, saldo: resumo.saldoTotal,
+      },
     };
   } catch (e) { return { ok: false, motivo: "erro", detalhe: e.message }; }
 }
