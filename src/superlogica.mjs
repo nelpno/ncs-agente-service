@@ -164,6 +164,39 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
   return { encontrado: true, criterio, confianca, unidades };
 }
 
+// decidirSemBoleto: quando o cobranca/index?status=pendentes NÃO retorna boleto na janela de ~30d,
+// o get_boleto_2via cruza com a inadimplência COMPLETA (get_inadimplencia, que enxerga os ANTIGOS) e
+// decide a mensagem — distinguindo "dívida antiga fora da janela" de "realmente sem débito". Pura/
+// testável (test_boleto_sem_janela.mjs). ⚠️ Regra do Fernando (23/07, caso Vanessa): sem boleto na
+// janela NÃO é "está em dia" — se há débito antigo, encaminhe à COBRANÇA e NUNCA diga "jurídico"
+// (o Tívoli, p.ex., deixa até 90d sem ir ao jurídico). O `mensagem_morador` é o texto fixo que o
+// LLM só repassa (não compõe) — evita o "não localizei na emissão automática" que a moradora leu
+// como "não devo nada". `no_juridico` volta só p/ o roteamento interno do time, nunca ao morador.
+export function decidirSemBoleto(inad) {
+  if (inad?.status === 'inadimplente') {
+    return {
+      liberado: false, motivo: 'debito_fora_da_janela_30d',
+      qtd_cobrancas_em_aberto: inad.qtd_cobrancas_em_aberto ?? null,
+      ...(inad.no_juridico ? { no_juridico: true } : {}),
+      ...(inad.qtd_processos ? { qtd_processos: inad.qtd_processos } : {}),
+      ...(inad.garantidora ? { garantidora: inad.garantidora } : {}),
+      mensagem_morador:
+        'Há valor(es) vencido(s) há mais de 30 dias. A emissão automática da 2ª via cobre apenas os ' +
+        'últimos 30 dias do vencimento, então preciso encaminhar à equipe de cobrança para a conferência.',
+    };
+  }
+  if (inad?.status === 'gerido_por_garantidora') {
+    return { liberado: false, motivo: 'garantidora', garantidora: inad.garantidora };
+  }
+  // sem_debito_vencido | indisponivel | null → não cravar quitação; convidar a informar o mês/competência.
+  return {
+    liberado: false, motivo: 'sem_boleto_na_janela',
+    mensagem_morador:
+      'Não localizei boleto em aberto ou a vencer nos próximos dias para essa unidade. Se você esperava ' +
+      'algum, me diga o mês/competência que eu verifico melhor.',
+  };
+}
+
 // get_boleto_2via: cobranca/index?status=pendentes&UNIDADES[0]=<id>  → PIX copia-e-cola + link.
 // ATENÇÃO: idUnidade é ignorado; o filtro é UNIDADES[0]=. Conferir id_unidade_uni no retorno (LGPD).
 export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
@@ -179,7 +212,9 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
   ]);
   if (jur.no_juridico) return { liberado: false, motivo: 'unidade_no_juridico', qtd_processos: jur.qtd_processos };
   const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade)); // anti-troca
-  if (!itens.length) return { liberado: false, motivo: 'nenhum boleto pendente para esta unidade' };
+  // Sem boleto na janela dos ~30d: NÃO conclua "está em dia". Cruza com a inadimplência completa
+  // (enxerga os antigos/jurídico) e devolve a mensagem certa — nunca "não localizei" p/ quem deve.
+  if (!itens.length) return decidirSemBoleto(await get_inadimplencia({ id_condominio, id_unidade }));
   const b = itens.sort((a, z) => new Date(a.dt_vencimento_recb) - new Date(z.dt_vencimento_recb))[0];
   const diasVencido = b.dt_vencimento_recb ? Math.floor((Date.now() - new Date(b.dt_vencimento_recb)) / 86400000) : 0;
   if (diasVencido > 30) {

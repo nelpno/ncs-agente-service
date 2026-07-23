@@ -95,6 +95,38 @@ export function _acharUnidade(rows, { unidade, bloco } = {}) {
   return { status: "ok", linhas: hits };
 }
 
+/**
+ * candidatosUnidade(rows, {unidade, bloco?}, limit) — quando _acharUnidade dá "nao_encontrado", devolve
+ * uma LISTA de unidades distintas do condomínio, rankeadas por proximidade, COM o(s) responsável(is), pro
+ * Estagiário mostrar "achei estas parecidas: 0503 Bloco 1 (Santa Barbara)…" em vez do beco "digite exatamente
+ * como está no sistema" (caso Jatiúca, 23/07: a equipe não sabia o formato e ficou adivinhando). Pura/testável.
+ * NUNCA escolhe (o documento/CND tem peso jurídico) — só oferece a lista pra a equipe reconhecer pelo nome.
+ */
+export function candidatosUnidade(rows, { unidade, bloco } = {}, limit = 6) {
+  const nu = _normUni(unidade || ""), nb = bloco ? _normUni(bloco) : null;
+  const mapa = new Map();
+  for (const r of Array.isArray(rows) ? rows : []) {
+    const k = r.id_unidade_uni; if (k == null) continue;
+    if (!mapa.has(k)) mapa.set(k, { id: k, unidade: String(r.st_unidade_uni || "").trim(), bloco: String(r.st_bloco_uni || "").trim(), nomes: [] });
+    if (r.st_nome_con) mapa.get(k).nomes.push(r.st_nome_con);
+  }
+  let cands = [...mapa.values()];
+  // Se a equipe informou o bloco e ele existe, foca nele (senão a lista vira o condomínio inteiro).
+  if (nb) { const mb = cands.filter((c) => _normUni(c.bloco) === nb); if (mb.length) cands = mb; }
+  const num = parseInt(nu, 10);
+  const score = (c) => {
+    const cu = _normUni(c.unidade); let s = 0;
+    if (nb && _normUni(c.bloco) === nb) s += 5;                 // mesmo bloco
+    if (nu && cu === nu) s += 4;                                 // número igual normalizado
+    else if (nu && (cu.includes(nu) || nu.includes(cu))) s += 2; // contém / é contido
+    const cn = parseInt(cu, 10);
+    if (Number.isFinite(num) && Number.isFinite(cn)) s += Math.max(0, 2 - Math.abs(num - cn) / 50); // proximidade numérica
+    return s;
+  };
+  return cands.map((c) => ({ c, s: score(c) })).sort((a, b) => b.s - a.s).slice(0, limit)
+    .map(({ c }) => ({ id: c.id, label: [c.unidade, c.bloco].filter(Boolean).join(" "), responsaveis: [...new Set(c.nomes)].slice(0, 2) }));
+}
+
 /** resolver_morador({id_condominio, unidade, bloco?}) → responsável(eis) da unidade (nome + papel), ao vivo. */
 export async function resolver_morador({ id_condominio, unidade, bloco } = {}) {
   if (!id_condominio || !unidade) return { encontrado: false, motivo: "preciso do condomínio e do número da unidade" };
@@ -105,7 +137,11 @@ export async function resolver_morador({ id_condominio, unidade, bloco } = {}) {
     return { encontrado: false, motivo: "ambiguo", opcoes: r0.opcoes,
       detalhe: `mais de uma unidade bate com "${unidade}"${b ? ` bloco ${b}` : ""} — confirme qual` };
   }
-  if (r0.status !== "ok") return { encontrado: false, motivo: `nenhum responsável na unidade ${unidade}${b ? " bloco " + b : ""}` };
+  if (r0.status !== "ok") {
+    // Beco-sem-saída vira pick-list: candidatos (com responsável) pra a equipe reconhecer, em vez de re-adivinhar.
+    const candidatos = candidatosUnidade(arr, { unidade, bloco }, 6);
+    return { encontrado: false, motivo: `nenhum responsável na unidade ${unidade}${b ? " bloco " + b : ""}`, ...(candidatos.length ? { candidatos } : {}) };
+  }
   const hit = r0.linhas;
   const moradores = hit.map((r) => ({
     nome: r.st_nome_con,

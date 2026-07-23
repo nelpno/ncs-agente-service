@@ -28,6 +28,19 @@
     "fonte": "regimento_literal"
   },
   "catalogo_infracoes": {
+    "dano_infiltracao": {
+      "titulo": "Dano a terceiros / infiltração",
+      "fundamento": "Capítulo XV - Da Indenização por Danos Causados Art. 1º",
+      "palavras_chave": [
+        "infiltração",
+        "vazamento",
+        "dano",
+        "gesso",
+        "reparo",
+        "indenização"
+      ],
+      "texto_artigo": "Capítulo XV - Da Indenização por Danos Causados Art. 1º - Todo e qualquer dano causado por Condôminos, locatários, familiares, convidados, visitas, serviçais etc., em qualquer área comum do Condomínio, deverá ser inteiramente indenizado pelo Condômino implicado na ocorrência. Art. 2º - A avaliação dos prejuízos causados será feita sempre que possível, através de coleta de preços entre empresas habilitadas à execução dos serviços de reparos ou à reposição das instalações danificadas. O valor dos prejuízos causados será cobrado imediatamente depois de constatado e orçado os danos, devendo ser pago após a apresentação da respectiva cobrança."
+    },
     "uso_nao_residencial": {
       "titulo": "Uso não residencial da unidade",
       "fundamento": "Capítulo I - Normas Gerais Art. 1º",

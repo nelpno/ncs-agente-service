@@ -9,6 +9,7 @@ import {
 } from "../../gerador/src/gerar-lib.mjs";
 import { gerarDeclaracaoQuitacao } from "../../gerador/src/declaracao-quitacao.mjs";
 import { resolver_condominio, resolver_morador } from "./superlogica.mjs";
+import { verificarEnquadramento, enquadramentoIncompativel } from "./verificar_enquadramento.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const SAIDA = path.join(__dirname, "..", "saida");
@@ -46,6 +47,25 @@ export async function gerar_documento(args = {}) {
   try {
     const ocorrencia = { ...args, marca_revisao: args.marca_revisao !== false };
     const dados = carregarCondominio(ocorrencia.condominio);
+    // GUARD de enquadramento (peso jurídico): um 2º olho ISOLADO confere se o(s) artigo(s) escolhido(s)
+    // governam a conduta do relato — barra "capítulo errado" (ex.: infiltração citando ruído de obra,
+    // incidente Allure 23/07). Pula sem chave LLM (CI hermético) e é fail-open (erro/ilegível NÃO barra);
+    // só bloqueia num veredito confiante de incompatibilidade. Desligável por VERIFICADOR_ENQUADRAMENTO=off.
+    if (process.env.VERIFICADOR_ENQUADRAMENTO !== "off" && process.env.OPENROUTER_API_KEY && ocorrencia.relato) {
+      const ids = [...new Set([].concat(ocorrencia.infracao_id ?? []).filter(Boolean))];
+      const artigos = ids.map((id) => dados.catalogo_infracoes?.[id]?.texto_artigo).filter(Boolean);
+      if (artigos.length) {
+        const veredito = await verificarEnquadramento({ relato: ocorrencia.relato, artigos });
+        if (enquadramentoIncompativel(veredito)) {
+          const fund = ids.map((id) => dados.catalogo_infracoes?.[id]?.fundamento).filter(Boolean).join("; ");
+          console.warn(`[enquadramento] BLOQUEADO ${ocorrencia.condominio} ids=${ids.join(",")} cobre=${veredito.cobre}`);
+          return {
+            ok: false, motivo: "enquadramento_bloqueado", cobre: veredito.cobre,
+            detalhe: `O artigo escolhido (${fund}) não trata da conduta descrita no relato. Não gerei o documento para não citar base legal errada — ofereça consultar_regimento para o artigo correto ou reveja o enquadramento.`,
+          };
+        }
+      }
+    }
     // Advertência/multa: Word EDITÁVEL por padrão (pedido do Fernando 08/07) — a equipe apaga os
     // artigos que não se aplicam e acrescenta o relato do síndico antes de finalizar. PDF só se pedirem.
     const formato = /^(pdf)$/i.test(args.formato || "") ? "pdf" : "word";
@@ -81,7 +101,7 @@ export async function gerar_cnd({ condominio, unidade, bloco, tipo = "informativ
     const cond = await resolver_condominio({ nome: condominio });
     if (!cond.encontrado) return { ok: false, motivo: "condominio_nao_encontrado", detalhe: cond.motivo, opcoes: cond.opcoes };
     const mor = await resolver_morador({ id_condominio: cond.id, unidade, bloco });
-    if (!mor.encontrado) return { ok: false, motivo: "unidade_nao_encontrada", detalhe: mor.motivo };
+    if (!mor.encontrado) return { ok: false, motivo: "unidade_nao_encontrada", detalhe: mor.motivo, ...(mor.candidatos?.length ? { candidatos: mor.candidatos } : {}) };
     const id_unidade = mor.moradores?.[0]?.id_unidade;
     if (!id_unidade) return { ok: false, motivo: "sem_id_unidade", detalhe: "não obtive o id da unidade no Superlógica" };
     // Passa o nº real do apartamento (st_unidade_uni + bloco) que o resolver_morador já obteve —
