@@ -14,11 +14,23 @@ async function slGet(controllerAction, params = {}) {
 const norm = (s) => (s || "").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
 
 // formatCnpj: mascara SÓ se vier o CNPJ padrão (14 dígitos); qualquer outra coisa devolve cru — nunca
-// inventa nem força máscara errada (anti-alucinação: o valor é do ERP). CNPJ do condo = st_cnpj_cond.
+// inventa nem força máscara errada (anti-alucinação: o valor é do ERP).
 function formatCnpj(v) {
   const d = String(v || "").replace(/\D/g, "");
   if (d.length !== 14) return String(v || "").trim();
   return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
+}
+
+// extrairCnpj: ⚠️ o CNPJ do condomínio vem, na prática, no campo **`st_cpf_cond`** (nome enganoso — guarda
+// o CNPJ de 14 dígitos; `st_cnpj_cond` vem VAZIO). Confirmado ao vivo (Lume: st_cpf_cond=56300773000148,
+// st_cnpj_cond=""). Pega o PRIMEIRO campo com 14 dígitos (formato CNPJ) e ignora 11 dígitos (CPF de condo
+// PF — não rotular como CNPJ). Vazio se nenhum tiver cara de CNPJ (nunca inventa).
+export function extrairCnpj(c) {
+  for (const f of ["st_cnpj_cond", "st_cpf_cond", "st_cgc_cond", "st_cgc_con"]) {
+    const d = String(c?.[f] || "").replace(/\D/g, "");
+    if (d.length === 14) return formatCnpj(d);
+  }
+  return "";
 }
 
 let _condos = null;
@@ -63,7 +75,7 @@ export async function resolver_condominio({ nome } = {}, deps = {}) {
     cep: c.st_cep_cond || "",
     cidade_uf: [c.st_cidade_cond, c.st_uf_uf].filter(Boolean).join("/").toUpperCase(),
     cidade_fecho: c.st_cidade_cond || "",
-    cnpj: formatCnpj(c.st_cnpj_cond || c.st_cgc_con || ""), // vem do mesmo condominios/get; síndico é à parte (sindicos/index)
+    cnpj: extrairCnpj(c), // ⚠️ vem em st_cpf_cond na prática (st_cnpj_cond vazio); síndico é à parte (sindicos/index)
   };
 }
 

@@ -28,10 +28,10 @@ const base = {
   check(r.cnpj === "", "sem CNPJ -> vazio (nao inventa)");
 }
 
-// 3) Valor fora do padrao (nao sao 14 digitos) -> devolve CRU, sem forcar mascara errada
+// 3) Valor fora do padrao (nao sao 14 digitos) -> vazio, nao devolve lixo (so entrega o que tem cara de CNPJ)
 {
   const r = await resolver_condominio({ nome: "Lume" }, { condos: [{ ...base, st_cnpj_cond: "123" }] });
-  check(r.cnpj === "123", `CNPJ nao-padrao devolvido cru, veio "${r.cnpj}"`);
+  check(r.cnpj === "", `CNPJ nao-padrao (nao 14 dig) -> vazio, veio "${r.cnpj}"`);
 }
 
 // 4) Fallback st_cgc_con quando st_cnpj_cond ausente (campo alternativo visto no dump)
@@ -39,6 +39,18 @@ const base = {
   const { st_cnpj_cond, ...semCnpj } = base;
   const r = await resolver_condominio({ nome: "Lume" }, { condos: [{ ...semCnpj, st_cgc_con: "98765432000155" }] });
   check(r.cnpj === "98.765.432/0001-55", `fallback st_cgc_con, veio "${r.cnpj}"`);
+}
+
+// 5) CASO REAL (Lume ao vivo, 23/07): o CNPJ vem em st_cpf_cond; st_cnpj_cond vem VAZIO
+{
+  const r = await resolver_condominio({ nome: "Lume" }, { condos: [{ ...base, st_cnpj_cond: "", st_cpf_cond: "56300773000148" }] });
+  check(r.cnpj === "56.300.773/0001-48", `CNPJ de st_cpf_cond (campo real), veio "${r.cnpj}"`);
+}
+
+// 6) st_cpf_cond com 11 dígitos (CPF de condo PF) NÃO é rotulado como CNPJ
+{
+  const r = await resolver_condominio({ nome: "Lume" }, { condos: [{ ...base, st_cnpj_cond: "", st_cpf_cond: "12345678901" }] });
+  check(r.cnpj === "", "CPF de 11 dígitos não vira CNPJ (só 14 dígitos)");
 }
 
 console.log(`test_dados_condominio: ${ok}/${total} OK`);
