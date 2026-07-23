@@ -67,8 +67,11 @@ const inquilinoRecebe = (d) => d?.papel !== 'dependente' && d?.responsavel_cobra
 
 function montarPayload(d) {
   const p = {
-    idCondominio: String(d.id_condominio),
-    idUnidade: String(d.id_unidade),
+    // ⚠️ O corpo do unidades/post usa ID_CONDOMINIO_COND / ID_UNIDADE_UNI (doc pg 26), NÃO o
+    // idCondominio/idUnidade dos GETs. Com os nomes errados a API responde HTTP 206 {status:500,
+    // "Número da unidade não informada"} e NÃO grava — provado no teste controlado (Fase 0, 23/07).
+    ID_CONDOMINIO_COND: String(d.id_condominio),
+    ID_UNIDADE_UNI: String(d.id_unidade),
     'contatos[0][ST_NOME_CON]': d.nome,
     'contatos[0][DT_ENTRADA_RES]': d.data_entrada,
     'contatos[0][ID_LABEL_TRES]': d.papel === 'dependente' ? '4' : '7',

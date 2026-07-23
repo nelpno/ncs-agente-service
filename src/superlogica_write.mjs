@@ -20,6 +20,19 @@ export function acaoGravaReal(actionId) {
   return allow.includes(actionId);
 }
 
+// Sucesso/erro a partir da resposta da Superlógica. Pura e exportada (testável sem rede).
+// ⚠️ HTTP 2xx NÃO basta: erro vem como **HTTP 206** + corpo `[{status:"500", msg}]` (ex.: "Número da
+// unidade não informada"). Provado no teste controlado de 23/07 — o slPut dava ok:true no 206 e a ação
+// reportava "gravou" enquanto NADA era gravado (falha calada). Sucesso = corpo com status "2xx" (ou sem
+// campo status, e r.ok). Qualquer outro status no corpo (500/…) é erro, mesmo com HTTP 2xx.
+export function avaliarResposta(httpOk, resposta) {
+  const primeiro = Array.isArray(resposta) ? resposta[0] : resposta;
+  const statusApi = primeiro && typeof primeiro === 'object' ? String(primeiro.status ?? '') : '';
+  const erroNoCorpo = statusApi !== '' && !/^2\d\d$/.test(statusApi);
+  const msg = primeiro && typeof primeiro === 'object' ? primeiro.msg : undefined;
+  return { ok: !!httpOk && !erroNoCorpo, statusApi: statusApi || undefined, msg };
+}
+
 export async function slPut(controllerAction, fields, method = 'PUT', actionId = null) {
   const real = acaoGravaReal(actionId);
   // DRY quando o global está ligado E esta ação NÃO está no allowlist de escrita real.
@@ -44,6 +57,8 @@ export async function slPut(controllerAction, fields, method = 'PUT', actionId =
   } catch {
     resposta = texto;
   }
-  if (!r.ok) return { ok: false, status: r.status, resposta };
+  // HTTP 2xx não basta (ver avaliarResposta) — o status real vem do corpo.
+  const v = avaliarResposta(r.ok, resposta);
+  if (!v.ok) return { ok: false, status: r.status, statusApi: v.statusApi, msg: v.msg, resposta };
   return { ok: true, status: r.status, resposta };
 }

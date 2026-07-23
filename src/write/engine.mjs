@@ -64,6 +64,16 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   const claimed = await aprovarDraftCAS(draft.id, aprovador);
   if (!claimed) return { ok: false, motivo: 'ja_em_processamento' };
 
+  // GUARDAR OS DADOS ANTES (lição do incidente 23/07): snapshot FRESCO do estado atual, gravado na
+  // auditoria ANTES de qualquer escrita. É a rede que permite restaurar se a gravação corromper algo —
+  // foi exatamente o que faltou (sem o snapshot do dono original, com CPF, não deu p/ desfazer no ERP).
+  // Fresco porque o estado pode mudar entre o rascunho e a aprovação. Defensivo: nunca aborta a aprovação
+  // por falha de leitura, mas loga alto — um write sem rede de segurança é evento de auditoria.
+  let preSnapshot = draft.snapshot;
+  try { if (acao.snapshot) preSnapshot = await acao.snapshot({}, dados); }
+  catch (e) { console.warn('[engine] snapshot pré-gravação falhou (segue, mas sem rede de restauração):', e.message); }
+  await registrarEvento({ tipo: 'pre_gravacao', draftId: draft.id, acao: draft.acao, snapshot: preSnapshot });
+
   const payload = acao.montarPayload(dados); // computa 1x; reusa no gravar e na auditoria
   let res;
   try { res = await acao.gravar(payload, { dados }); }

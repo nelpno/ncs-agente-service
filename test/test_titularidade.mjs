@@ -47,6 +47,16 @@ const baseOK = {
   ok(p2.saidas.length === 2, '2 proprietarios atuais -> 2 saidas');
 }
 
+// ---------------------------------------------- 2.5) TRAVA DURA: gravar bloqueia sem a flag (incidente 23/07)
+{
+  delete process.env.TITULARIDADE_MECANISMO_CONFIRMADO;
+  const io = { slPut: async () => ({ ok: true, dryRun: true }) };
+  const r = await T.gravar(T.montarPayload(baseOK), { dados: baseOK, io });
+  ok(r.ok === false && r.motivo === 'mecanismo_nao_confirmado', 'gravar BLOQUEADO sem TITULARIDADE_MECANISMO_CONFIRMADO (mecanismo provado errado)');
+}
+// as provas de gravar abaixo exercitam a LÓGICA com mocks → opt-in explícito. Em prod, sem a flag, NÃO grava.
+process.env.TITULARIDADE_MECANISMO_CONFIRMADO = '1';
+
 // ---------------------------------------------------- 3) gravar (DRY): 1 novo + N saidas; agrega resultado
 {
   const calls = [];

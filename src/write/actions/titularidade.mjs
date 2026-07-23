@@ -45,7 +45,10 @@ function validar(d) {
 // UMA escrita cadastra o novo proprietário; UMA por proprietário que sai grava a data de saída.
 function montarPayload(d) {
   const novo = {
-    idCondominio: String(d.id_condominio), idUnidade: String(d.id_unidade),
+    // ID_CONDOMINIO_COND / ID_UNIDADE_UNI = nomes do CORPO do unidades/post (doc pg 26), não
+    // idCondominio/idUnidade (que é dos GETs). Errado → HTTP 206 "Número da unidade não informada",
+    // não grava. Provado no teste controlado (Fase 0, 23/07). Vale p/ o novo E p/ as saídas abaixo.
+    ID_CONDOMINIO_COND: String(d.id_condominio), ID_UNIDADE_UNI: String(d.id_unidade),
     'contatos[0][ST_NOME_CON]': d.nome,
     'contatos[0][DT_ENTRADA_RES]': d.data_transferencia,
     'contatos[0][ID_LABEL_TRES]': '1', // proprietário
@@ -58,7 +61,7 @@ function montarPayload(d) {
   if (d.rg) novo['contatos[0][ST_RG_CON]'] = d.rg; // opcional (ST_RG_CON é palpite, ver cadastro_inquilino)
   Object.assign(novo, payloadExtras(d.id_condominio, d)); // extras por condo (Tivoli: DT_NASCIMENTO_CON)
   const saidas = (d.proprietarios_atuais || []).map((p) => ({
-    idCondominio: String(d.id_condominio), idUnidade: String(d.id_unidade),
+    ID_CONDOMINIO_COND: String(d.id_condominio), ID_UNIDADE_UNI: String(d.id_unidade),
     'contatos[0][ID_CONTATO_CON]': String(p.id_contato_con),
     'contatos[0][DT_SAIDA_RES]': d.data_transferencia,
   }));
@@ -102,6 +105,16 @@ async function checarConflito(ctx, d, io = {}) {
 }
 
 async function gravar(payload, { dados, io = {} } = {}) {
+  // 🛑 TRAVA DURA (incidente 23/07). O mecanismo desta ação está PROVADO ERRADO no teste controlado:
+  //   (1) DT_SAIDA_RES NÃO grava via unidades/post — o "dar saída no antigo" não tem efeito;
+  //   (2) criar contato com label 1 SUBSTITUI o proprietário e é IRREVERSÍVEL pela API (não rebaixa,
+  //       não exclui se tem cobrança). Religar isto num dado real DESTRÓI o cadastro do dono (foi o que
+  //       aconteceu com a cobaia). Enquanto o endpoint CORRETO de troca de titularidade não for descoberto
+  //       (capturar do painel) + snapshot restaurável garantido, ESTA AÇÃO NÃO GRAVA. A flag existe só p/
+  //       o dia do redesign com teste controlado. Detalhe: descoberta/superlogica-escrita-real-achados.md.
+  if (process.env.TITULARIDADE_MECANISMO_CONFIRMADO !== '1') {
+    return { ok: false, motivo: 'mecanismo_nao_confirmado', detalhe: 'Troca de titularidade bloqueada: mecanismo de escrita provado incorreto (substitui o proprietário de forma irreversível). Redesign pendente.' };
+  }
   const put = io.slPut || _slPut;
   // 1ª escrita: cadastra o novo proprietário. Falhou aqui → aborta (não dá saída em ninguém).
   const rNovo = await put('unidades/post', payload.novo, 'PUT', 'titularidade'); // actionId → gate WRITE_REAL_ACTIONS
