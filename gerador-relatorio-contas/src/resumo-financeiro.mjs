@@ -143,6 +143,16 @@ export function motivoComparativo(resumo, comp, rotuloAtual, rotuloAnterior) {
   return partes.join(' ');
 }
 
+// Categorias que ENTRAM no quadro de variação — as MESMAS que o texto cita (Fernando 23/07: o quadro
+// tem de "bater com o descritivo"). Despesas SEM terceirização/pessoal (regra dele: "tirar o terceirizado").
+export function destaquesVariacao(comp) {
+  if (!comp) return { receitas: [], despesas: [] };
+  return {
+    receitas: comp.receitas.filter(materialVar).slice(0, 4),
+    despesas: comp.despesas.filter((x) => materialVar(x) && !EXCLUI_CAUSA.test(x.descricao)).slice(0, 4),
+  };
+}
+
 export function calcularResumo(balanceteItens, caixaItens) {
   const receita = calcularReceita(balanceteItens);
   const despesa = calcularDespesa(balanceteItens);
@@ -182,8 +192,10 @@ export function renderHTMLResumo(r) {
   // valor do MÊS (não a variação): receita positiva em verde, despesa (custo) em vermelho — leitura intuitiva (feedback Fernando 23/07).
   const dlist = (arr, ehReceita) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   // cor por TIPO (pedido do Fernando 23/07): receita sempre verde, despesa sempre vermelha; o +/- indica a direção.
-  const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`).join('') || '<li>—</li>'}</ul>`;
+  // variação vs mês anterior: seta ↑ (subiu) / ↓ (caiu) em vez de +/- (o -R$ confundia o Fernando); cor por tipo.
+  const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">${x.dif >= 0 ? '↑' : '↓'} R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   const rotAnt = r.periodo?.mesAnterior?.rotulo || 'mês anterior';
+  const dv = r.comparacao ? destaquesVariacao(r.comparacao) : null;
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <style>
 @page{size:A4;margin:14mm}
@@ -229,10 +241,13 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
   ${linha('Total de despesas', r.detalhe.despesa.total, r.detalhe.despesa.exclusoes.length ? 'exclui: ' + excl(r.detalhe.despesa.exclusoes) : 'sem investimento no período')}
   ${linha('Despesa ordinária considerada', r.despesaAjustada, '')}
 </table>
-<div class="destaques">
+${dv ? `<div class="destaques">
+  <div class="dcol"><div class="dh">Receitas — variação vs ${esc(rotAnt)}</div>${vlist(dv.receitas, true)}</div>
+  <div class="dcol"><div class="dh">Despesas — variação vs ${esc(rotAnt)}</div>${vlist(dv.despesas, false)}</div>
+</div>` : `<div class="destaques">
   <div class="dcol"><div class="dh">Maiores receitas do mês</div>${dlist(r.destaques?.receitas, true)}</div>
   <div class="dcol"><div class="dh">Maiores despesas do mês</div>${dlist(r.destaques?.despesas, false)}</div>
-</div>
+</div>`}
 <div class="info"><p>${esc(r.texto)}${r.motivo ? ' ' + esc(r.motivo) : ''}</p></div>
 <div class="lgpd">${r.nota ? esc(r.nota) + '<br><br>' : ''}${esc(r.lgpd)}</div>
 </body></html>`;
