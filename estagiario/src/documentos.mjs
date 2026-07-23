@@ -42,6 +42,17 @@ export async function buscar_morador({ condominio, unidade, bloco } = {}) {
   } catch (e) { return { encontrado: false, erro: e.message }; }
 }
 
+/** Dados cadastrais do condomínio (nome, endereço, CEP, cidade, CNPJ) — AO VIVO do Superlógica, pra a
+ *  equipe consultar rápido (vídeo "achar endereço/CNPJ do condomínio"). O síndico ainda NÃO vem aqui
+ *  (é o endpoint sindicos/index, à parte) — não invente; se pedirem o síndico, diga que ainda não está ligado. */
+export async function dados_condominio({ condominio } = {}) {
+  try {
+    const cond = await resolver_condominio({ nome: condominio });
+    if (!cond.encontrado) return { ok: false, motivo: cond.motivo, ...(cond.opcoes ? { opcoes: cond.opcoes } : {}) };
+    return { ok: true, nome: cond.nome, endereco: cond.endereco, cep: cond.cep, cidade_uf: cond.cidade_uf, cnpj: cond.cnpj || null };
+  } catch (e) { return { ok: false, motivo: e.message }; }
+}
+
 /** Gera o PDF: cadastro ao vivo do Superlógica + artigo/convenção/síndico do catálogo. */
 export async function gerar_documento(args = {}) {
   try {

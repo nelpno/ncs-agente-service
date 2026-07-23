@@ -13,6 +13,14 @@ async function slGet(controllerAction, params = {}) {
 
 const norm = (s) => (s || "").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
 
+// formatCnpj: mascara SÓ se vier o CNPJ padrão (14 dígitos); qualquer outra coisa devolve cru — nunca
+// inventa nem força máscara errada (anti-alucinação: o valor é do ERP). CNPJ do condo = st_cnpj_cond.
+function formatCnpj(v) {
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14) return String(v || "").trim();
+  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
+}
+
 let _condos = null;
 async function listaCondos() {
   if (_condos) return _condos;
@@ -36,10 +44,10 @@ async function todosResponsaveis(id_condominio) {
   return todos;
 }
 
-/** resolver_condominio({nome}) → cadastro pronto p/ o cabeçalho do documento (ao vivo). */
-export async function resolver_condominio({ nome } = {}) {
+/** resolver_condominio({nome}, deps?) → cadastro pronto p/ o cabeçalho do documento (ao vivo). deps.condos injetável (teste). */
+export async function resolver_condominio({ nome } = {}, deps = {}) {
   if (!nome) return { encontrado: false, motivo: "informe o nome do condomínio" };
-  const condos = await listaCondos();
+  const condos = deps.condos || await listaCondos();
   const q = norm(nome);
   let hit = condos.filter((c) => norm(c.st_fantasia_cond) === q || norm(c.st_nome_cond) === q);
   if (!hit.length) hit = condos.filter((c) => norm(c.st_fantasia_cond).includes(q) || norm(c.st_nome_cond).includes(q));
@@ -55,6 +63,7 @@ export async function resolver_condominio({ nome } = {}) {
     cep: c.st_cep_cond || "",
     cidade_uf: [c.st_cidade_cond, c.st_uf_uf].filter(Boolean).join("/").toUpperCase(),
     cidade_fecho: c.st_cidade_cond || "",
+    cnpj: formatCnpj(c.st_cnpj_cond || c.st_cgc_con || ""), // vem do mesmo condominios/get; síndico é à parte (sindicos/index)
   };
 }
 
