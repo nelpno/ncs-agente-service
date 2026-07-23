@@ -93,8 +93,12 @@ export async function resolver_sindico(id_condominio, deps = {}) {
   catch { return { encontrado: false, motivo: "consulta indisponível" }; }
   const lista = Array.isArray(dados) ? dados : (dados && dados.data) || [];
   const cargo = (s) => norm(s.st_cargo_sin || "");
-  let hit = lista.find((s) => cargo(s) === "sindico");
-  if (!hit) hit = lista.find((s) => /\bpresidente\b/.test(cargo(s)) && !/vice|sub/.test(cargo(s)));
+  // Exclui os cargos que NÃO são o síndico (subsíndico de bloco, vice, conselho, porteiro, administradora…).
+  const excl = (c) => /^sub|vice|conselh|porteir|administrad|tesoureir|secretari/.test(c);
+  // Condomínio: "Síndico", "Síndico(a)", " Síndico (a)", "Síndica" (variações reais, Allure usa "Síndico (a)").
+  let hit = lista.find((s) => /^sindic[oa]/.test(cargo(s)) && !excl(cargo(s)));
+  // Associação: o síndico é o "Presidente" (≠ Vice-Presidente).
+  if (!hit) hit = lista.find((s) => /\bpresidente\b/.test(cargo(s)) && !excl(cargo(s)));
   if (!hit || !hit.st_nome_sin) return { encontrado: false, motivo: "síndico não localizado no cadastro" };
   return {
     encontrado: true,

@@ -78,4 +78,16 @@ const S = (cargo, nome, email) => ({ st_cargo_sin: cargo, st_nome_sin: nome, st_
   check(r.encontrado === false, "sem síndico → encontrado:false");
 }
 
+// 10) CONDOMÍNIO com síndico de BLOCOS (Allure real): cargo " Síndico (a)" (espaço + gênero) é o síndico;
+//     os "Subsíndico Bloco X" NÃO podem ser escolhidos.
+{
+  const sindicos = [
+    S(" Síndico (a)", "WILMAR ALVES LIMA", "sindico@allure.com"),
+    S("Subsíndica Bloco 1", "ALINE"), S("Subsíndico Bloco 06", "CELSO"), S("1ª Conselheira Efetiva", "MARIA"),
+  ];
+  const r = await resolver_sindico(62, { sindicos });
+  check(r.encontrado && r.nome === "WILMAR ALVES LIMA", `"Síndico (a)" reconhecido, veio "${r.nome}"`);
+  check(!/subs[íi]ndic/i.test(r.cargo || ""), "não escolheu um subsíndico de bloco");
+}
+
 console.log(`test_dados_condominio: ${ok}/${total} OK`);
