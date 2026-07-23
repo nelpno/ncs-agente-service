@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:5c1ed66d63249ab957c2b8347a5c31cdce1d0b34a382fa2b36063afc22e88463"; // b6b8da2: Frente B — e-mail/telefone OBRIGATÓRIOS p/ inquilino/titularidade + extras por condo (Tivoli) + placa mascarada. Frente C fiada mas DORMANTE (TITULARIDADE_ENABLED/WRITE_REAL_ACTIONS default OFF; DRY_RUN mantido)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:f9921058a05424c57e03d7db5b73d5d4cb2756bdb76c392a8677e539700b9643"; // 6b14993: Ana hardening (23/07) — nao redige texto (caso Bruno) + nao promete acao sem ferramenta (LGPD/cobranca) + reforco anti-dump. Inclui 6aa9e5d (correcoes teste controlado titularidade, dormante/DRY). Frente C segue DORMANTE (TITULARIDADE_ENABLED/WRITE_REAL_ACTIONS OFF; DRY_RUN mantido)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
