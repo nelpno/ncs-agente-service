@@ -4,6 +4,7 @@
   "id": 169,
   "mes": 6,
   "ano": 2026,
+  "mesAnterior": 5,
   "fonte": "API Superlogica live 23/07/2026"
  },
  "balancete": [
@@ -299,6 +300,326 @@
    "conta": "2.8.13",
    "descricao": "2.8.13  Bens Semi-Duraveis",
    "valor": 253.75,
+   "natureza": "2"
+  }
+ ],
+ "balanceteAnterior": [
+  {
+   "conta": "1",
+   "descricao": "1 Receitas",
+   "valor": 121562.25,
+   "natureza": "0"
+  },
+  {
+   "conta": "1.1",
+   "descricao": "1.1  Taxa Condomínio",
+   "valor": 109119.22,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.3",
+   "descricao": "1.3  Fundo de Reserva",
+   "valor": 5598.87,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.4",
+   "descricao": "1.4  Taxa Serviços",
+   "valor": 30,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.5",
+   "descricao": "1.5  Alugueis",
+   "valor": 1270.18,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.7",
+   "descricao": "1.7   Rendimentos",
+   "valor": 3343.52,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.9",
+   "descricao": "1.9  Multa",
+   "valor": 560.51,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.10",
+   "descricao": "1.10  Juros",
+   "valor": 137.35,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.14",
+   "descricao": "1.14  Atualizaçao monetaria",
+   "valor": 7.54,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.15",
+   "descricao": "1.15  Honorarios Extrajudicial",
+   "valor": 1296.01,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.19",
+   "descricao": "1.19  Taxa Extra",
+   "valor": 19.08,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.22",
+   "descricao": "1.22  Taxa Cobrança",
+   "valor": -744.24,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.26",
+   "descricao": "1.26  Consumo de Pagto a maior",
+   "valor": -682.96,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.29",
+   "descricao": "1.29  Ressarcimento",
+   "valor": 816.76,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.58",
+   "descricao": "1.58  Honorarios Adv.",
+   "valor": 64.76,
+   "natureza": "1"
+  },
+  {
+   "conta": "1.60",
+   "descricao": "1.60  Mini Mercado",
+   "valor": 725.65,
+   "natureza": "1"
+  },
+  {
+   "conta": "2",
+   "descricao": "2 Despesas",
+   "valor": 96506.98,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.1",
+   "descricao": "2.1  DESPESAS DE PESSOAL",
+   "valor": 3518.63,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.1.1",
+   "descricao": "2.1.1  Salário Zeladoria",
+   "valor": 3518.63,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.2",
+   "descricao": "2.2  ENCARGOS",
+   "valor": 2365.29,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.2.2",
+   "descricao": "2.2.2  FGTS - Folha de Pagamento",
+   "valor": 1100.29,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.2.10",
+   "descricao": "2.2.10  Rec. Previdenciario",
+   "valor": 1265,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.3",
+   "descricao": "2.3  SERV PRESTADOS POR TERCEIROS",
+   "valor": 46733.77,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.3.2",
+   "descricao": "2.3.2  Serviços Portaria",
+   "valor": 26494.2,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.3.8",
+   "descricao": "2.3.8  Serviços Limpeza",
+   "valor": 20239.57,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4",
+   "descricao": "2.4  ENCARGOS SOBRE PREST. SERVIÇOS",
+   "valor": 435.45,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.4.1",
+   "descricao": "2.4.1  Rec. Previdenciario - Serviços",
+   "valor": 156.2,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.4",
+   "descricao": "2.4.4  CSLL - Terceiros",
+   "valor": 60.05,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.5",
+   "descricao": "2.4.5  PIS",
+   "valor": 39.04,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.4.9",
+   "descricao": "2.4.9  Cofins",
+   "valor": 180.16,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5",
+   "descricao": "2.5  AGUA LUZ TELEFONE e IPTU",
+   "valor": 13141.18,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.5.1",
+   "descricao": "2.5.1  CPFL - Energia Elétrica",
+   "valor": 12306.71,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.2",
+   "descricao": "2.5.2  DAAE - Água e Esgoto",
+   "valor": 468.21,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.3",
+   "descricao": "2.5.3  Telefone",
+   "valor": 58.99,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.5.7",
+   "descricao": "2.5.7  Internet",
+   "valor": 307.27,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6",
+   "descricao": "2.6  DESPESAS COM MANUTENÇÃO",
+   "valor": 22276.32,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.6.1",
+   "descricao": "2.6.1  Elevadores - Contratos",
+   "valor": 5194.24,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.6",
+   "descricao": "2.6.6  Materiais Elétricos",
+   "valor": 804.86,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.7",
+   "descricao": "2.6.7  Mão de Obra - Elétrica",
+   "valor": 6350,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.9",
+   "descricao": "2.6.9  Mão de Obra - Hidráulica",
+   "valor": 540,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.10",
+   "descricao": "2.6.10   Materiais de Limpeza - Higiene",
+   "valor": 367.26,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.14",
+   "descricao": "2.6.14   Material - Predial",
+   "valor": 883.65,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.17",
+   "descricao": "2.6.17  Manut Piscina",
+   "valor": 1593.9,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.20",
+   "descricao": "2.6.20  Manut. Portões - Peças-Mão Obra",
+   "valor": 2508.87,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.6.25",
+   "descricao": "2.6.25  Controle de Acesso",
+   "valor": 4033.54,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7",
+   "descricao": "2.7  DESPESAS ADMINISTRATIVAS",
+   "valor": 6239.79,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.7.1",
+   "descricao": "2.7.1  Serviços Escritório - Adm",
+   "valor": 2003.84,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.8",
+   "descricao": "2.7.8  Ressarcimento Honorarios Acordos",
+   "valor": 263.85,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.10",
+   "descricao": "2.7.10  Remun. Sindico",
+   "valor": 3400,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.7.39",
+   "descricao": "2.7.39  Sistema Portaria",
+   "valor": 572.1,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.8",
+   "descricao": "2.8  DESPESAS EVENTUAIS",
+   "valor": 1796.55,
+   "natureza": "0"
+  },
+  {
+   "conta": "2.8.5",
+   "descricao": "2.8.5  Projetos-Eng.Arquiteto Etc",
+   "valor": 1200,
+   "natureza": "2"
+  },
+  {
+   "conta": "2.8.13",
+   "descricao": "2.8.13  Bens Semi-Duraveis",
+   "valor": 596.55,
    "natureza": "2"
   }
  ],

@@ -78,6 +78,71 @@ export function motivoResultado(resumo, dest) {
   return `O resultado ${pos ? 'positivo' : 'negativo'} reflete que ${conj}.${parteRec}${parteDesp}`;
 }
 
+// COMPARAÇÃO com o mês anterior (pedido do Fernando: "faz a comparação com o mês anterior pra ver o que impactou").
+// Determinístico: variação por categoria (nível 2). Exclui as não-ordinárias do cálculo. Ordena por |variação|.
+export function compararMeses(atualItens, anteriorItens) {
+  const idx = (arr, pref, reExcluir) => {
+    const m = {};
+    for (const x of arr || []) {
+      if (!String(x.conta).startsWith(pref) || nivel(x.conta) !== 2) continue;
+      const nome = limpaCat(x.descricao);
+      if (reExcluir.test(nome)) continue;
+      m[nome] = round2((m[nome] || 0) + num(x.valor));
+    }
+    return m;
+  };
+  const variacoes = (pref, reExcluir) => {
+    const a = idx(anteriorItens, pref, reExcluir), b = idx(atualItens, pref, reExcluir);
+    return [...new Set([...Object.keys(a), ...Object.keys(b)])]
+      .map((k) => ({ descricao: k, anterior: round2(a[k] || 0), atual: round2(b[k] || 0), dif: round2((b[k] || 0) - (a[k] || 0)) }))
+      .filter((x) => x.dif !== 0)
+      .sort((x, y) => Math.abs(y.dif) - Math.abs(x.dif));
+  };
+  return { receitas: variacoes('1', RE_EXCLUI_RECEITA), despesas: variacoes('2', RE_EXCLUI_DESPESA) };
+}
+
+// Regra do Fernando: NÃO apontar terceirização/pessoal como CAUSA do resultado (senão o síndico corta a terceirização,
+// que é o serviço da NCS). Reenquadramento (recomendação Fable): a categoria SEGUE nos totais e nos quadros de variação;
+// a regra atua SÓ no texto do "motivo" — e nunca promove uma categoria menor a "causa" quando pessoal/terceirização domina
+// (isso seria falso por omissão). Quando ela domina e não há outra causa material, usa formulação AGREGADA.
+const EXCLUI_CAUSA = /terceir|prestad|pessoal|funcion|encargo/i;
+const MAT_RS = 500;       // piso de materialidade (reais)
+const MAT_PCT = 0.08;     // e 8% sobre a base — evita citar variação irrisória de categoria pequena
+const MAT_RS_ALTO = 2000; // variação grande em R$ é sempre relevante, mesmo com % baixo (ex.: Taxa Condomínio numa base alta)
+export function materialVar(x) {
+  const base = Math.max(Math.abs(x.anterior || 0), Math.abs(x.atual || 0), 1);
+  const abs = Math.abs(x.dif);
+  return abs >= MAT_RS_ALTO || (abs >= MAT_RS && abs >= MAT_PCT * base);
+}
+
+// MOTIVO com base na comparação (materialidade + reenquadramento + lado da receita). A RAZÃO editorial
+// ("por que subiu") é da equipe — o documento sai em Word editável para completar.
+export function motivoComparativo(resumo, comp, rotuloAtual, rotuloAnterior) {
+  if (!comp || (!comp.receitas.length && !comp.despesas.length)) return motivoResultado(resumo, resumo.destaques);
+  const neg = resumo.resultado < 0;
+  const dstr = (x) => `${x.descricao} (${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))})`;
+  const despSubMat = comp.despesas.filter((x) => x.dif > 0 && materialVar(x));
+  const despCausa = despSubMat.filter((x) => !EXCLUI_CAUSA.test(x.descricao)).slice(0, 2);
+  const pessoalDomina = despSubMat.length > 0 && EXCLUI_CAUSA.test(despSubMat[0].descricao);
+  const recCaiu = comp.receitas.filter((x) => x.dif < 0 && materialVar(x)).slice(0, 2);
+  const recMov = comp.receitas.filter((x) => materialVar(x)).slice(0, 2);
+
+  const partes = [];
+  if (despCausa.length) {
+    partes.push(`Em relação a ${rotuloAnterior}, as despesas que mais variaram foram ${despCausa.map(dstr).join(' e ')}.`);
+  } else if (pessoalDomina || despSubMat.length) {
+    // pessoal/terceirização domina e não há outra causa material → agregado (não culpa a terceirização nem promove menores)
+    partes.push(`Em relação a ${rotuloAnterior}, o resultado reflete o conjunto das despesas ordinárias do período, detalhadas no quadro acima.`);
+  }
+  if (neg && recCaiu.length) {
+    partes.push(`Também pesou a redução de receitas em ${recCaiu.map(dstr).join(' e ')}.`);
+  } else if (recMov.length) {
+    partes.push(`Nas receitas, os maiores movimentos foram ${recMov.map(dstr).join(' e ')}.`);
+  }
+  if (!partes.length) partes.push(`O resultado reflete o conjunto das receitas e despesas do período, detalhadas nos quadros acima.`);
+  return partes.join(' ');
+}
+
 export function calcularResumo(balanceteItens, caixaItens) {
   const receita = calcularReceita(balanceteItens);
   const despesa = calcularDespesa(balanceteItens);
@@ -99,13 +164,13 @@ export function textoInformativo(resumo, mes) {
   const positivo = resumo.resultado >= 0;
   const palavra = positivo ? 'superávit' : 'déficit';
   const valor = fmtBRL(Math.abs(resumo.resultado));
-  const frase2 = positivo
-    ? 'Esse resultado positivo reflete o equilíbrio entre as receitas ordinárias arrecadadas e as despesas realizadas no período.'
-    : 'Esse resultado indica que as despesas do período superaram as receitas ordinárias arrecadadas; recomenda-se atenção dos gestores à saúde financeira.';
-  return `Informamos que o condomínio encerrou o mês de ${nomeMes(mes)} com ${palavra} no valor de R$ ${valor}. ${frase2}`;
+  // Abertura (o motivo/comparação emenda em seguida, no mesmo parágrafo — modelo do Fernando).
+  return `Informamos que o condomínio encerrou o mês de ${nomeMes(mes)} com ${palavra} no valor de R$ ${valor}.`;
 }
 
 export const RODAPE_LGPD = 'As informações deste informativo são sensíveis e destinadas exclusivamente aos gestores eleitos em assembleia ordinária, conforme a Lei Geral de Proteção de Dados (LGPD). A divulgação a terceiros é expressamente proibida.';
+// Nota metodológica (recomendação Fable): inocula contra o mal-entendido de competência/caixa (ex.: 2 vencimentos no mesmo mês).
+export const NOTA_METODOLOGICA = 'Valores apurados em regime de caixa (data de pagamento); variações mensais podem refletir a concentração de vencimentos no período. Dados extraídos do sistema na data de emissão; o balancete oficial prevalece.';
 
 // ---- render 1 página (HTML self-contained; vira PDF/Word pelo mesmo motor do relatório) ----
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -115,6 +180,9 @@ export function renderHTMLResumo(r) {
   const excl = (arr) => (arr.length ? arr.map((e) => `${esc(String(e.descricao).replace(/^\d[\d.]*\s*/, ''))} (R$ ${fmtBRL(e.valor)})`).join(' · ') : 'nenhuma');
   const linha = (lbl, val, obs) => `<tr><td class="lbl">${lbl}</td><td class="val">R$ ${fmtBRL(val)}</td><td class="obs">${obs || ''}</td></tr>`;
   const dlist = (arr) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
+  // cor pelo IMPACTO no resultado: receita que sobe / despesa que cai = verde; o contrário = vermelho.
+  const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => { const bom = ehReceita ? x.dif >= 0 : x.dif < 0; return `<li><span>${esc(x.descricao)}</span><span class="dv ${bom ? 'pos' : 'neg'}">${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`; }).join('') || '<li>—</li>'}</ul>`;
+  const rotAnt = r.periodo?.mesAnterior?.rotulo || 'mês anterior';
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <style>
 @page{size:A4;margin:14mm}
@@ -140,7 +208,8 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
 .dcol ul{margin:0;padding:0;list-style:none}
 .dcol li{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:3px 0;border-bottom:1px solid #f0f0f0}
 .dcol li:last-child{border-bottom:none}
-.dcol li .dv{font-variant-numeric:tabular-nums;white-space:nowrap;color:#333}
+.dcol li .dv{font-variant-numeric:tabular-nums;white-space:nowrap;color:#333;font-weight:bold}
+.dcol li .dv.pos{color:#1b7a3d}.dcol li .dv.neg{color:#b3261e}
 .info{margin:16px 0;padding:12px 16px;background:#f2f8f4;border-left:4px solid #1b7a3d;border-radius:4px;font-size:13px;line-height:1.5}
 .info p{margin:0 0 8px}.info p:last-child{margin:0}
 .lgpd{margin-top:20px;font-size:10px;color:#888;line-height:1.4;border-top:1px solid #ddd;padding-top:8px}
@@ -159,12 +228,15 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
   ${linha('Total de despesas', r.detalhe.despesa.total, r.detalhe.despesa.exclusoes.length ? 'exclui: ' + excl(r.detalhe.despesa.exclusoes) : 'sem investimento no período')}
   ${linha('Despesa ordinária considerada', r.despesaAjustada, '')}
 </table>
-<div class="destaques">
+${r.comparacao ? `<div class="destaques">
+  <div class="dcol"><div class="dh">Receitas — variação vs ${esc(rotAnt)}</div>${vlist(r.comparacao.receitas, true)}</div>
+  <div class="dcol"><div class="dh">Despesas — variação vs ${esc(rotAnt)}</div>${vlist(r.comparacao.despesas, false)}</div>
+</div>` : `<div class="destaques">
   <div class="dcol"><div class="dh">Maiores receitas</div>${dlist(r.destaques?.receitas)}</div>
   <div class="dcol"><div class="dh">Maiores despesas</div>${dlist(r.destaques?.despesas)}</div>
-</div>
-<div class="info"><p>${esc(r.texto)}</p><p>${esc(r.motivo || '')}</p></div>
-<div class="lgpd">${esc(r.lgpd)}</div>
+</div>`}
+<div class="info"><p>${esc(r.texto)}${r.motivo ? ' ' + esc(r.motivo) : ''}</p></div>
+<div class="lgpd">${r.nota ? esc(r.nota) + '<br><br>' : ''}${esc(r.lgpd)}</div>
 </body></html>`;
 }
 
@@ -174,15 +246,27 @@ export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondo
   const _balancete = deps.balancete || balancete;
   const _caixa = deps.caixa || caixa;
   const { dtInicio, dtFim } = periodoMes(ano, mes);
-  const [bal, cx] = await Promise.all([_balancete(idCondominio, dtInicio, dtFim), _caixa(idCondominio, dtInicio, dtFim)]);
+  // mês anterior (para a comparação pedida pelo Fernando)
+  let mesAnt = Number(mes) - 1, anoAnt = Number(ano);
+  if (mesAnt < 1) { mesAnt = 12; anoAnt -= 1; }
+  const pa = periodoMes(anoAnt, mesAnt);
+  const [bal, cx, balAnt] = await Promise.all([
+    _balancete(idCondominio, dtInicio, dtFim),
+    _caixa(idCondominio, dtInicio, dtFim),
+    Promise.resolve(_balancete(idCondominio, pa.dtInicio, pa.dtFim)).catch(() => null),
+  ]);
   const itens = bal.itens || bal; // balancete() devolve {nomeplanocontas, itens}
+  const itensAnt = balAnt ? (balAnt.itens || balAnt) : null;
   const resumo = calcularResumo(itens, cx);
+  const comparacao = (itensAnt && itensAnt.length) ? compararMeses(itens, itensAnt) : null;
   return {
     condominio: nomeCondominio || bal.nomeplanocontas || '',
-    periodo: { mes: Number(mes), ano: Number(ano), rotulo: `${nomeMes(mes)}/${ano}` },
+    periodo: { mes: Number(mes), ano: Number(ano), rotulo: `${nomeMes(mes)}/${ano}`, mesAnterior: { mes: mesAnt, ano: anoAnt, rotulo: `${nomeMes(mesAnt)}/${anoAnt}` } },
     ...resumo,
+    comparacao,
     texto: textoInformativo(resumo, mes),
-    motivo: motivoResultado(resumo, resumo.destaques),
+    motivo: comparacao ? motivoComparativo(resumo, comparacao, nomeMes(mes), nomeMes(mesAnt)) : motivoResultado(resumo, resumo.destaques),
+    nota: NOTA_METODOLOGICA,
     lgpd: RODAPE_LGPD,
   };
 }
