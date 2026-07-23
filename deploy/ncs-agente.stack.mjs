@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:f73add853565a3e73b153eddcccde80dc130ac43fb88fd8a8c7bf50ccc53b1cd"; // 4cfadb9: F2 — fecha a linha da fila ao aprovar/rejeitar/expirar o rascunho (fila.marcarPorDraft + hook no engine); Decisão (b) mantida. F1 FILA_ANA_ENABLED=true (22/07)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:5c1ed66d63249ab957c2b8347a5c31cdce1d0b34a382fa2b36063afc22e88463"; // b6b8da2: Frente B — e-mail/telefone OBRIGATÓRIOS p/ inquilino/titularidade + extras por condo (Tivoli) + placa mascarada. Frente C fiada mas DORMANTE (TITULARIDADE_ENABLED/WRITE_REAL_ACTIONS default OFF; DRY_RUN mantido)
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
