@@ -120,7 +120,7 @@ export function materialVar(x) {
 export function motivoComparativo(resumo, comp, rotuloAtual, rotuloAnterior) {
   if (!comp || (!comp.receitas.length && !comp.despesas.length)) return motivoResultado(resumo, resumo.destaques);
   const neg = resumo.resultado < 0;
-  const dstr = (x) => `${x.descricao} (${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))})`;
+  const dstr = (x) => `${x.descricao} (${x.dif >= 0 ? 'alta de' : 'queda de'} R$ ${fmtBRL(Math.abs(x.dif))})`;
   const despSubMat = comp.despesas.filter((x) => x.dif > 0 && materialVar(x));
   const despCausa = despSubMat.filter((x) => !EXCLUI_CAUSA.test(x.descricao)).slice(0, 2);
   const pessoalDomina = despSubMat.length > 0 && EXCLUI_CAUSA.test(despSubMat[0].descricao);
@@ -179,7 +179,8 @@ export function renderHTMLResumo(r) {
   const cor = pos ? '#1b7a3d' : '#b3261e';
   const excl = (arr) => (arr.length ? arr.map((e) => `${esc(String(e.descricao).replace(/^\d[\d.]*\s*/, ''))} (R$ ${fmtBRL(e.valor)})`).join(' · ') : 'nenhuma');
   const linha = (lbl, val, obs) => `<tr><td class="lbl">${lbl}</td><td class="val">R$ ${fmtBRL(val)}</td><td class="obs">${obs || ''}</td></tr>`;
-  const dlist = (arr) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
+  // valor do MÊS (não a variação): receita positiva em verde, despesa (custo) em vermelho — leitura intuitiva (feedback Fernando 23/07).
+  const dlist = (arr, ehReceita) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   // cor por TIPO (pedido do Fernando 23/07): receita sempre verde, despesa sempre vermelha; o +/- indica a direção.
   const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   const rotAnt = r.periodo?.mesAnterior?.rotulo || 'mês anterior';
@@ -228,13 +229,10 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
   ${linha('Total de despesas', r.detalhe.despesa.total, r.detalhe.despesa.exclusoes.length ? 'exclui: ' + excl(r.detalhe.despesa.exclusoes) : 'sem investimento no período')}
   ${linha('Despesa ordinária considerada', r.despesaAjustada, '')}
 </table>
-${r.comparacao ? `<div class="destaques">
-  <div class="dcol"><div class="dh">Receitas — variação vs ${esc(rotAnt)}</div>${vlist(r.comparacao.receitas, true)}</div>
-  <div class="dcol"><div class="dh">Despesas — variação vs ${esc(rotAnt)}</div>${vlist(r.comparacao.despesas, false)}</div>
-</div>` : `<div class="destaques">
-  <div class="dcol"><div class="dh">Maiores receitas</div>${dlist(r.destaques?.receitas)}</div>
-  <div class="dcol"><div class="dh">Maiores despesas</div>${dlist(r.destaques?.despesas)}</div>
-</div>`}
+<div class="destaques">
+  <div class="dcol"><div class="dh">Maiores receitas do mês</div>${dlist(r.destaques?.receitas, true)}</div>
+  <div class="dcol"><div class="dh">Maiores despesas do mês</div>${dlist(r.destaques?.despesas, false)}</div>
+</div>
 <div class="info"><p>${esc(r.texto)}${r.motivo ? ' ' + esc(r.motivo) : ''}</p></div>
 <div class="lgpd">${r.nota ? esc(r.nota) + '<br><br>' : ''}${esc(r.lgpd)}</div>
 </body></html>`;
