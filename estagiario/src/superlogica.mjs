@@ -79,6 +79,32 @@ export async function resolver_condominio({ nome } = {}, deps = {}) {
   };
 }
 
+/**
+ * resolver_sindico(id_condominio, deps?) → o SÍNDICO ATUAL, ao vivo (sindicos/index?comStatus=atuais).
+ * O endpoint devolve a diretoria inteira (5+ itens: síndico, subsíndico, conselho, porteiro, administradora).
+ * ⚠️ O cargo do síndico VARIA: CONDOMÍNIO usa "Síndico" (Lume: Alexandre); ASSOCIAÇÃO usa "Presidente"
+ * (Tivoli: Gilsandro) — confirmado ao vivo 23/07. Filtro: cargo == "síndico" (exato, ≠ subsíndico) ou que
+ * contém "presidente" MAS não "vice"/"sub". Campos: st_nome_sin / st_cargo_sin / st_email_sin. deps.sindicos injetável.
+ */
+export async function resolver_sindico(id_condominio, deps = {}) {
+  if (!id_condominio) return { encontrado: false, motivo: "informe o condomínio" };
+  let dados;
+  try { dados = deps.sindicos || await slGet("sindicos/index", { idCondominio: id_condominio, comStatus: "atuais" }); }
+  catch { return { encontrado: false, motivo: "consulta indisponível" }; }
+  const lista = Array.isArray(dados) ? dados : (dados && dados.data) || [];
+  const cargo = (s) => norm(s.st_cargo_sin || "");
+  let hit = lista.find((s) => cargo(s) === "sindico");
+  if (!hit) hit = lista.find((s) => /\bpresidente\b/.test(cargo(s)) && !/vice|sub/.test(cargo(s)));
+  if (!hit || !hit.st_nome_sin) return { encontrado: false, motivo: "síndico não localizado no cadastro" };
+  return {
+    encontrado: true,
+    nome: String(hit.st_nome_sin).trim(),
+    cargo: String(hit.st_cargo_sin || "Síndico").trim(),
+    email: hit.st_email_sin || null,
+    telefone: hit.st_telefone_sin || hit.st_celular_sin || null,
+  };
+}
+
 const PAPEL_LABEL = { 1: "proprietario", 2: "proprietario", 7: "inquilino", 4: "dependente", 3: "imobiliaria", 999: "procurador" };
 
 // Rótulo + zero à esquerda: o Superlógica grava a unidade de um jeito diferente em cada condomínio

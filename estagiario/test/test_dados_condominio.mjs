@@ -3,7 +3,7 @@
 // buscado) embora ele venha no MESMO condominios/get que o resolver_condominio ja baixa. Campo = st_cnpj_cond
 // (confirmado no dump superlogica_map_results.json). Sindico (sindicos/index) fica pro token vivo.
 import assert from "node:assert";
-const { resolver_condominio } = await import("../src/superlogica.mjs");
+const { resolver_condominio, resolver_sindico } = await import("../src/superlogica.mjs");
 
 let ok = 0, total = 0;
 const check = (c, m) => { total++; assert(c, m); ok++; };
@@ -51,6 +51,31 @@ const base = {
 {
   const r = await resolver_condominio({ nome: "Lume" }, { condos: [{ ...base, st_cnpj_cond: "", st_cpf_cond: "12345678901" }] });
   check(r.cnpj === "", "CPF de 11 dígitos não vira CNPJ (só 14 dígitos)");
+}
+
+// --- resolver_sindico: cargo VARIA (condomínio="Síndico" × associação="Presidente"), exclui sub/vice/conselho ---
+const S = (cargo, nome, email) => ({ st_cargo_sin: cargo, st_nome_sin: nome, st_email_sin: email });
+
+// 7) CONDOMÍNIO (Lume real): pega "Síndico", NÃO "Subsíndico" nem "Conselheiro Fiscal"
+{
+  const sindicos = [S("Síndico", "ALEXANDRE AUGUSTO SCALISE", "lume.sindico@gmail.com"), S("Subsíndico", "ANA PAULA"), S(" Conselheiro Fiscal", "ANGELO")];
+  const r = await resolver_sindico(179, { sindicos });
+  check(r.encontrado && r.nome === "ALEXANDRE AUGUSTO SCALISE", `síndico do condomínio, veio "${r.nome}"`);
+  check(r.email === "lume.sindico@gmail.com", "traz o e-mail do síndico");
+}
+
+// 8) ASSOCIAÇÃO (Tivoli real): o síndico é o "Presidente" — NÃO "Vice-Presidente" nem "Diretor Tesoureiro"
+{
+  const sindicos = [S("Porteiro", "Portaria 24 hs"), S("Conselho Fiscal", "EDVALDO"), S("Presidente", "GILSANDRO DE OLIVEIRA"), S("Vice-Presidente", "RAFAEL"), S("Diretor Tesoureiro", "FERNANDO")];
+  const r = await resolver_sindico(164, { sindicos });
+  check(r.encontrado && r.nome === "GILSANDRO DE OLIVEIRA", `presidente da associação = síndico, veio "${r.nome}"`);
+  check(r.cargo === "Presidente", "cargo real preservado");
+}
+
+// 9) Sem síndico/presidente na diretoria → encontrado:false (nunca inventa)
+{
+  const r = await resolver_sindico(1, { sindicos: [S("Conselho Fiscal", "X"), S("Porteiro", "Y")] });
+  check(r.encontrado === false, "sem síndico → encontrado:false");
 }
 
 console.log(`test_dados_condominio: ${ok}/${total} OK`);

@@ -8,7 +8,7 @@ import {
   gerarDocumento, carregarCondominio, listarInfracoes,
 } from "../../gerador/src/gerar-lib.mjs";
 import { gerarDeclaracaoQuitacao } from "../../gerador/src/declaracao-quitacao.mjs";
-import { resolver_condominio, resolver_morador } from "./superlogica.mjs";
+import { resolver_condominio, resolver_morador, resolver_sindico } from "./superlogica.mjs";
 import { verificarEnquadramento, enquadramentoIncompativel } from "./verificar_enquadramento.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,14 +42,18 @@ export async function buscar_morador({ condominio, unidade, bloco } = {}) {
   } catch (e) { return { encontrado: false, erro: e.message }; }
 }
 
-/** Dados cadastrais do condomínio (nome, endereço, CEP, cidade, CNPJ) — AO VIVO do Superlógica, pra a
- *  equipe consultar rápido (vídeo "achar endereço/CNPJ do condomínio"). O síndico ainda NÃO vem aqui
- *  (é o endpoint sindicos/index, à parte) — não invente; se pedirem o síndico, diga que ainda não está ligado. */
+/** Dados cadastrais do condomínio — AO VIVO do Superlógica: nome, endereço, CEP, cidade, CNPJ e o SÍNDICO
+ *  atual (nome/cargo/e-mail). Serve o vídeo "achar nome do síndico, endereço e CNPJ do condomínio".
+ *  Nunca inventa: campo vazio volta null. O síndico vem de sindicos/index (associação = "Presidente"). */
 export async function dados_condominio({ condominio } = {}) {
   try {
     const cond = await resolver_condominio({ nome: condominio });
     if (!cond.encontrado) return { ok: false, motivo: cond.motivo, ...(cond.opcoes ? { opcoes: cond.opcoes } : {}) };
-    return { ok: true, nome: cond.nome, endereco: cond.endereco, cep: cond.cep, cidade_uf: cond.cidade_uf, cnpj: cond.cnpj || null };
+    const sind = await resolver_sindico(cond.id).catch(() => ({ encontrado: false }));
+    return {
+      ok: true, nome: cond.nome, endereco: cond.endereco, cep: cond.cep, cidade_uf: cond.cidade_uf, cnpj: cond.cnpj || null,
+      sindico: sind.encontrado ? { nome: sind.nome, cargo: sind.cargo, email: sind.email, telefone: sind.telefone } : null,
+    };
   } catch (e) { return { ok: false, motivo: e.message }; }
 }
 
