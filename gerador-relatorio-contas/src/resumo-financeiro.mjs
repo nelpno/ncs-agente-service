@@ -180,8 +180,8 @@ export function renderHTMLResumo(r) {
   const excl = (arr) => (arr.length ? arr.map((e) => `${esc(String(e.descricao).replace(/^\d[\d.]*\s*/, ''))} (R$ ${fmtBRL(e.valor)})`).join(' · ') : 'nenhuma');
   const linha = (lbl, val, obs) => `<tr><td class="lbl">${lbl}</td><td class="val">R$ ${fmtBRL(val)}</td><td class="obs">${obs || ''}</td></tr>`;
   const dlist = (arr) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
-  // cor pelo IMPACTO no resultado: receita que sobe / despesa que cai = verde; o contrário = vermelho.
-  const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => { const bom = ehReceita ? x.dif >= 0 : x.dif < 0; return `<li><span>${esc(x.descricao)}</span><span class="dv ${bom ? 'pos' : 'neg'}">${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`; }).join('') || '<li>—</li>'}</ul>`;
+  // cor por TIPO (pedido do Fernando 23/07): receita sempre verde, despesa sempre vermelha; o +/- indica a direção.
+  const vlist = (arr, ehReceita) => `<ul>${(arr || []).slice(0, 4).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv ${ehReceita ? 'pos' : 'neg'}">${x.dif >= 0 ? '+' : '-'}R$ ${fmtBRL(Math.abs(x.dif))}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   const rotAnt = r.periodo?.mesAnterior?.rotulo || 'mês anterior';
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <style>
