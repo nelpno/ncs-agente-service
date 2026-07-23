@@ -50,17 +50,47 @@ export function calcularSaldo(caixaItens) {
   return { saldoAnterior: round2(saldoAnterior), movimentos: round2(movimentos), total: round2(saldoAnterior + movimentos) };
 }
 
+// Nome limpo da categoria (remove o prefixo numérico do plano de contas: "1.1 Taxa Condomínio" -> "Taxa Condomínio")
+const limpaCat = (d) => String(d).replace(/^\d[\d.]*\s*/, '').trim();
+
+// DESTAQUES: categorias (nível 2) que mais pesaram — pedido do Fernando (23/07): "incluir o motivo que deu positivo".
+// Determinístico (zero alucinação): ordena por valor absoluto. Exclui as não-ordinárias que já saem do cálculo
+// (Fundo de Reserva/Rendimentos/Taxa Extra na receita; Investimento na despesa) para não confundir o motivo.
+export function destaques(balanceteItens, max = 3) {
+  // soPositivos: nas receitas ignora deduções (ex.: Taxa Cobrança negativa), que confundem como "maior receita".
+  const cats = (pref, reExcluir, soPositivos) => balanceteItens
+    .filter((x) => String(x.conta).startsWith(pref) && nivel(x.conta) === 2 && num(x.valor) !== 0
+      && !reExcluir.test(limpaCat(x.descricao)) && (!soPositivos || num(x.valor) > 0))
+    .map((x) => ({ descricao: limpaCat(x.descricao), valor: num(x.valor) }))
+    .sort((a, b) => b.valor - a.valor);
+  return { receitas: cats('1', RE_EXCLUI_RECEITA, true).slice(0, max), despesas: cats('2', RE_EXCLUI_DESPESA, false).slice(0, max) };
+}
+
+// MOTIVO do resultado, em 1 frase, citando as categorias reais que mais pesaram (nunca inventa).
+export function motivoResultado(resumo, dest) {
+  const pos = resumo.resultado >= 0;
+  const lista = (arr) => arr.map((x) => x.descricao).filter(Boolean).join(', ');
+  const rec = lista(dest.receitas);
+  const desp = lista(dest.despesas);
+  const conj = pos ? 'a arrecadação do período cobriu as despesas' : 'as despesas do período superaram a arrecadação';
+  const parteRec = rec ? ` As receitas vieram principalmente de ${rec}.` : '';
+  const parteDesp = desp ? ` As despesas concentraram-se em ${desp}.` : '';
+  return `O resultado ${pos ? 'positivo' : 'negativo'} reflete que ${conj}.${parteRec}${parteDesp}`;
+}
+
 export function calcularResumo(balanceteItens, caixaItens) {
   const receita = calcularReceita(balanceteItens);
   const despesa = calcularDespesa(balanceteItens);
   const resultado = round2(receita.ajustada - despesa.ajustada);
   const saldo = calcularSaldo(caixaItens);
+  const dest = destaques(balanceteItens);
   return {
     receitaAjustada: receita.ajustada,
     despesaAjustada: despesa.ajustada,
     resultado,
     situacao: resultado >= 0 ? 'Positiva' : 'Negativa',
     saldoTotal: saldo.total,
+    destaques: dest,
     detalhe: { receita, despesa, saldo },
   };
 }
@@ -84,6 +114,7 @@ export function renderHTMLResumo(r) {
   const cor = pos ? '#1b7a3d' : '#b3261e';
   const excl = (arr) => (arr.length ? arr.map((e) => `${esc(String(e.descricao).replace(/^\d[\d.]*\s*/, ''))} (R$ ${fmtBRL(e.valor)})`).join(' · ') : 'nenhuma');
   const linha = (lbl, val, obs) => `<tr><td class="lbl">${lbl}</td><td class="val">R$ ${fmtBRL(val)}</td><td class="obs">${obs || ''}</td></tr>`;
+  const dlist = (arr) => `<ul>${(arr || []).map((x) => `<li><span>${esc(x.descricao)}</span><span class="dv">R$ ${fmtBRL(x.valor)}</span></li>`).join('') || '<li>—</li>'}</ul>`;
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <style>
 @page{size:A4;margin:14mm}
@@ -103,7 +134,15 @@ body{margin:0;color:#222}
 table.det{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}
 table.det td{padding:5px 8px;border-bottom:1px solid #eee}
 .det .lbl{color:#444}.det .val{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.det .obs{color:#888;font-size:11px}
+.destaques{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.dcol{border:1px solid #e3e8e4;border-radius:6px;padding:10px 12px}
+.dcol .dh{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#1b7a3d;font-weight:bold;margin-bottom:6px}
+.dcol ul{margin:0;padding:0;list-style:none}
+.dcol li{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:3px 0;border-bottom:1px solid #f0f0f0}
+.dcol li:last-child{border-bottom:none}
+.dcol li .dv{font-variant-numeric:tabular-nums;white-space:nowrap;color:#333}
 .info{margin:16px 0;padding:12px 16px;background:#f2f8f4;border-left:4px solid #1b7a3d;border-radius:4px;font-size:13px;line-height:1.5}
+.info p{margin:0 0 8px}.info p:last-child{margin:0}
 .lgpd{margin-top:20px;font-size:10px;color:#888;line-height:1.4;border-top:1px solid #ddd;padding-top:8px}
 </style></head><body>
 <div class="hdr"><h1>RESUMO FINANCEIRO — ${esc(r.periodo.rotulo.toUpperCase())}</h1><div class="sub">${esc(r.condominio)}</div></div>
@@ -120,7 +159,11 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
   ${linha('Total de despesas', r.detalhe.despesa.total, r.detalhe.despesa.exclusoes.length ? 'exclui: ' + excl(r.detalhe.despesa.exclusoes) : 'sem investimento no período')}
   ${linha('Despesa ordinária considerada', r.despesaAjustada, '')}
 </table>
-<div class="info">${esc(r.texto)}</div>
+<div class="destaques">
+  <div class="dcol"><div class="dh">Maiores receitas</div>${dlist(r.destaques?.receitas)}</div>
+  <div class="dcol"><div class="dh">Maiores despesas</div>${dlist(r.destaques?.despesas)}</div>
+</div>
+<div class="info"><p>${esc(r.texto)}</p><p>${esc(r.motivo || '')}</p></div>
 <div class="lgpd">${esc(r.lgpd)}</div>
 </body></html>`;
 }
@@ -139,6 +182,7 @@ export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondo
     periodo: { mes: Number(mes), ano: Number(ano), rotulo: `${nomeMes(mes)}/${ano}` },
     ...resumo,
     texto: textoInformativo(resumo, mes),
+    motivo: motivoResultado(resumo, resumo.destaques),
     lgpd: RODAPE_LGPD,
   };
 }

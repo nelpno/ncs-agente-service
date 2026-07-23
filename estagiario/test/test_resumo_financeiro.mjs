@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import {
   calcularReceita, calcularDespesa, calcularSaldo, calcularResumo,
   textoInformativo, montarResumoFinanceiro, fmtBRL, nomeMes,
+  destaques, motivoResultado,
 } from '../../gerador-relatorio-contas/src/resumo-financeiro.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -49,6 +50,18 @@ const resultado = await montarResumoFinanceiro(
 ok(near(resultado.receitaAjustada, 103937.37) && near(resultado.despesaAjustada, 98107.79) && near(resultado.saldoTotal, 587482.72), 'montarResumo numeros errados');
 ok(resultado.periodo.rotulo === 'junho/2026', 'rotulo periodo != junho/2026: ' + resultado.periodo.rotulo);
 ok(resultado.situacao === 'Positiva' && !!resultado.texto && !!resultado.lgpd, 'montarResumo campos faltando');
+
+// 7) DESTAQUES + MOTIVO (pedido do Fernando 23/07: incluir a categoria que impactou o resultado)
+const dest = destaques(fx.balancete);
+ok(dest.receitas.length > 0 && dest.despesas.length > 0, 'destaques vazios');
+ok(/taxa condom/i.test(dest.receitas[0].descricao || ''), 'maior receita != Taxa Condominio: ' + dest.receitas[0]?.descricao);
+ok(!dest.receitas.some((d) => /fundo de reserva|rendiment|taxa extra/i.test(d.descricao)), 'destaque de receita inclui categoria EXCLUIDA do calculo');
+ok(!dest.despesas.some((d) => /investiment/i.test(d.descricao)), 'destaque de despesa inclui Investimento (deveria excluir)');
+ok(!dest.receitas.some((d) => /^\d/.test(d.descricao)), 'descricao de destaque com prefixo numerico (deveria limpar)');
+const mot = motivoResultado(r, dest);
+ok(/positivo/i.test(mot) && /taxa condom/i.test(mot), 'motivo malformado: ' + mot);
+ok(!!resultado.motivo && /positivo/i.test(resultado.motivo), 'montarResumo sem motivo');
+ok(Array.isArray(resultado.destaques?.receitas) && resultado.destaques.receitas.length > 0, 'montarResumo sem destaques');
 
 console.log(`\ntest_resumo_financeiro: ${pass} OK, ${fail} FALHOU`);
 if (fail) process.exit(1);
