@@ -12,7 +12,7 @@ import { cadastroInquilino } from '../src/write/actions/cadastro_inquilino.mjs';
 let falhas = 0;
 const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falhas++; };
 const TR = 'contatos[0][ID_TIPORESP_TRES]';
-const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901' };
+const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901', email: 'joao@x.com', telefone: '16999998888' };
 
 // --- valor gravado em ID_TIPORESP_TRES
 ok(cadastroInquilino.montarPayload(base)[TR] === '4',

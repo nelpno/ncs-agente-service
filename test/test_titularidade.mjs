@@ -8,7 +8,7 @@ const ok = (c, m) => { assert.ok(c, m); n++; };
 
 const baseOK = {
   id_condominio: '152', id_unidade: '11826', nome: 'Ana Compradora',
-  data_transferencia: '03/09/2026', cpf: '12345678900', email: 'ana@x.com',
+  data_transferencia: '03/09/2026', cpf: '12345678900', email: 'ana@x.com', telefone: '16999997777',
   proprietarios_atuais: [{ id_contato_con: '51050', nome: 'Gustavo Antigo', cpf: '98765432100' }],
 };
 
@@ -16,10 +16,19 @@ const baseOK = {
 {
   ok(T.validar(baseOK).ok === true, 'happy path valida');
   ok(T.validar({ ...baseOK, cpf: '' }).ok === false, 'sem cpf do novo -> invalido');
+  ok(T.validar({ ...baseOK, email: '' }).ok === false, 'sem e-mail do novo -> invalido (obrigatorio desde 22/07)');
+  ok(T.validar({ ...baseOK, telefone: '' }).ok === false, 'sem telefone do novo -> invalido');
   ok(T.validar({ ...baseOK, data_transferencia: '31/13/2026' }).ok === false, 'data fora de MM/DD/AAAA -> invalido');
   ok(T.validar({ ...baseOK, proprietarios_atuais: [] }).ok === false, 'sem proprietario atual -> invalido (nao seria troca)');
   ok(T.validar({ ...baseOK, proprietarios_atuais: [{ nome: 'X' }] }).ok === false, 'proprietario atual sem id_contato_con -> invalido');
   ok(T.validar({ ...baseOK, id_unidade: '' }).ok === false, 'sem id_unidade -> invalido');
+  // extras por condominio (Tivoli 164): exige nascimento+veiculo+placa tambem na titularidade
+  ok(T.validar({ ...baseOK, id_condominio: '164' }).ok === false, 'Tivoli sem extras -> invalido');
+  const tiv = T.montarPayload({ ...baseOK, id_condominio: '164', data_nascimento: '01/02/1990', veiculo_modelo: 'Onix', veiculo_placa: 'XYZ9K88', rg: '11.222.333-4' });
+  ok(T.validar({ ...baseOK, id_condominio: '164', data_nascimento: '01/02/1990', veiculo_modelo: 'Onix', veiculo_placa: 'XYZ9K88' }).ok === true, 'Tivoli com extras -> valido');
+  ok(tiv.novo['contatos[0][DT_NASCIMENTO_CON]'] === '01/02/1990', 'Tivoli: nascimento no payload do novo');
+  ok(tiv.novo['contatos[0][ST_RG_CON]'] === '11.222.333-4', 'RG opcional entra no payload do novo');
+  ok(!Object.keys(tiv.novo).some((k) => /PLACA|VEICULO/i.test(k)), 'veiculo/placa NAO vao ao ERP');
 }
 
 // ---------------------------------------------------- 2) montarPayload: 1 novo + 1 saida por proprietario

@@ -94,8 +94,10 @@ t('reprovado fala com o aprovador, sem jargão', () => {
   assert.ok(/REPROVADO/.test(r.resumo), 'reprovado não apareceu no resumo');
 });
 
-console.log('\n[3] e-mail e telefone: avisam, mas não travam (Fernando, 15/07)');
+console.log('\n[3] e-mail e telefone: OBRIGATÓRIOS p/ inquilino, lenientes p/ dependente (Fernando, 22/07)');
 
+// O card ainda mostra o alerta quando falta e-mail/telefone (render é desacoplado do validar): cobre o
+// DEPENDENTE (leniente, pode chegar sem eles) e é rede de segurança. Sem laudo, render(sem(...)) segue produzindo o aviso.
 t('sem e-mail → alerta (é para onde o boleto é enviado)', () => {
   const r = render(sem('email'));
   assert.ok(r.alertas.some((a) => /e-mail/i.test(a) && /boleto/i.test(a)), 'faltou avisar que sem e-mail o boleto não é enviado');
@@ -109,12 +111,18 @@ t('com e-mail e telefone → nenhum alerta desses (sem ruído)', () => {
   assert.ok(!render(BASE).alertas.some((a) => /e-mail|telefone/i.test(a)), 'alertou sobre dado que está lá');
 });
 
-t('e-mail/telefone NÃO travam o rascunho (só o CPF trava)', () => {
-  // Fernando graduou os três: o telefone "não era muito necessário". Travar aqui empurraria a Ana
-  // para o loop de reparo que já custou caro no Estagiário ([[ncs-estagiario-papel-opcional]]).
-  assert.equal(cadastroInquilino.validar(sem('email')).ok, true, 'sem e-mail o rascunho tem que passar');
-  assert.equal(cadastroInquilino.validar(sem('telefone')).ok, true, 'sem telefone o rascunho tem que passar');
+t('e-mail/telefone TRAVAM o rascunho de INQUILINO (Fernando reverteu em 22/07 a graduação de 15/07)', () => {
+  // 22/07: "e-mail e telefone celular OBRIGATÓRIOS". A Ana COLETA na conversa (o card chega completo);
+  // sem eles ela PEDE, não manda rascunho pela metade. Ver [[ncs-onda-c-titularidade-dry]]. Antes disto
+  // o teste exigia o OPOSTO — a trilha da decisão custou uma sessão em 14/07; não reverter de novo.
+  assert.equal(cadastroInquilino.validar(sem('email')).ok, false, 'inquilino sem e-mail NÃO pode passar');
+  assert.equal(cadastroInquilino.validar(sem('telefone')).ok, false, 'inquilino sem telefone NÃO pode passar');
   assert.equal(cadastroInquilino.validar(sem('cpf')).ok, false, 'sem CPF o rascunho NÃO pode passar');
+});
+
+t('DEPENDENTE segue leniente: sem e-mail/telefone/CPF → passa (menor não obriga)', () => {
+  const dep = { id_condominio: BASE.id_condominio, id_unidade: BASE.id_unidade, nome: 'Filho Menor', papel: 'dependente', data_entrada: BASE.data_entrada };
+  assert.equal(cadastroInquilino.validar(dep).ok, true, 'dependente sem os dados extras tem que passar');
 });
 
 console.log('\n[4] o alerta que evita boleto duplicado não pode ser abafado');

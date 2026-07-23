@@ -60,9 +60,22 @@ const FAKE = {
   const dry = env.find((e) => e.name === "DRY_RUN_WRITES");
   check(dry?.value === "true", `DRY_RUN_WRITES devia ser "true" (gate da escrita real): ${dry?.value}`);
 
+  // Onda C (titularidade) DORMANTE por padrão: a tool escondida (TITULARIDADE_ENABLED vazio) e nenhuma
+  // ação gravando real (WRITE_REAL_ACTIONS vazio). Ligar é ato deliberado no teste com o Fernando.
+  check(env.find((e) => e.name === "TITULARIDADE_ENABLED")?.value === "", `TITULARIDADE_ENABLED devia ser vazio por padrão (tool escondida): ${env.find((e) => e.name === "TITULARIDADE_ENABLED")?.value}`);
+  check(env.find((e) => e.name === "WRITE_REAL_ACTIONS")?.value === "", `WRITE_REAL_ACTIONS devia ser vazio por padrão (tudo DRY): ${env.find((e) => e.name === "WRITE_REAL_ACTIONS")?.value}`);
+
   // Sessão do morador (48h) e reserva cross-provider: os dois já custaram incidente.
   check(env.find((e) => e.name === "REDIS_URL")?.value === "redis://redis:6379", "REDIS_URL errada/ausente");
   check(env.find((e) => e.name === "FALLBACK_MODEL")?.value, "FALLBACK_MODEL ausente → OpenAI sem crédito derruba a Ana (incidente 07/07)");
+}
+
+// ------------------------------------------------- Onda C: os flags LIGAM quando pedidos (wiring real)
+{
+  const on = buildAnaStack({ ...FAKE, titularidade: true, writeRealActions: "titularidade" });
+  check(on.env.find((e) => e.name === "TITULARIDADE_ENABLED")?.value === "1", "titularidade:true → TITULARIDADE_ENABLED=1 (tool aparece)");
+  check(on.env.find((e) => e.name === "WRITE_REAL_ACTIONS")?.value === "titularidade", "writeRealActions passa direto p/ a env (grava só essa ação)");
+  check(on.missing.length === 0, "ligar a Onda C não introduz missing");
 }
 
 // ------------------------------------------------- guard de segredo faltando

@@ -16,11 +16,15 @@ import { sbInsert as _sbInsert, sbUpdate as _sbUpdate } from './db_ncs.mjs';
 
 const habilitado = () => process.env.FILA_ANA_ENABLED === 'true';
 
-// Mascara PII em texto livre: e-mail e sequências longas de dígitos (CPF/telefone). PRESERVA número
-// de unidade (≤4 dígitos, ex. "0101") — não é PII e ajuda a identificar o ticket na fila.
+// Mascara PII em texto livre: e-mail, PLACA de veículo e sequências longas de dígitos (CPF/telefone).
+// PRESERVA número de unidade (≤4 dígitos, ex. "0101") — não é PII e ajuda a identificar o ticket na fila.
+// ⚠️ A placa vem ANTES do [num]: a antiga (ABC1234) casaria o [num] pela metade, e a Mercosul (ABC1D23)
+// tem letra no meio → escapa do regex de dígitos. O padrão 3 letras + dígito + alfanumérico + 2 dígitos
+// é específico de placa (7 chars) — não colide com palavra normal em português.
 export function sanitizarAssunto(s = '') {
   return String(s || '')
     .replace(/[\w.+-]+@[\w.-]+\.\w+/g, '[email]')
+    .replace(/\b[A-Za-z]{3}-?\d[A-Za-z0-9]\d{2}\b/g, '[placa]')
     .replace(/\d[\d.\-]{3,}\d/g, '[num]')
     .replace(/\s+/g, ' ')
     .trim()

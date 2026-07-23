@@ -71,6 +71,13 @@ export const ANA_REQUIRED_ENV = [
   // F1 (a Ana carimba o ticket na fila `solicitacoes`): default OFF = a Ana NÃO grava (byte-idêntico
   // ao de hoje). Ligar quando a fila estiver pronta pra receber trabalho. Depende de SUPABASE_* (acima).
   "FILA_ANA_ENABLED",
+  // Onda C (titularidade). Ambas default VAZIO/OFF: sem elas a Ana é byte-idêntica ao de hoje
+  // (a tool criar_rascunho_titularidade fica ESCONDIDA e toda escrita segue em DRY). Ficam aqui p/
+  // ser possível LIGAR por env no teste controlado com o Fernando, SEM rebuild da imagem.
+  // - TITULARIDADE_ENABLED=1 → a tool aparece p/ o LLM (exige o prompt de titularidade aplicado junto).
+  // - WRITE_REAL_ACTIONS="titularidade" → só ESSA ação grava de verdade (o DRY_RUN global segue true).
+  "TITULARIDADE_ENABLED",
+  "WRITE_REAL_ACTIONS",
 ];
 
 // Exceção à regra "vazio é legítimo na Ana": aqui vazio == o serviço sobe e SÓ a fila morre,
@@ -120,6 +127,11 @@ export function buildAnaStack(secrets = {}) {
     // e escrita-ERP com status próprio ('aberta'). Provado sem-humano em prod (NCS-A-2, LGPD ok).
     // Desligar = `filaAna:false` + redeploy (env, sem rebuild). Enxerto é try/catch: nunca derruba o atendimento.
     filaAna = true,
+    // Onda C (titularidade): default DESLIGADO/vazio. `titularidade:true` mostra a tool ao LLM (só com o
+    // prompt de titularidade aplicado). `writeRealActions:"titularidade"` sai do DRY SÓ p/ essa ação.
+    // Os dois só no teste controlado com o Fernando (escrita real) — ver [[ncs-onda-c-titularidade-dry]].
+    titularidade = false,
+    writeRealActions = "",
   } = secrets;
 
   const env = [
@@ -196,6 +208,14 @@ export function buildAnaStack(secrets = {}) {
     // "true" = os enxertos do runToolReal (transferir_humano / criar_rascunho_cadastro) inserem na fila.
     // Default "false" = no-op (prod byte-idêntico). Reversível por env, sem rebuild.
     { name: "FILA_ANA_ENABLED", value: filaAna ? "true" : "false" },
+    // ── Onda C (titularidade) — DORMANTE por padrão ──────────────────────────────────────────────
+    // "1" = a tool criar_rascunho_titularidade aparece p/ o LLM (agent.mjs filtra por esta env). Vazio
+    // = escondida → a Ana segue mandando o formulário de titularidade (comportamento de hoje).
+    // ⚠️ Só ligar JUNTO com o prompt de titularidade (senão o LLM cita uma tool que não vê).
+    { name: "TITULARIDADE_ENABLED", value: titularidade ? "1" : "" },
+    // CSV de ações que gravam DE VERDADE mesmo com DRY_RUN_WRITES=true (superlogica_write.acaoGravaReal).
+    // Vazio = tudo DRY. É como o teste controlado grava SÓ a titularidade sem destravar as demais escritas.
+    { name: "WRITE_REAL_ACTIONS", value: writeRealActions },
   ];
 
   // Só null/ausente aborta — vazio é estado legítimo aqui (ver JSDoc), EXCETO nas de NAO_PODE_VAZIA,

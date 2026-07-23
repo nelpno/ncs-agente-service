@@ -4,6 +4,7 @@ import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
 import { slPut as _slPut } from '../../superlogica_write.mjs';
 import { enfileirarAvisos } from '../../outbox.mjs';
 import { STATUS } from '../../docia/conferir.mjs';
+import { validarExtras, payloadExtras } from '../campos_condo.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
@@ -21,10 +22,14 @@ const TIPORESP_INQUILINO_RESPONSAVEL = '7';
 const RESPONSAVEIS = ['proprietario', 'inquilino'];
 
 // nomes EXATOS dos campos opcionais a confirmar em descoberta/api-superlogica-doc.md (pág 26-27)
+// ⚠️ email/telefone SÃO obrigatórios p/ inquilino (ver validar) — ficam aqui porque a MONTAGEM do payload
+// é a mesma (só entram se presentes; quando obrigatórios, sempre presentes). ST_RG_CON é PALPITE (RG não
+// confirmado na doc da escrita) — opcional, só entra se a pessoa informar; zero risco quando ausente.
 const MAP_OPCIONAIS = {
   email: 'contatos[0][ST_EMAIL_CON]',
   telefone: 'contatos[0][ST_TELEFONE_CON]',
   cpf: 'contatos[0][ST_CPFCNPJ_CON]',
+  rg: 'contatos[0][ST_RG_CON]',
 };
 
 function validar(d) {
@@ -34,10 +39,22 @@ function validar(d) {
   // CPF a gente não consegue gerar". Sem ele o cadastro ENTRA e não serve para nada: a equipe não
   // emite o boleto e o caso volta. Travar aqui faz a Ana pedir, em vez de mandar para a fila um
   // rascunho natimorto. Dependente não recebe cobrança (141/141 no dado real) → não precisa.
-  // ⚠️ e-mail e telefone NÃO travam de propósito: o Fernando graduou os três ("o telefone não era
-  // muito necessário"), e exigir o que o motor não precisa é o que travou o Estagiário em 14/07.
-  // Eles viram ALERTA no card (ver render) — visíveis para o aprovador, sem bloquear o atendimento.
   if (d?.papel !== 'dependente' && !d?.cpf) erros.push('faltou cpf (sem ele a equipe não gera o boleto da taxa)');
+  // ⚠️ e-mail e telefone: OBRIGATÓRIOS para inquilino. O Fernando REVERTEU em 22/07 a graduação de
+  // 14/07 ("o telefone não era muito necessário") — a decisão VIGENTE é "e-mail e telefone celular
+  // OBRIGATÓRIOS" no cadastro de inquilino/titularidade. A Ana COLETA na conversa (o card chega
+  // completo e o "Devolver" vira raro); sem eles ela PEDE, não manda um rascunho pela metade.
+  // ⚠️ NÃO reverter para alerta: a trilha desta decisão custou uma sessão em 14/07 (a próxima sessão
+  // "consertou" de volta). DEPENDENTE segue LENIENTE (Fernando: "menor de idade não é obrigatório RG,
+  // CPF nem telefone") → nada além de nome/unidade/condomínio/data.
+  if (d?.papel !== 'dependente') {
+    if (!d?.email) erros.push('faltou e-mail (é para onde o boleto é enviado — obrigatório)');
+    if (!d?.telefone) erros.push('faltou telefone (contato que entra no sistema da portaria — obrigatório)');
+    // Extras por condomínio (Tivoli 164: data de nascimento + veículo + placa). Vazio p/ condo comum
+    // (byte-idêntico). Só para não-dependente: "qualquer tipo ADULTO" (Fernando) — nunca trava um
+    // dependente menor por falta de placa/nascimento, o que contraria a leniência acima.
+    erros.push(...validarExtras(d?.id_condominio, d));
+  }
   if (d?.papel && !['inquilino', 'dependente'].includes(d.papel)) erros.push('papel inválido');
   if (d?.data_entrada && !DATA_RE.test(d.data_entrada)) erros.push('data_entrada deve ser MM/DD/AAAA');
   if (d?.responsavel_cobranca && !RESPONSAVEIS.includes(d.responsavel_cobranca)) erros.push('responsavel_cobranca inválido');
@@ -59,6 +76,9 @@ function montarPayload(d) {
     'contatos[0][ID_TIPOCONTATO_TCON]': '1', // condômino
   };
   for (const [campo, chave] of Object.entries(MAP_OPCIONAIS)) if (d[campo]) p[chave] = d[campo];
+  // Extras por condomínio que VÃO ao ERP (Tivoli: DT_NASCIMENTO_CON). Veículo/placa têm payload:null →
+  // não entram aqui (ficam no card + aviso à portaria). Vazio p/ condo comum (byte-idêntico).
+  Object.assign(p, payloadExtras(d.id_condominio, d));
   return p;
 }
 
@@ -197,6 +217,12 @@ function render(d, snap) {
       { label: 'E-mail', valor: d.email || '—' },
       { label: 'Telefone', valor: d.telefone || '—' },
       { label: 'CPF', valor: d.cpf || '—' },
+      // Extras coletados (condomínios com exigência própria, ex. Tivoli): só aparecem quando presentes,
+      // então o card dos condos comuns fica idêntico. A placa vive aqui p/ o aprovador (o aviso à
+      // portaria com placa é passo futuro no outbox — hoje o ator do aviso não carrega veículo).
+      ...(d.data_nascimento ? [{ label: 'Data de nascimento', valor: dataBR(d.data_nascimento) }] : []),
+      ...(d.rg ? [{ label: 'RG', valor: d.rg }] : []),
+      ...(d.veiculo_modelo || d.veiculo_placa ? [{ label: 'Veículo', valor: [d.veiculo_modelo, d.veiculo_placa].filter(Boolean).join(' · ') }] : []),
       { label: 'Quem recebe o boleto', valor: recebe ? 'O inquilino (responsável pela cobrança)' : 'O proprietário (padrão)' },
       ...(doc.campo ? [doc.campo] : []),
     ],

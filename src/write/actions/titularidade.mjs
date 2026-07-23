@@ -13,6 +13,7 @@
 import { registerAction } from '../registry.mjs';
 import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
 import { slPut as _slPut } from '../../superlogica_write.mjs';
+import { validarExtras, payloadExtras } from '../campos_condo.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA (formato da API Superlógica)
 const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').trim();
@@ -24,7 +25,13 @@ function validar(d) {
   for (const k of ['id_condominio', 'id_unidade', 'nome', 'data_transferencia']) if (!d?.[k]) erros.push(`faltou ${k}`);
   // CPF do NOVO proprietário: é ele que passa a receber o boleto da taxa — sem CPF a equipe não gera.
   if (!d?.cpf) erros.push('faltou cpf do novo proprietário (sem ele a equipe não gera o boleto da taxa)');
+  // e-mail e telefone OBRIGATÓRIOS na titularidade (Fernando 22/07 — mesma decisão do cadastro de inquilino).
+  // O novo proprietário é sempre adulto (não há papel dependente aqui) → sem ressalva de leniência.
+  if (!d?.email) erros.push('faltou e-mail do novo proprietário (é para onde o boleto é enviado — obrigatório)');
+  if (!d?.telefone) erros.push('faltou telefone do novo proprietário (obrigatório)');
   if (d?.data_transferencia && !DATA_RE.test(d.data_transferencia)) erros.push('data_transferencia deve ser MM/DD/AAAA');
+  // Extras por condomínio (Tivoli 164: data de nascimento + veículo + placa). Vazio p/ condo comum (byte-idêntico).
+  erros.push(...validarExtras(d?.id_condominio, d));
   // proprietarios_atuais = quem SAI (lido do ERP pela tool, não pelo LLM). Sem isso não há troca: seria
   // só um proprietário A MAIS, deixando o antigo ativo — a DUPLICAÇÃO de boleto que a troca deve evitar.
   if (!Array.isArray(d?.proprietarios_atuais) || d.proprietarios_atuais.length === 0) {
@@ -48,6 +55,8 @@ function montarPayload(d) {
   if (d.cpf) novo['contatos[0][ST_CPFCNPJ_CON]'] = d.cpf;
   if (d.email) novo['contatos[0][ST_EMAIL_CON]'] = d.email;
   if (d.telefone) novo['contatos[0][ST_TELEFONE_CON]'] = d.telefone;
+  if (d.rg) novo['contatos[0][ST_RG_CON]'] = d.rg; // opcional (ST_RG_CON é palpite, ver cadastro_inquilino)
+  Object.assign(novo, payloadExtras(d.id_condominio, d)); // extras por condo (Tivoli: DT_NASCIMENTO_CON)
   const saidas = (d.proprietarios_atuais || []).map((p) => ({
     idCondominio: String(d.id_condominio), idUnidade: String(d.id_unidade),
     'contatos[0][ID_CONTATO_CON]': String(p.id_contato_con),
@@ -129,6 +138,10 @@ function render(d, snap) {
       { label: 'CPF (novo)', valor: d.cpf || '—' },
       { label: 'E-mail', valor: d.email || '—' },
       { label: 'Telefone', valor: d.telefone || '—' },
+      // Extras coletados (condo com exigência própria, ex. Tivoli): só aparecem quando presentes.
+      ...(d.data_nascimento ? [{ label: 'Data de nascimento', valor: dataBR(d.data_nascimento) }] : []),
+      ...(d.rg ? [{ label: 'RG', valor: d.rg }] : []),
+      ...(d.veiculo_modelo || d.veiculo_placa ? [{ label: 'Veículo', valor: [d.veiculo_modelo, d.veiculo_placa].filter(Boolean).join(' · ') }] : []),
       { label: 'Data da transferência', valor: dataBR(d.data_transferencia) },
       // item (c): o MATCH do proprietário atual × Superlógica — o que o Fernando pediu. Vem do ERP (tool), CPF mascarado.
       { label: 'Proprietário(s) atual(is) — sai(em)', valor: atuais.map((p) => `${p.nome || '(sem nome)'}${cpf2(p.cpf) ? ' (CPF ' + cpf2(p.cpf) + ')' : ''}`).join(' · ') || '(não identificado)' },

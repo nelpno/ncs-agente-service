@@ -72,6 +72,10 @@ process.env.FILA_ANA_ENABLED = 'true';
   ok(!j.includes('123.456.789-00') && !j.includes('16999998888') && !j.includes('joao@x.com'), 'linha gravada SEM PII');
   // unidade de 4 digitos ("0101") NAO e mascarada (nao e PII)
   ok(sanitizarAssunto('mudanca apto 0101').includes('0101'), 'nao mascara numero de unidade (4 digitos)');
+  // PLACA de veiculo mascarada (LGPD) — Mercosul (letra no meio, escapa do [num]) E antiga
+  ok(!/ABC1D23/.test(sanitizarAssunto('veiculo placa ABC1D23')), 'mascara placa Mercosul (ABC1D23)');
+  ok(!/ABC1234/.test(sanitizarAssunto('placa ABC1234 do carro')), 'mascara placa antiga (ABC1234)');
+  ok(sanitizarAssunto('veiculo placa ABC1D23').includes('[placa]'), 'placa vira [placa]');
 }
 
 // ---------------------------------------------------- 5) Decisão (b): estreitar o handoff.

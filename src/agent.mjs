@@ -56,6 +56,12 @@ const TOOLS = [
       email: { type: 'string' }, telefone: { type: 'string' }, cpf: { type: 'string' },
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
+      // Campos que ALGUNS condomínios exigem (a ferramenta avisa quando faltam). RG é opcional em qualquer
+      // condomínio; data de nascimento + modelo/placa do veículo são exigidos no Tivoli. Só passe se a pessoa informar.
+      rg: { type: 'string' },
+      data_nascimento: { type: 'string', description: 'MM/DD/AAAA. Exigida em alguns condomínios (ex.: Tivoli).' },
+      veiculo_modelo: { type: 'string', description: 'Modelo do veículo. Exigido em alguns condomínios (ex.: Tivoli).' },
+      veiculo_placa: { type: 'string', description: 'Placa do veículo. Exigida em alguns condomínios (ex.: Tivoli).' },
     }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
   { type: 'function', function: { name: 'criar_rascunho_titularidade',
     description: 'Prepara a TROCA DE TITULARIDADE de uma unidade (compra e venda / novo proprietário). NÃO grava: monta o pedido — cadastra o novo dono e dá saída no proprietário atual — e envia para a equipe aprovar. O proprietário atual é lido do sistema; você não precisa informá-lo. Use quando a pessoa comprou a unidade e quer passá-la para o nome dela.',
@@ -65,6 +71,11 @@ const TOOLS = [
       cpf: { type: 'string', description: 'CPF do novo proprietário (necessário para gerar o boleto da taxa).' },
       data_transferencia: { type: 'string', description: 'Data da compra/transferência, MM/DD/AAAA.' },
       email: { type: 'string' }, telefone: { type: 'string' },
+      // Exigidos em alguns condomínios (a ferramenta avisa quando faltam). RG opcional em qualquer um.
+      rg: { type: 'string' },
+      data_nascimento: { type: 'string', description: 'MM/DD/AAAA. Exigida em alguns condomínios (ex.: Tivoli).' },
+      veiculo_modelo: { type: 'string', description: 'Modelo do veículo. Exigido em alguns condomínios (ex.: Tivoli).' },
+      veiculo_placa: { type: 'string', description: 'Placa do veículo. Exigida em alguns condomínios (ex.: Tivoli).' },
     }, required: ['id_unidade', 'nome', 'cpf', 'data_transferencia'] } } },
   { type: 'function', function: { name: 'analisar_contrato',
     description: 'Confere o CONTRATO (locação) que a pessoa enviou por foto/PDF e devolve um laudo: o que está OK e o que FALTA. Use quando ela mandar o contrato para cadastro de inquilino ou troca de titularidade, DEPOIS de confirmar que enviou todas as páginas (pergunte "é só isso ou tem mais alguma página?" antes). Passe id_condominio e id_unidade (do resolver_cadastro) quando já souber — sem eles não dá para cruzar com o cadastro. Retorna { ok, parecer (aprovado|pendente|reprovado), pendencias[], divergencias[], unidade, locatario_nome, vigencia_fim, responsavel_taxa_sugerido }. ok:false motivo:"sem_documento" = não recebi nenhuma página; motivo:"ilegivel" = peça foto mais nítida (use a mensagem retornada). CONTE as pendências para a pessoa em português, para ela já mandar o que falta — mas NUNCA diga que o cadastro está aprovado: o laudo é uma conferência, quem aprova é a equipe. responsavel_taxa_sugerido é SUGESTÃO: confirme com a pessoa quem recebe o boleto, nunca decida sozinho.',
@@ -222,6 +233,8 @@ async function runToolReal(name, args, ctx) {
         nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
         responsavel_cobranca: args.responsavel_cobranca,
+        // campos extras por condomínio (Tivoli) + RG — o validar/payload da ação decide o que exigir/gravar
+        rg: args.rg, data_nascimento: args.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
         // Laudo do DocIA quando a pessoa mandou o contrato NESTE atendimento (senão null: nem todo
         // cadastro vem com contrato, e com a flag desligada nunca vem). O card só exibe — a conferência
         // é informativa e não gateia o botão. Não entra em montarPayload: o payload do ERP é montado
@@ -249,6 +262,7 @@ async function runToolReal(name, args, ctx) {
         condominio_nome: ctx.condominios?.[idc] || ctx.lastCondo?.nome || null,
         nome: args.nome, cpf: args.cpf, data_transferencia: args.data_transferencia,
         email: args.email, telefone: args.telefone,
+        rg: args.rg, data_nascimento: args.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
         proprietarios_atuais: atuais,
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };

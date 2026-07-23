@@ -5,8 +5,19 @@ const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falha
 
 // validar: campos obrigatórios
 ok(cadastroInquilino.validar({}).ok === false, 'vazio é inválido');
-const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901' };
+// e-mail + telefone entram no `base` porque agora são OBRIGATÓRIOS p/ inquilino (Fernando 22/07).
+const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901', email: 'joao@x.com', telefone: '16999998888' };
 ok(cadastroInquilino.validar(base).ok === true, 'campos obrigatórios → válido');
+
+// ── e-mail e telefone OBRIGATÓRIOS p/ inquilino (Fernando REVERTEU em 22/07 a graduação de 14/07) ──
+const semEmail = { ...base }; delete semEmail.email;
+ok(cadastroInquilino.validar(semEmail).ok === false, 'inquilino SEM e-mail → inválido (obrigatório desde 22/07)');
+ok(/e-mail/i.test(cadastroInquilino.validar(semEmail).erros.join(' ')), 'o erro diz que faltou o e-mail');
+const semTel = { ...base }; delete semTel.telefone;
+ok(cadastroInquilino.validar(semTel).ok === false, 'inquilino SEM telefone → inválido');
+// Dependente segue LENIENTE: nem CPF, nem e-mail, nem telefone travam (Fernando: "menor não é obrigatório")
+const depSoBasico = { id_condominio: '179', id_unidade: '900', nome: 'Filho Menor', papel: 'dependente', data_entrada: '06/30/2026' };
+ok(cadastroInquilino.validar(depSoBasico).ok === true, 'dependente sem CPF/e-mail/telefone → válido (leniente)');
 
 // ── CPF do inquilino (Fernando, 15/07) ────────────────────────────────────────────────────────────
 // "o CPF, para gerar o boleto da taxa de condomínio... sem o CPF a gente não consegue gerar."
@@ -28,8 +39,20 @@ ok(p['contatos[0][ST_NOME_CON]'] === 'João Silva', 'nome mapeado');
 ok(p['contatos[0][ID_LABEL_TRES]'] === '7', 'inquilino → LABEL 7');
 ok(cadastroInquilino.montarPayload({ ...base, papel: 'dependente' })['contatos[0][ID_LABEL_TRES]'] === '4', 'dependente → LABEL 4');
 ok(p['contatos[0][DT_ENTRADA_RES]'] === '06/30/2026', 'data MM/DD/AAAA preservada');
-ok(!('contatos[0][ST_EMAIL_CON]' in p), 'opcional ausente não vai no payload');
+ok(!('contatos[0][ST_RG_CON]' in p), 'opcional ausente (RG) não vai no payload');
 ok('contatos[0][ST_EMAIL_CON]' in cadastroInquilino.montarPayload({ ...base, email: 'a@b.com' }), 'opcional presente entra');
+ok(cadastroInquilino.montarPayload({ ...base, rg: '12.345.678-9' })['contatos[0][ST_RG_CON]'] === '12.345.678-9', 'RG presente entra no payload');
+
+// ── Extras por condomínio (Tivoli 164): nascimento + veículo + placa ────────────────────────────────
+const baseTivoli = { ...base, id_condominio: '164' };
+ok(cadastroInquilino.validar(baseTivoli).ok === false, 'Tivoli sem os extras → inválido (exige nascimento/veículo/placa)');
+const tivoliCompleto = { ...baseTivoli, data_nascimento: '01/02/2000', veiculo_modelo: 'Gol', veiculo_placa: 'ABC1D23' };
+ok(cadastroInquilino.validar(tivoliCompleto).ok === true, 'Tivoli com os 3 extras → válido');
+const pTiv = cadastroInquilino.montarPayload(tivoliCompleto);
+ok(pTiv['contatos[0][DT_NASCIMENTO_CON]'] === '01/02/2000', 'Tivoli: nascimento vai ao ERP (DT_NASCIMENTO_CON)');
+ok(!Object.keys(pTiv).some((k) => /PLACA|VEICULO/i.test(k)), 'veículo/placa NÃO vão ao ERP (ficam no card)');
+// Dependente no Tivoli NÃO é travado pelos extras (leniência do menor prevalece sobre "qualquer tipo adulto")
+ok(cadastroInquilino.validar({ ...depSoBasico, id_condominio: '164' }).ok === true, 'dependente no Tivoli → válido (extras só p/ adulto)');
 
 // IO injetável
 // ⚠️ o campo é `st_cpf_con` — é o que `responsaveis/index` devolve DE VERDADE. Esta fixture dizia
