@@ -59,7 +59,7 @@
         "jogos",
         "segurança"
       ],
-      "texto_artigo": "e/ou danificar o sistema de purificação da água (filtros). c) É proibida a prática de brincadeiras e/ou jogos que ameacem a segurança e o bem\n\nestar dos usuários, na área da piscina. d) As crianças que ainda não controlam suas necessidades deverão utilizar a piscina\n\ncom proteção e fraldas próprias para natação. e) É proibida a entrada na área da piscina portando qualquer recipiente de vidro. f) É obrigatório o uso da “ducha” para entrar na piscina. g) O horário de funcionamento da piscina é das 6h00min às 22h00min, respeitando o horário de limpeza que será das 08h00min às 09h00min, ficando reservado à segunda-feira pela manhã das 08h00min às 12h00min horas para uma limpeza completa. h) A piscina poderá ser utilizada em qualquer horário com exceção dos horários de\n\nlimpeza acima mencionados. i)"
+      "texto_artigo": "c) É proibida a prática de brincadeiras e/ou jogos que ameacem a segurança e o bem estar dos usuários, na área da piscina."
     },
     "circulacao_traje_banho_areas_sociais": {
       "titulo": "Circulação em traje de banho em áreas sociais",
@@ -70,7 +70,7 @@
         "elevadores",
         "proibido"
       ],
-      "texto_artigo": "limpeza acima mencionados. i) Fica terminantemente proibida a circulação de adultos ou crianças em trajes de\n\nbanho nas áreas sociais e elevadores sociais do Condomínio. j)"
+      "texto_artigo": "i) Fica terminantemente proibida a circulação de adultos ou crianças em trajes de banho nas áreas sociais e elevadores sociais do Condomínio."
     },
     "uso_tabaco_areas_comuns": {
       "titulo": "Uso de tabaco em áreas comuns",
@@ -81,7 +81,7 @@
         "áreas comuns",
         "proibido"
       ],
-      "texto_artigo": "banho nas áreas sociais e elevadores sociais do Condomínio. j) É proibida permanentemente a utilização de tabaco em todas as dependências\n\ncomuns do condomínio.\n\nV - DO USO DOS ESPAÇO FESTAS, ESPAÇO GOURMET E ESPAÇOS GRILL"
+      "texto_artigo": "j) É proibida permanentemente a utilização de tabaco em todas as dependências comuns do condomínio."
     },
     "barulho_espaco_festas_apos_22h": {
       "titulo": "Barulho excessivo em Espaços de Festas após 22h",

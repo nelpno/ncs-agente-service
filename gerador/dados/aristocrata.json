@@ -70,7 +70,7 @@
         "objetos",
         "volumes"
       ],
-      "texto_artigo": "É proibido: (...) b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;"
+      "texto_artigo": "Artigo 12 É proibido: (...) b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;"
     },
     "fumar_areas_comuns": {
       "titulo": "Fumar nas Áreas Comuns",
@@ -81,7 +81,7 @@
         "hall",
         "área comum"
       ],
-      "texto_artigo": "É proibido: (...) b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio."
+      "texto_artigo": "Artigo 13 É proibido: (...) b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio."
     },
     "bicicletas_areas_comuns": {
       "titulo": "Bicicletas e Brincadeiras nas Áreas Comuns",
@@ -92,7 +92,7 @@
         "skate",
         "área comum"
       ],
-      "texto_artigo": "É proibido: (...) d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável."
+      "texto_artigo": "Artigo 13 É proibido: (...) d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável."
     },
     "garagem_visitantes": {
       "titulo": "Uso Indevido da Garagem por Visitantes",
@@ -125,7 +125,7 @@
         "portaria",
         "encomenda"
       ],
-      "texto_artigo": "É proibido: (...) b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;"
+      "texto_artigo": "Artigo 30 É proibido: (...) b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;"
     },
     "varanda_varal": {
       "titulo": "Objetos e Varal na Sacada ou Janela",
@@ -136,7 +136,7 @@
         "janela",
         "roupa"
       ],
-      "texto_artigo": "d) Colocar vasos, tapetes, toalhas, varais de roupa ou quaisquer outros objetos que ofereçam incômodo, perigo de queda, ou que prejudiquem a estética do prédio nos parapeitos das sacadas, área de serviço e janelas. A secagem de roupas poderá ser feita em varais de teto ou chão na área de serviço;\n\ne) Sublocar, sob qualquer pretexto, dormitórios ou outras dependências dos apartamentos;"
+      "texto_artigo": "Artigo 48 É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) d) Colocar vasos, tapetes, toalhas, varais de roupa ou quaisquer outros objetos que ofereçam incômodo, perigo de queda, ou que prejudiquem a estética do prédio nos parapeitos das sacadas, área de serviço e janelas. A secagem de roupas poderá ser feita em varais de teto ou chão na área de serviço;"
     },
     "churrasqueira_fumaca": {
       "titulo": "Churrasqueira que Gere Fumaça",
