@@ -59,7 +59,7 @@
         "elevador social",
         "pet"
       ],
-      "texto_artigo": "b) Usar o elevador social para transporte de animais domésticos qualquer espécie;\n\nc) Acionar os botões de comando dos elevadores, tanto externos quanto internos, de forma contínua ou inadequada;\n\nd) Exceder o limite de peso expresso nas cabines dos elevadores para transporte de pessoas ou cargas;\n\ne) Manter abertas as portas dos elevadores por tempo maior que o necessário para entrada e saída de pessoas, salvo nos casos de manutenção e carga ou descarga de materiais;\n\nf) Permitir o uso dos elevadores por crianças menores de (seis) anos desacompanhadas dos pais ou adultos responsáveis;\n\ng) Permitir que crianças brinque nos elevadores;\n\nh) Utilizar o elevador social em trajes de banho ou molhado;\n\ni) Transportar bicicletas no elevador sem a devida proteção.\n\nHALL DOS APARTAMENTOS E ESCADAS"
+      "texto_artigo": "É proibido aos Condôminos e Locatários: (...) b) Usar o elevador social para transporte de animais domésticos qualquer espécie;"
     },
     "objetos_hall_escada": {
       "titulo": "Objetos no Hall ou Escada",
@@ -70,7 +70,7 @@
         "objetos",
         "volumes"
       ],
-      "texto_artigo": "b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;\n\nc) A instalação de luminária, ou outro equipamento elétrico incompatível com a instalação elétrica.\n\nd) A pintura das portas dos elevadores, porta corta fogo, e compartimento da mangueira de incêndio.\n\nÁREAS DIVERSAS"
+      "texto_artigo": "É proibido: (...) b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;"
     },
     "fumar_areas_comuns": {
       "titulo": "Fumar nas Áreas Comuns",
@@ -81,7 +81,7 @@
         "hall",
         "área comum"
       ],
-      "texto_artigo": "b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio.\n\nc) A permanência de volumes de qualquer espécie nas áreas comuns do prédio, escadas, áreas de acesso, exceto quando em trânsito para os apartamentos;\n\nd)"
+      "texto_artigo": "É proibido: (...) b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio."
     },
     "bicicletas_areas_comuns": {
       "titulo": "Bicicletas e Brincadeiras nas Áreas Comuns",
@@ -92,7 +92,7 @@
         "skate",
         "área comum"
       ],
-      "texto_artigo": "d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável.\n\ne) Utilizar a buzina desnecessariamente nas dependências do condomínio ou para solicitar abertura dos portões.\n\nf) Ouso constante e prolongado \"pernoite\" por condôminos ou locatários das vagas existentes em frente á guarita, seja pelo lado de dentro ou de fora.\n\nGARAGEM"
+      "texto_artigo": "É proibido: (...) d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável."
     },
     "garagem_visitantes": {
       "titulo": "Uso Indevido da Garagem por Visitantes",
@@ -125,7 +125,7 @@
         "portaria",
         "encomenda"
       ],
-      "texto_artigo": "b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;\n\nc) Deixar valores e outros objetos estranhos à Portaria no interior da mesma sob qualquer pretexto."
+      "texto_artigo": "É proibido: (...) b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;"
     },
     "varanda_varal": {
       "titulo": "Objetos e Varal na Sacada ou Janela",
@@ -147,7 +147,7 @@
         "varanda",
         "cheiro"
       ],
-      "texto_artigo": "a) O uso de churrasqueiras ou qualquer outro tipo de utensílio que possa gerar fumaça, pois a mesma poderá incomodar condôminos ou Locatários de apartamentos vizinhos.\n\nb) Mudar a forma externa da fachada e área de serviço correspondente a cada apartamento. Isto implica em não alterar tipo ou cor de vidros e esquadrias definidos na entrega do Edifício pela Construtora conforme padrões escolhidos pela Administração, pintar paredes, teto de cores ou tonalidades diferentes das usadas no conjunto do Condomínio, instalar toldos, aparelhos de ar-condicionado ou antenas de TV por assinatura.\n\nc) Colocar anúncios, placas, ou letreiros de qualquer espécie seja na parte externa ou nas dependências internas visíveis externamente, inclusive nos vidros das janelas dos apartamentos.\n\nd)"
+      "texto_artigo": "É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) a) O uso de churrasqueiras ou qualquer outro tipo de utensílio que possa gerar fumaça, pois a mesma poderá incomodar condôminos ou Locatários de apartamentos vizinhos."
     },
     "animais_areas_comuns": {
       "titulo": "Animais nas Áreas Comuns",
