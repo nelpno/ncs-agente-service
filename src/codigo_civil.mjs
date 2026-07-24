@@ -24,7 +24,10 @@ const SYN = {
   vazamento:['infiltracao','dano','danos','prejudicial','salubridade','agua','terraco'],
   dano:['danos','prejudicial','responde','indenizar','perdas','reparar','causou'],
   danos:['dano','prejudicial','responde','perdas','indenizar'],
-  indenizar:['dano','danos','perdas','responde','reparar'], prejuizo:['dano','danos','perdas','indenizar'],
+  indenizar:['dano','danos','perdas','responde','reparar'],
+  // "prejuizo" NÃO expande p/ dano: "prejuízo ao sossego" (barulho) é detrimento, não dano material — a
+  // expansão fazia o art. de dano (1.319, título "…frutos e danos") roubar o topo do sossego (1.336, IV).
+  // Dano real continua coberto por dano/danos/infiltracao/vazamento (que aparecem literalmente no relato).
   barulho:['sossego','prejudicial','ruido','som','perturbar','salubridade','costumes'],
   ruido:['barulho','sossego','prejudicial','som'], som:['barulho','sossego','prejudicial'],
   sossego:['barulho','prejudicial','salubridade','costumes','perturbar'],
@@ -34,7 +37,7 @@ const SYN = {
   obra:['obras','reforma','seguranca','edificacao','voluptuarias','uteis','necessarias'],
   obras:['obra','reforma','seguranca','voluptuarias','uteis','necessarias'], reforma:['obra','obras','seguranca'],
   fachada:['forma','cor','esquadrias','externas','alterar'], alterar:['fachada','forma','cor','destinacao'],
-  multa:['sancoes','pecuniarias','moratoria','deveres','reiteradamente','quintuplo','decuplo','contribuicao'],
+  multa:['sancoes','pecuniarias','moratoria','deveres','contribuicao'], // reiteradamente/quintuplo/decuplo → só em reincidencia/reiterado (senão "multa" genérico rouba o art. de reincidência)
   penalidade:['multa','sancoes','pecuniarias','deveres'], sancao:['multa','sancoes','pecuniarias'],
   inadimplencia:['contribuicao','moratorios','juros','pagar','debito','despesas','moratoria'],
   inadimplente:['contribuicao','moratorios','juros','debito','pagar'], debito:['contribuicao','moratorios','juros','pagar'],
@@ -49,19 +52,55 @@ const SYN = {
   fachada_externa:['fachada','esquadrias','externas'], seguranca:['edificacao','prejudicial','obras'],
 };
 
+// Fatiamento do ARTIGO por inciso/parágrafo (feedback Fernando 24/07): a notificação citava o Art. 1.336
+// INTEIRO (deveres + fachada + juros/débito + multa), afogando a conduta relatada. Um artigo "guarda-tudo"
+// vira vários chunks — cada inciso/parágrafo separado — para o retriever devolver SÓ o trecho da conduta
+// (barulho → inciso IV; inadimplência → § 1º). O texto continua VERBATIM da base; só muda o recorte.
+const reInciso = /^([IVXLC]+)\s+[–—-]\s/;          // "IV – …" (traço = en/em-dash ou hífen)
+const rePar = /^(§\s*\d+º?|Par[aá]grafo [uú]nico)/i; // "§ 1º …" | "Parágrafo único …"
+
+function segmentar(secao, lines) {
+  const body = lines.filter((l) => !/^▸/.test(l));      // tira notas editoriais "▸ … com redação dada …"
+  const one = (sec, txt) => { const t = String(txt).trim(); return t.length > 20 ? [{ secao: sec, texto: t }] : []; };
+  const mArt = secao.match(/^\s*(Art\.\s*[\d.]+)/i);
+  if (!mArt) return one(secao, body.join(' '));              // não-artigo (Tópicos): 1 chunk, como antes
+  const artBase = mArt[1].replace(/\s+/g, ' ').trim();       // "Art. 1.336"
+
+  const bounds = [];
+  body.forEach((l, i) => {
+    const mi = l.match(reInciso), mp = l.match(rePar);
+    if (mi) bounds.push({ i, label: mi[1], inciso: true });
+    else if (mp) bounds.push({ i, label: mp[1].replace(/\s+/g, ' ').trim(), inciso: false });
+  });
+  if (!bounds.length) return one(secao, body.join(' '));      // artigo simples (1.344 etc.): 1 chunk INTEIRO
+
+  const out = [];
+  const caput = body.slice(0, bounds[0].i).join(' ').trim();
+  const leadIn = /:\s*$/.test(caput);                         // "São deveres do condômino:" = lista → prefixa incisos
+  if (caput && !leadIn) out.push(...one(artBase, caput));      // caput é provisão própria (1.337, 1.331) → "Art. 1.XXX"
+  for (let b = 0; b < bounds.length; b++) {
+    const to = b + 1 < bounds.length ? bounds[b + 1].i : body.length;
+    const seg = body.slice(bounds[b].i, to).join(' ').trim();
+    const txt = (bounds[b].inciso && leadIn && caput) ? `${caput} ${seg}` : seg; // inciso herda o caput-lista
+    out.push(...one(`${artBase}, ${bounds[b].label}`, txt));
+  }
+  return out;
+}
+
 let _index = null;
 function loadIndex() {
   if (_index) return _index;
   _index = { chunks: [] };
   if (!fs.existsSync(ROOT)) return _index;
   for (const f of fs.readdirSync(ROOT)) {
-    if (!f.endsWith('.md')) continue;
+    if (!f.endsWith('.md') || f.startsWith('_')) continue; // pula doc interno (_LEIA.md): NÃO é lei — nunca indexar como artigo
     let txt = fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/^---[\s\S]*?---\n/, '');
     let secao = '(início)';
     let buf = [];
     const flush = () => {
-      const t = buf.join(' ').trim();
-      if (t.length > 25) _index.chunks.push({ secao, texto: t, ntexto: norm(t), nsecao: norm(secao) });
+      for (const ch of segmentar(secao, buf)) {
+        _index.chunks.push({ secao: ch.secao, texto: ch.texto, ntexto: norm(ch.texto), nsecao: norm(ch.secao) });
+      }
       buf = [];
     };
     for (const raw of txt.split('\n')) {
@@ -100,10 +139,11 @@ function _rankCC(tema, k) {
     }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, k);
 }
 
-// fundamentoCC("Art. 1.344 — Conservação do terraço...") → "Código Civil (Lei nº 10.406/2002), Art. 1.344".
-// Extrai só o rótulo "Art. 1.XXX" (o que vai no fundamento do documento); sem match, usa a seção inteira.
+// fundamentoCC("Art. 1.336, IV — …") → "Código Civil (Lei nº 10.406/2002), Art. 1.336, IV".
+// Extrai o rótulo "Art. 1.XXX" + o inciso/parágrafo quando houver (o que vai no fundamento do documento);
+// sem match, usa a seção inteira. Casa "Art. 1.344" (artigo simples), "Art. 1.336, IV" e "Art. 1.336, § 1º".
 function fundamentoCC(secao) {
-  const m = String(secao || '').match(/^\s*(Art\.\s*[\d.]+)/i);
+  const m = String(secao || '').match(/^\s*(Art\.\s*[\d.]+(?:,\s*(?:§\s*\d+º?|Par[aá]grafo [uú]nico|[IVXLC]+))?)/i);
   return `Código Civil (Lei nº 10.406/2002), ${m ? m[1].replace(/\s+/g, ' ').trim() : secao}`;
 }
 
