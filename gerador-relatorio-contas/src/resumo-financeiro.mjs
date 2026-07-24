@@ -6,6 +6,7 @@
 // As exclusões são por NOME de categoria (nível 2 do plano de contas), pois variam de mês a mês
 // (ex.: "Despesas com Investimento" só existe quando houve investimento). Cálculo é DETERMINÍSTICO.
 import { balancete, caixa, periodoMes, inadimplenciaResumo } from './superlogica-financeiro.mjs';
+import { buscarManutencoes, renderCardManutencoes } from './manutencoes.mjs';
 
 const nivel = (conta) => String(conta).split('.').filter(Boolean).length;
 const RE_EXCLUI_RECEITA = /fundo de reserva|rendiment|taxa extra/i;
@@ -204,10 +205,10 @@ body{margin:0;color:#222}
 .hdr{background:#1b7a3d;color:#fff;padding:16px 20px;border-radius:8px;text-align:center}
 .hdr h1{margin:0;font-size:20px;letter-spacing:.5px}
 .hdr .sub{margin-top:4px;font-size:13px;opacity:.92}
-.saldo{margin:16px 0;padding:14px 18px;border:2px solid #1b7a3d;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.saldo{margin:12px 0;padding:12px 18px;border:2px solid #1b7a3d;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
 .saldo .k{font-size:13px;color:#555;text-transform:uppercase;letter-spacing:.5px}
 .saldo .v{font-size:26px;font-weight:bold;color:#1b7a3d}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
 .card{border-radius:8px;padding:14px 16px;color:#fff}
 .card .k{font-size:12px;text-transform:uppercase;letter-spacing:.5px;opacity:.9}
 .card .v{font-size:22px;font-weight:bold;margin-top:4px}
@@ -215,7 +216,7 @@ body{margin:0;color:#222}
 table.det{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}
 table.det td{padding:5px 8px;border-bottom:1px solid #eee}
 .det .lbl{color:#444}.det .val{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.det .obs{color:#888;font-size:11px}
-.destaques{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.destaques{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
 .dcol{border:1px solid #e3e8e4;border-radius:6px;padding:10px 12px}
 .dcol .dh{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#1b7a3d;font-weight:bold;margin-bottom:6px}
 .dcol ul{margin:0;padding:0;list-style:none}
@@ -223,11 +224,20 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
 .dcol li:last-child{border-bottom:none}
 .dcol li .dv{font-variant-numeric:tabular-nums;white-space:nowrap;color:#333;font-weight:bold}
 .dcol li .dv.pos{color:#1b7a3d}.dcol li .dv.neg{color:#b3261e}
-.info{margin:16px 0;padding:12px 16px;background:#f2f8f4;border-left:4px solid #1b7a3d;border-radius:4px;font-size:13px;line-height:1.5}
+.info{margin:10px 0;padding:10px 16px;background:#f2f8f4;border-left:4px solid #1b7a3d;border-radius:4px;font-size:13px;line-height:1.5}
 .info p{margin:0 0 8px}.info p:last-child{margin:0}
 .inad{margin:12px 0;padding:10px 14px;background:#fbeeee;border-left:4px solid #b3261e;border-radius:4px;font-size:13px}
 .inad .ih{font-size:11px;font-weight:bold;letter-spacing:.5px;color:#b3261e}
-.lgpd{margin-top:20px;font-size:10px;color:#888;line-height:1.4;border-top:1px solid #ddd;padding-top:8px}
+.manut{margin:10px 0;padding:8px 12px;border:1px solid #e3e8e4;border-radius:6px}
+.manut .mh{font-size:11px;font-weight:bold;letter-spacing:.5px;color:#1b7a3d}
+table.mt{width:100%;border-collapse:collapse;margin-top:4px;font-size:11.5px}
+table.mt td{padding:2px 6px;border-bottom:1px solid #f0f0f0}
+table.mt tr:last-child td{border-bottom:none}
+table.mt .q,table.mt .s{text-align:right;white-space:nowrap}
+table.mt .q{font-variant-numeric:tabular-nums;color:#444}
+table.mt tr.atr td{color:#b3261e;font-weight:bold}
+.manut .mn{margin-top:4px;font-size:9.5px;color:#888}
+.lgpd{margin-top:12px;font-size:10px;color:#888;line-height:1.4;border-top:1px solid #ddd;padding-top:8px}
 </style></head><body>
 <div class="hdr"><h1>RESUMO FINANCEIRO — ${esc(r.periodo.rotulo.toUpperCase())}</h1><div class="sub">${esc(r.condominio)}</div></div>
 <div class="saldo"><div class="k">Saldo total em conta</div><div class="v">R$ ${fmtBRL(r.saldoTotal)}</div></div>
@@ -252,6 +262,7 @@ ${dv ? `<div class="destaques">
 </div>`}
 <div class="info"><p>${esc(r.texto)}${r.motivo ? ' ' + esc(r.motivo) : ''}</p></div>
 ${r.inadimplencia ? `<div class="inad"><span class="ih">INADIMPLÊNCIA (POSIÇÃO ATUAL)</span><br>${r.inadimplencia.qtd} unidade(s) com pendências, somando R$ ${fmtBRL(r.inadimplencia.total)} em valores originais.</div>` : ''}
+${renderCardManutencoes(r.manutencoes)}
 <div class="lgpd">${r.nota ? esc(r.nota) + '<br><br>' : ''}${esc(r.lgpd)}</div>
 </body></html>`;
 }
@@ -262,16 +273,19 @@ export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondo
   const _balancete = deps.balancete || balancete;
   const _caixa = deps.caixa || caixa;
   const _inad = deps.inadimplencia || inadimplenciaResumo;
+  // Card 2 (manutenções programadas): lê o espelho do painel admin. NUNCA caminho crítico — erro/vazio → null.
+  const _manut = deps.manutencoes || buscarManutencoes;
   const { dtInicio, dtFim } = periodoMes(ano, mes);
   // mês anterior (para a comparação pedida pelo Fernando)
   let mesAnt = Number(mes) - 1, anoAnt = Number(ano);
   if (mesAnt < 1) { mesAnt = 12; anoAnt -= 1; }
   const pa = periodoMes(anoAnt, mesAnt);
-  const [bal, cx, balAnt, inad] = await Promise.all([
+  const [bal, cx, balAnt, inad, manut] = await Promise.all([
     _balancete(idCondominio, dtInicio, dtFim),
     _caixa(idCondominio, dtInicio, dtFim),
     Promise.resolve(_balancete(idCondominio, pa.dtInicio, pa.dtFim)).catch(() => null),
     Promise.resolve(_inad(idCondominio)).catch(() => null),
+    Promise.resolve(_manut(idCondominio, { ano: Number(ano), mes: Number(mes) })).catch(() => null),
   ]);
   const itens = bal.itens || bal; // balancete() devolve {nomeplanocontas, itens}
   const itensAnt = balAnt ? (balAnt.itens || balAnt) : null;
@@ -285,6 +299,7 @@ export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondo
     texto: textoInformativo(resumo, mes),
     motivo: comparacao ? motivoComparativo(resumo, comparacao, nomeMes(mes), nomeMes(mesAnt)) : motivoResultado(resumo, resumo.destaques),
     inadimplencia: inad ? { qtd: inad.qtd, total: round2(inad.total) } : null,
+    manutencoes: manut || null,
     nota: NOTA_METODOLOGICA,
     lgpd: RODAPE_LGPD,
   };
