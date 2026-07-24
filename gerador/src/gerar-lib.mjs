@@ -58,20 +58,40 @@ export function montarDoc(dados, oc, cadastro) {
   // cadastro do condomínio: vem do Superlógica (ao vivo) quando informado; senão o bloco fixo do catálogo (fallback/CLI).
   const cad = cadastro || dados.condominio;
   if (!cad || !cad.nome) throw new Error("cadastro do condomínio ausente (Superlógica não resolveu e não há bloco fixo no catálogo).");
-  // infracao_id aceita um id OU uma lista (pedido do síndico do Garden Place 14/07: as 2 infrações
-  // na MESMA notificação; antes o robô obrigava a equipe a escolher uma e a outra ficava de fora).
-  // String continua funcionando — CLI e chamadores antigos não mudam.
-  const ids = [...new Set([].concat(oc.infracao_id ?? []).filter(Boolean))].slice(0, 3);
-  if (!ids.length) throw new Error("infracao_id é obrigatório (um id do catálogo, ou uma lista).");
-  const infras = ids.map((id) => {
-    const i = dados.catalogo_infracoes[id];
-    if (!i) {
-      const e = new Error(`infração "${id}" não existe no catálogo de ${dados.id}.`);
-      e.infracoes_disponiveis = Object.keys(dados.catalogo_infracoes);
-      throw e;
-    }
-    return i;
-  });
+
+  // Base legal em 2 camadas (Pesquisa 2, decisão Fernando 23/07): normalmente o enquadramento vem do
+  // CATÁLOGO do condomínio (infracao_id). Quando o RI/convenção não cobre a conduta, o documento cita o
+  // CÓDIGO CIVIL — o texto do artigo vem VERBATIM da base (documentos.sugerirCodigoCivil), NUNCA do LLM.
+  const viaCC = oc.base_legal === "codigo_civil";
+  let fundamentoLinha, textosArtigo, fundamentoMarcas;
+  if (viaCC) {
+    const a = oc.artigo_cc || {};
+    if (!a.fundamento || !a.texto_artigo) throw new Error("base_legal=codigo_civil exige artigo_cc {fundamento, texto_artigo} (texto verbatim da base do Código Civil).");
+    if (oc.tipo === "multa") throw new Error("documento com base no Código Civil sai como notificação (a lei não fixa o valor da multa); use tipo='notificacao'.");
+    fundamentoLinha = `Considerando o que dispõe o ${a.fundamento},`;
+    textosArtigo = [a.texto_artigo];
+    fundamentoMarcas = [a.fundamento];
+  } else {
+    // infracao_id aceita um id OU uma lista (pedido do síndico do Garden Place 14/07: as 2 infrações
+    // na MESMA notificação; antes o robô obrigava a equipe a escolher uma e a outra ficava de fora).
+    // String continua funcionando — CLI e chamadores antigos não mudam.
+    const ids = [...new Set([].concat(oc.infracao_id ?? []).filter(Boolean))].slice(0, 3);
+    if (!ids.length) throw new Error("infracao_id é obrigatório (um id do catálogo, ou uma lista).");
+    const infras = ids.map((id) => {
+      const i = dados.catalogo_infracoes[id];
+      if (!i) {
+        const e = new Error(`infração "${id}" não existe no catálogo de ${dados.id}.`);
+        e.infracoes_disponiveis = Object.keys(dados.catalogo_infracoes);
+        throw e;
+      }
+      return i;
+    });
+    // 1 infração: "dispõe o X," · 2+: "dispõem o X, o Y e o Z," (concordância determinística)
+    fundamentoLinha = `Considerando o que ${infras.length > 1 ? "dispõem" : "dispõe"} o ${listar(infras.map((i) => i.fundamento))},`;
+    textosArtigo = infras.map((i) => i.texto_artigo);
+    fundamentoMarcas = infras.map((i) => i.fundamento);
+  }
+
   if (!oc.destinatario?.nome || !oc.destinatario?.apartamento) throw new Error("destinatario.nome e destinatario.apartamento são obrigatórios.");
   if (!oc.relato) throw new Error("relato (parágrafo da ocorrência) é obrigatório.");
   if (!oc.data_documento) throw new Error("data_documento é obrigatória.");
@@ -114,15 +134,14 @@ export function montarDoc(dados, oc, cadastro) {
       cep: cad.cep, cidade_uf: cad.cidade_uf,
     },
     titulo, saudacao,
-    // 1 infração: "dispõe o X," · 2+: "dispõem o X, o Y e o Z," (concordância determinística)
-    fundamento: `Considerando o que ${infras.length > 1 ? "dispõem" : "dispõe"} o ${listar(infras.map((i) => i.fundamento))},`,
-    texto_artigo: infras[0].texto_artigo, // compat: quem lê o campo antigo continua vendo o 1º
-    textos_artigo: infras.map((i) => i.texto_artigo),
+    fundamento: fundamentoLinha,
+    texto_artigo: textosArtigo[0], // compat: quem lê o campo antigo continua vendo o 1º
+    textos_artigo: textosArtigo,
     relato: oc.relato,
     penalidade_paragrafo,
     // Negrito determinístico das partes ESTRUTURAIS (não passa pelo LLM).
     saudacao_marcas: [oc.destinatario.nome, `apartamento ${oc.destinatario.apartamento}`],
-    fundamento_marcas: infras.map((i) => i.fundamento),
+    fundamento_marcas: fundamentoMarcas,
     penalidade_marcas: penalidade_marcas,
     // Destaques do relato: o LLM só indica TRECHOS do próprio relato — nunca escreve marcação.
     // Cada um tem que ser substring exata do relato, senão é descartado (não altera o texto).

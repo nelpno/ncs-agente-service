@@ -83,6 +83,30 @@ function termos(tema) {
   return [...set];
 }
 
+// Ranking compartilhado (consulta e geração usam o MESMO scoring): só ARTIGOS entram, pontua por termo
+// no texto (+1) e na seção/título do artigo (+2). Devolve [{c, s}] ordenado por relevância (top-k).
+function _rankCC(tema, k) {
+  const index = loadIndex();
+  if (!index.chunks.length || !tema || !norm(tema)) return [];
+  const ts = termos(tema);
+  const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
+  const tem = (hay, m) => (m.re ? m.re.test(hay) : hay.includes(m.t));
+  return index.chunks
+    .filter((c) => /^art 1 /.test(c.nsecao))          // nsecao normalizado: "art 1 336 …"
+    .map((c) => {
+      let s = 0;
+      for (const m of matchers) { if (tem(c.ntexto, m)) s += 1; if (tem(c.nsecao, m)) s += 2; }
+      return { c, s };
+    }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, k);
+}
+
+// fundamentoCC("Art. 1.344 — Conservação do terraço...") → "Código Civil (Lei nº 10.406/2002), Art. 1.344".
+// Extrai só o rótulo "Art. 1.XXX" (o que vai no fundamento do documento); sem match, usa a seção inteira.
+function fundamentoCC(secao) {
+  const m = String(secao || '').match(/^\s*(Art\.\s*[\d.]+)/i);
+  return `Código Civil (Lei nº 10.406/2002), ${m ? m[1].replace(/\s+/g, ' ').trim() : secao}`;
+}
+
 /**
  * consultar_codigo_civil({ tema, k }) — artigos do Código Civil (condomínio) relevantes ao tema.
  * Usar quando a Convenção/Regimento Interno do condomínio NÃO cobre a conduta (Pesquisa 2). O documento
@@ -92,22 +116,28 @@ export function consultar_codigo_civil({ tema, k = 4 } = {}) {
   const index = loadIndex();
   if (!index.chunks.length) return { encontrou: false, motivo: 'base_codigo_civil_vazia', artigos: [] };
   if (!tema || !norm(tema)) return { encontrou: false, motivo: 'tema_vazio', artigos: [] };
-  const ts = termos(tema);
-  const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
-  const tem = (hay, m) => (m.re ? m.re.test(hay) : hay.includes(m.t));
-  const scored = index.chunks
-    .filter((c) => /^art 1 /.test(c.nsecao))          // só ARTIGOS entram (nsecao é normalizado: "art 1 336 …")
-    .map((c) => {
-      let s = 0;
-      for (const m of matchers) { if (tem(c.ntexto, m)) s += 1; if (tem(c.nsecao, m)) s += 2; }
-      return { c, s };
-    }).filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, k);
+  const scored = _rankCC(tema, k);
   if (!scored.length) return { encontrou: false, motivo: 'nada_relevante_no_codigo_civil', artigos: [] };
   return {
     encontrou: true,
     artigos: scored.map(({ c }) => ({
       fonte: `Código Civil — ${c.secao}`,
-      texto: c.texto.length > 900 ? c.texto.slice(0, 900) + '…' : c.texto,
+      texto: c.texto.length > 900 ? c.texto.slice(0, 900) + '…' : c.texto, // truncado só p/ EXIBIR na consulta
     })),
+  };
+}
+
+/**
+ * buscarArtigoCC({ tema, k }) — variante para GERAR documento (Pesquisa 2, Etapa 2): mesmo ranking, mas
+ * devolve o texto do artigo COMPLETO (verbatim, sem truncar) + o `fundamento` pronto ("Código Civil …,
+ * Art. 1.XXX"). Quem gera o documento confirma antes com o verificador de enquadramento e cita o texto
+ * daqui — NUNCA do LLM. encontrou:false → não há base no CC.
+ */
+export function buscarArtigoCC({ tema, k = 3 } = {}) {
+  const scored = _rankCC(tema, k);
+  if (!scored.length) return { encontrou: false, artigos: [] };
+  return {
+    encontrou: true,
+    artigos: scored.map(({ c }) => ({ fundamento: fundamentoCC(c.secao), secao: c.secao, texto: c.texto })),
   };
 }

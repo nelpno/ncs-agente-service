@@ -92,8 +92,8 @@ export function renderHTML(doc) {
         ${(doc.textos_artigo || [doc.texto_artigo]).map((t) => `<div class="artigo">${par(t)}</div>`).join("\n        ")}
         <div class="corpo">${negritar(doc.relato, doc.relato_marcas)}</div>
         ${doc.penalidade_paragrafo ? `<div class="penalidade">${negritar(doc.penalidade_paragrafo, doc.penalidade_marcas)}</div>` : ""}
-        <div class="convencao-titulo">${esc(doc.convencao.capitulo)}</div>
-        <div class="convencao">${par(doc.convencao.texto)}</div>
+        ${doc.convencao?.capitulo ? `<div class="convencao-titulo">${esc(doc.convencao.capitulo)}</div>
+        <div class="convencao">${par(doc.convencao.texto)}</div>` : ""}
         <div class="fecho-bloco">
           <div class="fecho">${esc(doc.fecho)}</div>
           <div class="local-data">${esc(doc.local_data)}</div>
