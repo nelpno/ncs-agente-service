@@ -2,6 +2,7 @@
   "_fonte": "Fernando (WhatsApp 17/06/2026): duas planilhas — cobrança EXTRAJUDICIAL (tentativa de acordo: liga/zap/email) e JUDICIAL (esgotadas as tentativas, advogado processa com anuência do condomínio). Define o escritório responsável por condomínio.",
   "_aviso": "NÃO substitui as garantidoras (garantidoras.json): nos 8 condos com garantidora a NCS nem gera boleto. Ordem de roteamento p/ +30d: garantidora? -> escritório (este arquivo) -> gerência da carteira.",
   "_nota": "Attuale judicial = KÁTIA KASAHARA (corrigido pelo Fernando na planilha v2, 19/06/2026). judicial=null = condo não consta na planilha judicial (não chegou ao judicial ou usa o mesmo da extrajudicial).",
+  "_atualizado_24jul2026": "TRIADE (id 152): cobrança EXTRAJUDICIAL mudou de KÁTIA KASAHARA para GIANINNI ADVOCACIA (vídeo do Fernando 'alteração e atualização da cobrança jurídica - condomínio triade' 24/07). Judicial mantido em KÁTIA KASAHARA (o vídeo só tratou da extrajudicial). Fernando disse que mandará o Excel COMPLETO — reconciliar os demais condos quando chegar.",
   "_nao_wired": "Dado-fonte apenas; vai embutido na imagem do deploy mas NÃO é lido por código (não wired). Espelha garantidoras.json para wiring futuro (Octadesk routing e/ou handoff da Ana).",
   "_sem_id_superlogica": {
     "nota": "Não encontrados nos 54 condos acessíveis ao token (provavelmente entre os 7 faltantes de 61 — conferir com Rodrigo).",
@@ -27,6 +28,10 @@
     "KÁTIA KASAHARA": {
       "whatsapp": "(16) 99731-0017",
       "email": "contato@katiakasahara.adv.br"
+    },
+    "GIANINNI ADVOCACIA": {
+      "whatsapp": "(16) 99769-1910",
+      "email": "advocaciagianinni@gmail.com"
     },
     "PERI LOPES": {
       "whatsapp": "(16) 99712-5343",
@@ -370,7 +375,7 @@
       "id": "152",
       "nome_superlogica": "TRIADE",
       "nome_planilha": "EDIFICIO RESIDENCIAL TRIADE",
-      "extrajudicial": "KÁTIA KASAHARA",
+      "extrajudicial": "GIANINNI ADVOCACIA",
       "judicial": "KÁTIA KASAHARA"
     },
     {
