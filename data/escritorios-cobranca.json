@@ -2,7 +2,7 @@
   "_fonte": "Fernando (WhatsApp 17/06/2026): duas planilhas — cobrança EXTRAJUDICIAL (tentativa de acordo: liga/zap/email) e JUDICIAL (esgotadas as tentativas, advogado processa com anuência do condomínio). Define o escritório responsável por condomínio.",
   "_aviso": "NÃO substitui as garantidoras (garantidoras.json): nos 8 condos com garantidora a NCS nem gera boleto. Ordem de roteamento p/ +30d: garantidora? -> escritório (este arquivo) -> gerência da carteira.",
   "_nota": "Attuale judicial = KÁTIA KASAHARA (corrigido pelo Fernando na planilha v2, 19/06/2026). judicial=null = condo não consta na planilha judicial (não chegou ao judicial ou usa o mesmo da extrajudicial).",
-  "_atualizado_24jul2026": "TRIADE (id 152): cobrança EXTRAJUDICIAL mudou de KÁTIA KASAHARA para GIANINNI ADVOCACIA (vídeo do Fernando 'alteração e atualização da cobrança jurídica - condomínio triade' 24/07). Judicial mantido em KÁTIA KASAHARA (o vídeo só tratou da extrajudicial). Fernando disse que mandará o Excel COMPLETO — reconciliar os demais condos quando chegar.",
+  "_atualizado_24jul2026": "TRIADE (id 152): cobrança EXTRAJUDICIAL e JUDICIAL passaram de KÁTIA KASAHARA para GIANINNI ADVOCACIA (vídeo do Fernando 24/07 + confirmação por WhatsApp: 'Extrajudicial e Judicial é a com Gianinni Advocacia; Kátia Kasahara não tem mais nenhuma relação com o condomínio'). Só o Tríade mudou — o Fernando confirmou que o RESTO da planilha continua igual. KÁTIA KASAHARA segue no mapa de escritórios (ainda atende a Attuale, id 169).",
   "_nao_wired": "Dado-fonte apenas; vai embutido na imagem do deploy mas NÃO é lido por código (não wired). Espelha garantidoras.json para wiring futuro (Octadesk routing e/ou handoff da Ana).",
   "_sem_id_superlogica": {
     "nota": "Não encontrados nos 54 condos acessíveis ao token (provavelmente entre os 7 faltantes de 61 — conferir com Rodrigo).",
@@ -376,7 +376,7 @@
       "nome_superlogica": "TRIADE",
       "nome_planilha": "EDIFICIO RESIDENCIAL TRIADE",
       "extrajudicial": "GIANINNI ADVOCACIA",
-      "judicial": "KÁTIA KASAHARA"
+      "judicial": "GIANINNI ADVOCACIA"
     },
     {
       "id": "178",
