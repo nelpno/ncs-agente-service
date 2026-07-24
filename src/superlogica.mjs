@@ -2,6 +2,7 @@
 // SOMENTE GET. Whitelist de campos (PII/cartão nunca saem). Cache da lista de condomínios.
 import { config } from './config.mjs';
 import { consultar_garantidora } from './garantidora.mjs';
+import { buscarPorCpf } from './pessoas.mjs';
 
 // garantidoraDe: resolve a garantidora do condomínio por id; tenta o nome (cache) como reforço de match.
 async function garantidoraDe(id_condominio) {
@@ -114,6 +115,14 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
   if (!cpfd && !telTail && !nomeN && !unidadeQ) return { encontrado: false, motivo: 'sem_criterio' };
   // busca SÓ por nome/unidade sem condomínio é proibida (homônimos/aptos repetidos em 54 condos) → exige o condomínio.
   if (!cpfd && !telTail && (nomeN || unidadeQ) && !condominio) return { encontrado: false, motivo: 'nome_exige_condominio' };
+
+  // ÍNDICE GLOBAL DE CPF (O(1), multi-condo): tenta o espelho `pessoas` ANTES da varredura de 59 condos.
+  // Só o caminho de CPF (match exato). Miss/erro/Supabase-off → cai na varredura (nunca é caminho crítico).
+  // Resolve o ponto cego "1 CPF em 2+ condomínios" que a varredura entregava calada. Ver src/pessoas.mjs.
+  if (cpfd) {
+    const _hit = await buscarPorCpf(cpfd, { condominio }, deps);
+    if (_hit) return _hit;
+  }
 
   const _listCondominios = deps.listCondominios || listCondominios;
   const _slGet = deps.slGet || slGet;
