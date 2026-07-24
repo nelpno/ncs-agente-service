@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:f9921058a05424c57e03d7db5b73d5d4cb2756bdb76c392a8677e539700b9643"; // 6b14993: Ana hardening (23/07) — nao redige texto (caso Bruno) + nao promete acao sem ferramenta (LGPD/cobranca) + reforco anti-dump. Inclui 6aa9e5d (correcoes teste controlado titularidade, dormante/DRY). Frente C segue DORMANTE (TITULARIDADE_ENABLED/WRITE_REAL_ACTIONS OFF; DRY_RUN mantido)
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:95c2adf83096b66272e3120b724c43cc5b7c8ca05a95eb6d730453b89c342f6e"; // 987d786: INDICE GLOBAL DE CPF (src/pessoas.mjs) - resolver_cadastro busca O(1) na tabela `pessoas` (Supabase) antes da varredura de 59 condos; miss/erro/Supabase-off -> fallback varredura (nunca caminho critico). Mata o ponto cego "1 CPF em 2+ condos" (390 CPFs). Traz junto 45f1262 (boleto +30d + verificador de enquadramento) e src/codigo_civil.mjs (Estagiario, Ana nao usa). DRY_RUN mantido; Frente C DORMANTE
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
