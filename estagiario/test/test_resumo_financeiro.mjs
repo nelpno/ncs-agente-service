@@ -45,7 +45,7 @@ ok(/déficit/i.test(txtNeg) && /1\.234,50/.test(txtNeg) && /março/i.test(txtNeg
 // 6) montarResumoFinanceiro com deps injetável (fixture como API mock) — sem rede
 const resultado = await montarResumoFinanceiro(
   { idCondominio: 169, ano: 2026, mes: 6, nomeCondominio: 'ATTUALE' },
-  { balancete: async (id, dtIni) => ({ nomeplanocontas: 'ATTUALE', itens: /^05/.test(String(dtIni)) ? fx.balanceteAnterior : fx.balancete }), caixa: async () => fx.caixa },
+  { balancete: async (id, dtIni) => ({ nomeplanocontas: 'ATTUALE', itens: /^05/.test(String(dtIni)) ? fx.balanceteAnterior : fx.balancete }), caixa: async () => fx.caixa, inadimplencia: async () => ({ qtd: 12, total: 9731.02, unidades: [] }) },
 );
 ok(near(resultado.receitaAjustada, 103937.37) && near(resultado.despesaAjustada, 98107.79) && near(resultado.saldoTotal, 587482.72), 'montarResumo numeros errados');
 ok(resultado.periodo.rotulo === 'junho/2026', 'rotulo periodo != junho/2026: ' + resultado.periodo.rotulo);
@@ -85,6 +85,8 @@ const motP = motivoComparativo({ resultado: -5000, destaques: { receitas: [], de
 ok(!/pessoal/i.test(motP) && /conjunto das despesas/i.test(motP), 'reenquadramento falhou quando pessoal domina: ' + motP);
 // NOTA metodológica presente
 ok(!!resultado.nota && /caixa/i.test(resultado.nota), 'nota metodologica ausente');
+// INADIMPLÊNCIA (posição atual) — pedido do Fernando 23/07
+ok(!!resultado.inadimplencia && resultado.inadimplencia.qtd === 12 && near(resultado.inadimplencia.total, 9731.02), 'inadimplencia ausente/errada: ' + JSON.stringify(resultado.inadimplencia));
 // fallback: sem mês anterior, cai no motivo simples (não quebra)
 const semAnt = motivoComparativo(r, null, 'junho', 'maio');
 ok(/positivo/i.test(semAnt), 'fallback sem mes anterior falhou');

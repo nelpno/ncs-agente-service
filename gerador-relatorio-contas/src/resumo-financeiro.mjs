@@ -5,7 +5,7 @@
 //   SITUAÇÃO         = Positiva se (receita − despesa) >= 0, senão Negativa
 // As exclusões são por NOME de categoria (nível 2 do plano de contas), pois variam de mês a mês
 // (ex.: "Despesas com Investimento" só existe quando houve investimento). Cálculo é DETERMINÍSTICO.
-import { balancete, caixa, periodoMes } from './superlogica-financeiro.mjs';
+import { balancete, caixa, periodoMes, inadimplenciaResumo } from './superlogica-financeiro.mjs';
 
 const nivel = (conta) => String(conta).split('.').filter(Boolean).length;
 const RE_EXCLUI_RECEITA = /fundo de reserva|rendiment|taxa extra/i;
@@ -225,6 +225,8 @@ table.det td{padding:5px 8px;border-bottom:1px solid #eee}
 .dcol li .dv.pos{color:#1b7a3d}.dcol li .dv.neg{color:#b3261e}
 .info{margin:16px 0;padding:12px 16px;background:#f2f8f4;border-left:4px solid #1b7a3d;border-radius:4px;font-size:13px;line-height:1.5}
 .info p{margin:0 0 8px}.info p:last-child{margin:0}
+.inad{margin:12px 0;padding:10px 14px;background:#fbeeee;border-left:4px solid #b3261e;border-radius:4px;font-size:13px}
+.inad .ih{font-size:11px;font-weight:bold;letter-spacing:.5px;color:#b3261e}
 .lgpd{margin-top:20px;font-size:10px;color:#888;line-height:1.4;border-top:1px solid #ddd;padding-top:8px}
 </style></head><body>
 <div class="hdr"><h1>RESUMO FINANCEIRO — ${esc(r.periodo.rotulo.toUpperCase())}</h1><div class="sub">${esc(r.condominio)}</div></div>
@@ -249,6 +251,7 @@ ${dv ? `<div class="destaques">
   <div class="dcol"><div class="dh">Maiores despesas do mês</div>${dlist(r.destaques?.despesas, false)}</div>
 </div>`}
 <div class="info"><p>${esc(r.texto)}${r.motivo ? ' ' + esc(r.motivo) : ''}</p></div>
+${r.inadimplencia ? `<div class="inad"><span class="ih">INADIMPLÊNCIA (POSIÇÃO ATUAL)</span><br>${r.inadimplencia.qtd} unidade(s) com pendências, somando R$ ${fmtBRL(r.inadimplencia.total)} em valores originais.</div>` : ''}
 <div class="lgpd">${r.nota ? esc(r.nota) + '<br><br>' : ''}${esc(r.lgpd)}</div>
 </body></html>`;
 }
@@ -258,15 +261,17 @@ ${dv ? `<div class="destaques">
 export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondominio }, deps = {}) {
   const _balancete = deps.balancete || balancete;
   const _caixa = deps.caixa || caixa;
+  const _inad = deps.inadimplencia || inadimplenciaResumo;
   const { dtInicio, dtFim } = periodoMes(ano, mes);
   // mês anterior (para a comparação pedida pelo Fernando)
   let mesAnt = Number(mes) - 1, anoAnt = Number(ano);
   if (mesAnt < 1) { mesAnt = 12; anoAnt -= 1; }
   const pa = periodoMes(anoAnt, mesAnt);
-  const [bal, cx, balAnt] = await Promise.all([
+  const [bal, cx, balAnt, inad] = await Promise.all([
     _balancete(idCondominio, dtInicio, dtFim),
     _caixa(idCondominio, dtInicio, dtFim),
     Promise.resolve(_balancete(idCondominio, pa.dtInicio, pa.dtFim)).catch(() => null),
+    Promise.resolve(_inad(idCondominio)).catch(() => null),
   ]);
   const itens = bal.itens || bal; // balancete() devolve {nomeplanocontas, itens}
   const itensAnt = balAnt ? (balAnt.itens || balAnt) : null;
@@ -279,6 +284,7 @@ export async function montarResumoFinanceiro({ idCondominio, ano, mes, nomeCondo
     comparacao,
     texto: textoInformativo(resumo, mes),
     motivo: comparacao ? motivoComparativo(resumo, comparacao, nomeMes(mes), nomeMes(mesAnt)) : motivoResultado(resumo, resumo.destaques),
+    inadimplencia: inad ? { qtd: inad.qtd, total: round2(inad.total) } : null,
     nota: NOTA_METODOLOGICA,
     lgpd: RODAPE_LGPD,
   };
