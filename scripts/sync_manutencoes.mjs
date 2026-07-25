@@ -31,11 +31,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { linhasDosRegistros } from '../gerador-relatorio-contas/src/manutencoes.mjs';
+import { cookieDoState, HOST_PAINEL } from '../src/painel_sessao.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.resolve(__dirname, '../../..'); // .../Agents/NCS (só existe no ambiente local)
 const DRY = process.env.DRY === '1';
-const HOST = 'admgrupo.superlogica.net';
+const HOST = HOST_PAINEL;
 const BASE = 'https://' + HOST;
 
 // ---- credenciais ----
@@ -54,20 +55,6 @@ function carregarLocal() {
   // cookie da sessão salva pelo Playwright (só p/ rodar da máquina do Nelson)
   const state = process.env.SL_ADMIN_STATE || path.join(RAIZ, '.tmp/sl_admin_state.json');
   if (!process.env.SL_ADMIN_COOKIE && fs.existsSync(state)) process.env.SL_ADMIN_COOKIE = cookieDoState(JSON.parse(fs.readFileSync(state, 'utf8')));
-}
-
-// só os cookies válidos p/ o host do painel; o host-específico ganha do domínio-pai.
-// (mandar os de login.superlogica.net junto duplica nomes e o servidor responde "Digite sua senha".)
-export function cookieDoState(state) {
-  const dom = (c) => c.domain.replace(/^\./, '');
-  const byName = new Map();
-  for (const c of state.cookies || []) {
-    const d = dom(c);
-    if (d !== HOST && !HOST.endsWith('.' + d)) continue;
-    const atual = byName.get(c.name);
-    if (!atual || (d === HOST && dom(atual) !== HOST)) byName.set(c.name, c);
-  }
-  return [...byName.values()].map((c) => `${c.name}=${c.value}`).join('; ');
 }
 
 try { carregarLocal(); } catch {}

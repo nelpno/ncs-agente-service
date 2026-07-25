@@ -11,6 +11,7 @@
   "dependencies": {
     "ioredis": "^5.4.1",
     "nodemailer": "^9.0.3",
+    "playwright-core": "^1.56.1",
     "unpdf": "^1.6.2"
   },
   "engines": {
