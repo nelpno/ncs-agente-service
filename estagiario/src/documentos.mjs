@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  gerarDocumento, carregarCondominio, listarInfracoes,
+  gerarDocumento, carregarCondominio, carregarCatalogo, listarInfracoes,
 } from "../../gerador/src/gerar-lib.mjs";
 import { gerarDeclaracaoQuitacao } from "../../gerador/src/declaracao-quitacao.mjs";
 import { resolver_condominio, resolver_morador, resolver_sindico } from "./superlogica.mjs";
@@ -81,13 +81,24 @@ export async function sugerirCodigoCivil({ relato } = {}, deps = {}) {
 // _gerar — grava o documento (Word editável por padrão; PDF só se pedirem). Resolve o cadastro do condomínio
 // AO VIVO no Superlógica (fallback no bloco fixo do catálogo se a rede/token falhar). `extra` acresce campos
 // ao retorno (ex.: base_legal). resolverCond é injetável (teste hermético, sem rede).
-async function _gerar(ocorrencia, dados, resolverCond, extra = {}) {
+async function _gerar(ocorrencia, dados, resolverCond, extra = {}, deps = {}) {
   const formato = /^(pdf)$/i.test(ocorrencia.formato || "") ? "pdf" : "word";
   const word = formato === "word";
   let cadastro;
   try {
     const cond = await resolverCond({ nome: nomeSL(dados, ocorrencia.condominio) });
-    if (cond.encontrado) cadastro = { nome: cond.nome, endereco: cond.endereco, cep: cond.cep, cidade_uf: cond.cidade_uf, cidade_fecho: cond.cidade_fecho };
+    if (cond.encontrado) {
+      cadastro = { nome: cond.nome, endereco: cond.endereco, cep: cond.cep, cidade_uf: cond.cidade_uf, cidade_fecho: cond.cidade_fecho };
+      // Condomínio SEM catálogo não tem o síndico gravado — busca ao vivo no ERP para o documento não
+      // sair com a linha de assinatura vazia. Nunca é caminho crítico: falhou, a linha fica em branco
+      // e o síndico assina à mão (é minuta).
+      if (!dados.responsavel && !ocorrencia.assinatura) {
+        try {
+          const sind = await (deps.resolverSindico || resolver_sindico)(cond.id);
+          if (sind?.encontrado && sind.nome) ocorrencia.assinatura = { nome: sind.nome, cargo: sind.cargo || "SÍNDICO" };
+        } catch { /* segue sem assinatura preenchida */ }
+      }
+    }
   } catch { /* sem Superlógica → cai no fallback do catálogo, se houver */ }
 
   fs.mkdirSync(SAIDA, { recursive: true });
@@ -107,7 +118,9 @@ async function _gerar(ocorrencia, dados, resolverCond, extra = {}) {
 export async function gerar_documento(args = {}, deps = {}) {
   try {
     const ocorrencia = { ...args, marca_revisao: args.marca_revisao !== false };
-    const dados = carregarCondominio(ocorrencia.condominio);
+    // Tolerante na rota do Código Civil (condomínio sem Regimento Interno não tem catálogo, mas a lei
+    // vale igual) — a regra mora no gerador, aqui só reusamos.
+    const dados = carregarCatalogo(ocorrencia);
     const resolverCond = deps.resolverCondominio || resolver_condominio;
 
     // === Pesquisa 2 — geração explícita pelo Código Civil (após a oferta ser confirmada pela equipe). ===
@@ -120,7 +133,7 @@ export async function gerar_documento(args = {}, deps = {}) {
       ocorrencia.tipo = "notificacao"; // o CC não fixa multa → documento sai como notificação
       ocorrencia.artigo_cc = { fundamento: sug.fundamento, texto_artigo: sug.texto_artigo };
       delete ocorrencia.infracao_id;
-      return await _gerar(ocorrencia, dados, resolverCond, { base_legal: "codigo_civil", fundamento: sug.fundamento });
+      return await _gerar(ocorrencia, dados, resolverCond, { base_legal: "codigo_civil", fundamento: sug.fundamento }, deps);
     }
 
     // === Catálogo do condomínio (padrão) — GUARD de enquadramento (peso jurídico): 2º olho ISOLADO confere
@@ -152,7 +165,7 @@ export async function gerar_documento(args = {}, deps = {}) {
       }
     }
 
-    return await _gerar(ocorrencia, dados, resolverCond);
+    return await _gerar(ocorrencia, dados, resolverCond, {}, deps);
   } catch (e) {
     return { ok: false, erro: e.message, infracoes_disponiveis: e.infracoes_disponiveis };
   }

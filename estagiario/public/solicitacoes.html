@@ -7,7 +7,22 @@
 <title>Solicitações — NCS</title>
 <link rel="stylesheet" href="/assets/app.css">
 <style>
+  /* 9 colunas não cabem em tela de notebook. Sem `min-width` o navegador ESPREME em vez de rolar:
+     o assunto quebra em 3 linhas e a coluna AÇÃO fica pendurada na borda (print do Fernando, 24/07 —
+     com filtro os textos encurtavam e ela "voltava", o que fez parecer problema do filtro).
+     Com min-width a tabela rola de verdade; a coluna AÇÃO é fixada à direita para nunca sair da vista,
+     que é justamente o link "Ver nas Aprovações →". */
   .tbl-wrap{overflow-x:auto}
+  .tbl-wrap table{min-width:1080px}
+  .tbl-wrap th:last-child,.tbl-wrap td:last-child{position:sticky;right:0;z-index:1;
+    background:var(--surface);box-shadow:-6px 0 8px -6px rgba(0,0,0,.18)}
+  .tbl-wrap thead th:last-child{background:var(--surface-2)}
+  /* a coluna fixa tem fundo próprio → precisa acompanhar o hover da linha, senão fica destacada */
+  .tbl-wrap tbody tr:hover td:last-child{background:var(--surface-2)}
+  /* o assunto é o texto mais longo — deixa ele ceder espaço antes das demais colunas */
+  .tbl-wrap td:nth-child(5){min-width:220px}
+  .tbl-wrap th:nth-child(1),.tbl-wrap td:nth-child(1),
+  .tbl-wrap th:nth-child(8),.tbl-wrap td:nth-child(8){white-space:nowrap}
   .status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
     padding:3px 11px;border-radius:999px;border:1px solid var(--line);white-space:nowrap;color:var(--muted)}
   .orig-pill{display:inline-flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.02em;

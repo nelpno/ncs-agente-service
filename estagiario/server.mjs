@@ -16,7 +16,7 @@ import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log po
 import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
 import { resumoPeriodo, porTag, porCondominio, porPessoa } from "./src/metrics.mjs"; // painel do admin
-import { podeVerAprovacoes, listarPendentes as listarAprovacoesPendentes, aprovar as aprovarDraft, rejeitar as rejeitarDraft } from "./src/aprovacoes.mjs"; // aba Aprovações (spec Onda 1 §4.4)
+import { podeVerAprovacoes, listarPendentes as listarAprovacoesPendentes, aprovar as aprovarDraft, rejeitar as rejeitarDraft, modoEscrita } from "./src/aprovacoes.mjs"; // aba Aprovações (spec Onda 1 §4.4)
 import { podeVerPendencias, listarPendentes as listarNotificacoesPendentes } from "./src/pendencias.mjs"; // aba Pendências / outbox (spec Onda 1 §4.3)
 import { podeVerSolicitacoes, listarSolicitacoes, resolverSolicitacao } from "./src/solicitacoes.mjs"; // aba Solicitações / espelho do Octadesk
 
@@ -221,7 +221,9 @@ const server = http.createServer(async (req, res) => {
       if (!podeVerAprovacoes(sess)) return json(res, 403, { erro: "acesso restrito" });
       try {
         const itens = await listarAprovacoesPendentes();
-        return json(res, 200, { itens });
+        // `modo` diz à tela se aprovar grava mesmo (banner de modo teste). Aditivo — quem só lê
+        // `itens` segue funcionando.
+        return json(res, 200, { itens, modo: modoEscrita() });
       } catch (e) {
         console.error("[chat-ncs] aprovacoes list:", e.message);
         return json(res, 502, { erro: "não foi possível carregar as aprovações agora" });

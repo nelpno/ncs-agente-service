@@ -19,6 +19,20 @@ export function podeVerAprovacoes(sess) {
   return !!sess?.podeAprovar;
 }
 
+// modoEscrita — a tela precisa DIZER quando aprovar não grava no Superlógica. Puro (env injetável).
+// FAIL-SAFE: o Portal roda em container separado da Ana, então a variável pode simplesmente não
+// existir aqui; nesse caso assumimos modo teste. Avisar demais é barato — o silêncio custa cadastro
+// de morador perdido (o card some da fila como "resolvido" sem nada ter sido gravado).
+// `acoesReais` cobre a Onda C, que liga UMA ação (WRITE_REAL_ACTIONS) com o DRY global ainda ligado:
+// nesse estado o banner não pode dizer que nada grava.
+export function modoEscrita(env = process.env) {
+  const teste = String(env.DRY_RUN_WRITES ?? "true") !== "false";
+  const acoesReais = teste
+    ? String(env.WRITE_REAL_ACTIONS || "").split(",").map((s) => s.trim()).filter(Boolean)
+    : [];
+  return { teste, acoesReais };
+}
+
 // Máscara recursiva rasa: aplica mascararCpf em toda string dentro de objetos/arrays.
 // `dados`/`conflito` do draft podem trazer o CPF em qualquer campo (contatos[].ST_CPF etc.) —
 // a tela de aprovação nunca deve exibir o CPF cru (LGPD, pedido explícito da tarefa).
@@ -34,18 +48,28 @@ export function mascararObjeto(v) {
   return v;
 }
 
-// `resumo` (frase de decisão) e `alertas` (o que o humano faz à mão junto com o OK) vêm da AÇÃO.
+// `resumo` (frase de decisão), `campos` (o detalhe legível) e `alertas` (o que o humano faz à mão
+// junto com o OK) vêm da AÇÃO.
+// ⚠️ `campos` existe porque o "Ver detalhes" NÃO pode mostrar o dado cru: a data do Superlógica é
+// MM/DD/AAAA e a unidade é o id interno — no print do Fernando (24/07) o mesmo card dizia
+// "a partir de 01/08/2026" no resumo e "Entrada 08/01/2026" no detalhe. A ação já formata; aqui
+// só repassamos (a regra continua morando nela).
 // Defensivo: ação desconhecida ou render que lança NÃO pode derrubar a fila inteira — o card
 // aparece sem os extras e o aprovador ainda vê os dados.
 function extrasDaAcao(draft) {
-  const fallback = { resumo: null, alertas: [], titulo: draft.acao || "Pedido" };
+  const fallback = { resumo: null, campos: [], alertas: [], titulo: draft.acao || "Pedido" };
   try {
     const acao = getAction(draft.acao);
     if (!acao) return fallback;
     const titulo = acao.titulo || draft.acao;
     if (!acao.render) return { ...fallback, titulo };
     const r = acao.render(draft.dados || {}, draft.snapshot || []) || {};
-    return { resumo: r.resumo || null, alertas: Array.isArray(r.alertas) ? r.alertas : [], titulo };
+    return {
+      resumo: r.resumo || null,
+      campos: Array.isArray(r.campos) ? r.campos : [],
+      alertas: Array.isArray(r.alertas) ? r.alertas : [],
+      titulo,
+    };
   } catch {
     return fallback;
   }
@@ -53,12 +77,13 @@ function extrasDaAcao(draft) {
 
 // Monta o card exibido na tela — só os campos que a UI precisa, CPF sempre mascarado.
 export function paraCard(draft) {
-  const { resumo, alertas, titulo } = extrasDaAcao(draft);
+  const { resumo, campos, alertas, titulo } = extrasDaAcao(draft);
   return {
     id: draft.id,
     acao: draft.acao,
     titulo,
     resumo: mascararObjeto(resumo),
+    campos: mascararObjeto(campos),
     alertas: mascararObjeto(alertas),
     dados: mascararObjeto(draft.dados),
     conflito: mascararObjeto(draft.conflito || null),

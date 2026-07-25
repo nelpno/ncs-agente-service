@@ -98,8 +98,8 @@ export function renderHTML(doc) {
           <div class="fecho">${esc(doc.fecho)}</div>
           <div class="local-data">${esc(doc.local_data)}</div>
           <div class="assinatura">
-            <div class="nome">${esc(doc.assinatura.nome)}</div>
-            <div class="cargo">${esc(doc.assinatura.cargo)}</div>
+            <div class="nome">${esc(doc.assinatura?.nome)}</div>
+            <div class="cargo">${esc(doc.assinatura?.cargo)}</div>
           </div>
         </div>
       </div>

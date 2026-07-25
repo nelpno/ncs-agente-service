@@ -164,7 +164,10 @@ export function montarDoc(dados, oc, cadastro) {
     convencao: dados.convencao_penalidades,
     fecho: "Agradecemos pela sua compreensão e cooperação.",
     local_data: `${cad.cidade_fecho || cad.cidade_uf}, ${oc.data_documento}.`,
-    assinatura: dados.responsavel,
+    // Assinatura: o síndico do catálogo; quem chama pode passar `oc.assinatura` (resolvido AO VIVO no
+    // ERP) — é o caminho de condomínio SEM catálogo. Sem nenhum dos dois, sai a linha em branco com o
+    // cargo: é minuta para o síndico conferir e assinar, então falta de nome não pode travar a geração.
+    assinatura: dados.responsavel || oc.assinatura || { nome: "", cargo: "SÍNDICO" },
     marca_dagua: oc.marca_revisao
       ? "Minuta gerada por assistente NCS — conferir e assinar (responsável pelo condomínio)."
       : null,
@@ -176,11 +179,27 @@ export function slug(s) {
     .replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
 }
 
+/** Catálogo do condomínio para montar o documento. Obrigatório na rota do regimento (é dele que sai o
+ *  artigo citado); OPCIONAL na rota do Código Civil, onde o artigo vem da lei e o cadastro do ERP.
+ *  Exportado para o gerar_documento do Estagiário usar a mesma regra (uma decisão, um lugar). */
+export function carregarCatalogo(ocorrencia, raiz = RAIZ) {
+  try {
+    return carregarCondominio(ocorrencia.condominio, raiz);
+  } catch (e) {
+    if (ocorrencia?.base_legal === "codigo_civil") return {};
+    throw e;
+  }
+}
+
 /** gerarDocumento({ ocorrencia, destino?, raiz?, cadastro?, formato? }) -> { destino, titulo, formato }
  *  cadastro (do Superlógica) é opcional; sem ele, usa o bloco fixo do catálogo (CLI/fallback).
  *  formato: 'pdf' (default) ou 'word'/'doc' → .doc editável (equipe apara o excesso + edita o relato). */
 export function gerarDocumento({ ocorrencia, destino, raiz = RAIZ, cadastro, formato }) {
-  const dados = carregarCondominio(ocorrencia.condominio, raiz);
+  // O catálogo é a fonte do ARTIGO — indispensável na rota do regimento/convenção. Já a notificação
+  // pelo CÓDIGO CIVIL cita a lei (ocorrencia.artigo_cc) e usa o cadastro do Superlógica: exigir
+  // catálogo ali é bloqueio acidental, e era o que impedia condomínio sem Regimento Interno de gerar
+  // qualquer documento (caso Mario de Andrade, print do Fernando 24/07).
+  const dados = carregarCatalogo(ocorrencia, raiz);
   const doc = montarDoc(dados, ocorrencia, cadastro);
   const html = renderHTML(doc);
   const word = /^(word|doc|docx)$/i.test(formato || "");

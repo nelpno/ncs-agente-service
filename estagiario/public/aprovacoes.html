@@ -43,6 +43,11 @@
   .btn-rejeitar{background:transparent;border:1.5px solid var(--crit);color:var(--crit)}
   .btn-rejeitar:hover{background:color-mix(in srgb,var(--crit) 10%,transparent)}
   .btn-aprovar:disabled,.btn-rejeitar:disabled{opacity:.5;cursor:default}
+  /* banner de MODO TESTE: enquanto DRY_RUN_WRITES está ligado, aprovar não grava no Superlógica.
+     Fica no topo da lista, antes de qualquer card — é a primeira coisa que a equipe lê. */
+  .modo-teste{background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid var(--warn);
+    border-left:4px solid var(--warn);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--ink);line-height:1.5}
+  .modo-teste .mt{font-weight:700;color:var(--warn);margin-bottom:4px;display:flex;align-items:center;gap:6px}
   .p-empty{color:var(--muted);font-size:13px;padding:6px 2px}
   .forbidden{text-align:center;padding:60px 16px;color:var(--muted)}
   .forbidden .ttl{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
@@ -171,13 +176,28 @@ function renderDl(dados){
   if(vazio){dl.appendChild(el('dd',{text:'—'}));}
   return dl;
 }
+// campos = [{label,valor}] já formatados pela ação — nada de reformatar aqui (fonte única).
+function renderCampos(campos){
+  var dl=el('dl');
+  campos.forEach(function(c){
+    if(c==null||c.valor==null||c.valor==='')return;
+    dl.appendChild(el('dt',{text:String(c.label)}));
+    dl.appendChild(el('dd',{text:String(c.valor)}));
+  });
+  if(!dl.firstChild)dl.appendChild(el('dd',{text:'—'}));
+  return dl;
+}
 function renderCard(d){
   var kids=[
     el('div',{class:'dh'},[el('span',{class:'acao',text:d.titulo||d.acao||'ação'}),el('div',{class:'grow'}),el('span',{class:'pill',text:(d.time_aprovador||'Atendimento geral')})])
   ];
   // a frase vem pronta da AÇÃO (fonte única). Sem ela (ação antiga), cai nos campos.
   if(d.resumo){kids.push(el('div',{class:'resumo',text:d.resumo}));}
-  var det=el('details',null,[el('summary',{text:'Ver detalhes'}),renderDl(d.dados)]);
+  // Detalhe vem dos `campos` que a AÇÃO formatou (data em DD/MM, unidade pelo rótulo do ERP).
+  // O `dados` cru é só fallback de ação antiga: mostrava a data no formato da API (MM/DD) e o id
+  // interno da unidade, contradizendo o resumo do próprio card (print do Fernando, 24/07).
+  var det=el('details',null,[el('summary',{text:'Ver detalhes'}),
+    (d.campos&&d.campos.length)?renderCampos(d.campos):renderDl(d.dados)]);
   if(!d.resumo){det.setAttribute('open','');}
   kids.push(det);
   // ⚠️ testar o OBJETO dava alarme falso: {conflito:false,candidatos:[]} é truthy → o card dizia
@@ -207,9 +227,24 @@ function renderCard(d){
   ]));
   return el('div',{class:'draft'},kids);
 }
-function render(itens){
+// Banner de modo teste — enquanto a escrita real não está ligada, clicar Aprovar marca o pedido como
+// resolvido e SOME da fila sem nada chegar ao Superlógica (e não dá para desfazer). Sem este aviso a
+// equipe "resolve" pedido de morador no vácuo.
+function bannerModo(modo){
+  if(!modo||!modo.teste)return null;
+  var reais=(modo.acoesReais||[]);
+  var txt='Aprovar aqui ainda NÃO grava no Superlógica. O pedido sai da fila, mas o cadastro precisa '
+    +'ser feito à mão no sistema. Estamos conferindo a gravação automática antes de ligar.';
+  if(reais.length)txt+=' Exceção já ligada (grava de verdade): '+reais.join(', ')+'.';
+  return el('div',{class:'modo-teste'},[
+    el('div',{class:'mt',text:'⚠️ Modo teste'}),
+    el('div',{text:txt})
+  ]);
+}
+function render(itens,modo){
   var l=document.getElementById('lista');clear(l);
   document.getElementById('periodo').textContent=itens.length+(itens.length===1?' pendente':' pendentes');
+  var b=bannerModo(modo);if(b)l.appendChild(b);
   if(!itens.length){l.appendChild(el('div',{class:'p-empty',text:'Nenhuma aprovação pendente no momento.'}));return;}
   itens.forEach(function(d){l.appendChild(renderCard(d));});
 }
@@ -225,7 +260,7 @@ function load(){
     if(r.status===401){location.href='/login';return null;}
     if(r.status===403){showForbidden();return null;}
     return r.json();
-  }).then(function(d){if(d)render(d.itens||[]);}).catch(function(){showLoadError();});
+  }).then(function(d){if(d)render(d.itens||[],d.modo);}).catch(function(){showLoadError();});
 }
 load();
 </script>
