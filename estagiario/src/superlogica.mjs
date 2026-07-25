@@ -1,6 +1,9 @@
 // superlogica.mjs (Chat NCS) — LEITURA do cadastro de condomínio e morador p/ compor o documento.
 // SOMENTE GET. Reusa a autenticação da Ana (config: slBase/slApp/slAccess). Cache da lista de condomínios.
 import { config } from "../../src/config.mjs";
+// mesmo matcher do catálogo (gerador/src/gerar-lib.mjs): os dois lados precisam aceitar o nome do jeito
+// que a equipe escreve, senão um resolve e o outro não — e o pedido morre no meio.
+import { tokensNome, casaPorTokens } from "../../gerador/src/match-nome.mjs";
 
 async function slGet(controllerAction, params = {}) {
   const qs = new URLSearchParams(params).toString();
@@ -63,6 +66,13 @@ export async function resolver_condominio({ nome } = {}, deps = {}) {
   const q = norm(nome);
   let hit = condos.filter((c) => norm(c.st_fantasia_cond) === q || norm(c.st_nome_cond) === q);
   if (!hit.length) hit = condos.filter((c) => norm(c.st_fantasia_cond).includes(q) || norm(c.st_nome_cond).includes(q));
+  // 3ª passada — como a equipe DIGITA: "Condominio Vancouver" não é substring de "CONDOMINIO RESIDENCIAL
+  // VANCOUVER" (a palavra do meio atravessa) e o pedido morria em "condomínio não encontrado". Exige TODAS
+  // as palavras significativas; sobrando 2+, o retorno de ambiguidade abaixo já pede pra especificar.
+  if (!hit.length) {
+    const toks = tokensNome(nome);
+    hit = condos.filter((c) => casaPorTokens(toks, [c.st_fantasia_cond, c.st_nome_cond]));
+  }
   if (!hit.length) return { encontrado: false, motivo: "condomínio não encontrado no Superlógica" };
   if (hit.length > 1) return { encontrado: false, motivo: "vários condomínios batem — especifique", opcoes: hit.map((c) => c.st_fantasia_cond).slice(0, 8) };
   const c = hit[0];
@@ -136,6 +146,14 @@ export function _acharUnidade(rows, { unidade, bloco } = {}) {
   if (!hits.length) {
     const nu = _normUni(u), nb = b ? _normUni(b) : null;
     hits = rows.filter((r) => _normUni(r.st_unidade_uni) === nu && (!nb || _normUni(r.st_bloco_uni) === nb));
+  }
+  // Passada 3 — RÓTULO COMPLETO (unidade + bloco juntos), só quando o bloco NÃO foi informado à parte.
+  // É o rótulo que o próprio sistema mostra na lista de candidatos ("132 01" = unidade 132, bloco 01): a
+  // pessoa copia de volta e antes recebia "não encontrei" outra vez. Fecha o beco sem afrouxar nada — as
+  // passadas exata e normalizada continuam vindo primeiro, e o guard de ambiguidade segue valendo.
+  if (!hits.length && !b) {
+    const nu = _normUni(u);
+    hits = rows.filter((r) => _normUni(`${r.st_unidade_uni ?? ""} ${r.st_bloco_uni ?? ""}`) === nu);
   }
   if (!hits.length) return { status: "nao_encontrado" };
   const ids = [...new Set(hits.map((r) => r.id_unidade_uni))];

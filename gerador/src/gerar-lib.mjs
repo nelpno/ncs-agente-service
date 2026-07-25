@@ -7,6 +7,7 @@ import { renderHTML } from "./template.mjs";
 import { htmlParaPdf } from "./render-pdf.mjs";
 import { htmlParaWord } from "./render-word.mjs";
 
+import { tokensNome, casaPorTokens } from "./match-nome.mjs";
 export const RAIZ = path.dirname(path.dirname(url.fileURLToPath(import.meta.url)));
 
 // `prep` = a preposição que liga o papel ao apartamento. Não é fixa: "proprietário DO
@@ -33,11 +34,23 @@ export function carregarCondominio(condId, raiz = RAIZ) {
   if (fs.existsSync(direto)) return JSON.parse(fs.readFileSync(direto, "utf-8"));
   // 2) resolve pelo NOME do sistema (superlogica_nome/id/aliases) normalizado — ex.: "Residencial Park" -> park.json.
   //    Só match EXATO normalizado (sem substring, p/ não colidir "Cedros" x "Cedros do Campo").
+  const catalogos = [];
   for (const f of fs.readdirSync(dir)) {
     if (!f.endsWith(".json")) continue;
     let d; try { d = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")); } catch { continue; }
     const chaves = [d.superlogica_nome, d.id, ...(Array.isArray(d.aliases) ? d.aliases : [])];
     if (chaves.some((k) => norm(k) === alvo)) return d;
+    catalogos.push({ d, chaves });
+  }
+  // 3) como a equipe DIGITA: "Condominio Vancouver" (o sistema grava "CONDOMINIO RESIDENCIAL VANCOUVER").
+  //    Exige TODAS as palavras significativas do que foi digitado — e se sobrar mais de um candidato,
+  //    RECUSA dizendo quais são: escolher sozinho aqui emitiria documento do condomínio errado.
+  const alvoToks = tokensNome(condId);
+  const cands = catalogos.filter(({ chaves }) => casaPorTokens(alvoToks, chaves));
+  if (cands.length === 1) return cands[0].d;
+  if (cands.length > 1) {
+    const nomes = cands.map(({ d }) => d.superlogica_nome || d.id).join(" · ");
+    throw new Error(`"${condId}" serve para ${cands.length} condomínios (${nomes}) — informe o nome completo.`);
   }
   throw new Error(`condomínio "${condId}" sem catálogo em dados/ (rode extrair-catalogo.mjs).`);
 }

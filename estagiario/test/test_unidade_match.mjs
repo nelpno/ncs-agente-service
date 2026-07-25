@@ -68,4 +68,36 @@ const R = (unidade, bloco, id, nome = "FULANO") =>
   ok++;
 }
 
-console.log(`test_unidade_match: ${ok}/5 grupos OK`);
+// 6) O RÓTULO QUE O PRÓPRIO SISTEMA MOSTRA tem de voltar a ser aceito (bug achado no smoke 24/07):
+//    quando a unidade não é encontrada, o Estagiário lista candidatos com label "132 01" — que é
+//    unidade "132" + bloco "01" JUNTOS. A pessoa copia esse rótulo de volta, manda "ap 132 01" e recebia
+//    "não encontrei" outra vez: nenhuma passada comparava o rótulo COMPLETO. Beco fechado.
+{
+  const rows = [R("132", "01", 14037, "MARIA REGINA"), R("133", "01", 14038, "OUTRO")];
+  const r = _acharUnidade(rows, { unidade: "132 01" });
+  assert.strictEqual(r.status, "ok", `rótulo completo "132 01" (unidade+bloco) tem de casar — veio ${r.status}`);
+  assert.strictEqual(r.linhas[0].id_unidade_uni, 14037);
+  // variações que a equipe digita a partir do rótulo
+  for (const q of ["ap 132 01", "apto 132 bloco 01", "132 1"]) {
+    assert.strictEqual(_acharUnidade(rows, { unidade: q }).status, "ok", `deveria achar com "${q}"`);
+  }
+  // a unidade que existe EXATA ganha do rótulo completo de outra (ninguém é desviado por acidente)
+  assert.strictEqual(_acharUnidade([R("10", "1", 1), R("101", "", 2)], { unidade: "101" }).linhas[0].id_unidade_uni, 2,
+    "'101' existe como unidade → o exato manda, sem virar ambiguidade");
+  // e o guard vale também na passada nova: dois rótulos completos que normalizam igual → pergunta
+  const amb = _acharUnidade([R("10", "1", 1), R("010", "01", 2)], { unidade: "10 1" });
+  assert.strictEqual(amb.status, "ambiguo", "'10 1' bate no rótulo de duas unidades distintas → perguntar");
+  assert.strictEqual(amb.opcoes.length, 2);
+  ok++;
+}
+
+// 7) A passada nova não pode atropelar o match exato do Tivoli (unidades distintas por zero à esquerda)
+{
+  const rows = [R("10", "G", 12217, "PEDRO"), R("010", "G", 16804, "ARO"), R("10 G", "", 33333, "TERCEIRO")];
+  // existe até uma unidade cujo NOME é "10 G": o exato ganha dela, não das outras duas
+  assert.strictEqual(_acharUnidade(rows, { unidade: "10 G" }).linhas[0].id_unidade_uni, 33333, "match exato tem prioridade absoluta");
+  assert.strictEqual(_acharUnidade(rows, { unidade: "10", bloco: "G" }).linhas[0].id_unidade_uni, 12217);
+  ok++;
+}
+
+console.log(`test_unidade_match: ${ok}/7 grupos OK`);
