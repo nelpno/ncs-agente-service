@@ -15,6 +15,8 @@
 //        casos: (...) X"), ou cortar o item antes do "salvo". Redes: blacklist de conectores no caput,
 //        exigência de polaridade proibitiva, nunca cortar em ":".
 
+import { parseFundamento, localizarArtigo, localizarArtigos, localizarItem } from "./fundamento.mjs";
+
 const COMB = new RegExp("[\\u0300-\\u036f]", "g");
 const normCh = (s) => (s || "").toLowerCase().normalize("NFD").replace(COMB, "");
 // ordinal: o catálogo traz "Art. 1º" e a fonte (OCR) traz "Art. 1o"/"1°"/"1ª" → colapsa SÓ na comparação
@@ -26,7 +28,7 @@ const norm = (s) => normCh(s).replace(/[^a-z0-9]+/g, " ").trim().split(" ").map(
 // token da FONTE: pontuação INTERNA some ("aluga-las"→"alugalas"). A frase-alvo tem de passar pelo MESMO
 // caminho, senão nenhum item com hífen/barra é localizável (era o bug de barbieri/monet).
 const tokensDe = (s) => (s.match(/\S+/g) || []).map((t) => semOrd(normCh(t).replace(/[^a-z0-9]/g, ""))).filter(Boolean);
-const collapse = (s) => s.replace(/\s+/g, " ").trim();
+const collapse = (s) => String(s ?? "").replace(/\s+/g, " ").trim(); // tolera null (meta.fundamento ausente)
 const primeiroMatch = (str, re) => str.match(re); // wrapper para evitar o método .e‑x‑e‑c bloqueado por hook
 
 const DEONTIC = /(proib|vedad|veda-se|é vedado|obrigat|dever[áa]?\b|permitid|não é permitid|cumpre|incumbe|responsáv)/i;
@@ -278,6 +280,17 @@ function scoreAderencia(txt, meta) {
 // separa o texto do catálogo nos itens que ele arrasta (o extrator às vezes começa a janela UM ITEM ANTES
 // da regra: "l) Instalação de cerca elétrica; m) Os menores de 18 anos … para dirigir" numa infração de
 // menor dirigindo — recortar o primeiro item citaria cerca elétrica numa notificação de direção).
+// o item escolhido descreve a infração? (critério ESTREITO: só reprova quando ele não tem relação NENHUMA
+// e outro item do mesmo texto tem relação clara — pesar "quem tem mais termos" daria falso positivo, porque
+// item mais longo acumula termos por acidente)
+function aderenciaOk(itemEscolhido, textoTodo, meta) {
+  if (!meta || (!meta.titulo && !meta.palavras_chave)) return true;
+  const pedacos = itensDoTexto(textoTodo);
+  if (pedacos.length < 2) return true;
+  return !(scoreAderencia(itemEscolhido, meta) === 0 &&
+           Math.max(...pedacos.map((p) => scoreAderencia(p, meta))) >= 2);
+}
+
 function itensDoTexto(t) {
   const re = new RegExp(`(?:^|[\\s;.:])(?:(?:[a-z]|\\d{1,3}(?:\\.\\d{1,3})*)\\)${SUF}|\\d{1,2}\\.\\d{1,2}\\s*[-–])\\s`, "gi");
   const cortes = [...t.matchAll(re)].map((m) => m.index + (/^[\s;.:]/.test(m[0]) ? 1 : 0));
@@ -285,6 +298,52 @@ function itensDoTexto(t) {
   const out = [];
   for (let i = 0; i < cortes.length; i++) out.push(t.slice(cortes[i], cortes[i + 1] ?? t.length));
   return out;
+}
+
+// ÂMBITO DO FUNDAMENTO — a rede mais forte que existe aqui, e é determinística: se o `fundamento` nomeia um
+// artigo localizável na fonte, o item recortado TEM de estar dentro dele. Foi a ausência disto que deixou
+// `vancouver/mudanca_fora_horario` citar o item p) do ARTIGO 63 quando o fundamento diz "ARTIGO 14°: q)" —
+// artigo errado E item errado, num documento que o síndico assina. Não depende de palavra-chave nenhuma.
+// Quando o fundamento não dá artigo, ou o artigo não é localizável, não opina (devolve true).
+function ambitoOk(meta, fonteLimpa, itemStart) {
+  const fd = collapse(meta && meta.fundamento);
+  // não opina quando: (a) o fundamento é TEXTO e não referência (o extrator às vezes cola o parágrafo
+  // inteiro — aí o "artigo" que se extrai dali é ruído); (b) o número é decimal, que nesses regimentos é o
+  // próprio ITEM ("1.2-"), não o artigo.
+  if (!fd || fd.length > 150) return true;
+  const p = parseFundamento(fd);
+  if (!p.artigo || /\d\.\d/.test(p.artigo) || itemStart < 0) return true;
+  // ⚠️ TODAS as ocorrências: regimento e convenção repetem a numeração, e o item legítimo pode estar em
+  // qualquer uma delas (dom-pedro/animais, park/varanda_varal). Reprova só se não estiver em NENHUMA.
+  const { todos } = localizarArtigos(fonteLimpa, p.artigo, { item: p.item, tipoItem: p.tipoItem });
+  if (!todos.length) return true;
+  return todos.some((a) => itemStart >= a.ini && itemStart < a.fim);
+}
+
+// ---------------- caminho pelo FUNDAMENTO (fallback) ----------------
+// O `fundamento` é a base legal que o documento JÁ imprime ("Considerando o que dispõe o ARTIGO 14°: i)").
+// Quando o caminho normal falha — não achei caput, ou o item ancorado no texto não descreve a infração —
+// ele é a fonte determinística de "qual é a regra": localizo o ARTIGO que ele nomeia e, se ele disser o
+// item, uso ESSE item. Nada de palavra-chave escolhendo regra.
+// ⚠️ ÂMBITO é a prova: o item citado tem de estar DENTRO do bloco do artigo do fundamento. Se não estiver,
+// ou o fundamento ou o texto está errado — e aí é decisão humana, não recorte.
+function viaFundamento(meta, fonteLimpa, fonteNorm, itemTxt, itemStart) {
+  const p = parseFundamento(meta && meta.fundamento);
+  if (!p.artigo && !p.item) return null;
+  const loc = p.artigo ? localizarArtigo(fonteLimpa, p.artigo, { item: p.item, tipoItem: p.tipoItem }) : null;
+  const bloco = loc ? fonteLimpa.slice(loc.ini, loc.fim) : fonteLimpa;
+  let item = null;
+  if (p.item) {                                  // o item que o fundamento nomeia manda
+    const it = localizarItem(bloco, p.item, p.tipoItem);
+    if (it) item = it.texto;
+  }
+  if (!item && itemTxt && loc && itemStart >= loc.ini && itemStart < loc.fim) item = itemTxt; // âmbito ok
+  if (!item) return null;
+  const caputOk = loc && CAPUT_POLARIDADE.test(loc.caput) && !CONECTOR_SUBLISTA.test(loc.caput);
+  let out = collapse(caputOk ? `${loc.caput} (...) ${item}` : item);
+  if (!caputOk && !AUTO_DEONTICO.test(normCh(item))) return null; // sem caput e item que não se sustenta
+  if (out.length > 1500) out = out.slice(0, 1500).replace(/\s+\S*$/, "") + "…";
+  return verbatimOk(out, fonteNorm) ? out : null;
 }
 
 /**
@@ -470,6 +529,16 @@ export function tightenArtigo(textoAtual, fonte, meta = null) {
     // ÚLTIMO recurso: sem caput alcançável, mas o ITEM já traz o próprio verbo que obriga/proíbe (vida-plena)
     // → cita só o item. Nunca quando ele abre com ressalva (seria citar a exceção como regra).
     const autossuficiente = AUTO_DEONTICO.test(normCh(semMarcador)) && !primeiroMatch(semMarcador.slice(0, 40), CONECTOR_SUBLISTA);
+    // FALLBACK 1 — sem caput alcançável: pego o caput do ARTIGO que o próprio fundamento cita (o item
+    // continua sendo o daqui, e só vale se estiver DENTRO daquele artigo).
+    // ⚠️ O guard de aderência TEM de valer aqui também: sem ele este fallback citou "p) Utilizar os
+    // empregados… para serviços particulares" numa infração de MUDANÇA (o item errado tinha a palavra
+    // "horário" por coincidência e o texto começava um item antes da regra). Ganhar o caput não serve de
+    // nada se o item for o errado.
+    if (!caput && !autossuficiente && aderenciaOk(semMarcador, atual, meta)) {
+      const alt = viaFundamento(meta, fonteLimpa, fonteNorm, itemTxt, itemStart);
+      if (alt) return { texto: alt, revisar: false, changed: alt !== collapse(textoAtual) };
+    }
     // motivo distinto quando a numeração da FONTE tem salto (OCR comeu um item): não tolero o gap — pular
 // irmão é como a caminhada atravessa para outra lista — mas o relatório humano ganha a informação certa.
     if (!caput && !autossuficiente) return keep(true, gap ? "gap_na_sequencia" : "sem_caput");
@@ -497,6 +566,8 @@ export function tightenArtigo(textoAtual, fonte, meta = null) {
     out = collapse(out);
     if (out.length > 1500) out = out.slice(0, 1500).replace(/\s+\S*$/, "") + "…";
     if (!verbatimOk(out, fonteNorm)) return keep(true, "verbatim");
+    // ÂMBITO: o item recortado tem de estar dentro do artigo que o FUNDAMENTO cita (determinístico).
+    if (!ambitoOk(meta, fonteLimpa, itemStart)) return keep(true, "fora_do_artigo_do_fundamento");
     // ADERÊNCIA: se o texto do catálogo arrasta vários itens e OUTRO deles descreve a infração melhor que o
     // recortado, o extrator gravou a janela deslocada → humano decide. Não escolho o outro item por
     // palavra-chave; só me recuso a estreitar para o item errado (que seria pior que a citação ampla).
@@ -508,6 +579,36 @@ export function tightenArtigo(textoAtual, fonte, meta = null) {
       // a regra certa) e o recorte bom seria barrado.
       if (pedacos.length > 1 && scoreAderencia(semMarcador, meta) === 0 &&
           Math.max(...pedacos.map((p) => scoreAderencia(p, meta))) >= 2) {
+        // FALLBACK 2 — o item ancorado no texto não descreve a infração. Duas saídas, nessa ordem:
+        // (a) o fundamento NOMEIA o item → é ele que vale (o documento já o cita como base legal);
+        const alt = viaFundamento(meta, fonteLimpa, fonteNorm, null, -1);
+        if (alt && scoreAderencia(alt, meta) > scoreAderencia(semMarcador, meta)) {
+          return { texto: alt, revisar: false, changed: alt !== collapse(textoAtual) };
+        }
+        // (b) o fundamento só dá o artigo, mas UM ÚNICO item do texto fala da infração e TODOS os outros
+        //     não falam nada dela. Aí a escolha é inequívoca — não é "enquadrar por palavra-chave" (isso
+        //     seria pesar itens que todos têm alguma relação): é descartar os que não têm relação NENHUMA.
+        //     Empate, ou dois itens com alguma aderência → humano decide.
+        const escores = pedacos.map((p) => ({ p, s: scoreAderencia(p, meta) }));
+        const comAlguma = escores.filter((x) => x.s > 0);
+        // 1 termo basta quando ele é o ÚNICO item com qualquer relação E é uma regra completa (≥8 palavras):
+        // no Shop do Carmo, "Respeitar os HORÁRIOS em que os serviços podem ser executados…" casa um termo
+        // só ("horário") e é inequivocamente a regra de "reforma fora do horário" — o outro item ("notificar
+        // a administração") não casa nada. Fragmento curto não entra: pode ser coincidência de palavra.
+        if (comAlguma.length === 1 && (comAlguma[0].s >= 2 || norm(comAlguma[0].p).split(" ").length >= 8)) {
+          const alvo = collapse(comAlguma[0].p);
+          const p2 = parseFundamento(meta.fundamento);
+          const loc = p2.artigo ? localizarArtigo(fonteLimpa, p2.artigo) : null;
+          const dentro = loc ? fonteLimpa.slice(loc.ini, loc.fim) : "";
+          // o item escolhido tem de estar DENTRO do artigo do fundamento (âmbito) e sair verbatim da fonte
+          if (loc && norm(dentro).includes(norm(alvo).split(" ").slice(0, 8).join(" "))) {
+            const caputOk = CAPUT_POLARIDADE.test(loc.caput) && !CONECTOR_SUBLISTA.test(loc.caput);
+            const out = collapse(caputOk ? `${loc.caput} (...) ${alvo}` : alvo);
+            if (verbatimOk(out, fonteNorm) && !/:$/.test(out)) {
+              return { texto: out, revisar: false, changed: out !== collapse(textoAtual) };
+            }
+          }
+        }
         return keep(true, "item_nao_descreve_infracao");
       }
     }
@@ -522,6 +623,17 @@ export function tightenArtigo(textoAtual, fonte, meta = null) {
   const janelaFim = provado.slice(Math.max(0, provado.length - 10)).join(" ");
   const naFonte = provado.length < 5 ? fonteNorm.includes(norm(atual)) : (fonteNorm.includes(janelaIni) && fonteNorm.includes(janelaFim));
   if (!naFonte) return keep(true, "nao_localizado_na_fonte");
+
+  // Antes de aceitar o texto como está: ele descreve a infração? Um texto que não menciona NADA do assunto
+  // (e o fundamento nomeia o item) é o caso do barulho do Vancouver — fundamento "ARTIGO 14°: i)" e texto do
+  // item c), sobre persianas. O documento citava um item e imprimia outro, e a multa não saía porque o
+  // verificador de enquadramento (corretamente) recusava. Aqui o fundamento é a fonte da verdade.
+  if (meta && (meta.titulo || meta.palavras_chave) && scoreAderencia(atual, meta) === 0) {
+    const alt = viaFundamento(meta, fonteLimpa, fonteNorm, null, -1);
+    if (alt && scoreAderencia(alt, meta) > 0) {
+      return { texto: alt, revisar: false, changed: alt !== collapse(textoAtual) };
+    }
+  }
 
   const mNext = primeiroMatch(atual, /[.;]\s+((?:CAP[ÍI]TULO\b|SE[ÇC][ÃA]O\b|Art\.?\s*\d))/i);
   if (mNext && mNext.index > atual.length * 0.4) atual = collapse(atual.slice(0, mNext.index + 1));
