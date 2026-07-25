@@ -13,6 +13,11 @@
 // Uso (raiz do NCS):
 //   node automacoes/agente-service/scripts/sync_manutencoes.mjs          # captura + grava
 //   DRY=1 ...                                                            # só mostra o que gravaria
+//   PING=1 ...                                                           # só afere a sessão (1 request)
+//
+// PING=1 roda DIÁRIO no VPS por dois motivos: (1) sessão de PHP costuma expirar por INATIVIDADE —
+// um toque por dia pode manter o cookie vivo indefinidamente, tornando a renovação desnecessária;
+// (2) se ela morrer mesmo assim, o aviso chega no MESMO dia, não na semana seguinte.
 // No VPS (cron semanal), tudo por env — nenhum arquivo necessário:
 //   docker run --rm --env-file /opt/ncs/manut.env ghcr.io/nelpno/ncs-agente-service:latest \
 //     node scripts/sync_manutencoes.mjs
@@ -137,6 +142,7 @@ try {
   const cats = await post('manutencoes/getmanutencoes', {}, 1001);
   if (!cats.length) throw new Error('nenhuma categoria retornada');
   console.log('categorias:', cats.length);
+  if (process.env.PING === '1') { console.log('PING ok — sessão do painel viva.'); process.exit(0); }
   for (const c of cats) {
     const id = c.id_manutencoes_mt;
     for (let pg = 1; pg <= 20; pg++) {          // o painel pagina de 50 em 50
