@@ -1,147 +1,119 @@
 // sync_manutencoes.mjs — espelha as MANUTENÇÕES PROGRAMADAS do painel admin da Superlógica
 // na tabela `manutencoes_agenda` (Supabase). Alimenta o Card 2 do Resumo Financeiro.
 //
-// ⚠️ NÃO roda no container (diferente do sync_pessoas): o dado não existe na API pública v2 e o painel
-// admin exige login com MFA por e-mail. Roda na MÁQUINA DO NELSON, com o cookie da sessão salvo em
-// .tmp/sl_admin_state.json e o Playwright de C:/Temp/pw-qa. Cadência sugerida: SEMANAL (o cronograma é
-// anual, muda pouco). Se a sessão expirar, o script AVISA e não escreve — o card segue mostrando o
-// último snapshot com a data da captura, e o Resumo nunca quebra.
+// ⚠️ O dado não existe na API pública v2 — só no painel admin, que é autenticado por COOKIE de
+// sessão (login Auth0 com MFA por e-mail). Por isso o espelho.
+//
+// SEM NAVEGADOR: a matriz vem de um endpoint JSON interno
+//   POST /condor/atual/manutencoes/index   body: json={"params":[{"idmanutencao":"<cat>","pagina":N}]}
+// que devolve `id_condominio_cond` (o id do Superlógica direto — zero casamento por nome), os meses
+// de recorrência (`fl_jan_mc`…`fl_dez_mc`) e a data da próxima manutenção (`dt_manutencao_mc`).
+// A célula do painel é derivada disso por `derivarCelula` (regra conferida 266/266 contra o HTML).
 //
 // Uso (raiz do NCS):
-//   node automacoes/agente-service/scripts/sync_manutencoes.mjs             # captura ao vivo + grava
-//   SNAPSHOT=.tmp/manutencoes_snapshot.json node .../sync_manutencoes.mjs   # grava de um snapshot já capturado
-//   DRY=1 ...                                                               # só mostra o que gravaria
+//   node automacoes/agente-service/scripts/sync_manutencoes.mjs          # captura + grava
+//   DRY=1 ...                                                            # só mostra o que gravaria
+// No VPS (cron semanal), tudo por env — nenhum arquivo necessário:
+//   docker run --rm --env-file /opt/ncs/manut.env ghcr.io/nelpno/ncs-agente-service:latest \
+//     node scripts/sync_manutencoes.mjs
 //
-// Credenciais: env primeiro; senão o .env da raiz do NCS (tokens Superlógica) e
-// .tmp/ncs_supabase.json + .tmp/ncs_supabase_service_key.txt (Supabase).
+// Credenciais:
+//   SL_ADMIN_COOKIE       header Cookie da sessão do painel (obrigatório; localmente cai no
+//                         .tmp/sl_admin_state.json do Playwright, se existir)
+//   SUPABASE_URL / SUPABASE_SERVICE_KEY
+//   ALERTA_EMAIL + SMTP_* (opcional): avisa quando a sessão expirar — ver `avisar()`.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { linhasDoSnapshot } from '../gerador-relatorio-contas/src/manutencoes.mjs';
+import { linhasDosRegistros } from '../gerador-relatorio-contas/src/manutencoes.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const RAIZ = path.resolve(__dirname, '../../..'); // .../Agents/NCS
+const RAIZ = path.resolve(__dirname, '../../..'); // .../Agents/NCS (só existe no ambiente local)
 const DRY = process.env.DRY === '1';
+const HOST = 'admgrupo.superlogica.net';
+const BASE = 'https://' + HOST;
 
 // ---- credenciais ----
-function carregarEnv() {
+function carregarLocal() {
   const envFile = path.join(RAIZ, '.env');
   if (fs.existsSync(envFile)) {
     for (const l of fs.readFileSync(envFile, 'utf8').split(/\r?\n/)) {
       const m = l.trim().match(/^([A-Z0-9_]+)=(.*)$/); // CRLF-safe
-      if (m && m[2] && !/^COLE_/.test(m[2])) process.env[m[1]] = m[2]; // last-wins, ignora placeholder
+      if (m && m[2] && !/^COLE_/.test(m[2])) process.env[m[1]] = m[2];
     }
   }
   const sbJson = path.join(RAIZ, '.tmp/ncs_supabase.json');
   const sbKey = path.join(RAIZ, '.tmp/ncs_supabase_service_key.txt');
   if (!process.env.SUPABASE_URL && fs.existsSync(sbJson)) process.env.SUPABASE_URL = JSON.parse(fs.readFileSync(sbJson, 'utf8')).SUPABASE_URL;
   if (!process.env.SUPABASE_SERVICE_KEY && fs.existsSync(sbKey)) process.env.SUPABASE_SERVICE_KEY = fs.readFileSync(sbKey, 'utf8').trim();
+  // cookie da sessão salva pelo Playwright (só p/ rodar da máquina do Nelson)
+  const state = process.env.SL_ADMIN_STATE || path.join(RAIZ, '.tmp/sl_admin_state.json');
+  if (!process.env.SL_ADMIN_COOKIE && fs.existsSync(state)) process.env.SL_ADMIN_COOKIE = cookieDoState(JSON.parse(fs.readFileSync(state, 'utf8')));
 }
-carregarEnv();
 
-const SL_BASE = process.env.SUPERLOGICA_BASE_URL || 'https://api.superlogica.net/v2/condor';
-const SL_H = {
-  app_token: process.env.SUPERLOGICA_WRITE_APP_TOKEN || process.env.SUPERLOGICA_APP_TOKEN,
-  access_token: process.env.SUPERLOGICA_WRITE_ACCESS_TOKEN || process.env.SUPERLOGICA_ACCESS_TOKEN,
-  'Content-Type': 'application/json',
-};
+// só os cookies válidos p/ o host do painel; o host-específico ganha do domínio-pai.
+// (mandar os de login.superlogica.net junto duplica nomes e o servidor responde "Digite sua senha".)
+export function cookieDoState(state) {
+  const dom = (c) => c.domain.replace(/^\./, '');
+  const byName = new Map();
+  for (const c of state.cookies || []) {
+    const d = dom(c);
+    if (d !== HOST && !HOST.endsWith('.' + d)) continue;
+    const atual = byName.get(c.name);
+    if (!atual || (d === HOST && dom(atual) !== HOST)) byName.set(c.name, c);
+  }
+  return [...byName.values()].map((c) => `${c.name}=${c.value}`).join('; ');
+}
+
+try { carregarLocal(); } catch {}
+const COOKIE = process.env.SL_ADMIN_COOKIE;
 const SB_URL = process.env.SUPABASE_URL, SB_KEY = process.env.SUPABASE_SERVICE_KEY;
 const SB_H = { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
-if (!SB_URL || !SB_KEY) { console.error('faltam SUPABASE_URL/SUPABASE_SERVICE_KEY'); process.exit(1); }
 
-// ---- captura no painel admin (Playwright + cookie da sessão) ----
-const PW = process.env.PW_PATH || 'file:///C:/Temp/pw-qa/node_modules/playwright/index.js';
-const STATE = process.env.SL_ADMIN_STATE || path.join(RAIZ, '.tmp/sl_admin_state.json');
-const UI = 'https://admgrupo.superlogica.net/clients/condor/manutencoes/index?idmanutencao=';
-const SNAP_OUT = path.join(RAIZ, '.tmp/manutencoes_snapshot.json');
-
-async function capturar() {
-  if (!fs.existsSync(STATE)) throw new Error(`sessão admin ausente (${STATE}) — logar no painel e salvar o storageState`);
-  const pkg = await import(PW);
-  const { chromium } = pkg.default || pkg; // playwright é CommonJS: named import quebra
-  const browser = await chromium.launch({ headless: true });
-  const ctx = await browser.newContext({ storageState: STATE, locale: 'pt-BR', viewport: { width: 1920, height: 1080 } });
-  const page = await ctx.newPage();
+// ---- aviso (opcional): a sessão do painel expira e alguém precisa refazer o login com MFA ----
+async function avisar(assunto, corpo) {
+  const para = process.env.ALERTA_EMAIL;
+  if (!para || !process.env.SMTP_HOST) { console.log('[aviso] (sem ALERTA_EMAIL/SMTP) ' + assunto); return; }
   try {
-    await page.goto(UI + '1001', { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForTimeout(2000);
-    if (/login\.superlogica/.test(page.url())) throw new Error('SESSÃO EXPIROU — refazer o login admin (MFA) e salvar o storageState');
-
-    // categorias pelo endpoint canônico (nome COMPLETO; a barra da UI trunca)
-    const res = await page.evaluate(async () => {
-      const r = await fetch('/condor/atual/manutencoes/getmanutencoes', {
-        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' }, body: '',
-      });
-      return { status: r.status, txt: await r.text() };
+    const { default: nodemailer } = await import('nodemailer');
+    const t = nodemailer.createTransport({
+      host: process.env.SMTP_HOST, port: Number(process.env.SMTP_PORT || 465),
+      secure: String(process.env.SMTP_SECURE || 'true') === 'true',
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
     });
-    if (res.status !== 200) throw new Error('getmanutencoes HTTP ' + res.status);
-    const cats = (JSON.parse(res.txt).data || []).map((c) => ({
-      id: String(c.id_manutencoes_mt), nome: c.st_nome_mt, desativada: c.fl_desativada_mt,
-      email_fornecedor: c.st_email_mt || null, avisar_gerente: c.fl_avisar_gerente_mt || null, id_tag: c.id_tag_ftag,
-    }));
-    if (!cats.length) throw new Error('nenhuma categoria retornada');
-
-    const matrizes = {};
-    for (const c of cats) {
-      await page.goto(UI + c.id, { waitUntil: 'networkidle', timeout: 45000 }).catch(() => {});
-      await page.waitForTimeout(2000);
-      if (/login\.superlogica/.test(page.url())) throw new Error('SESSÃO EXPIROU no meio da captura (categoria ' + c.id + ')');
-      // "Listar tudo" → todos os condomínios (a tabela vem paginada de 50)
-      await page.evaluate(() => {
-        const a = Array.from(document.querySelectorAll('a')).find((x) => /Listar tudo/i.test(x.innerText || ''));
-        if (a) a.click();
-      }).catch(() => {});
-      await page.waitForTimeout(2200);
-      const info = await page.evaluate(() => {
-        const q = (s) => Array.from(document.querySelectorAll(s));
-        const tbl = q('table').find((t) => /Condom[ií]nio/i.test(t.innerText) && /Jun|Jul/i.test(t.innerText));
-        if (!tbl) return { header: [], data: [] };
-        const trs = Array.from(tbl.querySelectorAll('tr'));
-        const header = Array.from(trs[0].querySelectorAll('th,td')).map((x) => (x.innerText || '').trim());
-        const data = [];
-        for (const tr of trs.slice(1)) {
-          const cells = Array.from(tr.querySelectorAll('td')).map((x) => (x.innerText || '').trim());
-          const i = cells.findIndex((x) => x);
-          const condo = cells[i];
-          if (!condo || /Listar|Listando|Marcar|Com marcados|Agendar/i.test(condo)) continue; // rodapé/ações, não condomínio
-          data.push({ condo, cells: cells.slice(i + 1) });
-        }
-        return { header, data };
-      });
-      matrizes[c.id] = info;
-      console.log(String(c.id).padStart(5), c.nome.padEnd(32).slice(0, 32), String(info.data.length).padStart(3), 'condos');
-    }
-
-    const meses = (Object.values(matrizes).find((m) => m.header.length) || { header: [] }).header.filter((x) => /^[A-Z][a-z]{2}$/.test(x));
-    if (meses.length !== 12) throw new Error('cabeçalho de meses inesperado: ' + JSON.stringify(meses));
-    const porCondo = {};
-    for (const [id, mz] of Object.entries(matrizes)) {
-      const cat = (cats.find((c) => c.id === id) || {}).nome || ('cat' + id);
-      for (const row of mz.data) {
-        porCondo[row.condo] = porCondo[row.condo] || {};
-        const agenda = {};
-        row.cells.forEach((v, i) => { if (v && meses[i]) agenda[meses[i]] = v; });
-        if (Object.keys(agenda).length) porCondo[row.condo][cat] = agenda;
-      }
-    }
-    return {
-      capturado_em: new Date().toISOString(), meses,
-      categorias: cats.map((c) => ({ id: c.id, nome: c.nome })), categorias_raw: cats, porCondo, matrizes,
-      endpoint_categorias: 'POST /condor/atual/manutencoes/getmanutencoes',
-    };
-  } finally { await browser.close(); }
+    await t.sendMail({ from: process.env.SMTP_FROM || process.env.SMTP_USER, to: para, subject: assunto, text: corpo });
+    console.log('[aviso] e-mail enviado para', para);
+  } catch (e) { console.log('[aviso] falhou:', e.message.slice(0, 120)); }
 }
 
-// ---- condomínios (API pública) e casamento por NOME EXATO ----
-const norm = (s) => String(s || '').normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '')
-  .toUpperCase().replace(/[^A-Z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+function faltando() {
+  const f = [];
+  if (!COOKIE) f.push('SL_ADMIN_COOKIE');
+  if (!SB_URL) f.push('SUPABASE_URL');
+  if (!SB_KEY) f.push('SUPABASE_SERVICE_KEY');
+  return f;
+}
 
-async function listarCondominios() {
-  const r = await fetch(`${SL_BASE}/condominios/get?id=-1`, { headers: SL_H, signal: AbortSignal.timeout(60000) });
-  if (!r.ok) throw new Error('condominios/get ' + r.status);
-  const j = await r.json();
-  if (!Array.isArray(j)) throw new Error('condominios/get resposta inesperada');
-  return j.map((c) => ({ id: Number(c.id_condominio_cond || c.id), fantasia: c.st_fantasia_cond || '', nome: c.st_nome_cond || '' })).filter((c) => c.id);
+// ---- API interna (cookie) ----
+const H = (ref) => ({
+  cookie: COOKIE, accept: '*/*', 'accept-language': 'pt-BR',
+  'content-type': 'application/x-www-form-urlencoded', origin: BASE,
+  referer: `${BASE}/clients/condor/manutencoes/index?idmanutencao=${ref}`,
+  'x-requested-with': 'XMLHttpRequest',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36',
+});
+
+// ⚠️ o painel responde HTTP 200 mesmo quando a sessão morreu — o status REAL vem no corpo.
+class SessaoExpirada extends Error {}
+async function post(acao, params, ref) {
+  const body = 'json=' + encodeURIComponent(JSON.stringify({ params: [params], url: `${BASE}/condor/atual/${acao}` }));
+  const r = await fetch(`${BASE}/condor/atual/${acao}`, { method: 'POST', headers: H(ref), body, signal: AbortSignal.timeout(60000) });
+  const txt = await r.text();
+  let j = null; try { j = JSON.parse(txt); } catch {}
+  if (!j) throw new Error(`${acao}: resposta não-JSON (HTTP ${r.status}) ${txt.slice(0, 120)}`);
+  if (String(j.status) === '401') throw new SessaoExpirada(`${acao}: ${j.msg || 'sessão expirada'}`);
+  if (String(j.status) !== '200') throw new Error(`${acao}: status ${j.status} ${j.msg || ''}`);
+  return j.data || [];
 }
 
 // ---- Supabase ----
@@ -157,38 +129,46 @@ async function sbInsert(rows) {
 }
 
 // ---- main ----
-const snapArg = process.env.SNAPSHOT;
-let snap;
-if (snapArg) {
-  const p = path.isAbsolute(snapArg) ? snapArg : path.join(RAIZ, snapArg);
-  snap = JSON.parse(fs.readFileSync(p, 'utf8'));
-  console.log('snapshot lido de', p, '| capturado_em', snap.capturado_em);
-} else {
-  snap = await capturar();
-  fs.writeFileSync(SNAP_OUT, JSON.stringify(snap, null, 1));
-  console.log('snapshot salvo em', SNAP_OUT);
+const falta = faltando();
+if (falta.length) { console.error('faltam credenciais:', falta.join(', ')); process.exit(1); }
+
+let regs = [];
+try {
+  const cats = await post('manutencoes/getmanutencoes', {}, 1001);
+  if (!cats.length) throw new Error('nenhuma categoria retornada');
+  console.log('categorias:', cats.length);
+  for (const c of cats) {
+    const id = c.id_manutencoes_mt;
+    for (let pg = 1; pg <= 20; pg++) {          // o painel pagina de 50 em 50
+      const d = await post('manutencoes/index', { idmanutencao: String(id), pagina: pg }, id);
+      regs = regs.concat(d);
+      if (d.length < 50) break;
+    }
+  }
+} catch (e) {
+  if (e instanceof SessaoExpirada) {
+    console.error('🔴 SESSÃO DO PAINEL EXPIROU —', e.message);
+    console.error('   Espelho NÃO foi tocado: o card segue mostrando a última captura, com a data.');
+    await avisar('NCS: sessão do painel Superlógica expirou (manutenções)',
+      'O sync das manutenções programadas não rodou porque a sessão do painel admin expirou.\n'
+      + 'Refaça o login (MFA) e atualize o SL_ADMIN_COOKIE.\n\nDetalhe: ' + e.message);
+    process.exit(2);
+  }
+  console.error('ERRO na captura:', e.message);
+  process.exit(1);
 }
 
-const condos = await listarCondominios();
-const porNome = new Map();
-for (const c of condos) for (const n of [c.fantasia, c.nome]) if (n && !porNome.has(norm(n))) porNome.set(norm(n), c.id);
-// NOME EXATO (normalizado). Sem match → descarta e reporta: manutenção do prédio errado é pior que card ausente.
-const resolverId = (painel) => porNome.get(norm(painel)) || null;
-
-const { linhas, ignorados } = linhasDoSnapshot(snap, resolverId);
-// dedupe pela chave única (condo × categoria × mês) — a última célula vence
+const { linhas, semId } = linhasDosRegistros(regs, { capturadoEm: new Date().toISOString() });
 const unica = new Map();
 for (const l of linhas) unica.set(`${l.id_condominio}|${l.categoria_id}|${l.ano}|${l.mes}`, l);
 const rows = [...unica.values()];
-
-const condosComDado = new Set(rows.map((r) => r.id_condominio)).size;
-console.log(`\ncondomínios no painel: ${Object.keys(snap.porCondo).length} | casados: ${condosComDado} | linhas: ${rows.length}`);
-if (ignorados.length) console.log('IGNORADOS (nome não casou com a API pública):', ignorados.join(' | '));
+const condos = new Set(rows.map((r) => r.id_condominio)).size;
 const porStatus = rows.reduce((a, r) => ({ ...a, [r.status]: (a[r.status] || 0) + 1 }), {});
-console.log('por status:', JSON.stringify(porStatus));
+console.log(`registros: ${regs.length} | condomínios: ${condos} | linhas: ${rows.length} | ${JSON.stringify(porStatus)}`);
+if (semId.length) console.log('SEM id_condominio (descartados):', semId.join(' | '));
 
-if (DRY) { console.log('\nDRY=1 — nada gravado.'); process.exit(0); }
+if (DRY) { console.log('DRY=1 — nada gravado.'); process.exit(0); }
 if (!rows.length) { console.error('ZERO linhas — não vou apagar o espelho existente.'); process.exit(1); }
 await sbDeleteTudo();
 await sbInsert(rows);
-console.log(`\nSYNC OK | ${rows.length} linhas | ${condosComDado} condomínios | captura ${snap.capturado_em}`);
+console.log(`SYNC OK | ${rows.length} linhas | ${condos} condomínios | ${new Date().toISOString()}`);

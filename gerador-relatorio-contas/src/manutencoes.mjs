@@ -12,12 +12,11 @@
 // O card SEMPRE mostra a data da captura (staleness visível) e NUNCA é caminho crítico: falta de dado,
 // Supabase fora ou snapshot velho → card omitido, Resumo sai igual.
 
-const MES_LABEL = { Jan: 1, Fev: 2, Mar: 3, Abr: 4, Mai: 5, Jun: 6, Jul: 7, Ago: 8, Set: 9, Out: 10, Nov: 11, Dez: 12 };
 const MES_ABREV = ['', 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+// sufixo dos campos de recorrência do registro: fl_jan_mc … fl_dez_mc
+const MES_CAMPO = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 export const CATEGORIA_IGNORADA = new Set(['2']); // "Teste" — lixo de cadastro
 const DIAS_STALE = 45; // acima disso o card avisa que o cronograma pode estar desatualizado
-
-export const mesNumero = (label) => MES_LABEL[String(label || '').slice(0, 3)] || null;
 
 /**
  * Célula do painel → { status, dia }. "Dia 9" → agendado/9 · "Concluido" · "Atrasado" · "Agendado".
@@ -34,55 +33,81 @@ export function normalizarCelula(raw) {
   return null;
 }
 
+/** MM/DD/AAAA (padrão Superlógica) → {ano, mes, dia}. Formato inesperado → null. */
+export function parseDataSL(s) {
+  const m = String(s || '').match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  return m ? { mes: Number(m[1]), dia: Number(m[2]), ano: Number(m[3]) } : null;
+}
+
 /**
- * O painel mostra 12 meses ROLANTES por rótulo ("Jun".."Mai"), sem o ano. Deduz o ano de cada coluna:
- * a janela começa no mês corrente ou no anterior, então o 1º rótulo pertence ao ano da captura quando
- * já passou (ou é) o mês da captura; senão ao ano anterior. Daí incrementa a cada virada de dezembro.
+ * Célula do painel a partir do REGISTRO da API interna (`manutencoes/index`), que traz os meses de
+ * recorrência (`fl_jan_mc`…`fl_dez_mc`) e a data da PRÓXIMA manutenção (`dt_manutencao_mc`).
+ * Devolve exatamente o texto que o painel mostraria ("Dia 9"/"Concluido"/"Atrasado"/"Agendado"),
+ * ou null quando o mês não é de recorrência.
+ *
+ * A regra foi INFERIDA do dado e conferida contra as 266 células capturadas do HTML do painel
+ * em 24/07/2026: **266/266 idênticas**. Se o painel mudar de comportamento, é esse teste que cai.
+ *   - mês passado:   a data já rolou pra frente = foi feita ("Concluido"); senão "Atrasado".
+ *   - mês corrente:  idem; se a data é deste mês e o dia ainda não chegou, "Dia N".
+ *   - mês futuro:    só o mês DA DATA leva o dia (o painel casa por mês, ignorando o ano);
+ *                    os demais meses de recorrência saem como "Agendado".
  */
-export function inferirAnos(meses, capturadoEm) {
-  const d = capturadoEm instanceof Date ? capturadoEm : new Date(capturadoEm);
-  const mesCaptura = d.getUTCMonth() + 1, anoCaptura = d.getUTCFullYear();
-  const nums = (meses || []).map(mesNumero);
-  if (!nums.length || nums.some((n) => !n)) return [];
-  let ano = nums[0] <= mesCaptura ? anoCaptura : anoCaptura - 1;
+export function derivarCelula(reg, col, hoje) {
+  if (!reg || !col) return null;
+  if (String(reg[`fl_${MES_CAMPO[col.mes - 1]}_mc`] || '') !== '1') return null;
+  const dt = parseDataSL(reg.dt_manutencao_mc);
+  if (!dt) return 'Agendado';
+  const h = hoje instanceof Date ? hoje : new Date(hoje);
+  const hK = h.getUTCFullYear() * 100 + (h.getUTCMonth() + 1);
+  const k = col.ano * 100 + col.mes, kdt = dt.ano * 100 + dt.mes;
+  if (k < hK) return kdt > k ? 'Concluido' : 'Atrasado';
+  if (k === hK) {
+    if (kdt > k) return 'Concluido';
+    return (kdt === k && dt.dia >= h.getUTCDate()) ? 'Dia ' + dt.dia : 'Atrasado';
+  }
+  return dt.mes === col.mes ? 'Dia ' + dt.dia : 'Agendado';
+}
+
+/** Janela de 12 meses do painel: começa no mês ANTERIOR ao de hoje. */
+export function janelaPainel(hoje) {
+  const h = hoje instanceof Date ? hoje : new Date(hoje);
+  let mes = h.getUTCMonth(); // 0-based = mês anterior em 1-based
+  let ano = h.getUTCFullYear();
+  if (mes === 0) { mes = 12; ano -= 1; }
   const out = [];
-  for (let i = 0; i < nums.length; i++) {
-    if (i > 0 && nums[i] < nums[i - 1]) ano += 1; // virou o ano (Dez → Jan)
-    out.push({ label: meses[i], mes: nums[i], ano });
+  for (let i = 0; i < 12; i++) {
+    out.push({ mes, ano });
+    mes += 1; if (mes > 12) { mes = 1; ano += 1; }
   }
   return out;
 }
 
 /**
- * Snapshot do painel → linhas da tabela. `resolverId(nomePainel)` devolve o id do condomínio no
- * Superlógica (ou null). Linha sem id casado é DESCARTADA e reportada em `ignorados` — nunca chutamos
- * o condomínio (mandar a manutenção do prédio errado é pior que não mandar).
+ * Registros da API interna → linhas da tabela. O **id do condomínio vem da própria fonte**
+ * (`id_condominio_cond`) — não há casamento por nome, então não há como trocar de prédio.
  */
-export function linhasDoSnapshot(snap, resolverId) {
-  const capturadoEm = snap.capturado_em || new Date().toISOString();
-  const calendario = inferirAnos(snap.meses, capturadoEm);
-  const idPorNome = new Map((snap.categorias || []).map((c) => [c.nome, String(c.id)]));
-  const linhas = [], ignorados = [];
-  for (const [painel, cats] of Object.entries(snap.porCondo || {})) {
-    const id = resolverId(painel);
-    if (!id) { ignorados.push(painel); continue; }
-    for (const [categoria, agenda] of Object.entries(cats)) {
-      const categoriaId = idPorNome.get(categoria) || categoria;
-      if (CATEGORIA_IGNORADA.has(categoriaId)) continue;
-      for (const [label, raw] of Object.entries(agenda)) {
-        const cel = normalizarCelula(raw);
-        const cal = calendario.find((c) => c.label === label);
-        if (!cel || !cal) continue;
-        linhas.push({
-          id_condominio: id, condominio_painel: painel,
-          categoria_id: categoriaId, categoria,
-          ano: cal.ano, mes: cal.mes, dia: cel.dia, status: cel.status,
-          valor_raw: String(raw), capturado_em: capturadoEm,
-        });
-      }
+export function linhasDosRegistros(regs, { capturadoEm, hoje } = {}) {
+  const cap = capturadoEm || new Date().toISOString();
+  const janela = janelaPainel(hoje || cap);
+  const linhas = [], semId = [];
+  for (const r of regs || []) {
+    const id = Number(r.id_condominio_cond);
+    const categoriaId = String(r.id_manutencoes_mt);
+    if (CATEGORIA_IGNORADA.has(categoriaId)) continue;
+    if (!id) { semId.push(r.st_fantasia_cond || r.st_nome_cond || '?'); continue; }
+    for (const col of janela) {
+      const bruto = derivarCelula(r, col, hoje || cap);
+      const cel = bruto && normalizarCelula(bruto);
+      if (!cel) continue;
+      linhas.push({
+        id_condominio: id, condominio_painel: (r.st_fantasia_cond || r.st_nome_cond || '').trim(),
+        categoria_id: categoriaId, categoria: r.st_nome_mt,
+        ano: col.ano, mes: col.mes, dia: cel.dia, status: cel.status,
+        valor_raw: bruto, capturado_em: cap,
+      });
     }
   }
-  return { linhas, ignorados };
+  return { linhas, semId };
 }
 
 const chave = (r) => Number(r.ano) * 100 + Number(r.mes);
