@@ -69,7 +69,18 @@ function varsDoTexto(evento, ator, condo) {
   const quem = ator.papel === 'dependente' ? 'dependente' : (ator.papel || 'morador');
   return {
     papel: quem, nome: ator.nome || '', unidade: ator.unidade || '', condominio: condo.nome,
+    // ⚠️ LGPD — decisão do Nelson (24/07, respondendo à pergunta que o Fernando deixou aberta): o aviso à
+    // portaria leva SÓ *nome, unidade, data da mudança e se é entrada ou saída*. Sem CPF (nunca teve) e
+    // **sem TELEFONE** (tinha; saiu agora). A portaria precisa reconhecer quem chega, não montar cadastro:
+    // o telefone é dado de contato do morador e vaza para um grupo de WhatsApp com porteiros de turnos
+    // diferentes. `telefone` fica exposto para os templates que já existem não quebrarem, mas NÃO é usado
+    // nos de cadastro — não recolocar sem nova decisão dele.
     telefone: ator.telefone || '',
+    // "Entrada" ou "Saída" — pedido junto com a decisão de LGPD. Hoje só existe o evento de entrada
+    // (cadastro de inquilino); a saída de inquilino e a troca de proprietário são os 2 modelos que o
+    // Fernando ainda quer (backlog). O default é Entrada, e quem chamar com `ator.movimento='saida'`
+    // já sai correto — o template não precisa mudar quando esses fluxos entrarem.
+    movimento: /sa[íi]da/i.test(String(ator.movimento || '')) ? 'Saída' : 'Entrada',
     // Pedido do Fernando (15/07, no grupo de teste): a portaria precisa saber QUANDO a pessoa entra.
     //
     // ⚠️ O VALOR é a data de ENTRADA do cadastro (DT_ENTRADA_RES), mas o RÓTULO no template diz
