@@ -20,7 +20,7 @@
 //   docker image inspect ghcr.io/nelpno/ncs-agente-service:latest --format '{{index .RepoDigests 0}}'
 // → cole aqui → confirme que a imagem é a sua (o label `revision` vem VAZIO):
 //   docker run --rm --entrypoint sh <img> -c 'grep -c "<sua string>" spec/system-prompt.md'
-export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:95c2adf83096b66272e3120b724c43cc5b7c8ca05a95eb6d730453b89c342f6e"; // 987d786: INDICE GLOBAL DE CPF (src/pessoas.mjs) - resolver_cadastro busca O(1) na tabela `pessoas` (Supabase) antes da varredura de 59 condos; miss/erro/Supabase-off -> fallback varredura (nunca caminho critico). Mata o ponto cego "1 CPF em 2+ condos" (390 CPFs). Traz junto 45f1262 (boleto +30d + verificador de enquadramento) e src/codigo_civil.mjs (Estagiario, Ana nao usa). DRY_RUN mantido; Frente C DORMANTE
+export const ANA_IMAGE = "ghcr.io/nelpno/ncs-agente-service@sha256:6790b77bb2280c5929462bdb3b83279f0cfaab2d90296df0d85008ddec24ecef"; // 50009d0: achados do 1o dia de volume real (27/07, 64 conversas). (1) get_boleto_2via cruza com a inadimplencia e devolve `outras_cobrancas_em_aberto`+`aviso_morador` - a regua de 2a via NAO enxerga o que venceu ha +30d (medido: nem com status=todos passa de 21 dias), pedido do Fernando na conv 186. (2) src/link_guard.mjs: link gruponcs.net fora da allowlist da base sai da resposta E do historico (a Ana mandou /ticket-mudanca, inexistente, na conv 257). (3) prompt: proibida a frase de escape, usar dado recem-informado no mesmo turno, nome citado = destinatario. DRY_RUN mantido; Frente C DORMANTE
 
 // Ancorado no container de PRODUÇÃO (docker exec ncs-agente printenv, 14/07), menos as que a
 // imagem injeta (PATH/HOME/NODE_*) e CHROME_PATH, que vem do `ENV` do Dockerfile — não do compose.
