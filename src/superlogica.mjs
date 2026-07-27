@@ -206,9 +206,22 @@ export function decidirSemBoleto(inad) {
   };
 }
 
+// calcularOutrasCobrancas: quantas cobranças em aberto existem ALÉM da que estamos entregando.
+// PURA/testável (test_boleto_outras_cobrancas.mjs).
+// `qtd` vem de get_inadimplencia (qtd_cobrancas_em_aberto = cobranças VENCIDAS em aberto).
+// Se o boleto entregue já está vencido, ele próprio conta nesse total → desconta 1.
+// Se ainda está A VENCER, ele não entra na inadimplência → o total todo é "além deste".
+export function calcularOutrasCobrancas(qtd, diasVencido) {
+  const n = Number(qtd) || 0;
+  if (n <= 0) return 0;
+  return Number(diasVencido) > 0 ? Math.max(0, n - 1) : n;
+}
+
 // get_boleto_2via: cobranca/index?status=pendentes&UNIDADES[0]=<id>  → PIX copia-e-cola + link.
 // ATENÇÃO: idUnidade é ignorado; o filtro é UNIDADES[0]=. Conferir id_unidade_uni no retorno (LGPD).
-export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
+// `_semInadimplencia`: pula o cruzamento com a inadimplência (usado pelo get_boleto_pdf_url, que só
+// precisa da URL — evita repetir a chamada quando a Ana pede boleto + PDF no mesmo turno).
+export async function get_boleto_2via({ id_condominio, id_unidade, _semInadimplencia } = {}) {
   if (!id_condominio || !id_unidade) return { erro: 'faltam id_condominio e id_unidade' };
   // Garantidora 'total': a NCS não gera boleto pelo Superlógica → direcionar à garantidora (nem consulta o sistema).
   const gar = await garantidoraDe(id_condominio);
@@ -231,7 +244,7 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
     if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure: inadimplência +31d é da Inadimplência Zero.
     return r;
   }
-  return {
+  const r = {
     liberado: true, dias_vencido: diasVencido,
     id_unidade_uni: b.id_unidade_uni,
     st_pixqrcode_recb: b.st_pixqrcode_recb || null,
@@ -239,6 +252,28 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
     vl_total_recb: b.vl_total_recb,
     dt_vencimento_recb: b.dt_vencimento_recb,
   };
+  // 🔴 A régua de ~30d NÃO enxerga o que venceu antes — medido 27/07: nem com `status=todos` o
+  // `cobranca/index` passa de ~21 dias de atraso (Atlanta/Allure/ABV/Lume). Quem tinha dívida antiga
+  // recebia só o boleto novo e ia embora achando que era tudo: a Ana disse "2 cobranças" e a cobrança
+  // via 3 (conv 219), e a Naiara achou boleto de 63 dias (conv 186) — onde o Fernando pediu, por
+  // escrito, "colocar para verificar que tem boletos mais antigos em aberto".
+  // Cruzamos com a inadimplência COMPLETA e avisamos; nunca cravamos valor (juros são da cobrança).
+  if (!_semInadimplencia) {
+    try {
+      const inad = await get_inadimplencia({ id_condominio, id_unidade });
+      if (inad && inad.status === 'inadimplente') {
+        const outras = calcularOutrasCobrancas(inad.qtd_cobrancas_em_aberto, diasVencido);
+        if (outras > 0) {
+          r.outras_cobrancas_em_aberto = outras;
+          r.aviso_morador =
+            `Atenção: além deste boleto, constam ${outras} cobrança(s) em aberto nesta unidade. ` +
+            'Posso pedir à equipe de cobrança a relação completa e atualizada.';
+        }
+        if (inad.no_juridico) r.no_juridico = true; // roteamento interno; nunca dito ao morador
+      }
+    } catch { /* inadimplência indisponível → entrega o boleto sem o aviso, nunca bloqueia */ }
+  }
+  return r;
 }
 
 // get_boleto_pdf_url: deriva a URL do PDF da 2ª via (link_segundavia com FaturaHtml→FaturaPdf — validado em
@@ -246,7 +281,9 @@ export async function get_boleto_2via({ id_condominio, id_unidade } = {}) {
 // Reusa get_boleto_2via → mesma seleção do boleto + guards (garantidora 'total', vencido +30 dias). NÃO baixa nem
 // envia: só devolve a URL + dados (o download/envio fica no octadesk.mjs). Anti-troca já garantido pelo get_boleto_2via.
 export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
-  const b = await get_boleto_2via({ id_condominio, id_unidade });
+  // `_semInadimplencia`: aqui só interessa a URL do PDF. O aviso de débito antigo já veio no
+  // get_boleto_2via do mesmo turno — repetir a consulta seria uma chamada à toa por atendimento.
+  const b = await get_boleto_2via({ id_condominio, id_unidade, _semInadimplencia: true });
   if (!b.liberado || !b.link_segundavia) {
     return { ok: false, motivo: b.motivo || 'sem_boleto', ...(b.garantidora ? { garantidora: b.garantidora } : {}) };
   }
