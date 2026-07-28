@@ -206,6 +206,12 @@ export function decidirSemBoleto(inad) {
   };
 }
 
+// Texto do PIX ausente. Exportado para o teste conferir o texto REAL (uma cópia no teste passaria
+// mesmo com o código dizendo outra coisa). NÃO pode sugerir falha temporária — ver get_boleto_2via.
+export const NOTA_PIX_INDISPONIVEL =
+  'Este boleto não tem PIX copia e cola (o condomínio emite o boleto por outro banco). '
+  + 'O pagamento é pelo link ou pelo código de barras do PDF.';
+
 // calcularOutrasCobrancas: quantas cobranças em aberto existem ALÉM da que estamos entregando.
 // PURA/testável (test_boleto_outras_cobrancas.mjs).
 // `qtd` vem de get_inadimplencia (qtd_cobrancas_em_aberto = cobranças VENCIDAS em aberto).
@@ -252,6 +258,15 @@ export async function get_boleto_2via({ id_condominio, id_unidade, _semInadimple
     vl_total_recb: b.vl_total_recb,
     dt_vencimento_recb: b.dt_vencimento_recb,
   };
+  // PIX ausente NÃO é falha nossa nem coisa passageira: quando o boleto do condomínio é emitido por
+  // OUTRO banco (o Parque Atlanta usa SICOOB — confirmado pelo Fernando 27/07), o Superlógica não
+  // devolve o copia-e-cola e nunca vai devolver. Medido: 0 de 174 boletos do Atlanta têm PIX, contra
+  // 100% no Lume/Vancouver. A Ana vinha dizendo "no momento não consegui obter o PIX", que sugere
+  // erro temporário e faz o morador tentar de novo à toa. Texto neutro e verdadeiro nos dois casos.
+  if (!r.st_pixqrcode_recb) {
+    r.pix_disponivel = false;
+    r.nota_pix = NOTA_PIX_INDISPONIVEL;
+  }
   // 🔴 A régua de ~30d NÃO enxerga o que venceu antes — medido 27/07: nem com `status=todos` o
   // `cobranca/index` passa de ~21 dias de atraso (Atlanta/Allure/ABV/Lume). Quem tinha dívida antiga
   // recebia só o boleto novo e ia embora achando que era tudo: a Ana disse "2 cobranças" e a cobrança

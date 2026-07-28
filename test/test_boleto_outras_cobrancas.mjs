@@ -13,7 +13,7 @@
  *
  * Rodar: node test/test_boleto_outras_cobrancas.mjs
  */
-import { calcularOutrasCobrancas } from '../src/superlogica.mjs';
+import { calcularOutrasCobrancas, NOTA_PIX_INDISPONIVEL } from '../src/superlogica.mjs';
 
 let ok = 0, fail = 0;
 const t = (nome, real, esperado) => {
@@ -40,6 +40,21 @@ t('qtd não-numérica → 0', calcularOutrasCobrancas('muitas', 2), 0);
 t('qtd negativa → 0 (nunca negativo)', calcularOutrasCobrancas(-2, 5), 0);
 t('diasVencido ausente = trata como a vencer', calcularOutrasCobrancas(2, undefined), 2);
 t('resultado nunca é negativo', calcularOutrasCobrancas(1, 99) >= 0, true);
+
+// ---------------------------------------------------------------------------
+// PIX ausente é PERMANENTE, não "tenta de novo". O Fernando confirmou (27/07) que o boleto do
+// Parque Atlanta é emitido pelo SICOOB, não pelo Superlógica — por isso 0 de 174 boletos têm PIX,
+// contra 100% no Lume/Vancouver. A Ana vinha dizendo "no momento não consegui obter o PIX", que soa
+// como falha nossa e faz o morador tentar de novo à toa.
+// Conferimos a constante REAL do módulo: uma cópia do texto aqui passaria mesmo com o código
+// dizendo outra coisa.
+console.log('\n=== PIX ausente: o texto não pode sugerir falha temporária ===');
+t('não diz "no momento"', /no momento/i.test(NOTA_PIX_INDISPONIVEL), false);
+t('não diz "não consegui"', /n[ãa]o consegui/i.test(NOTA_PIX_INDISPONIVEL), false);
+t('não promete nova tentativa', /tente (de )?novo|novamente|mais tarde/i.test(NOTA_PIX_INDISPONIVEL), false);
+t('explica o motivo (outro banco)', /outro banco/i.test(NOTA_PIX_INDISPONIVEL), true);
+t('dá o caminho alternativo (link + código de barras)',
+  /link/i.test(NOTA_PIX_INDISPONIVEL) && /c[óo]digo de barras/i.test(NOTA_PIX_INDISPONIVEL), true);
 
 console.log(`\n${fail === 0 ? '✅' : '❌'} ${ok} passaram, ${fail} falharam\n`);
 process.exit(fail === 0 ? 0 : 1);
