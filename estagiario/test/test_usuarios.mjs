@@ -99,6 +99,20 @@ function mkdb(overrides = {}) {
   ok++;
 }
 
+// ultimo_acesso no USO, com throttle. Sem isso o campo congela no dia do login
+// (28/07: a Jussara usou 7x e o painel dizia 14/07) e o painel mente sobre quem acessa.
+{
+  const db = mkdb();
+  const t0 = 1_000_000_000_000;
+  assert.strictEqual(await u.tocarUltimoAcessoSeNecessario("uA", db, t0), true, "1º acesso grava");
+  assert.strictEqual(await u.tocarUltimoAcessoSeNecessario("uA", db, t0 + 60_000), false, "1min depois NÃO grava de novo");
+  assert.strictEqual(await u.tocarUltimoAcessoSeNecessario("uA", db, t0 + 3_600_001), true, "passada 1h, grava");
+  assert.strictEqual(await u.tocarUltimoAcessoSeNecessario("uB", db, t0 + 60_000), true, "outra pessoa tem contador próprio");
+  assert.strictEqual(await u.tocarUltimoAcessoSeNecessario(null, db, t0), false, "id vazio não grava");
+  assert.strictEqual(db.rec.length, 3, "3 escritas (uA x2 + uB), não uma por request");
+  ok++;
+}
+
 // e-mail normalizado (lowercase+trim) na criação e no filtro do porEmail (senão admin com maiúscula não loga)
 {
   const db = mkdb();
@@ -149,4 +163,4 @@ function mkdb(overrides = {}) {
   ok++;
 }
 
-console.log(`test_usuarios: ${ok}/11 OK`);
+console.log(`test_usuarios: ${ok}/12 OK`);

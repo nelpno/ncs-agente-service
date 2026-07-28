@@ -77,6 +77,27 @@ export async function tocarUltimoAcesso(id, db = realDb) {
   return db.sbUpdate("usuarios", `id=eq.${enc(id)}`, { ultimo_acesso: new Date().toISOString() });
 }
 
+// ⚠️ Só o /login e o /ativar tocavam o campo — e o cookie dura, então quem já estava logado NUNCA
+// mais o atualizava: em 28/07 a Jussara usou 7x no dia e `ultimo_acesso` dizia 14/07. Qualquer
+// leitura de "quem está acessando" pelo painel estava errada há duas semanas.
+// Agora a própria guarda de sessão toca, com throttle (1x/hora por pessoa) para não gravar a cada request.
+const TOQUE_MS = Number(process.env.ULTIMO_ACESSO_THROTTLE_MS || 3_600_000);
+const ultimoToque = new Map(); // id -> ms (memória do processo; restart só causa 1 escrita a mais)
+
+export function precisaTocar(id, agora = Date.now(), minMs = TOQUE_MS) {
+  if (!id) return false;
+  const ult = ultimoToque.get(id) || 0;
+  if (agora - ult < minMs) return false;
+  ultimoToque.set(id, agora);
+  return true;
+}
+
+export async function tocarUltimoAcessoSeNecessario(id, db = realDb, agora = Date.now()) {
+  if (!precisaTocar(id, agora)) return false;
+  await tocarUltimoAcesso(id, db);
+  return true;
+}
+
 // Logout que REVOGA de verdade (S7): incrementa sessao_versao → a guarda de sessão passa a
 // rejeitar TODOS os cookies antigos daquela pessoa (inclusive um roubado). Desloga em todos os dispositivos.
 export async function incrementarSessaoVersao(id, db = realDb) {

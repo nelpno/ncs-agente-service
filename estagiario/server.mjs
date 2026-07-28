@@ -11,7 +11,7 @@ import { handleTurn } from "./src/agent.mjs";
 import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, rateLoginIp, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
-import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao, definirPodeAprovar } from "./src/usuarios.mjs";
+import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, tocarUltimoAcessoSeNecessario, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao, definirPodeAprovar } from "./src/usuarios.mjs";
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
 import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
@@ -186,6 +186,8 @@ const server = http.createServer(async (req, res) => {
     }
     // slide: renova a validade do cookie a cada request autenticado
     setSessCookie(res, assinarCookie({ uid: sess.uid, exp: Date.now() + COOKIE_MAXAGE_S * 1000, sv: sess.sv }));
+    // marca acesso no USO (não só no login) — sem await, nunca segura a resposta
+    tocarUltimoAcessoSeNecessario(sess.uid).catch((e) => console.warn("[chat-ncs] ultimo_acesso:", e.message));
 
     if (req.method === "POST" && url === "/logout") {
       // S7: revoga de verdade — incrementa sessao_versao ANTES de limpar o cookie → derruba cookies roubados
