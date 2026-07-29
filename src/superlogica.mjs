@@ -3,6 +3,10 @@
 import { config } from './config.mjs';
 import { consultar_garantidora } from './garantidora.mjs';
 import { buscarPorCpf } from './pessoas.mjs';
+// mesma regra de casamento de nome que o Estagiário/gerador já usa (normNome tira acento; tokensNome
+// descarta "condomínio/residencial/edifício/de/do..."). Uma regra só para os dois lados: quando a Ana
+// e o gerador divergem em como leem o nome do condomínio, o pedido morre no meio do caminho.
+import { normNome, tokensNome, casaPorTokens } from '../gerador/src/match-nome.mjs';
 
 // garantidoraDe: resolve a garantidora do condomínio por id; tenta o nome (cache) como reforço de match.
 async function garantidoraDe(id_condominio) {
@@ -51,6 +55,8 @@ async function listCondominios() {
 const _digits = (s) => (s || '').replace(/\D/g, '');
 const _normNome = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z\s]/g, ' ').replace(/\s+/g, ' ').trim();
 const _normUni = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+// "051" e "51" são o mesmo apartamento dito de dois jeitos; "000" não pode virar string vazia.
+const _semZeros = (s) => String(s || '').replace(/^0+/, '') || '0';
 
 // _parseUnidade: extrai { num, bloco } de texto livre ("Ap. 111 Torre 2", "apto 142", "Bloco 7 apartamento 401", "unidade 506").
 // num = número do apartamento/unidade (dígitos); bloco = torre/bloco/quadra (sem rótulo). Retorna null se não houver número.
@@ -69,13 +75,77 @@ export function _parseUnidade(u) {
   return num ? { num, bloco: bloco || null } : null;
 }
 
+// _filtrarCondos: reduz a varredura ao(s) condomínio(s) que a pessoa nomeou.
+//
+// ESCADA de 4 degraus, cada um só se o anterior deu vazio — assim nada que já casava muda de
+// resultado. Medido em 29/07/2026: 12 dos 55 nomes das nossas próprias bases não casavam pelo
+// degrau 1 (o único que existia), e sem match a busca varria os 59 condomínios: a mesma unidade
+// "051" existe em 9 prédios, então voltavam candidatos de outros condomínios na mesma resposta.
+//   1. substring SEM ACENTO, em fronteira de palavra → "Jatiuca" acha "Jatiúca"; "Pairas", "PAIRÁS"
+//   2. todas as palavras significativas → "Condomínio Vancouver" acha "CONDOMINIO RESIDENCIAL
+//      VANCOUVER" (a palavra do meio atravessava a substring)
+//   3. as mesmas palavras no singular → "Rosas de Ouro" acha "ROSA DE OURO"
+//   4. prefixo de palavra → "CDHU" acha "CDHU1"
+// Pino de não-regressão sobre os 59 nomes reais: 47 consultas idênticas, 8 melhoraram, 0 degradaram,
+// 0 colisões novas entre condomínios distintos.
+//
+// ⚠️ Exigir TODAS as palavras (e não "alguma") é o que preserva a ambiguidade legítima: "Cedros"
+// continua devolvendo Vistas do Botânico - Cedros E Cedros do Campo, para a pessoa escolher. Um
+// filtro que "acerta" escolhendo um dos dois já quebrou um condomínio em silêncio aqui.
+// Nenhum degrau casou → devolve TODOS (busca ampla, o comportamento de sempre), nunca vazio.
+export function _filtrarCondos(condos, condominio) {
+  if (!condominio) return condos;
+  const alvoToks = tokensNome(condominio);
+  if (!alvoToks.length) return condos; // só palavra estrutural ("condomínio") não identifica ninguém
+
+  // ⚠️ substring em FRONTEIRA DE PALAVRA (os espaços nas pontas). Sem isso, "…SALTO GRANDE I" casa
+  // dentro de "…SALTO GRANDE III" — condomínios diferentes, com síndico e boleto diferentes. Antes
+  // do fix quem os separava era o acento de "ASSOCIAÇÃO", por acidente; ao tirar o acento eles
+  // colidiram. Pego por um pino de não-regressão rodado sobre os 59 nomes reais.
+  const q = ` ${normNome(condominio)} `;
+  const porSubstring = condos.filter((c) => ` ${normNome(c.nome)} `.includes(q));
+  if (porSubstring.length) return porSubstring;
+
+  const porTokens = condos.filter((c) => casaPorTokens(alvoToks, [c.nome]));
+  if (porTokens.length) return porTokens;
+
+  const sing = (ts) => ts.map((t) => (t.length > 3 ? t.replace(/s$/, '') : t));
+  const alvoSing = sing(alvoToks);
+  const porSingular = condos.filter((c) => {
+    const disp = new Set(sing(tokensNome(c.nome)));
+    return alvoSing.every((t) => disp.has(t));
+  });
+  if (porSingular.length) return porSingular;
+
+  // ÚLTIMO degrau — prefixo de palavra: a equipe diz "CDHU" e o ERP grava "CDHU1" colado. Vem por
+  // último de propósito: "SALTO GRANDE I" já casou lá em cima (existe literalmente), então nunca
+  // chega aqui para ser arrastado pelo "SALTO GRANDE III". Mínimo de 3 letras para um fragmento
+  // curto não varrer meio cadastro.
+  const porPrefixo = alvoToks.every((t) => t.length >= 3)
+    ? condos.filter((c) => {
+      const disp = tokensNome(c.nome);
+      return alvoToks.every((t) => disp.some((d) => d.startsWith(t)));
+    })
+    : [];
+  return porPrefixo.length ? porPrefixo : condos;
+}
+
 export function _match(r, { cpfd, telTail, nomeN, unidadeQ }) {
   const cands = [];
   if (cpfd && _digits(r.st_cpf_con) === cpfd) cands.push({ criterio: 'cpf', score: 100 });
   // UNIDADE + NOME: identificação forte e segura sem CPF (a unidade restringe a 1-3 pessoas; o nome confirma).
   if (unidadeQ?.num) {
     const ruNum = _digits(r.st_unidade_uni);
-    if (ruNum && ruNum === unidadeQ.num) {
+    const exato = !!ruNum && ruNum === unidadeQ.num;
+    // ZERO À ESQUERDA: 2.325 das 3.798 unidades (61%), em 48 dos 59 condomínios, são gravadas "051"
+    // enquanto o morador diz "apartamento 51" — comparando texto puro, ele não era identificado pela
+    // via unidade+nome (a via de quem não dá CPF). Vale 1 ponto MENOS que o exato de propósito:
+    // `resolver_cadastro` só devolve os matches de score MÁXIMO, então, existindo a unidade exata,
+    // a normalizada é descartada sozinha. É isso que mantém "10 G" e "010 G" — unidades de DONOS
+    // DIFERENTES no Tivoli (164) — separadas, sem precisar de regra nova.
+    const porZero = !exato && !!ruNum && _semZeros(ruNum) === _semZeros(unidadeQ.num);
+    if (exato || porZero) {
+      const ajuste = exato ? 0 : 1;
       const rb = _normUni(r.st_bloco_uni);
       const blocoOk = !unidadeQ.bloco || (rb && (rb.includes(unidadeQ.bloco) || unidadeQ.bloco.includes(rb)));
       let nomeOk = false;
@@ -84,8 +154,8 @@ export function _match(r, { cpfd, telTail, nomeN, unidadeQ }) {
         const toks = nomeN.split(' ').filter((t) => t.length >= 3);
         nomeOk = rn === nomeN || (toks.length >= 1 && toks.some((t) => rn.includes(t)));
       }
-      if (nomeOk) cands.push({ criterio: 'unidade_nome', score: blocoOk ? 88 : 82 });
-      else cands.push({ criterio: 'unidade_fraca', score: 35 }); // só a unidade casa → sinal fraco, NÃO libera sozinho (LGPD)
+      if (nomeOk) cands.push({ criterio: 'unidade_nome', score: (blocoOk ? 88 : 82) - ajuste });
+      else cands.push({ criterio: 'unidade_fraca', score: 35 - ajuste }); // só a unidade casa → sinal fraco, NÃO libera sozinho (LGPD)
     }
   }
   if (telTail) { const rt = _digits(r.st_telefone_con); if (rt.length >= 8 && rt.slice(-8) === telTail) cands.push({ criterio: 'telefone', score: 80 }); }
@@ -127,11 +197,7 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
   const _listCondominios = deps.listCondominios || listCondominios;
   const _slGet = deps.slGet || slGet;
 
-  let condos = await _listCondominios();
-  if (condominio) {
-    const alvo = condos.filter((c) => c.nome.toLowerCase().includes(String(condominio).toLowerCase()));
-    if (alvo.length) condos = alvo;
-  }
+  const condos = _filtrarCondos(await _listCondominios(), condominio);
 
   const q = { cpfd, telTail, nomeN, unidadeQ };
   const matches = [];
