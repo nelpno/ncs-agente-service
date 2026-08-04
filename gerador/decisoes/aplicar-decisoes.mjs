@@ -103,6 +103,48 @@ for (const d of dec.decisoes) {
   const partes = [];
   const caput = collapse(escolhido.caput);
 
+  // ÂNCORA DE TEXTO: para regra que existe na fonte mas NÃO tem marcador de item (a lista do
+  // Art. 10 do salto-grande-i é uma sequência de frases soltas, sem letras). O fatiador não acha
+  // e o texto_artigo ficava VAZIO — o documento saía citando o artigo sem transcrever a regra.
+  // Recorta VERBATIM da âncora até o fim da frase (ponto-e-vírgula ou ponto final).
+  if (d.ancora) {
+    const iAnc = bloco.toLowerCase().indexOf(String(d.ancora).toLowerCase());
+    if (iAnc < 0) { r.motivo = `ancora "${d.ancora}" nao localizada no bloco do artigo`; resultados.push(r); continue; }
+    const resto = bloco.slice(iAnc);
+    const mFim = resto.match(/[;.](?=\s|$)/);
+    const trecho = collapse(resto.slice(0, mFim ? mFim.index + 1 : Math.min(resto.length, 400)));
+    // Caput CURTO: quando a lista não tem marcador de item, localizarArtigos não sabe onde o caput
+    // termina e arrasta os primeiros itens junto — no salto-grande-i isso trouxe o trecho que o OCR
+    // embaralhou ("promover a prática de ou quaisquer deixar promover..."). Corto no ":" de
+    // "É PROIBIDO:", que é onde o caput realmente acaba.
+    const mDoisPontos = caput.match(/^[\s\S]{0,120}?:/);
+    const caputCurto = mDoisPontos ? collapse(mDoisPontos[0]) : caput;
+    partes.push(caputCurto, trecho);
+    const nf0 = provaNorm(fonte);
+    if (!partes.every((p) => nf0.includes(provaNorm(p)))) {
+      r.motivo = 'bloco da ancora nao confere verbatim na fonte'; resultados.push(r); continue;
+    }
+    const novoTxt = partes.join('\n\n(...)\n\n');
+    r.depois = novoTxt; r.ok = true;
+    r.motivo = collapse(r.antes) === collapse(novoTxt) ? 'ja estava correto (idempotente)' : 'recortado por ancora';
+    if (APPLY) {
+      for (const base of [VENDOR, FONTE_DADOS]) {
+        const arq = path.join(base, d.slug + '.json');
+        if (!fs.existsSync(arq)) continue;
+        const c = JSON.parse(fs.readFileSync(arq, 'utf8'));
+        const i2 = (c.catalogo_infracoes || {})[d.id];
+        if (!i2) continue;
+        i2.texto_artigo = novoTxt;
+        if (d.fundamento) i2.fundamento = d.fundamento;
+        delete i2.revisar;                       // o motivo do "revisar" (bloco vazio) deixou de existir
+        i2.decisao_humana = { por: 'Nelson (recuperado da fonte)', em: '2026-08-04', nota: d.nota || '' };
+        fs.writeFileSync(arq, JSON.stringify(c, null, 1) + '\n', 'utf8');
+        r.gravado = (r.gravado || []).concat(path.basename(base));
+      }
+    }
+    resultados.push(r); continue;
+  }
+
   if (tipo === "paragrafo") {
     // O bloco do artigo TERMINA no proximo "§" (localizarArtigos corta ali), entao o §1 fica FORA dele.
     // Busco a partir do INICIO do artigo na fonte inteira, limitado ao proximo artigo/capitulo.

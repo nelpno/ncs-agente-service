@@ -97,6 +97,19 @@ export function montarDoc(dados, oc, cadastro) {
         e.infracoes_disponiveis = Object.keys(dados.catalogo_infracoes);
         throw e;
       }
+      // GUARD (04/08/2026): infração do catálogo SEM texto_artigo gerava a multa assim mesmo — o
+      // documento saía com "Considerando o que dispõe o Art. 10°," e NADA depois, citando o artigo
+      // sem transcrever a regra violada. Achado em 3 infrações (salto-grande-i x2, reserva-do-campo),
+      // marcadas "bloco vazio/curto após fatiar" no catálogo, e o verificar-catalogo APROVAVA mesmo
+      // assim. A rota do Código Civil já exigia o texto (linha acima); a do regimento não — assimetria.
+      // Recusar é o certo: sem o texto da regra, o documento é frágil em contestação e o síndico assina.
+      if (!i.texto_artigo || !String(i.texto_artigo).trim()) {
+        const e = new Error(`a infração "${id}" de ${dados.id} está sem o texto do artigo no catálogo `
+          + `(fundamento: ${i.fundamento || 'n/d'}). Não dá para gerar o documento sem transcrever a regra `
+          + `— o texto precisa ser recuperado da fonte antes.`);
+        e.sem_texto_artigo = true;
+        throw e;
+      }
       return i;
     });
     // 1 infração: "dispõe o X," · 2+: "dispõem o X, o Y e o Z," (concordância determinística)

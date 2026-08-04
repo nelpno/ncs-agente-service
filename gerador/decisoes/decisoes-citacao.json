@@ -67,6 +67,26 @@
       "nota": "Artigo trocado: o texto guardado falava da competencia da Diretoria. Fernando deu o Artigo 16 §1°."
     },
     {
+      "slug": "reserva-do-campo",
+      "id": "som_piscina",
+      "fonte": "regimento",
+      "artigo": "6.4",
+      "itens": [],
+      "ancora": "O uso de aparelhos sonoros",
+      "fundamento": "Regimento Interno, 6.4. É expressamente proibido: 6.4.3.",
+      "nota": "texto_artigo estava VAZIO ('bloco vazio/curto apos fatiar'). Por ancora e nao por item porque na fonte o marcador vem como '6.4.3.' (com ponto) e o localizarItem espera espaco logo apos o numero - nao mexo nesse matcher, que e compartilhado. Recuperado da fonte em 04/08/2026."
+    },
+    {
+      "slug": "salto-grande-i",
+      "id": "queima_fogo_lixo",
+      "fonte": "regimento",
+      "artigo": "Art. 10",
+      "itens": [],
+      "ancora": "atear fogo em roçado mato ou lixo",
+      "fundamento": "Regimento Interno, CAPITULO III - DAS NORMAS DE CONDUTA, Art. 10° - É PROIBIDO",
+      "nota": "texto_artigo estava VAZIO: a regra existe na fonte mas a lista do Art. 10 nao tem marcador de item (frases soltas), entao o fatiador nao a localizava. Recortada por ancora de texto em 04/08/2026."
+    },
+    {
       "slug": "spazio-abbocato",
       "id": "garagem_vaga_irregular",
       "fonte": "regimento",
@@ -83,6 +103,13 @@
       "achado": "A CONVENCAO INGERIDA DO PAINEIRAS ESTA COM O TEXTO EMBARALHADO no Artigo 10 (erro de OCR na origem, nao de recorte): o caput arrasta um fragmento deslocado ('Constituem obrigacoes de todos os condominos: - autonomas,') e os itens c) e d) COMECAM COM O MESMO TEXTO ('nao remover estender po de tapetes...'). O item d) real deveria ser 'nao estender roupas ou tapetes nas janelas ou locais visiveis do exterior' (e assim que aparece no Park).",
       "decisao": "NAO aplicar recorte: com a fonte assim, cortar PIORA o documento (o caput sai sujo). Mantido o texto atual. O R.I. do Paineiras nao trata do tema, entao a Convencao e a unica fonte possivel - a resposta 'R.I. e a referencia' do Fernando nao muda este caso.",
       "para_resolver": "Reingerir a Convencao do Paineiras a partir de um PDF/DOCX melhor (o Fernando/Natanael precisam mandar), e entao aplicar o recorte do Artigo 10, d)."
+    },
+    {
+      "slug": "salto-grande-i",
+      "id": "barulho_festividades",
+      "achado": "texto_artigo VAZIO e o Art. 10 do Regimento ingerido esta EMBARALHADO por OCR na origem: 'Art. 10° E PROIBIDO: promover a pratica de ou quaisquer deixar promover atividades ou festividades que perturbem os demais moradores. a pratica de ou quaisquer deixar promover atividades ou festividades que perturbem os...' - palavras fora de ordem e trecho repetido.",
+      "decisao": "NAO recuperar por ora: qualquer recorte carrega o texto embaralhado para dentro de um documento juridico. O guard novo em gerar-lib.mjs RECUSA gerar multa com texto_artigo vazio, entao o pior caso (documento citando artigo sem transcrever a regra) esta fechado - a equipe recebe uma mensagem clara em vez de um documento capenga.",
+      "para_resolver": "Reingerir o Regimento Interno do salto-grande-i de um PDF/DOCX melhor. Mesma familia do paineiras. As outras infracoes deste condominio estao OK (o problema e localizado no Art. 10)."
     }
   ],
   "manter_texto_amplo": [
