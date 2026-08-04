@@ -1,6 +1,7 @@
 // test_carteira.mjs — testes determinísticos (sem LLM, sem rede) da tool consultar_carteira_ncs.
-// Cobre os casos REAIS que motivaram a tool (conversas de 04/08/2026) + a regra de ouro: nunca
-// transformar "não encontrei" em "a NCS não administra".
+// Cobre os casos REAIS que motivaram a tool (conversas de 04/08/2026) e a regra que o Fernando
+// definiu no mesmo dia: confirma o que está na lista; o que não está, pergunta UMA vez e encerra —
+// com a exceção de quem fala em orçamento/contratação, que vai para ele em pessoa.
 import { consultar_carteira_ncs, _reloadCarteira } from '../src/carteira.mjs';
 
 _reloadCarteira();
@@ -41,13 +42,19 @@ ok(cedros.ambiguo && cedros.candidatos.length >= 2, `"Cedros" -> ambíguo (${ced
 const sg1 = consultar_carteira_ncs({ condominio: 'ASSOCIACAO JARDIM SALTO GRANDE I' });
 ok(sg1.encontrou && !sg1.ambiguo && /SALTO GRANDE I$/i.test(sg1.nome || ''), '"Salto Grande I" não casa com "Salto Grande III"');
 
-// ---------------------------------------------------------- 4) REGRA DE OURO: nao negar categoricamente
+// ---------------------------------------------------------- 4) fora da lista: UMA tentativa, depois encerra
+// A regra MUDOU em 04/08/2026 por decisao do Fernando: "Se imobiliaria ou morador falar condominio
+// nao da lista... Pode encerrar." Antes a orientacao era nunca encerrar (medo de perder cliente por
+// diferenca de grafia). O risco comercial fica coberto pela OUTRA decisao dele: quem fala em
+// orcamento/contratacao vai para ele em pessoa (ver .tmp/test_lead_comercial.mjs).
 const fora = consultar_carteira_ncs({ condominio: 'Residencial Villagio do Sol' }); // conv 516, nao e da NCS
-ok(!fora.encontrou, 'condomínio de fora -> encontrou:false');
-ok(/n[ãa]o afirme/i.test(fora.resumo), 'condomínio de fora -> o resumo PROÍBE afirmar que a NCS não administra');
-ok(!/n[ãa]o administra(mos)?\b(?!.*pode ser)/i.test(fora.resumo.replace(/NÃO afirme que a NCS não administra[^.]*/i, '')),
-  'condomínio de fora -> resumo não contém negativa categórica solta');
-ok(/nome completo|endere[çc]o|equipe/i.test(fora.resumo), 'condomínio de fora -> orienta pedir nome completo / falar com a equipe');
+ok(!fora.encontrou, 'condominio de fora -> encontrou:false');
+ok(/nome completo|endere[\u00e7c]o/i.test(fora.resumo), 'condominio de fora -> pede o nome completo UMA vez antes de encerrar');
+ok(/encerre|encerrar/i.test(fora.resumo), 'condominio de fora -> autoriza encerrar (decisao do Fernando)');
+ok(/n[\u00e3a]o fique insistindo/i.test(fora.resumo), 'condominio de fora -> proibe ficar insistindo');
+// A EXCECAO comercial tem de estar explicita, senao a Ana encerra um lead
+ok(/or[\u00e7c]amento|proposta|contratar/i.test(fora.resumo) && /transfira|Fernando/i.test(fora.resumo),
+  'condominio de fora -> EXCECAO: orcamento/proposta NAO encerra, vai para o Fernando');
 
 // ---------------------------------------------------------- 5) entrada vazia nao chuta
 const vazio = consultar_carteira_ncs({});

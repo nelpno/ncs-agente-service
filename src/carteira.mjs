@@ -66,11 +66,18 @@ export function consultar_carteira_ncs({ condominio } = {}) {
   const naoAchou = achados.length === base.length && base.length > 1;
 
   if (naoAchou) {
+    // Regra do Fernando (04/08/2026): "Pode confirmar o que tiver na lista. Se imobiliária ou morador
+    // falar condomínio não dá lista... Pode encerrar." Antes desta resposta a orientação era nunca
+    // encerrar (medo de perder cliente por diferença de grafia) — ele decidiu, e o risco comercial
+    // fica coberto pela outra regra dele: quem fala de ORÇAMENTO/contratação vai para ele em pessoa.
+    // Ainda assim, UMA tentativa antes de encerrar: nome errado é mais comum que condomínio de fora.
     return {
       encontrou: false, nome: null, ambiguo: false, candidatos: [], total_carteira: total,
-      resumo: `Não localizei um condomínio com esse nome na lista da NCS. NÃO afirme que a NCS não administra — `
-        + `pode ser o nome escrito de outro jeito ou um condomínio que entrou recentemente. Peça o nome completo `
-        + `do condomínio (ou o endereço) e, se ainda assim não bater, ofereça confirmar com a equipe.`,
+      resumo: `Não localizei esse condomínio na lista da NCS. Se você ainda não perguntou, peça UMA vez o nome `
+        + `completo (ou o endereço) — nome escrito de outro jeito é o caso mais comum. Se mesmo assim não bater, `
+        + `diga com clareza que ele não consta na lista de condomínios administrados pela NCS e encerre com `
+        + `cordialidade; não fique insistindo nem prometa retorno. ⚠️ EXCEÇÃO: se a pessoa falar em orçamento, `
+        + `proposta ou contratar a administração, NÃO encerre — transfira para o Fernando.`,
     };
   }
 
