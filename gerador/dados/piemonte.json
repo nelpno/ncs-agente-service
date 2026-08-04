@@ -1,169 +1,170 @@
 {
-  "id": "piemonte",
-  "condominio": {
-    "nome": "ASSOC DE MORADORES DO LOT FECHADO JD RES MAGGIORE - RESID PIEMONTE",
-    "endereco": "RUA: ERNESTO ANUCHI, 630 - JD. MAGGIORE",
-    "cep": "14806-434",
-    "cidade_uf": "ARARAQUARA/SP",
-    "cidade_fecho": "Araraquara"
+ "id": "piemonte",
+ "condominio": {
+  "nome": "ASSOC DE MORADORES DO LOT FECHADO JD RES MAGGIORE - RESID PIEMONTE",
+  "endereco": "RUA: ERNESTO ANUCHI, 630 - JD. MAGGIORE",
+  "cep": "14806-434",
+  "cidade_uf": "ARARAQUARA/SP",
+  "cidade_fecho": "Araraquara"
+ },
+ "superlogica_nome": "Residencial Piemonte",
+ "aliases": [
+  "Piemonte",
+  "Residencial Piemonte",
+  "ASSOC DE MORADORES DO LOT FECHADO JD RES MAGGIORE - RESID PIEMONTE"
+ ],
+ "_nota_nome": "Só 'Piemonte' é AMBÍGUO no Superlógica: casa o id 105 (RESIDENCIAL PIEMONTE, este) e também o id 181 (RESERVA DO CAMPO), cuja razão social é 'ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE'. Com o nome ambíguo o resolver recusa e o condomínio não gera documento nenhum. superlogica_nome tem que ser o nome exato do sistema.",
+ "uso_juridico_liberado": false,
+ "revisao_humana": "pendente",
+ "responsavel": {
+  "nome": "[SÍNDICO A CONFIRMAR]",
+  "cargo": "SÍNDICO"
+ },
+ "regra_multa": {
+  "taxas_sugeridas_por_nivel": {
+   "1": 1,
+   "2": 2,
+   "3": 3
   },
-  "superlogica_nome": "Residencial Piemonte",
-  "aliases": [
-    "Piemonte",
-    "Residencial Piemonte"
-  ],
-  "_nota_nome": "Só 'Piemonte' é AMBÍGUO no Superlógica: casa o id 105 (RESIDENCIAL PIEMONTE, este) e também o id 181 (RESERVA DO CAMPO), cuja razão social é 'ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE'. Com o nome ambíguo o resolver recusa e o condomínio não gera documento nenhum. superlogica_nome tem que ser o nome exato do sistema.",
-  "uso_juridico_liberado": false,
-  "revisao_humana": "pendente",
-  "responsavel": {
-    "nome": "[SÍNDICO A CONFIRMAR]",
-    "cargo": "SÍNDICO"
+  "observacao": "Valor é sugestão — síndico confirma."
+ },
+ "convencao_penalidades": {
+  "capitulo": "Art. 10o",
+  "texto": "Art. 10o\nSem prejuízo das responsabilidades civis e criminais que, no caso couber, o proprietário, morador ou inquilino que assumir comportamento antissocial ou violar disposições legais; normas contidas neste Regimento Interno ou no Regulamento Interno do Uso dos Bens Públicos Localizados no Loteamento do Tipo Fechado Denominado “Jardim Residencial Maggiore – Residencial Piemonte” e Demais Normas; assim como deliberações das Assembleias, ficará sujeito à:\n\na) Advertência escrita; b) Multa pecuniária, que, dependendo da gravidade e da reiteração da falta, poderá variar de 1 (um) a 10 (dez) vezes o valor da contribuição mensal vigente na época da Infração, independentemente das perdas e danos que se apurarem, sendo que a quantia a ser cobrada será discutida pela Diretoria no caso da gravidade e eventuais consequência do fato ocorrido.\n\na. Parágrafo Único: No caso de multa pecuniária, será definida e aplicada segundo a critérios a serem realizados pela Diretoria;\n\nb. Contra a decisão que impor aplicação de multa pecuniária ao condômino, será cabível a interposição de recurso no prazo de 15 dias após o recebimento da notificação.\n\nc. O valor será estipulado para o pagamento da multa poderá corresponder até ao décuplo do valor atribuído à contribuição para as despesas condominiais, até ulterior deliberação da Diretoria nos termos do artigo 1337, paragrafo único do Código Civil/02 e, a imposição caberá à Administração que notificará o infrator através da carta registrada ou por protocolo;\n\nd. A multa será cobrada através de cobrança bancária que deverá ser pago na data de vencimento da contribuição mensal imediatamente seguinte, aplicando-se a ela todas as normas relacionadas à taxa de contribuição mensal, inclusive quanto aos acréscimos e à cobrança judicial; e\n\ne. No…",
+  "fonte": "regimento_literal"
+ },
+ "catalogo_infracoes": {
+  "barulho_festividades": {
+   "titulo": "Festas que Perturbem Moradores",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "festa",
+    "som alto",
+    "bagunça",
+    "perturbação"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) b) Promover atividades ou festividades que perturbem os demais moradores;"
   },
-  "regra_multa": {
-    "taxas_sugeridas_por_nivel": {
-      "1": 1,
-      "2": 2,
-      "3": 3
-    },
-    "observacao": "Valor é sugestão — síndico confirma."
+  "obstruir_passagens": {
+   "titulo": "Obstrução de Passagens e Vias",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "passagem",
+    "via de acesso",
+    "bloqueio",
+    "obstrução"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) f) Obstruir passagens ou vias de acesso; g)"
   },
-  "convencao_penalidades": {
-    "capitulo": "Art. 10o",
-    "texto": "Art. 10o\nSem prejuízo das responsabilidades civis e criminais que, no caso couber, o proprietário, morador ou inquilino que assumir comportamento antissocial ou violar disposições legais; normas contidas neste Regimento Interno ou no Regulamento Interno do Uso dos Bens Públicos Localizados no Loteamento do Tipo Fechado Denominado “Jardim Residencial Maggiore – Residencial Piemonte” e Demais Normas; assim como deliberações das Assembleias, ficará sujeito à:\n\na) Advertência escrita; b) Multa pecuniária, que, dependendo da gravidade e da reiteração da falta, poderá variar de 1 (um) a 10 (dez) vezes o valor da contribuição mensal vigente na época da Infração, independentemente das perdas e danos que se apurarem, sendo que a quantia a ser cobrada será discutida pela Diretoria no caso da gravidade e eventuais consequência do fato ocorrido.\n\na. Parágrafo Único: No caso de multa pecuniária, será definida e aplicada segundo a critérios a serem realizados pela Diretoria;\n\nb. Contra a decisão que impor aplicação de multa pecuniária ao condômino, será cabível a interposição de recurso no prazo de 15 dias após o recebimento da notificação.\n\nc. O valor será estipulado para o pagamento da multa poderá corresponder até ao décuplo do valor atribuído à contribuição para as despesas condominiais, até ulterior deliberação da Diretoria nos termos do artigo 1337, paragrafo único do Código Civil/02 e, a imposição caberá à Administração que notificará o infrator através da carta registrada ou por protocolo;\n\nd. A multa será cobrada através de cobrança bancária que deverá ser pago na data de vencimento da contribuição mensal imediatamente seguinte, aplicando-se a ela todas as normas relacionadas à taxa de contribuição mensal, inclusive quanto aos acréscimos e à cobrança judicial; e\n\ne. No…",
-    "fonte": "regimento_literal"
+  "materiais_areas_comuns": {
+   "titulo": "Materiais nas Áreas Comuns",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "entulho",
+    "material de obra",
+    "objetos",
+    "área comum"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) g) Colocar nas áreas comuns volumes, material de construção ou objetos de qualquer natureza; no entanto, será permitida, em casos esporádicos a permanência de materiais de construção acondicionados em caçamba de acordo com a Lei Municipal 6352 de 9 de dezembro de 2005, e esta caçamba deverá estacionar na rua, a frente do terreno. h)"
   },
-  "catalogo_infracoes": {
-    "barulho_festividades": {
-      "titulo": "Festas que Perturbem Moradores",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "festa",
-        "som alto",
-        "bagunça",
-        "perturbação"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) b) Promover atividades ou festividades que perturbem os demais moradores;"
-    },
-    "obstruir_passagens": {
-      "titulo": "Obstrução de Passagens e Vias",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "passagem",
-        "via de acesso",
-        "bloqueio",
-        "obstrução"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) f) Obstruir passagens ou vias de acesso; g)"
-    },
-    "materiais_areas_comuns": {
-      "titulo": "Materiais nas Áreas Comuns",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "entulho",
-        "material de obra",
-        "objetos",
-        "área comum"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) g) Colocar nas áreas comuns volumes, material de construção ou objetos de qualquer natureza; no entanto, será permitida, em casos esporádicos a permanência de materiais de construção acondicionados em caçamba de acordo com a Lei Municipal 6352 de 9 de dezembro de 2005, e esta caçamba deverá estacionar na rua, a frente do terreno. h)"
-    },
-    "lixo": {
-      "titulo": "Lixo e Entulho em Local Irregular",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "lixo",
-        "entulho",
-        "folhagem",
-        "detritos"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) h) Colocar nas áreas comuns ou nos terrenos lixos, restos de folhagens, detritos ou entulho, seja qual for à espécie ou quantidade, salvo nos locais a eles previamente destinados e devidamente embalados em sacos plásticos ou recipientes próprios para tanto. Entulhos ou detritos dispostos irregularmente serão, a critério da Administração, retirados, cobrando-se do responsável o valor pago pela mão de obra, maquinário utilizados e multa de 100% sobre o valor pago por tal retirada;"
-    },
-    "animais_perigosos": {
-      "titulo": "Animais que Prejudiquem Segurança ou Sossego",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "cachorro",
-        "animal solto",
-        "animal perigoso",
-        "sossego"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) j) A entrada ou permanência no interior do loteamento de animais que possam colocar em risco a segurança das pessoas ou que possam prejudicar a limpeza, a saúde e o sossego de moradores;"
-    },
-    "menor_dirigindo": {
-      "titulo": "Menor ou Não Habilitado Dirigindo",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "menor dirigindo",
-        "sem carteira",
-        "veículo",
-        "direção"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) m) Os menores de 18 anos ou pessoas sem habilitação para dirigir veículos automotores, de qualquer tamanho, classe ou tipo, no interior do loteamento; n)"
-    },
-    "buzina_alarme_veiculo": {
-      "titulo": "Buzina e Alarme Perturbando Sossego",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "buzina",
-        "alarme de carro",
-        "barulho",
-        "sossego"
-      ],
-      "texto_artigo": "Utilizar buzina ou permitir que alarmes sonoros de veículos interfiram no sossego dos demais moradores;\n\no) A permanência de pessoas estranhas na guarita em conversa ou em grupo que possa desviar a atenção do funcionário em serviço na portaria;\n\np) O acesso de veículos de carga ou de passageiros cujas condições não apresentem segurança para o loteamento ou para pedestres, bem como estejam em desacordo com as leis de trânsito;\n\nq) O trânsito de veículos de carga aos domingos e feriados; r) O uso de cortadores de grama a gasolina ou elétrico, aos sábados, domingos e feriados antes das 10hs e após 18hs.\n\ns)"
-    },
-    "cortador_grama_fora_horario": {
-      "titulo": "Cortador de Grama Fora do Horário",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "cortador de grama",
-        "domingo",
-        "feriado",
-        "horário"
-      ],
-      "texto_artigo": "Parágrafo Segundo: O uso de cortadores de grama a gasolina ou elétrico, será permitido aos sábados, domingos e feriados após às 10hs. Até às 18hs, não prorrogadas."
-    },
-    "fogo_lixo_mato": {
-      "titulo": "Queima de Mato ou Lixo",
-      "fundamento": "Art. 14º",
-      "palavras_chave": [
-        "fogo",
-        "queimada",
-        "mato",
-        "lixo"
-      ],
-      "texto_artigo": "Art. 14º É PROIBIDO: (...) s) Atear fogo em roçado, mato ou lixo;"
-    },
-    "animais_areas_comuns": {
-      "titulo": "Animais em Áreas de Lazer",
-      "fundamento": "Art. 15º",
-      "palavras_chave": [
-        "cachorro",
-        "playground",
-        "quadra",
-        "área de lazer"
-      ],
-      "texto_artigo": "c) Os animais não poderão adentrar no playgrounds, quadras esportivas ou em outras áreas de lazer ou comunitárias;"
-    },
-    "alarme_residencia_disparo": {
-      "titulo": "Alarme Residencial Disparado sem Desligamento",
-      "fundamento": "Art. 17º",
-      "palavras_chave": [
-        "alarme",
-        "disparo",
-        "sirene",
-        "desligar alarme"
-      ],
-      "texto_artigo": "Paragrafo Primeiro: Caso o equipamento dispare por quaisquer motivos, o proprietário terá ate uma hora para desliga-lo, através de empresa ou pessoa responsável pela sua manutenção ou desligamento;"
-    },
-    "silencio_noturno": {
-      "titulo": "Perturbação do Sossego Noturno",
-      "fundamento": "Art. 21º",
-      "palavras_chave": [
-        "silêncio",
-        "som alto",
-        "barulho noturno",
-        "sossego"
-      ],
-      "texto_artigo": "Art. 21º É DEVER de todo proprietário, morador, seus dependentes, familiares, visitantes, locatários, ocupantes a qualquer titulo dos lotes ou residências, prestigiar e fazer acatar as decisões da Administração e das Assembleias, e ainda: (...) g) Guardar silêncio no período das 22:00 horas às 08:00 horas, evitando a produção de ruídos ou sons que possam perturbar o sossego e bem estar dos demais moradores;"
-    }
+  "lixo": {
+   "titulo": "Lixo e Entulho em Local Irregular",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "lixo",
+    "entulho",
+    "folhagem",
+    "detritos"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) h) Colocar nas áreas comuns ou nos terrenos lixos, restos de folhagens, detritos ou entulho, seja qual for à espécie ou quantidade, salvo nos locais a eles previamente destinados e devidamente embalados em sacos plásticos ou recipientes próprios para tanto. Entulhos ou detritos dispostos irregularmente serão, a critério da Administração, retirados, cobrando-se do responsável o valor pago pela mão de obra, maquinário utilizados e multa de 100% sobre o valor pago por tal retirada;"
+  },
+  "animais_perigosos": {
+   "titulo": "Animais que Prejudiquem Segurança ou Sossego",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "cachorro",
+    "animal solto",
+    "animal perigoso",
+    "sossego"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) j) A entrada ou permanência no interior do loteamento de animais que possam colocar em risco a segurança das pessoas ou que possam prejudicar a limpeza, a saúde e o sossego de moradores;"
+  },
+  "menor_dirigindo": {
+   "titulo": "Menor ou Não Habilitado Dirigindo",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "menor dirigindo",
+    "sem carteira",
+    "veículo",
+    "direção"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) m) Os menores de 18 anos ou pessoas sem habilitação para dirigir veículos automotores, de qualquer tamanho, classe ou tipo, no interior do loteamento; n)"
+  },
+  "buzina_alarme_veiculo": {
+   "titulo": "Buzina e Alarme Perturbando Sossego",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "buzina",
+    "alarme de carro",
+    "barulho",
+    "sossego"
+   ],
+   "texto_artigo": "Utilizar buzina ou permitir que alarmes sonoros de veículos interfiram no sossego dos demais moradores;\n\no) A permanência de pessoas estranhas na guarita em conversa ou em grupo que possa desviar a atenção do funcionário em serviço na portaria;\n\np) O acesso de veículos de carga ou de passageiros cujas condições não apresentem segurança para o loteamento ou para pedestres, bem como estejam em desacordo com as leis de trânsito;\n\nq) O trânsito de veículos de carga aos domingos e feriados; r) O uso de cortadores de grama a gasolina ou elétrico, aos sábados, domingos e feriados antes das 10hs e após 18hs.\n\ns)"
+  },
+  "cortador_grama_fora_horario": {
+   "titulo": "Cortador de Grama Fora do Horário",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "cortador de grama",
+    "domingo",
+    "feriado",
+    "horário"
+   ],
+   "texto_artigo": "Parágrafo Segundo: O uso de cortadores de grama a gasolina ou elétrico, será permitido aos sábados, domingos e feriados após às 10hs. Até às 18hs, não prorrogadas."
+  },
+  "fogo_lixo_mato": {
+   "titulo": "Queima de Mato ou Lixo",
+   "fundamento": "Art. 14º",
+   "palavras_chave": [
+    "fogo",
+    "queimada",
+    "mato",
+    "lixo"
+   ],
+   "texto_artigo": "Art. 14º É PROIBIDO: (...) s) Atear fogo em roçado, mato ou lixo;"
+  },
+  "animais_areas_comuns": {
+   "titulo": "Animais em Áreas de Lazer",
+   "fundamento": "Art. 15º",
+   "palavras_chave": [
+    "cachorro",
+    "playground",
+    "quadra",
+    "área de lazer"
+   ],
+   "texto_artigo": "c) Os animais não poderão adentrar no playgrounds, quadras esportivas ou em outras áreas de lazer ou comunitárias;"
+  },
+  "alarme_residencia_disparo": {
+   "titulo": "Alarme Residencial Disparado sem Desligamento",
+   "fundamento": "Art. 17º",
+   "palavras_chave": [
+    "alarme",
+    "disparo",
+    "sirene",
+    "desligar alarme"
+   ],
+   "texto_artigo": "Paragrafo Primeiro: Caso o equipamento dispare por quaisquer motivos, o proprietário terá ate uma hora para desliga-lo, através de empresa ou pessoa responsável pela sua manutenção ou desligamento;"
+  },
+  "silencio_noturno": {
+   "titulo": "Perturbação do Sossego Noturno",
+   "fundamento": "Art. 21º",
+   "palavras_chave": [
+    "silêncio",
+    "som alto",
+    "barulho noturno",
+    "sossego"
+   ],
+   "texto_artigo": "Art. 21º É DEVER de todo proprietário, morador, seus dependentes, familiares, visitantes, locatários, ocupantes a qualquer titulo dos lotes ou residências, prestigiar e fazer acatar as decisões da Administração e das Assembleias, e ainda: (...) g) Guardar silêncio no período das 22:00 horas às 08:00 horas, evitando a produção de ruídos ou sons que possam perturbar o sossego e bem estar dos demais moradores;"
   }
+ }
 }

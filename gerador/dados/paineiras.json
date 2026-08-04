@@ -1,164 +1,167 @@
 {
-  "id": "paineiras",
-  "condominio": {
-    "nome": "CONDOMÍNIO RESIDENCIAL DAS PAINEIRAS",
-    "endereco": "AVENIDA CARLOS BATISTA MAGALHÃES, 545 - VILA XAVIER (VILA XAVIER)",
-    "cep": "14810-134",
-    "cidade_uf": "ARARAQUARA/SP",
-    "cidade_fecho": "Araraquara"
+ "id": "paineiras",
+ "condominio": {
+  "nome": "CONDOMÍNIO RESIDENCIAL DAS PAINEIRAS",
+  "endereco": "AVENIDA CARLOS BATISTA MAGALHÃES, 545 - VILA XAVIER (VILA XAVIER)",
+  "cep": "14810-134",
+  "cidade_uf": "ARARAQUARA/SP",
+  "cidade_fecho": "Araraquara"
+ },
+ "superlogica_nome": "Paineiras",
+ "uso_juridico_liberado": false,
+ "revisao_humana": "pendente",
+ "responsavel": {
+  "nome": "[SÍNDICO A CONFIRMAR]",
+  "cargo": "SÍNDICO"
+ },
+ "regra_multa": {
+  "taxas_sugeridas_por_nivel": {
+   "1": 1,
+   "2": 2,
+   "3": 3
   },
-  "superlogica_nome": "Paineiras",
-  "uso_juridico_liberado": false,
-  "revisao_humana": "pendente",
-  "responsavel": {
-    "nome": "[SÍNDICO A CONFIRMAR]",
-    "cargo": "SÍNDICO"
+  "observacao": "Valor é sugestão — síndico confirma."
+ },
+ "convencao_penalidades": {
+  "capitulo": "Artigo 14",
+  "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena, até 3 (três) vezes o valor das despesas comuns de condomínio. Parágrafo único - Ao condômino punido caberá recurso para a Assembleia Geral Ordinária; quando Assembleia o objeto do mesmo for de comprovada urgência, poderá ser convocada a Geral Extraordinária.",
+  "fonte": "convencao_literal"
+ },
+ "catalogo_infracoes": {
+  "barulho": {
+   "titulo": "Perturbação do Sossego",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "som alto",
+    "festa",
+    "barulho",
+    "música"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) b) atividades não promover ruidosas, nem de deixar que se promovam nas respectivas unidades autônomas, modo a perturbar as atividades dos demais condôminos;"
   },
-  "regra_multa": {
-    "taxas_sugeridas_por_nivel": {
-      "1": 1,
-      "2": 2,
-      "3": 3
-    },
-    "observacao": "Valor é sugestão — síndico confirma."
+  "varanda_varal": {
+   "titulo": "Roupas ou Tapetes Visíveis",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "varal",
+    "roupa na janela",
+    "tapete",
+    "fachada"
+   ],
+   "texto_artigo": "d) não remover estender pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão; roupas ou tapetes nas janelas ou locais visíveis do exterior;\n\ne)"
   },
-  "convencao_penalidades": {
-    "capitulo": "Artigo 14",
-    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será imposta pelo Síndico, o qual dosará a gravidade da falta, indo a correspondente pena, até 3 (três) vezes o valor das despesas comuns de condomínio. Parágrafo único - Ao condômino punido caberá recurso para a Assembleia Geral Ordinária; quando Assembleia o objeto do mesmo for de comprovada urgência, poderá ser convocada a Geral Extraordinária.",
-    "fonte": "convencao_literal"
+  "lixo_areas_comuns": {
+   "titulo": "Lixo e Detritos em Áreas Comuns",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "lixo",
+    "detritos",
+    "sujeira",
+    "área comum"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) e) não colocar lançar quaisquer lixos, detritos, objetos ou liquidos sobre a via pública, áreas comuns e, etc"
   },
-  "catalogo_infracoes": {
-    "barulho": {
-      "titulo": "Perturbação do Sossego",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "som alto",
-        "festa",
-        "barulho",
-        "música"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) b) atividades não promover ruidosas, nem de deixar que se promovam nas respectivas unidades autônomas, modo a perturbar as atividades dos demais condôminos;"
-    },
-    "varanda_varal": {
-      "titulo": "Roupas ou Tapetes Visíveis",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "varal",
-        "roupa na janela",
-        "tapete",
-        "fachada"
-      ],
-      "texto_artigo": "d) não remover estender pó de tapetes, cortinas, etc., senão por meios que impeçam a sua dispersão; roupas ou tapetes nas janelas ou locais visíveis do exterior;\n\ne)"
-    },
-    "lixo_areas_comuns": {
-      "titulo": "Lixo e Detritos em Áreas Comuns",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "lixo",
-        "detritos",
-        "sujeira",
-        "área comum"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) e) não colocar lançar quaisquer lixos, detritos, objetos ou liquidos sobre a via pública, áreas comuns e, etc"
-    },
-    "lixo_local_inadequado": {
-      "titulo": "Lixo Fora do Local Destinado",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "lixo",
-        "local correto",
-        "saco de lixo",
-        "descartar"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) f) não colocar lixo, detritos, etc; senão, nos locais ao mesmo destinado;"
-    },
-    "fachada_placas_toldos": {
-      "titulo": "Placas, Letreiros e Toldos",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "placa",
-        "letreiro",
-        "toldo",
-        "fachada"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) g) cartazes não usar de toldos publicidade externos, nem colocar ou permitir que se coloquem: letreiros, placas, empreendimento; ou quaisquer outros objetos estranhos à decoração geral do empreendimento;"
-    },
-    "materiais_areas_comuns": {
-      "titulo": "Materiais nas Partes Comuns",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "material",
-        "objetos",
-        "área comum",
-        "armazenar"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) h) não colocar, ou de nem instalação, deixar que se coloquem, nas partes comuns do condomínio, materiais de sejam de que natureza for;"
-    },
-    "uso_funcionarios_particular": {
-      "titulo": "Uso de Empregados para Serviço Particular",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "funcionário",
-        "serviço particular",
-        "empregado",
-        "favor pessoal"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) i) não utilizar os empregados do condomínio para serviços particular;"
-    },
-    "substancias_perigosas": {
-      "titulo": "Substâncias ou Aparelhos Perigosos",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "inflamável",
-        "perigo",
-        "aparelho perigoso",
-        "segurança"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) j) alta não periculosidade, manter nas respectivas suscetíveis unidades autônomas, substâncias, instalações ou aparelhos de incômodo aos demais condôminos; de causar perigo à segurança e à solidez do condomínio ou convenção;"
-    },
-    "alteracao_paredes_estruturais": {
-      "titulo": "Alteração de Paredes Estruturais",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "quebrar parede",
-        "obra",
-        "estrutura",
-        "reforma"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) o) não alterar, estruturais; sob qualquer hipótese, a disposição das paredes das unidades, uma vez que estas são estruturais;"
-    },
-    "antena_individual_fachada": {
-      "titulo": "Antenas em Local Visível",
-      "fundamento": "Artigo 10",
-      "palavras_chave": [
-        "antena",
-        "fachada",
-        "rádio amador",
-        "telhado"
-      ],
-      "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) p) do não prédio, instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível ressalvado a instalação de antena de TV e FM coletiva."
-    },
-    "animais_areas_comuns": {
-      "titulo": "Animais nas Áreas Comuns",
-      "fundamento": "8",
-      "palavras_chave": [
-        "cachorro",
-        "animal solto",
-        "coleira",
-        "latido"
-      ],
-      "texto_artigo": "8\nQuem possui animais de pequeno e grande porte, favor manter os mesmos na parte interna de sua residência. Na área comum somente no colo ou coleira de passagem para a rua. Não deixar seus animais soltos no condomínio em áreas comuns, nem fazer suas necessidades fisiológicas/verificar se o latido do seu cão não está incomodando o sossego e descanso do vizinho."
-    },
-    "quiosque_horario_barulho": {
-      "titulo": "Barulho no Quiosque Fora do Horário",
-      "fundamento": "6",
-      "palavras_chave": [
-        "quiosque",
-        "som alto",
-        "barulho",
-        "horário"
-      ],
-      "texto_artigo": "6\nPara usar o quiosque, favor agendar com a síndica. Vc será responsável por deixar este local devidamente limpo e em ordem, após o uso do mesmo.( som, barulho, duração do uso deverá obedecer das 8:00hs às 22:00hs."
-    }
+  "lixo_local_inadequado": {
+   "titulo": "Lixo Fora do Local Destinado",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "lixo",
+    "local correto",
+    "saco de lixo",
+    "descartar"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) f) não colocar lixo, detritos, etc; senão, nos locais ao mesmo destinado;"
+  },
+  "fachada_placas_toldos": {
+   "titulo": "Placas, Letreiros e Toldos",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "placa",
+    "letreiro",
+    "toldo",
+    "fachada"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) g) cartazes não usar de toldos publicidade externos, nem colocar ou permitir que se coloquem: letreiros, placas, empreendimento; ou quaisquer outros objetos estranhos à decoração geral do empreendimento;"
+  },
+  "materiais_areas_comuns": {
+   "titulo": "Materiais nas Partes Comuns",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "material",
+    "objetos",
+    "área comum",
+    "armazenar"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) h) não colocar, ou de nem instalação, deixar que se coloquem, nas partes comuns do condomínio, materiais de sejam de que natureza for;"
+  },
+  "uso_funcionarios_particular": {
+   "titulo": "Uso de Empregados para Serviço Particular",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "funcionário",
+    "serviço particular",
+    "empregado",
+    "favor pessoal"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) i) não utilizar os empregados do condomínio para serviços particular;"
+  },
+  "substancias_perigosas": {
+   "titulo": "Substâncias ou Aparelhos Perigosos",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "inflamável",
+    "perigo",
+    "aparelho perigoso",
+    "segurança"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) j) alta não periculosidade, manter nas respectivas suscetíveis unidades autônomas, substâncias, instalações ou aparelhos de incômodo aos demais condôminos; de causar perigo à segurança e à solidez do condomínio ou convenção;"
+  },
+  "alteracao_paredes_estruturais": {
+   "titulo": "Alteração de Paredes Estruturais",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "quebrar parede",
+    "obra",
+    "estrutura",
+    "reforma"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) o) não alterar, estruturais; sob qualquer hipótese, a disposição das paredes das unidades, uma vez que estas são estruturais;"
+  },
+  "antena_individual_fachada": {
+   "titulo": "Antenas em Local Visível",
+   "fundamento": "Artigo 10",
+   "palavras_chave": [
+    "antena",
+    "fachada",
+    "rádio amador",
+    "telhado"
+   ],
+   "texto_artigo": "Artigo 10 Constituem obrigações de todos os condôminos: (...) p) do não prédio, instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível ressalvado a instalação de antena de TV e FM coletiva."
+  },
+  "animais_areas_comuns": {
+   "titulo": "Animais nas Áreas Comuns",
+   "fundamento": "8",
+   "palavras_chave": [
+    "cachorro",
+    "animal solto",
+    "coleira",
+    "latido"
+   ],
+   "texto_artigo": "8\nQuem possui animais de pequeno e grande porte, favor manter os mesmos na parte interna de sua residência. Na área comum somente no colo ou coleira de passagem para a rua. Não deixar seus animais soltos no condomínio em áreas comuns, nem fazer suas necessidades fisiológicas/verificar se o latido do seu cão não está incomodando o sossego e descanso do vizinho."
+  },
+  "quiosque_horario_barulho": {
+   "titulo": "Barulho no Quiosque Fora do Horário",
+   "fundamento": "6",
+   "palavras_chave": [
+    "quiosque",
+    "som alto",
+    "barulho",
+    "horário"
+   ],
+   "texto_artigo": "6\nPara usar o quiosque, favor agendar com a síndica. Vc será responsável por deixar este local devidamente limpo e em ordem, após o uso do mesmo.( som, barulho, duração do uso deverá obedecer das 8:00hs às 22:00hs."
   }
+ },
+ "aliases": [
+  "Condomínio Residencial das Paineiras"
+ ]
 }

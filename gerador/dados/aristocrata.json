@@ -1,164 +1,167 @@
 {
-  "id": "aristocrata",
-  "condominio": {
-    "nome": "CONDOMÍNIO EDIFICIO ARISTOCRATA",
-    "endereco": "AV. PORTUGAL, 432 - CENTRO",
-    "cep": "14801-075",
-    "cidade_uf": "ARARAQUARA/SP",
-    "cidade_fecho": "Araraquara"
+ "id": "aristocrata",
+ "condominio": {
+  "nome": "CONDOMÍNIO EDIFICIO ARISTOCRATA",
+  "endereco": "AV. PORTUGAL, 432 - CENTRO",
+  "cep": "14801-075",
+  "cidade_uf": "ARARAQUARA/SP",
+  "cidade_fecho": "Araraquara"
+ },
+ "superlogica_nome": "Aristocrata",
+ "uso_juridico_liberado": false,
+ "revisao_humana": "pendente",
+ "responsavel": {
+  "nome": "[SÍNDICO A CONFIRMAR]",
+  "cargo": "SÍNDICO"
+ },
+ "regra_multa": {
+  "taxas_sugeridas_por_nivel": {
+   "1": 1,
+   "2": 2,
+   "3": 3
   },
-  "superlogica_nome": "Aristocrata",
-  "uso_juridico_liberado": false,
-  "revisao_humana": "pendente",
-  "responsavel": {
-    "nome": "[SÍNDICO A CONFIRMAR]",
-    "cargo": "SÍNDICO"
+  "observacao": "Valor é sugestão — síndico confirma."
+ },
+ "convencao_penalidades": {
+  "capitulo": "TÍTULO IX = DAS PENALIDADES",
+  "texto": "A INFRAÇÃO DO DISPOSTO NA PRESENTE CONVENÇÃO CONDOMINAL, POR QUALQUER CONDOMINO, POR SI, OU ATRAVÉS DE DEPENDENTE, LOCATÁRIO OU POR QUALQUER FORMA USUARIO DE UNIDADE AUTÔNOMA INTEGRANTE DO CONDOMÍNIO, SUJEITARÁ O CONDÔMINO RESPONSAVEL PELA INFRAÇÃO DE UMA MULTA QUE VARIARA ENTRE MEIO ATE CINCO (5) SALÁRIOS MÍNIMOS, QUE SERA APLICADA PELA ADMINISTRAÇÃO DO EDIFÍCIO, COM RECURSO DEVOLUTIVO PARA A ASEMBLEIA GERAL DO CONDOMÍNIO, SEM PREJUÍZO PARA AS EVENTUAIS OUTRAS CONSQUÊRCIAS PARA O INFRATOR.\n\nO PRAZO PARA O PAGAMENTO BA MULTA A QUE SE REFERE A PRESENTE CLAUSULA SERA DE TRINTA (309 DIAS CONTADOS DA DATA DE RECE - BER A NOTIFICASÃO, QUE PODERA SER FEITA ATRAVES DE CARTA PRO TOCOLADA OU PELO CARTORIO DE TÍTULOS E DOCUMENTOS DESTA COMAREA DE ARARAQUARA OU DA COMARCA QUE RESIDIR O CONDOMINO PUNIDO.",
+  "fonte": "convencao_literal"
+ },
+ "catalogo_infracoes": {
+  "barulho_noturno": {
+   "titulo": "Perturbação do Sossego",
+   "fundamento": "Artigo 3.",
+   "palavras_chave": [
+    "barulho",
+    "som alto",
+    "silêncio",
+    "noite"
+   ],
+   "texto_artigo": "Artigo 3. São dever de todos os Condôminos, Locatários, serviçais, visitantes e funcionários do Condomínio guardar silêncio no período entre 22h00 e 08h00, evitando produzir ruídos ou sons que possam perturbar o sossego e o bem-estar."
   },
-  "regra_multa": {
-    "taxas_sugeridas_por_nivel": {
-      "1": 1,
-      "2": 2,
-      "3": 3
-    },
-    "observacao": "Valor é sugestão — síndico confirma."
+  "reforma_fora_horario": {
+   "titulo": "Reforma ou Mudança Fora do Horário",
+   "fundamento": "Artigo 4.",
+   "palavras_chave": [
+    "reforma",
+    "mudança",
+    "horário",
+    "obra"
+   ],
+   "texto_artigo": "É permitida a realização de reformas e mudanças nos apartamentos no período entre 08h00 e 17h00 dos dias úteis; aos sábados no período das 08h00 às 12h00, porém mudanças no período entre 08h00 e 17h00 aos Sábados desde que comunicado com antecedência à Administração do condomínio."
   },
-  "convencao_penalidades": {
-    "capitulo": "TÍTULO IX = DAS PENALIDADES",
-    "texto": "A INFRAÇÃO DO DISPOSTO NA PRESENTE CONVENÇÃO CONDOMINAL, POR QUALQUER CONDOMINO, POR SI, OU ATRAVÉS DE DEPENDENTE, LOCATÁRIO OU POR QUALQUER FORMA USUARIO DE UNIDADE AUTÔNOMA INTEGRANTE DO CONDOMÍNIO, SUJEITARÁ O CONDÔMINO RESPONSAVEL PELA INFRAÇÃO DE UMA MULTA QUE VARIARA ENTRE MEIO ATE CINCO (5) SALÁRIOS MÍNIMOS, QUE SERA APLICADA PELA ADMINISTRAÇÃO DO EDIFÍCIO, COM RECURSO DEVOLUTIVO PARA A ASEMBLEIA GERAL DO CONDOMÍNIO, SEM PREJUÍZO PARA AS EVENTUAIS OUTRAS CONSQUÊRCIAS PARA O INFRATOR.\n\nO PRAZO PARA O PAGAMENTO BA MULTA A QUE SE REFERE A PRESENTE CLAUSULA SERA DE TRINTA (309 DIAS CONTADOS DA DATA DE RECE - BER A NOTIFICASÃO, QUE PODERA SER FEITA ATRAVES DE CARTA PRO TOCOLADA OU PELO CARTORIO DE TÍTULOS E DOCUMENTOS DESTA COMAREA DE ARARAQUARA OU DA COMARCA QUE RESIDIR O CONDOMINO PUNIDO.",
-    "fonte": "convencao_literal"
+  "elevador_social_animais": {
+   "titulo": "Animais no Elevador Social",
+   "fundamento": "Artigo 10.",
+   "palavras_chave": [
+    "cachorro",
+    "animal",
+    "elevador social",
+    "pet"
+   ],
+   "texto_artigo": "É proibido aos Condôminos e Locatários: (...) b) Usar o elevador social para transporte de animais domésticos qualquer espécie;"
   },
-  "catalogo_infracoes": {
-    "barulho_noturno": {
-      "titulo": "Perturbação do Sossego",
-      "fundamento": "Artigo 3.",
-      "palavras_chave": [
-        "barulho",
-        "som alto",
-        "silêncio",
-        "noite"
-      ],
-      "texto_artigo": "Artigo 3. São dever de todos os Condôminos, Locatários, serviçais, visitantes e funcionários do Condomínio guardar silêncio no período entre 22h00 e 08h00, evitando produzir ruídos ou sons que possam perturbar o sossego e o bem-estar."
-    },
-    "reforma_fora_horario": {
-      "titulo": "Reforma ou Mudança Fora do Horário",
-      "fundamento": "Artigo 4.",
-      "palavras_chave": [
-        "reforma",
-        "mudança",
-        "horário",
-        "obra"
-      ],
-      "texto_artigo": "É permitida a realização de reformas e mudanças nos apartamentos no período entre 08h00 e 17h00 dos dias úteis; aos sábados no período das 08h00 às 12h00, porém mudanças no período entre 08h00 e 17h00 aos Sábados desde que comunicado com antecedência à Administração do condomínio."
-    },
-    "elevador_social_animais": {
-      "titulo": "Animais no Elevador Social",
-      "fundamento": "Artigo 10.",
-      "palavras_chave": [
-        "cachorro",
-        "animal",
-        "elevador social",
-        "pet"
-      ],
-      "texto_artigo": "É proibido aos Condôminos e Locatários: (...) b) Usar o elevador social para transporte de animais domésticos qualquer espécie;"
-    },
-    "objetos_hall_escada": {
-      "titulo": "Objetos no Hall ou Escada",
-      "fundamento": "Artigo 12.",
-      "palavras_chave": [
-        "hall",
-        "escada",
-        "objetos",
-        "volumes"
-      ],
-      "texto_artigo": "Artigo 12 É proibido: (...) b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;"
-    },
-    "fumar_areas_comuns": {
-      "titulo": "Fumar nas Áreas Comuns",
-      "fundamento": "Artigo 13.",
-      "palavras_chave": [
-        "fumar",
-        "cigarro",
-        "hall",
-        "área comum"
-      ],
-      "texto_artigo": "Artigo 13 É proibido: (...) b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio."
-    },
-    "bicicletas_areas_comuns": {
-      "titulo": "Bicicletas e Brincadeiras nas Áreas Comuns",
-      "fundamento": "Artigo 13.",
-      "palavras_chave": [
-        "bicicleta",
-        "patins",
-        "skate",
-        "área comum"
-      ],
-      "texto_artigo": "Artigo 13 É proibido: (...) d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável."
-    },
-    "garagem_visitantes": {
-      "titulo": "Uso Indevido da Garagem por Visitantes",
-      "fundamento": "Artigo 15.",
-      "palavras_chave": [
-        "garagem",
-        "visitante",
-        "vaga",
-        "carro"
-      ],
-      "texto_artigo": "Artigo 15. Não é permitido o uso da garagem superior ou inferior para veículos de visitantes, parentes ou amigos dos condôminos excetuando-se as situações devidamente avaliadas e autorizadas pelo Síndico, devendo ainda constar no cadastro de veículos que é atualizado pela administração e disponibilizado na portaria. Nestes casos, existem três vagas de garagem localizadas atrás da guarita para uso dos visitantes, obedecendo ao limite de um carro por unidade habitacional, devendo ainda se submeter a um controle de permanência e estarem devidamente registrados no cadastro de veículos e previamente autorizados pelo condômino, não se pode fazer o uso por período de tempo superior a 4 horas, estas vagas destinam-se também para prestadores de serviço e para carga e descarga rápidas."
-    },
-    "lavar_veiculo": {
-      "titulo": "Lavagem ou Serviço na Vaga",
-      "fundamento": "Artigo 19.",
-      "palavras_chave": [
-        "lavar carro",
-        "garagem",
-        "vaga",
-        "limpeza"
-      ],
-      "texto_artigo": "Artigo 19. É proibido o uso da vaga da garagem para execução de qualquer serviço, como montagem de móveis, pintura, lavagem e limpeza de veículos, etc."
-    },
-    "entregadores_portaria": {
-      "titulo": "Entrada de Entregadores",
-      "fundamento": "Artigo 30.",
-      "palavras_chave": [
-        "entregador",
-        "delivery",
-        "portaria",
-        "encomenda"
-      ],
-      "texto_artigo": "Artigo 30 É proibido: (...) b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;"
-    },
-    "varanda_varal": {
-      "titulo": "Objetos e Varal na Sacada ou Janela",
-      "fundamento": "Artigo 48.",
-      "palavras_chave": [
-        "varal",
-        "sacada",
-        "janela",
-        "roupa"
-      ],
-      "texto_artigo": "Artigo 48 É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) d) Colocar vasos, tapetes, toalhas, varais de roupa ou quaisquer outros objetos que ofereçam incômodo, perigo de queda, ou que prejudiquem a estética do prédio nos parapeitos das sacadas, área de serviço e janelas. A secagem de roupas poderá ser feita em varais de teto ou chão na área de serviço;"
-    },
-    "churrasqueira_fumaca": {
-      "titulo": "Churrasqueira que Gere Fumaça",
-      "fundamento": "Artigo 48.",
-      "palavras_chave": [
-        "churrasqueira",
-        "fumaça",
-        "varanda",
-        "cheiro"
-      ],
-      "texto_artigo": "É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) a) O uso de churrasqueiras ou qualquer outro tipo de utensílio que possa gerar fumaça, pois a mesma poderá incomodar condôminos ou Locatários de apartamentos vizinhos."
-    },
-    "animais_areas_comuns": {
-      "titulo": "Animais nas Áreas Comuns",
-      "fundamento": "Artigo 59.",
-      "palavras_chave": [
-        "animal",
-        "pet",
-        "área comum",
-        "elevador de serviço"
-      ],
-      "texto_artigo": "Artigo 59. Os animais deverão permanecer somente no interior dos apartamentos, sendo proibida sua permanência nas áreas comuns do Edifício, exceto para entrada e saída do Condomínio que deverá ser nos braços do portador sempre pelo elevador de serviço."
-    }
+  "objetos_hall_escada": {
+   "titulo": "Objetos no Hall ou Escada",
+   "fundamento": "Artigo 12.",
+   "palavras_chave": [
+    "hall",
+    "escada",
+    "objetos",
+    "volumes"
+   ],
+   "texto_artigo": "Artigo 12 É proibido: (...) b) A permanência de volumes de qualquer espécie no hall dos apartamentos e escadas de emergência, exceto quando em trânsito para os apartamentos;"
+  },
+  "fumar_areas_comuns": {
+   "titulo": "Fumar nas Áreas Comuns",
+   "fundamento": "Artigo 13.",
+   "palavras_chave": [
+    "fumar",
+    "cigarro",
+    "hall",
+    "área comum"
+   ],
+   "texto_artigo": "Artigo 13 É proibido: (...) b) Fumar no hall dos apartamentos e na escada de emergência, bem como em qualquer área comum do condomínio."
+  },
+  "bicicletas_areas_comuns": {
+   "titulo": "Bicicletas e Brincadeiras nas Áreas Comuns",
+   "fundamento": "Artigo 13.",
+   "palavras_chave": [
+    "bicicleta",
+    "patins",
+    "skate",
+    "área comum"
+   ],
+   "texto_artigo": "Artigo 13 É proibido: (...) d) O uso de bicicletas, patins, skates, rollers, etc., em qualquer das dependências internas do Condomínio, a exceção de pequenas bicicletas utilizadas por crianças menores de (seis) anos acompanhadas pelo responsável."
+  },
+  "garagem_visitantes": {
+   "titulo": "Uso Indevido da Garagem por Visitantes",
+   "fundamento": "Artigo 15.",
+   "palavras_chave": [
+    "garagem",
+    "visitante",
+    "vaga",
+    "carro"
+   ],
+   "texto_artigo": "Artigo 15. Não é permitido o uso da garagem superior ou inferior para veículos de visitantes, parentes ou amigos dos condôminos excetuando-se as situações devidamente avaliadas e autorizadas pelo Síndico, devendo ainda constar no cadastro de veículos que é atualizado pela administração e disponibilizado na portaria. Nestes casos, existem três vagas de garagem localizadas atrás da guarita para uso dos visitantes, obedecendo ao limite de um carro por unidade habitacional, devendo ainda se submeter a um controle de permanência e estarem devidamente registrados no cadastro de veículos e previamente autorizados pelo condômino, não se pode fazer o uso por período de tempo superior a 4 horas, estas vagas destinam-se também para prestadores de serviço e para carga e descarga rápidas."
+  },
+  "lavar_veiculo": {
+   "titulo": "Lavagem ou Serviço na Vaga",
+   "fundamento": "Artigo 19.",
+   "palavras_chave": [
+    "lavar carro",
+    "garagem",
+    "vaga",
+    "limpeza"
+   ],
+   "texto_artigo": "Artigo 19. É proibido o uso da vaga da garagem para execução de qualquer serviço, como montagem de móveis, pintura, lavagem e limpeza de veículos, etc."
+  },
+  "entregadores_portaria": {
+   "titulo": "Entrada de Entregadores",
+   "fundamento": "Artigo 30.",
+   "palavras_chave": [
+    "entregador",
+    "delivery",
+    "portaria",
+    "encomenda"
+   ],
+   "texto_artigo": "Artigo 30 É proibido: (...) b) A entrada de quaisquer entregadores em geral (de pizza, flores, medicamentos, alimentos, supermercados, lojas e outros), vendedores ambulantes, pedintes, propagandistas e outros serviços de entrega domiciliar, sendo que tais itens deverão ser retirados pessoalmente pelos Condôminos ou Locatários na Portaria do Edifício, salvo casos excepcionais que serão avaliados e autorizados pelo Síndico. Os serviços prestados por pessoas estranhas ao Condomínio deverão ser acompanhados pessoalmente pelo responsável do apartamento;"
+  },
+  "varanda_varal": {
+   "titulo": "Objetos e Varal na Sacada ou Janela",
+   "fundamento": "Artigo 48.",
+   "palavras_chave": [
+    "varal",
+    "sacada",
+    "janela",
+    "roupa"
+   ],
+   "texto_artigo": "Artigo 48 É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) d) Colocar vasos, tapetes, toalhas, varais de roupa ou quaisquer outros objetos que ofereçam incômodo, perigo de queda, ou que prejudiquem a estética do prédio nos parapeitos das sacadas, área de serviço e janelas. A secagem de roupas poderá ser feita em varais de teto ou chão na área de serviço;"
+  },
+  "churrasqueira_fumaca": {
+   "titulo": "Churrasqueira que Gere Fumaça",
+   "fundamento": "Artigo 48.",
+   "palavras_chave": [
+    "churrasqueira",
+    "fumaça",
+    "varanda",
+    "cheiro"
+   ],
+   "texto_artigo": "É proibido aos Condôminos ou Locatário em suas áreas privativas: (...) a) O uso de churrasqueiras ou qualquer outro tipo de utensílio que possa gerar fumaça, pois a mesma poderá incomodar condôminos ou Locatários de apartamentos vizinhos."
+  },
+  "animais_areas_comuns": {
+   "titulo": "Animais nas Áreas Comuns",
+   "fundamento": "Artigo 59.",
+   "palavras_chave": [
+    "animal",
+    "pet",
+    "área comum",
+    "elevador de serviço"
+   ],
+   "texto_artigo": "Artigo 59. Os animais deverão permanecer somente no interior dos apartamentos, sendo proibida sua permanência nas áreas comuns do Edifício, exceto para entrada e saída do Condomínio que deverá ser nos braços do portador sempre pelo elevador de serviço."
   }
+ },
+ "aliases": [
+  "Condomínio Edifício Aristocrata"
+ ]
 }
