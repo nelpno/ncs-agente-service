@@ -1,0 +1,164 @@
+{
+  "id": "mario-de-andrade",
+  "condominio": {
+    "nome": "EDIFICIO MARIO DE ANDRADE",
+    "endereco": "RUA HUMAITA, 1740 - CENTRO",
+    "cep": "14801385",
+    "cidade_uf": "ARARAQUARA/SP",
+    "cidade_fecho": "ARARAQUARA"
+  },
+  "superlogica_nome": "Edifício Mario de Andrade",
+  "uso_juridico_liberado": false,
+  "revisao_humana": "pendente",
+  "responsavel": {
+    "nome": "[SÍNDICO A CONFIRMAR]",
+    "cargo": "SÍNDICO"
+  },
+  "regra_multa": {
+    "taxas_sugeridas_por_nivel": {
+      "1": 1,
+      "2": 2,
+      "3": 3
+    },
+    "observacao": "Valor é sugestão — síndico confirma."
+  },
+  "convencao_penalidades": {
+    "capitulo": "Artigo 14",
+    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será Imposta pelo Síndico, o qual dosará a gravidade da falta, Indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 20, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
+    "fonte": "convencao_literal"
+  },
+  "catalogo_infracoes": {
+    "barulho": {
+      "titulo": "Atividades Ruidosas",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "barulho",
+        "som alto",
+        "festa",
+        "ruído"
+      ],
+      "texto_artigo": "b) não promover nem deixar que se promovam nas respectivas unidades autônomas, atividades ruidosas, de modo a perturbar as atividades dos demais condôminos;\n\nc)"
+    },
+    "tapetes_poeira": {
+      "titulo": "Remoção de Pó sem Controle",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "tapete",
+        "poeira",
+        "cortina",
+        "sacudir"
+      ],
+      "texto_artigo": "c) não remover pó de tapetes, cortinas, etc. Senão por melos que impeçam a sua dispersão;\n\nd)"
+    },
+    "varanda_varal": {
+      "titulo": "Roupas ou Tapetes nas Janelas",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "varal",
+        "roupa",
+        "tapete",
+        "janela"
+      ],
+      "texto_artigo": "d) não estender roupas ou tapetes nas janelas ou locais visível do exterior;\n\ne)"
+    },
+    "objetos_liquidos": {
+      "titulo": "Lançamento de Objetos ou Líquidos",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "jogar objeto",
+        "jogar água",
+        "líquido",
+        "janela"
+      ],
+      "texto_artigo": "e) não lançar quaisquer objetos ou líquidos sobre a via pública, áreas comuns e, etc.;\n\nf)"
+    },
+    "lixo": {
+      "titulo": "Lixo Fora do Local",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "lixo",
+        "detritos",
+        "saco de lixo",
+        "descarte"
+      ],
+      "texto_artigo": "g) não colocar lixo, detritos, etc.; senão, nos locais ao mesmo destinado;\n\nh)"
+    },
+    "fachada_cores": {
+      "titulo": "Alteração de Fachada e Esquadrias",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "fachada",
+        "pintura",
+        "porta",
+        "esquadria"
+      ],
+      "texto_artigo": "f) não decorar as paredes, portas, esquadrias externas com cores ou tonalidades diversas das empregadas no edifício;\n\ng)"
+    },
+    "placas_toldos": {
+      "titulo": "Toldos, Letreiros e Placas",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "toldo",
+        "placa",
+        "cartaz",
+        "letreiro"
+      ],
+      "texto_artigo": "h) não usar toldos externos, nem colocar ou permitir que se coloquem: letreiros, placas, cartazes de publicidade ou quaisquer outros objetos estranhos à decoração geral do edifício;\n\nl)"
+    },
+    "objetos_areas_comuns": {
+      "titulo": "Materiais nas Áreas Comuns",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "área comum",
+        "entulho",
+        "material de obra",
+        "corredor"
+      ],
+      "texto_artigo": "l) não colocar, nem deixar que se coloquem, nas partes comuns do edifício, materiais de construção ou de instalação, sejam de que natureza for;\n\nj)"
+    },
+    "uso_funcionario": {
+      "titulo": "Uso de Empregados do Condomínio",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "funcionário",
+        "zelador",
+        "faxineiro",
+        "serviço particular"
+      ],
+      "texto_artigo": "j) não utilizar os empregados do condomínio para serviços particular;\n\nl)"
+    },
+    "periculosidade_unidade": {
+      "titulo": "Substâncias ou Aparelhos Perigosos",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "inflamável",
+        "botijão",
+        "substância perigosa",
+        "risco"
+      ],
+      "texto_artigo": "l) não manter as respectivas unidades autônomas, substâncias, Instalações ou aparelhos de alta periculosidade, suscetíveis de causar perigo à segurança e à solidez do edifício ou incômodo aos demais condôminos;\n\nm) contribuir para as despesas do condomínio, de acordo com o que se estabelece nesta convenção;\n\nn) contribuir para o custelo das obras determinadas pela Assembleia Geral, na forma e proporção que for fixada;\n\no) permitir o ingresso, em sua unidade autônoma, do Síndico e demais pessoas credenciadas, quando isso se torne indispensável para a Inspeção ou realização de trabalhos relativos à estrutura geral do edifício, à sua segurança ou solidez, ainda, à realização de reparos em instalações e tubulações nas unidades autônomas vizinhas;\n\np)"
+    },
+    "antena_individual": {
+      "titulo": "Antenas Individuais Visíveis",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "antena",
+        "tv",
+        "rádio",
+        "fachada"
+      ],
+      "texto_artigo": "p) não instalar antenas individuais de TV, FM e de Rádio Amador, em qualquer local visível do prédio, ressalvado a Instalação de antena de TV e FM coletiva;\n\nq)"
+    },
+    "obra_segurança": {
+      "titulo": "Obras que Comprometam a Segurança",
+      "fundamento": "Artigo 10",
+      "palavras_chave": [
+        "obra",
+        "reforma",
+        "quebrar parede",
+        "estrutura"
+      ],
+      "texto_artigo": "q) não realizar obras que comprometam a segurança da edificação;\n\nr) não alterar a forma e a cor da fachada, das partes e esquadrias externas;\n\ns) dar as suas partes a mesma destinação que tem a edificação, e não prejudicial ao sossego e segurança dos possuidores, ou aos bons costumes. as utilizar de maneira"
+    }
+  }
+}

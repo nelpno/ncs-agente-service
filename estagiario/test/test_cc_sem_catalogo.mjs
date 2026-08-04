@@ -29,18 +29,25 @@ const slOk = async () => ({
   endereco: "RUA HUMAITA", cep: "14801000", cidade_uf: "ARARAQUARA/SP", cidade_fecho: "ARARAQUARA",
 });
 
-// --- fixture: o condomínio realmente não tem catálogo (se ganhar um, este teste perde o sentido)
+// --- fixture HERMÉTICA (04/08/2026): o teste NÃO pode depender de um condomínio real continuar sem
+// catálogo. O caso do print era o Mario de Andrade, mas o Fernando autorizou catalogá-lo pela
+// Convenção em 04/08 ("seguir como o Attuale") e hoje os 55 condomínios do RAG TÊM catálogo — o
+// teste ficou vermelho sozinho, sem nenhuma regressão. O cenário continua valendo para todo
+// condomínio que entrar sem catálogo, então uso um nome que comprovadamente não tem um; o ERP já é
+// injetado (slOk), então nada aqui depende de dado real.
+const SEM_CATALOGO = "Condominio Exemplo Sem Catalogo";
 {
   const dir = path.join(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")),
     "..", "..", "gerador", "dados");
-  const semCatalogo = !fs.existsSync(path.join(dir, "mario-de-andrade.json"));
-  check(semCatalogo || true, "fixture informativa: catálogo do mario-de-andrade ausente = caso do print");
+  const slug = SEM_CATALOGO.toLowerCase().replace(/\s+/g, "-");
+  check(!fs.existsSync(path.join(dir, `${slug}.json`)),
+    `fixture: "${SEM_CATALOGO}" realmente não tem catálogo (se alguém criar um, troque o nome)`);
 }
 
 // --- 1) o que o Fernando tentou: notificação pelo CC num condomínio sem catálogo → GERA
 {
   const out = await gerar_documento({
-    condominio: "Mario de Andrade", base_legal: "codigo_civil", tipo: "notificacao",
+    condominio: SEM_CATALOGO, base_legal: "codigo_civil", tipo: "notificacao",
     destinatario: { nome: "Marcio Francisco Micheloni", genero: "M", apartamento: "18" },
     relato: RELATO, data_documento: "25 de julho de 2026",
   }, { chat: chatSim, resolverCondominio: slOk });
@@ -58,7 +65,7 @@ const slOk = async () => ({
 // --- 2) PDF também (o "Word ou PDF" da pergunta dele)
 {
   const out = await gerar_documento({
-    condominio: "Mario de Andrade", base_legal: "codigo_civil", tipo: "notificacao", formato: "pdf",
+    condominio: SEM_CATALOGO, base_legal: "codigo_civil", tipo: "notificacao", formato: "pdf",
     destinatario: { nome: "Marcio Francisco Micheloni", genero: "M", apartamento: "18" },
     relato: RELATO, data_documento: "25 de julho de 2026",
   }, { chat: chatSim, resolverCondominio: slOk });
@@ -70,7 +77,7 @@ const slOk = async () => ({
 //         falta (catálogo), não dizer que o condomínio não existe.
 {
   const out = await gerar_documento({
-    condominio: "Mario de Andrade", tipo: "multa", infracao_id: "barulho",
+    condominio: SEM_CATALOGO, tipo: "multa", infracao_id: "barulho",
     destinatario: { nome: "Marcio Francisco Micheloni", genero: "M", apartamento: "18" },
     relato: RELATO, data_documento: "25 de julho de 2026",
   }, { chat: chatSim, resolverCondominio: slOk });

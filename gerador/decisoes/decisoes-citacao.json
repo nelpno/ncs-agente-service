@@ -1,0 +1,115 @@
+{
+  "_leia": "Decisoes HUMANAS sobre qual trecho do RI/Convencao fundamenta cada infracao. Respondidas pelo Fernando (diretor do Grupo NCS) no documento 'Pendencias-Fernando-25jul', devolvido em 04/08/2026. Existe para SOBREVIVER a uma re-extracao do catalogo: extrair-catalogo.mjs reescreve texto_artigo/fundamento e apagaria estas decisoes. Depois de QUALQUER re-extracao, rodar: node aplicar-decisoes.mjs APPLY=1",
+  "_regra_geral": "REGIMENTO INTERNO E A REFERENCIA. Alguns artigos aparecem duplicados na Convencao com numero diferente; usar sempre o R.I. (Fernando, 04/08/2026). Excecao: condominio sem R.I. aprovado segue a Convencao (Attuale, Sevilha, Mario de Andrade, Vitta Ipe Roxo).",
+  "_contrato": "texto_artigo = caput do artigo + '(...)' + item(ns), TUDO verbatim da fonte. Nunca digitar texto: o item e localizado na fonte ingerida e recortado. O verificar-catalogo.mjs prova verbatim depois.",
+  "decisoes": [
+    {
+      "slug": "lume",
+      "id": "reparos_reformas_fora_horario",
+      "fonte": "regimento",
+      "artigo": "Parágrafo 20º",
+      "itens": ["c", "d"],
+      "fundamento": "Regimento Interno, XXI – DAS REFORMAS E SERVIÇOS EXECUTADOS NOS APARTAMENTOS, Parágrafo 20º, c) e d)",
+      "nota": "Fernando marcou os dois itens: c) seg-sex 08h-17h e d) sabado 08h-12h. Os dois juntos definem 'fora do horario'."
+    },
+    {
+      "slug": "park",
+      "id": "varanda_varal",
+      "fonte": "convencao",
+      "artigo": "Artigo 10",
+      "itens": ["d"],
+      "fundamento": "Convenção, CAPÍTULO V - DAS OBRIGAÇÕES, Artigo 10, d)",
+      "nota": "Fernando indicou o Cap. V Art. 10 da Convencao (o R.I. do Park nao traz este item)."
+    },
+    {
+      "slug": "moove",
+      "id": "ar_condicionado_portas_abertas_espaco_festas",
+      "fonte": "regimento",
+      "artigo": "Parágrafo 6º",
+      "itens": ["g"],
+      "fundamento": "Regimento Interno, V - DO USO DOS ESPAÇO FESTAS, ESPAÇO GOURMET E ESPAÇOS GRILL, Parágrafo 6º, g)",
+      "nota": "O texto guardado falava da taxa de 15% (item c) - nada a ver com a infracao. Fernando confirmou o item g)."
+    },
+    {
+      "slug": "moove",
+      "id": "danos_espacos_festas",
+      "fonte": "regimento",
+      "artigo": "Parágrafo 6º",
+      "itens": ["b"],
+      "fundamento": "Regimento Interno, V - DO USO DOS ESPAÇO FESTAS, ESPAÇO GOURMET E ESPAÇOS GRILL, Parágrafo 6º, b)",
+      "nota": "Fernando confirmou o item b) (responsabilidade do solicitante por danos)."
+    },
+    {
+      "slug": "vancouver",
+      "id": "fumar_areas_comuns",
+      "fonte": "regimento",
+      "artigo": "ARTIGO 14",
+      "itens": ["s"],
+      "fundamento": "Regimento Interno, ARTIGO 14°: É vedado aos condôminos: s)",
+      "nota": "Fernando forneceu o caput 'ARTIGO 14°: É vedado aos condôminos:' - a lista TEM frase de abertura."
+    },
+    {
+      "slug": "vancouver",
+      "id": "lixo_areas_comuns",
+      "fonte": "regimento",
+      "artigo": "ARTIGO 14",
+      "itens": ["v"],
+      "fundamento": "Regimento Interno, ARTIGO 14°: É vedado aos condôminos: v)",
+      "nota": "Idem: caput confirmado pelo Fernando."
+    },
+    {
+      "slug": "atlanta",
+      "id": "interferencia_seguranca",
+      "fonte": "regimento",
+      "artigo": "Artigo 16",
+      "itens": ["§1"],
+      "fundamento": "Capítulo II - Da Segurança, Seção I - Da Organização, Artigo 16, §1°",
+      "nota": "Artigo trocado: o texto guardado falava da competencia da Diretoria. Fernando deu o Artigo 16 §1°."
+    },
+    {
+      "slug": "spazio-abbocato",
+      "id": "garagem_vaga_irregular",
+      "fonte": "regimento",
+      "artigo": "Art. 13",
+      "itens": ["k"],
+      "fundamento": "Capítulo X - Da Utilização da Garagem, Art. 13° - Será expressamente proibido: k)",
+      "nota": "Eu havia reportado que o item k) nao existia no Art. 13. Fernando confirmou que existe e passou o texto."
+    }
+  ],
+  "pendencia_de_fonte": [
+    {
+      "slug": "paineiras",
+      "id": "varanda_varal",
+      "achado": "A CONVENCAO INGERIDA DO PAINEIRAS ESTA COM O TEXTO EMBARALHADO no Artigo 10 (erro de OCR na origem, nao de recorte): o caput arrasta um fragmento deslocado ('Constituem obrigacoes de todos os condominos: - autonomas,') e os itens c) e d) COMECAM COM O MESMO TEXTO ('nao remover estender po de tapetes...'). O item d) real deveria ser 'nao estender roupas ou tapetes nas janelas ou locais visiveis do exterior' (e assim que aparece no Park).",
+      "decisao": "NAO aplicar recorte: com a fonte assim, cortar PIORA o documento (o caput sai sujo). Mantido o texto atual. O R.I. do Paineiras nao trata do tema, entao a Convencao e a unica fonte possivel - a resposta 'R.I. e a referencia' do Fernando nao muda este caso.",
+      "para_resolver": "Reingerir a Convencao do Paineiras a partir de um PDF/DOCX melhor (o Fernando/Natanael precisam mandar), e entao aplicar o recorte do Artigo 10, d)."
+    }
+  ],
+  "manter_texto_amplo": [
+    {
+      "slug": "salto-grande-i",
+      "id": "lixo_domestico_descarte",
+      "motivo": "O item n) termina em dois-pontos e continua numa lista de condicoes. Fernando confirmou o texto completo (Art. 14° + n)). Manter como esta."
+    },
+    {
+      "slug": "dom-pedro",
+      "id": "garagem_alugar_nao_morador",
+      "motivo": "Grupo 'Convencao x Regimento': Fernando respondeu REGIMENTO INTERNO E A REFERENCIA. Conferir se a citacao ja vem do R.I."
+    },
+    {
+      "slug": "lume",
+      "id": "varal_visivel_exterior",
+      "motivo": "Idem - conferir origem R.I."
+    },
+    {
+      "slug": "monet",
+      "id": "animais_areas_comuns",
+      "motivo": "Idem - conferir origem R.I."
+    },
+    {
+      "slug": "paineiras",
+      "id": "varanda_varal",
+      "motivo": "Idem - conferir origem R.I."
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+ "_fonte": "Planilha \"Condominio x Gerente quem e responsavel\" do Fernando: Condominio x Gerente quem é responsavel 04082026.xlsx",
+ "_atualizado_em": "2026-08-04",
+ "_leia": "SEM PII de proposito (sem sindico/telefone/gerente): esta base responde ao MORADOR. Regerar com: python .tmp/gen_carteira.py",
+ "condominios": [
+  {
+   "nome": "ALTO DA BOA VISTA"
+  },
+  {
+   "nome": "ALLURE CONDOMÍNIO RESORT"
+  },
+  {
+   "nome": "ASSOC DE MORADORES DO LOT FECHADO JD RES MAGGIORE - RESID PIEMONTE"
+  },
+  {
+   "nome": "ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE - RESERVA DO CAMPO"
+  },
+  {
+   "nome": "ASSOCIAÇÃO ALTOS DO JARAGUÁ"
+  },
+  {
+   "nome": "ASSOCIAÇÃO DE MORADORES DO CONDOMÍNIO SUMMERTIME"
+  },
+  {
+   "nome": "Associação de Moradores do Jardim Acácias"
+  },
+  {
+   "nome": "ASSOCIACAO DE PROPRIETARIOS EM LOTEAMENTO ATLANTA"
+  },
+  {
+   "nome": "ASSOCIACAO DOS MORADORES DO RESIDENCIAL SALTO GRANDE - CEDROS DO CAMPO"
+  },
+  {
+   "nome": "ASSOCIAÇÃO JARDIM MAGNOLIAS I"
+  },
+  {
+   "nome": "ASSOCIACAO JARDIM SALTO GRANDE I"
+  },
+  {
+   "nome": "ASSOCIAÇÃO JARDIM SALTO GRANDE III"
+  },
+  {
+   "nome": "ASSOCIAÇÃO NASCENTE DO JARAGUÁ"
+  },
+  {
+   "nome": "ASSOCIAÇÃO RESIDENCIAL TIVOLI"
+  },
+  {
+   "nome": "ATTUALE"
+  },
+  {
+   "nome": "COCISA 3A/3B"
+  },
+  {
+   "nome": "CONDOMÍNIO 390 - 1AB - CDHU1"
+  },
+  {
+   "nome": "CONDOMÍNIO BARBIERI EDIFICIO BARBIERI I"
+  },
+  {
+   "nome": "Condomínio Edifício Angelo Smirne"
+  },
+  {
+   "nome": "Condomínio Edifício Aristocrata"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFÍCIO CITY CENTER"
+  },
+  {
+   "nome": "Condomínio Edifício Dom Pedro"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFÍCIO MONTE CARLO"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL CASABLANCA"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFÍCIO RESIDENCIAL PARK"
+  },
+  {
+   "nome": "CONDOMINIO EDIFICIO ROSA DE OURO"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFICIO ROSEIRAS II"
+  },
+  {
+   "nome": "CONDOMÍNIO EDIFÍCIO SAN MARCO"
+  },
+  {
+   "nome": "CONDOMÍNIO MINI SHOPPING DO CARMO"
+  },
+  {
+   "nome": "CONDOMINIO RESIDENCIAL DAS FLORES"
+  },
+  {
+   "nome": "Condomínio Residencial das Paineiras"
+  },
+  {
+   "nome": "CONDOMINIO RESIDENCIAL GARDEN PLACE"
+  },
+  {
+   "nome": "CONDOMÍNIO RESIDENCIAL MAYORCA"
+  },
+  {
+   "nome": "Condomínio Residencial Riacho Doce"
+  },
+  {
+   "nome": "CONDOMINIO RESIDENCIAL SEVILHA"
+  },
+  {
+   "nome": "CONDOMÍNIO RESIDENCIAL SPAZIO ARACAJU"
+  },
+  {
+   "nome": "CONDOMINIO RESIDENCIAL VANCOUVER"
+  },
+  {
+   "nome": "CONDOMINIO VALE SUPREMO"
+  },
+  {
+   "nome": "EDIFICIO HADDAD"
+  },
+  {
+   "nome": "Edifício Jatiúca Blocos I e II"
+  },
+  {
+   "nome": "EDIFICIO MARIO DE ANDRADE"
+  },
+  {
+   "nome": "EDIFICIO RESIDENCIAL TRIADE"
+  },
+  {
+   "nome": "EDIFICIO ROYAL GARDEN I"
+  },
+  {
+   "nome": "EDIFICIO STUDIO FIVE"
+  },
+  {
+   "nome": "LHARMONIE"
+  },
+  {
+   "nome": "LUME"
+  },
+  {
+   "nome": "MONET"
+  },
+  {
+   "nome": "MOOVE CONCEPT HOME"
+  },
+  {
+   "nome": "PARQUE AMARIGE"
+  },
+  {
+   "nome": "Residencial Parque dos Trilhos"
+  },
+  {
+   "nome": "RESIDENCIAL VIDA PLENA ARARAQUARA"
+  },
+  {
+   "nome": "Residencial Vila Rio Preto"
+  },
+  {
+   "nome": "SPAZIO ABBOCATO"
+  },
+  {
+   "nome": "VISTAS DO BOTANICO - CEDROS"
+  },
+  {
+   "nome": "VITTA IPE ROXO"
+  },
+  {
+   "nome": "VITTA PAIRÁS"
+  },
+  {
+   "nome": "VITTA PRACAS DO SOL"
+  },
+  {
+   "nome": "SEIVA"
+  }
+ ]
+}
