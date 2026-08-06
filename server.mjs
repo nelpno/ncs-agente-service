@@ -203,8 +203,9 @@ const server = http.createServer(async (req, res) => {
       if (!draft) { res.writeHead(404, { 'Content-Type': 'text/html' }); return res.end('<p>Rascunho não encontrado ou expirado.</p>'); }
       const acao = getAction(draft.acao);
       if (acao?.render) draft.render = acao.render(draft.dados, draft.snapshot);
+      const { vaiSimular } = await import('./src/superlogica_write.mjs');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      return res.end(renderPainel(draft, k));
+      return res.end(renderPainel(draft, k, { simulacao: vaiSimular(draft.acao) }));
     }
     if (req.method === 'POST' && req.url.startsWith('/aprovacao/')) {
       const { aprovarRascunho, rejeitarRascunho } = await import('./src/write/engine.mjs');
@@ -219,7 +220,18 @@ const server = http.createServer(async (req, res) => {
       else if (op === 'corrigir') { const correcoes = {}; for (const [kk, vv] of body) if (!['k', 'aprovador'].includes(kk)) correcoes[kk] = vv; out = await aprovarRascunho(token, { aprovador, correcoes }); }
       else return json(res, 404, { erro: 'op' });
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      return res.end(`<p>${out.ok ? 'Pronto: ' + (out.gravado ? 'gravado' + (out.dryRun ? ' (simulação)' : '') : out.rejeitado ? 'rejeitado' : 'ok') : 'Falhou: ' + (out.motivo || '')}</p>`);
+      // O desfecho precisa ser lido sem ambiguidade: "gravado (simulação)" já enganou um aprovador,
+      // que saiu achando que o cadastro tinha entrado no Superlógica (05/08/2026).
+      const desfecho = !out.ok
+        ? `<p style="color:#b91c1c"><b>Não deu certo:</b> ${String(out.motivo || 'erro').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))}</p>`
+        : out.gravado && out.dryRun
+          ? `<p style="background:#fef3c7;border-left:5px solid #d97706;padding:12px 14px;border-radius:8px;line-height:1.5">
+<b>&#9888;&#65039; Registrado em MODO TESTE — nada foi gravado no Superlógica.</b><br>
+Para valer, o cadastro ainda precisa ser feito pela equipe no sistema.</p>`
+          : out.gravado
+            ? '<p><b>✅ Gravado no Superlógica.</b></p>'
+            : out.rejeitado ? '<p>Rejeitado — o morador será avisado.</p>' : '<p>Pronto.</p>';
+      return res.end(`<!doctype html><meta charset="utf-8"><body style="font-family:system-ui;max-width:560px;margin:40px auto">${desfecho}</body>`);
     }
     // chat-send (mesmo serviço, protegido por código)
     if (req.method === 'POST' && req.url.startsWith('/chat-send')) {

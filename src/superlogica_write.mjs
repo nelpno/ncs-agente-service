@@ -20,6 +20,13 @@ export function acaoGravaReal(actionId) {
   return allow.includes(actionId);
 }
 
+// Esta ação, agora, vai SIMULAR em vez de gravar? Mesma condição que o slPut aplica logo abaixo —
+// existe para a TELA de aprovação poder dizer a verdade ao aprovador sem redecidir a regra por conta
+// própria (um banner com regra própria mente no dia em que uma das duas mudar).
+export function vaiSimular(actionId) {
+  return !!config.dryRunWrites && !acaoGravaReal(actionId);
+}
+
 // Sucesso/erro a partir da resposta da Superlógica. Pura e exportada (testável sem rede).
 // ⚠️ HTTP 2xx NÃO basta: erro vem como **HTTP 206** + corpo `[{status:"500", msg}]` (ex.: "Número da
 // unidade não informada"). Provado no teste controlado de 23/07 — o slPut dava ok:true no 206 e a ação
