@@ -28,6 +28,11 @@ ok(/\[removido\]/.test(lim), 'deixa marca do que foi retirado (não apaga em sil
 ok(!/375\.913\.908-64/.test(mascararPII('do CPF 375.913.908-64,')), 'CPF sem "sob n.º"');
 ok(!/07599294830/.test(mascararPII('CPF: 07599294830 ')), 'CPF sem pontuação (11 dígitos)');
 ok(!/46\.062\.632-2/.test(mascararPII('RG sob o nº 46.062.632-2 e')), 'RG com dígito após hífen');
+// formatos colhidos da ata REAL do Vancouver (06/04/2026) — 8 pessoas qualificadas numa ata só
+ok(!/-7/.test(mascararPII('RG n° 8169562 -7, domiciliado')), 'RG com ESPAÇO antes do hífen não deixa o dígito órfão');
+ok(!/88\.926\.81/.test(mascararPII('RG n° 88.926.81, domiciliado')), 'RG em formato irregular (2 grupos)');
+ok(!/29512900-1/.test(mascararPII('RG sob n° 29512900-1, domiciliado')), 'RG sem pontos com verificador');
+ok(!/28441845883/.test(mascararPII('inscrito no CPF n° 28441845883, RG')), 'CPF de 11 dígitos após "inscrito no"');
 ok(!/410\.374\.258-55/.test(mascararPII('CPF sob n.º 410.374.258-55, residente')), '2º CPF do mesmo texto');
 
 // ── 2. o que NÃO PODE ser tocado (o outro lado do detector) ─────────────────

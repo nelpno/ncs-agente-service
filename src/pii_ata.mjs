@@ -12,8 +12,10 @@ const MARCA = '[removido]';
 
 // CPF: só quando vem anunciado como CPF. Aceita 000.000.000-00 e 00000000000.
 const CPF_ROTULADO = /\bCPF\b([^0-9\n]{0,20})(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})/gi;
-// RG: idem. O RG brasileiro varia muito (com/sem dígito, com/sem pontos) — por isso o rótulo é obrigatório.
-const RG_ROTULADO = /\bRG\b([^0-9\n]{0,20})(\d{1,3}(?:\.\d{3}){1,3}(?:-[0-9A-Za-z])?|\d{7,11}(?:-[0-9A-Za-z])?)/gi;
+// RG: idem. O RG brasileiro varia muito (com/sem dígito verificador, com/sem pontos) — por isso o
+// rótulo é obrigatório. O `\s*-\s*` no fim existe porque a ata do Vancouver traz "RG n° 8169562 -7",
+// com espaço ANTES do hífen: sem isso o dígito verificador ficava órfão como " -7" depois do corte.
+const RG_ROTULADO = /\bRG\b([^0-9\n]{0,20})(\d{1,3}(?:\.\d{3}){1,3}(?:\s*-\s*[0-9A-Za-z])?|\d{7,11}(?:\s*-\s*[0-9A-Za-z])?)/gi;
 
 /**
  * mascararPII(texto) → texto com CPF/RG substituídos por "[removido]".
