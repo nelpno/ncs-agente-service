@@ -109,5 +109,33 @@ ok(semPct.length === 0, `todo condomínio liberado tem juros e multa (${semPct.m
 const jurosEstranho = [...new Set(lista.filter((c) => c.juros_mes != null).map((c) => c.juros_mes))];
 ok(jurosEstranho.length === 1 && jurosEstranho[0] === 0.01, `juros uniforme 1% (achado: ${jurosEstranho})`);
 
+// ── 10. o nome como a EQUIPE digita × como a planilha grava ─────────────────
+// Achado no smoke em produção: "Rosas de Ouro" (como o Fernando escreve, inclusive no roteiro dos 20
+// cadastros) não achava "CONDOMINIO EDIFICIO ROSA DE OURO". Resolver aqui reusa _filtrarCondos —
+// a MESMA escada da Ana e do Estagiário — em vez de um matcher próprio.
+const plural = consultar_parametros_cobranca({ condominio: 'Rosas de Ouro' });
+ok(plural.encontrou === true, 'plural/singular: "Rosas de Ouro" acha "ROSA DE OURO"');
+ok(plural.pode_cobrar === true && plural.juros_mes === 0.01, 'e traz os parâmetros certos');
+
+const meio = consultar_parametros_cobranca({ condominio: 'Condomínio Vancouver' });
+ok(meio.encontrou === true && /VANCOUVER/i.test(meio.condominio),
+  'palavra do meio: "Condomínio Vancouver" acha "CONDOMINIO RESIDENCIAL VANCOUVER"');
+
+// 🔴 O caso que não pode falhar: os dois Salto Grande têm decisão OPOSTA na planilha.
+// Confundi-los faria a Ana cobrar num condomínio que não autorizou.
+const sg1 = consultar_parametros_cobranca({ condominio: 'Salto Grande I' });
+const sg3 = consultar_parametros_cobranca({ condominio: 'Salto Grande III' });
+ok(sg1.encontrou === true && /SALTO GRANDE I$/i.test(sg1.condominio.trim()),
+  `"Salto Grande I" resolve para ele mesmo (veio: ${sg1.condominio || sg1.motivo})`);
+ok(sg3.encontrou === true && /III/i.test(sg3.condominio || ''),
+  `"Salto Grande III" resolve para o III (veio: ${sg3.condominio || sg3.motivo})`);
+ok(sg1.pode_cobrar === true, 'Salto Grande I: PODE cobrar (conforme a planilha)');
+ok(sg3.pode_cobrar === false, 'Salto Grande III: NÃO pode — e não herda o parâmetro do I');
+
+// ambiguidade real continua ambígua também no dado de produção
+const cedros = consultar_parametros_cobranca({ condominio: 'Cedros' });
+ok(cedros.encontrou === false && cedros.motivo === 'condominio_ambiguo',
+  `"Cedros" segue ambíguo no dado real (veio: ${cedros.motivo || cedros.condominio})`);
+
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);

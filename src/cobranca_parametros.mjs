@@ -16,6 +16,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// REUSO da escada de resolução de nome (substring em fronteira de palavra → tokens → singular →
+// prefixo). É a MESMA que a Ana e o Estagiário usam. Escrever matcher próprio aqui foi o bug que o
+// smoke em produção pegou: "Rosas de Ouro" (como o Fernando escreve) não achava "ROSA DE OURO", e
+// "Salto Grande I" ficava ambíguo com o III — que na planilha têm decisão OPOSTA.
+import { _filtrarCondos } from './superlogica.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FILE = path.join(__dirname, '..', 'data', 'cobranca', 'parametros.json');
@@ -23,12 +28,6 @@ const FILE = path.join(__dirname, '..', 'data', 'cobranca', 'parametros.json');
 const norm = (s) => (s || '')
   .toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '')
   .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
-
-// palavras que não distinguem um condomínio de outro (mesma lista do match-nome.mjs do gerador)
-const ESTRUTURAIS = new Set(['condominio', 'condominios', 'residencial', 'edificio', 'associacao',
-  'assoc', 'de', 'do', 'da', 'dos', 'das', 'e', 'em', 'lot', 'loteamento', 'jardim', 'jd', 'resid',
-  'moradores', 'proprietarios', 'fechado']);
-const chaves = (s) => norm(s).split(' ').filter((p) => p.length > 2 && !ESTRUTURAIS.has(p));
 
 let _index = null;
 /** _reloadIndex(fixture) — sem argumento (ou null) volta a ler o arquivo real; com objeto, injeta dado de teste. */
@@ -42,7 +41,6 @@ function montar(data) {
     idx.push({
       ...c,
       _norm: norm(c.nome),
-      _chaves: chaves(c.nome),
       _aliasNorm: (c.aliases || []).map(norm).filter(Boolean),
     });
   }
@@ -65,13 +63,14 @@ function resolver(idx, condominio) {
   if (exato.length === 1) return { c: exato[0] };
   if (exato.length > 1) return { motivo: 'condominio_ambiguo', candidatos: exato.map((c) => c.nome) };
 
-  const kq = chaves(condominio);
-  if (!kq.length) return { motivo: 'condominio_sem_parametro_cobranca' };
-  // todas as palavras significativas da busca precisam estar no nome do condomínio
-  const hits = idx.filter((c) => kq.every((k) => c._chaves.some((ck) => ck === k || ck.startsWith(k))));
+  // _filtrarCondos é um FILTRO: quando nada casa, devolve a lista inteira de volta. Só há match de
+  // verdade se ele reduziu o conjunto — senão é "não achei", não "achei todos".
+  const hits = _filtrarCondos(idx, condominio);
+  if (!hits.length || (hits.length === idx.length && idx.length > 1)) {
+    return { motivo: 'condominio_sem_parametro_cobranca' };
+  }
   if (hits.length === 1) return { c: hits[0] };
-  if (hits.length > 1) return { motivo: 'condominio_ambiguo', candidatos: hits.map((c) => c.nome) };
-  return { motivo: 'condominio_sem_parametro_cobranca' };
+  return { motivo: 'condominio_ambiguo', candidatos: hits.map((c) => c.nome) };
 }
 
 /** 0.01 -> "1%" · 0 -> "0%" · null -> null. Existe para o texto nunca mostrar "0.01%" ao morador. */
