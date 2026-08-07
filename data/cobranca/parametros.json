@@ -1,5 +1,5 @@
 {
-  "_fonte": "Fernando (WhatsApp 05-06/08/2026): 'Organizao de cobrana (extrajudicial) cobrana automatica ana.xlsx'. Audio 06/08: 'escrevi tudo certinho, condominio por condominio'. Percentuais SAO DECISAO DO CLIENTE — nunca do LLM.",
+  "_fonte": "Fernando (WhatsApp 05-06/08/2026): 'Organização de cobrança (extrajudicial) cobrança automatica ana 07082026.xlsx'. Audio 06/08: 'escrevi tudo certinho, condominio por condominio'. Percentuais SAO DECISAO DO CLIENTE — nunca do LLM.",
   "_gerado_por": ".tmp/gerar_parametros_cobranca.py (re-rodar a cada versao nova da planilha)",
   "_regras": [
     "pode_cobrar=false ou null => a Ana NAO negocia: encaminha para responsavel/judicial_responsavel.",
@@ -59,7 +59,7 @@
     {
       "nome": "ASSOC DOS MORADORES DO RESID CAMPOS DE PIEMONTE - RESERVA DO CAMPO",
       "slug": "assoc-dos-moradores-do-resid-campos-de-piemonte-reserva-do-c",
-      "cnpj": "260749030/0001-00",
+      "cnpj": "26.074.903/0001-00",
       "pode_cobrar": true,
       "janela_dias": null,
       "juros_mes": 0.01,
@@ -130,7 +130,7 @@
       "multa": 0.02,
       "honorarios_automatico": false,
       "honorarios_pct": 0.0,
-      "parcelamento_max": null,
+      "parcelamento_max": "A vista",
       "responsavel": "CHAGAS & OLIVEIRA",
       "judicial_responsavel": "CHAGAS & OLIVEIRA",
       "contato_externo": "contato@chagasoliveira.adv.br",
@@ -166,7 +166,7 @@
       "responsavel": "Atendimento Humano (ana)",
       "judicial_responsavel": null,
       "contato_externo": null,
-      "observacao_fernando": "aparentemente não tem cobrança judicial 10%"
+      "observacao_fernando": null
     },
     {
       "nome": "ASSOCIACAO JARDIM SALTO GRANDE I",
@@ -300,13 +300,13 @@
       "nome": "Condomínio Edifício Angelo Smirne",
       "slug": "condominio-edificio-angelo-smirne",
       "cnpj": "64.014.198/0001-45",
-      "pode_cobrar": null,
+      "pode_cobrar": true,
       "janela_dias": null,
-      "juros_mes": null,
-      "multa": null,
-      "honorarios_automatico": null,
-      "honorarios_pct": null,
-      "parcelamento_max": null,
+      "juros_mes": 0.01,
+      "multa": 0.02,
+      "honorarios_automatico": true,
+      "honorarios_pct": 0.1,
+      "parcelamento_max": "2x",
       "responsavel": null,
       "judicial_responsavel": null,
       "contato_externo": null,
@@ -475,7 +475,7 @@
     {
       "nome": "CONDOMINIO RESIDENCIAL DAS FLORES",
       "slug": "condominio-residencial-das-flores",
-      "cnpj": "02.837.040/0001-75",
+      "cnpj": "02.837.804/0001-75",
       "pode_cobrar": false,
       "janela_dias": null,
       "juros_mes": null,
@@ -694,7 +694,7 @@
       "responsavel": "Atendimento Humano (ana)",
       "judicial_responsavel": null,
       "contato_externo": null,
-      "observacao_fernando": "esse não entendi"
+      "observacao_fernando": null
     },
     {
       "nome": "EDIFICIO STUDIO FIVE",
@@ -747,7 +747,7 @@
     {
       "nome": "MONET",
       "slug": "monet",
-      "cnpj": "49.457.113/0001-00",
+      "cnpj": "54.381.543/0001-25",
       "pode_cobrar": false,
       "janela_dias": null,
       "juros_mes": null,
