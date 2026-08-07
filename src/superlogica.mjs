@@ -261,7 +261,7 @@ export function decidirSemBoleto(inad) {
     };
   }
   if (inad?.status === 'gerido_por_garantidora') {
-    return { liberado: false, motivo: 'garantidora', garantidora: inad.garantidora };
+    return { liberado: false, motivo: 'garantidora', garantidora: inad.garantidora, ...(inad.nota_extra ? { nota_extra: inad.nota_extra } : {}) };
   }
   // sem_debito_vencido | indisponivel | null → não cravar quitação; convidar a informar o mês/competência.
   return {
@@ -270,6 +270,61 @@ export function decidirSemBoleto(inad) {
       'Não localizei boleto em aberto ou a vencer nos próximos dias para essa unidade. Se você esperava ' +
       'algum, me diga o mês/competência que eu verifico melhor.',
   };
+}
+
+// ---------------------------------------------------------------------------
+// Boleto de um MÊS específico ("quero o de julho") — buraco medido no uso real
+// (06/08, conv 658 do Allure: a moradora precisava do de julho para abrir um sinistro e a
+// equipe teve de mandar à mão). Sondado ao vivo em 07/08: `cobranca/index` SEM data devolve
+// só o mês CORRENTE, nem com status=todos; com `filtrarpor=vencimento` + `dtInicio`/`dtFim`
+// alcança qualquer mês (julho do Allure: 717 itens, 309 pagos, link em 717/717).
+// ⚠️ `filtrarpor=competencia` MISTURA meses (51 de julho + 336 de agosto no mesmo retorno) →
+// a régua é o VENCIMENTO. Também é o que o morador quer dizer com "o boleto de julho".
+// ---------------------------------------------------------------------------
+
+// janelaDoMes: 'AAAA-MM' ou 'MM/AAAA' → { dtInicio, dtFim } em MM/DD/AAAA (formato da API).
+// Entrada inválida devolve null DE PROPÓSITO: uma janela chutada consultaria o período errado e
+// responderia "não há boleto nesse mês" para um mês que existe. PURA/testável.
+export function janelaDoMes(mes) {
+  if (typeof mes !== 'string') return null;
+  const s = mes.trim();
+  let ano, m;
+  let g = s.match(/^(\d{4})-(\d{2})$/);
+  if (g) { ano = +g[1]; m = +g[2]; }
+  else {
+    g = s.match(/^(\d{2})\/(\d{4})$/);
+    if (!g) return null;
+    m = +g[1]; ano = +g[2];
+  }
+  if (!(m >= 1 && m <= 12) || !(ano >= 2000 && ano <= 2100)) return null;
+  const ultimo = new Date(Date.UTC(ano, m, 0)).getUTCDate(); // dia 0 do mês seguinte = último deste
+  const mm = String(m).padStart(2, '0');
+  return { dtInicio: `${mm}/01/${ano}`, dtFim: `${mm}/${String(ultimo).padStart(2, '0')}/${ano}` };
+}
+
+// classificarBoletoDoMes: PAGO × EM ABERTO × VENCIDO +30d. PURA/testável.
+// 🔴 Boleto PAGO nunca sai com PIX — o morador pede o documento (sinistro, comprovante, imposto de
+// renda) e receberia um código de pagamento, podendo pagar duas vezes. Sai só o link do documento.
+// Vencido +30d também não sai por self-service: é dívida, vai à cobrança (guard que já existia).
+// ⚠️ dt_vencimento_recb vem MM/DD/AAAA — o `new Date` do JS lê nesse formato; não "consertar" para DD/MM.
+export function classificarBoletoDoMes(b, hoje = new Date()) {
+  const pago = !!(b?.dt_liquidacao_recb || String(b?.fl_status_recb || '') === '3');
+  const venc = b?.dt_vencimento_recb ? new Date(b.dt_vencimento_recb) : null;
+  const diasVencido = venc && !isNaN(venc) ? Math.floor((hoje.getTime() - venc.getTime()) / 86400000) : 0;
+  const base = {
+    dias_vencido: diasVencido,
+    dt_vencimento_recb: b?.dt_vencimento_recb || null,
+    link_segundavia: b?.link_segundavia || null,
+    vl_total_recb: b?.vl_total_recb ?? null,
+    id_unidade_uni: b?.id_unidade_uni ?? null,
+  };
+  if (pago) {
+    return { ...base, situacao: 'pago', liberado: true, dt_liquidacao_recb: b?.dt_liquidacao_recb || null };
+  }
+  if (diasVencido > 30) {
+    return { ...base, situacao: 'vencido_30d', liberado: false };
+  }
+  return { ...base, situacao: 'em_aberto', liberado: true, st_pixqrcode_recb: b?.st_pixqrcode_recb || null };
 }
 
 // Texto do PIX ausente. Exportado para o teste conferir o texto REAL (uma cópia no teste passaria
@@ -293,11 +348,15 @@ export function calcularOutrasCobrancas(qtd, diasVencido) {
 // ATENÇÃO: idUnidade é ignorado; o filtro é UNIDADES[0]=. Conferir id_unidade_uni no retorno (LGPD).
 // `_semInadimplencia`: pula o cruzamento com a inadimplência (usado pelo get_boleto_pdf_url, que só
 // precisa da URL — evita repetir a chamada quando a Ana pede boleto + PDF no mesmo turno).
-export async function get_boleto_2via({ id_condominio, id_unidade, _semInadimplencia } = {}) {
+export async function get_boleto_2via({ id_condominio, id_unidade, mes, _semInadimplencia } = {}) {
   if (!id_condominio || !id_unidade) return { erro: 'faltam id_condominio e id_unidade' };
   // Garantidora 'total': a NCS não gera boleto pelo Superlógica → direcionar à garantidora (nem consulta o sistema).
   const gar = await garantidoraDe(id_condominio);
-  if (gar && gar.tipo === 'total') return { liberado: false, motivo: 'garantidora', garantidora: gar.garantidora };
+  if (gar && gar.tipo === 'total') {
+    return { liberado: false, motivo: 'garantidora', garantidora: gar.garantidora, ...(gar.nota_extra ? { nota_extra: gar.nota_extra } : {}) };
+  }
+  // Pediu um MÊS específico → consulta própria: a chamada padrão (sem data) só enxerga o mês corrente.
+  if (mes) return await _boletoDoMes({ id_condominio, id_unidade, mes });
   // Unidade em PROCESSO JUDICIAL: o Superlógica BLOQUEIA a 2ª via pública ("a unidade está no jurídico") e pagar uma
   // mensalidade avulsa não quita o débito em processo → encaminhar à cobrança, NUNCA self-service. (Em paralelo com a cobrança.)
   const [jur, data] = await Promise.all([
@@ -357,14 +416,43 @@ export async function get_boleto_2via({ id_condominio, id_unidade, _semInadimple
   return r;
 }
 
+// _boletoDoMes: busca o boleto de um mês específico (rota do "quero o de julho").
+// Guards preservados: jurídico continua fora do self-service (pagar avulso não quita processo) e
+// o anti-troca por id_unidade_uni vale igual — o `UNIDADES[0]` filtra, mas o `idUnidade` a API
+// IGNORA em silêncio, então conferir o id de volta é obrigatório (risco de entregar boleto alheio).
+async function _boletoDoMes({ id_condominio, id_unidade, mes }) {
+  const jan = janelaDoMes(mes);
+  if (!jan) return { liberado: false, motivo: 'mes_invalido', mes_recebido: String(mes ?? '') };
+  const [jur, data] = await Promise.all([
+    _unidadeNoJuridico({ id_condominio, id_unidade }),
+    slGet('cobranca/index', {
+      idCondominio: id_condominio, status: 'todos', filtrarpor: 'vencimento',
+      dtInicio: jan.dtInicio, dtFim: jan.dtFim, 'UNIDADES[0]': id_unidade,
+    }),
+  ]);
+  if (jur.no_juridico) return { liberado: false, motivo: 'unidade_no_juridico', qtd_processos: jur.qtd_processos };
+  const itens = (Array.isArray(data) ? data : []).filter((b) => String(b.id_unidade_uni) === String(id_unidade));
+  if (!itens.length) return { liberado: false, motivo: 'sem_boleto_no_mes', mes };
+  const ord = itens.sort((a, z) => new Date(a.dt_vencimento_recb) - new Date(z.dt_vencimento_recb));
+  const r = { ...classificarBoletoDoMes(ord[0], new Date()), mes };
+  if (ord.length > 1) r.qtd_no_mes = ord.length; // condomínio com taxa + extra no mesmo mês
+  if (r.situacao === 'em_aberto' && !r.st_pixqrcode_recb) {
+    r.pix_disponivel = false;
+    r.nota_pix = NOTA_PIX_INDISPONIVEL;
+  }
+  return r;
+}
+
 // get_boleto_pdf_url: deriva a URL do PDF da 2ª via (link_segundavia com FaturaHtml→FaturaPdf — validado em
 // .tmp/test_link_pdf.js: FaturaPdf entrega application/pdf real ~360KB, URL pública; render=pdf NÃO funciona).
 // Reusa get_boleto_2via → mesma seleção do boleto + guards (garantidora 'total', vencido +30 dias). NÃO baixa nem
 // envia: só devolve a URL + dados (o download/envio fica no octadesk.mjs). Anti-troca já garantido pelo get_boleto_2via.
-export async function get_boleto_pdf_url({ id_condominio, id_unidade } = {}) {
+export async function get_boleto_pdf_url({ id_condominio, id_unidade, mes } = {}) {
   // `_semInadimplencia`: aqui só interessa a URL do PDF. O aviso de débito antigo já veio no
   // get_boleto_2via do mesmo turno — repetir a consulta seria uma chamada à toa por atendimento.
-  const b = await get_boleto_2via({ id_condominio, id_unidade, _semInadimplencia: true });
+  // `mes` PRECISA ser repassado: sem isso a Ana diria "segue o de julho" e anexaria o do mês
+  // corrente — o anexo errado com a legenda certa é pior que não entregar.
+  const b = await get_boleto_2via({ id_condominio, id_unidade, mes, _semInadimplencia: true });
   if (!b.liberado || !b.link_segundavia) {
     return { ok: false, motivo: b.motivo || 'sem_boleto', ...(b.garantidora ? { garantidora: b.garantidora } : {}) };
   }
@@ -389,15 +477,54 @@ export async function responsaveisIndex(idCondominio, idUnidade) {
   return idUnidade != null ? filtrarPorUnidade(lista, idUnidade) : lista;
 }
 
+// resumirCobrancasEmAberto: transforma o `recebimento[]` do inadimplencia/index na relação que a
+// pessoa pediu ("quais meses eu devo?"). PURA/testável. Antes a Ana só sabia a QUANTIDADE.
+// 🔴 `total_original` é a soma dos valores ORIGINAIS — sem juros, multa e honorários, que variam por
+// condomínio e quem calcula é a cobrança. Nunca existe `total_a_pagar` aqui: um número apresentado
+// como "é isso que você deve" sairia MENOR que o real e a pessoa pagaria achando que quitou.
+// ⚠️ dt_vencimento_recb vem MM/DD/AAAA; a saída vai DD/MM/AAAA (o que o morador lê).
+const MAX_COBRANCAS_LISTADAS = 12;
+export function resumirCobrancasEmAberto(recebimentos, hoje = new Date()) {
+  const arr = Array.isArray(recebimentos) ? recebimentos : [];
+  const itens = arr.map((b) => {
+    const d = b?.dt_vencimento_recb ? new Date(b.dt_vencimento_recb) : null;
+    const valido = d && !isNaN(d);
+    const n = Number(String(b?.vl_total_recb ?? '').replace(',', '.'));
+    return {
+      vencimento: valido ? `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}` : null,
+      _ord: valido ? d.getTime() : Infinity,
+      dias_vencido: valido ? Math.floor((hoje.getTime() - d.getTime()) / 86400000) : null,
+      valor: Number.isFinite(n) && String(b?.vl_total_recb ?? '').trim() !== '' ? n : null,
+      descricao: b?.st_label_recb || null,
+      em_acordo: !!(b?.id_acordo_recb && String(b.id_acordo_recb).trim()),
+      no_juridico: !!(b?.id_processo_proc && String(b.id_processo_proc).trim()),
+    };
+  }).sort((a, z) => a._ord - z._ord);
+  const total_original = itens.reduce((s, i) => s + (i.valor || 0), 0);
+  const listadas = itens.slice(0, MAX_COBRANCAS_LISTADAS).map(({ _ord, ...r }) => r);
+  return {
+    qtd: itens.length,
+    cobrancas: listadas,
+    ...(itens.length > MAX_COBRANCAS_LISTADAS ? { truncado: true } : {}),
+    total_original: Math.round(total_original * 100) / 100,
+    tem_juridico: itens.some((i) => i.no_juridico),
+    nota_valor:
+      'Estes são os valores originais de cada cobrança. Não incluem juros, multa e honorários, '
+      + 'que são calculados pela equipe de cobrança na data do pagamento.',
+  };
+}
+
 // get_inadimplencia: situação COMPLETA de débitos da unidade — usa `inadimplencia/index` (enxerga boletos ANTIGOS,
 // em cobrança e jurídico), NÃO só os recentes do `cobranca/index?status=pendentes` (esse era o PONTO CEGO que fazia a
 // Ana afirmar "só deve esse boleto" para quem devia dezenas de milhares). ⚠️ idUnidade é ignorado → filtro = UNIDADES[0]=.
 // Validado 21/06: ABV (191) tem 74 inadimplentes / R$457k; campos por unidade = qtd_cobrancas_em_aberto + total_original.
 // Retorna { status: 'inadimplente' (+qtd_cobrancas_em_aberto, +no_juridico/qtd_processos) | 'sem_debito_vencido' | 'gerido_por_garantidora' | 'indisponivel' }.
 // no_juridico:true = a unidade tem processo judicial aberto (a 2ª via self-service fica bloqueada → cobrança).
-export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
+export async function get_inadimplencia({ id_condominio, id_unidade, detalhar } = {}) {
   const gar = await garantidoraDe(id_condominio);
-  if (gar && gar.tipo === 'total') return { status: 'gerido_por_garantidora', garantidora: gar.garantidora };
+  if (gar && gar.tipo === 'total') {
+    return { status: 'gerido_por_garantidora', garantidora: gar.garantidora, ...(gar.nota_extra ? { nota_extra: gar.nota_extra } : {}) };
+  }
   let data;
   try { data = await slGet('inadimplencia/index', { idCondominio: id_condominio, apenasResumoInad: 1, 'UNIDADES[0]': id_unidade }); }
   catch { return { status: 'indisponivel' }; } // erro na consulta → NÃO cravar adimplência; a Ana oferece humano/CND
@@ -410,6 +537,24 @@ export async function get_inadimplencia({ id_condominio, id_unidade } = {}) {
     if (String(linhas[0].fl_statusfin_uni || '').trim()) jur = await _unidadeNoJuridico({ id_condominio, id_unidade });
     const r = { status: 'inadimplente', qtd_cobrancas_em_aberto: qtd, no_juridico: !!jur.no_juridico, ...(jur.qtd_processos ? { qtd_processos: jur.qtd_processos } : {}) };
     if (gar && gar.tipo === 'allure') r.garantidora = gar.garantidora; // Allure: cobrança pela Inadimplência Zero.
+    // `detalhar`: 2ª chamada SEM apenasResumoInad, que traz `recebimento[]` itemizado (quais meses).
+    // Só quando pedido — é uma chamada a mais e o caso comum ("estou devendo?") não precisa dela.
+    // Fail-open: se a consulta do detalhe falhar, o resumo sai igual — nunca derruba a resposta.
+    // 🔴 Unidade em PROCESSO JUDICIAL não recebe a relação: os valores em disputa não são os do ERP,
+    // e a regra da casa já tira o jurídico do self-service (mesma razão que bloqueia a 2ª via).
+    // Vale para a lista; o `no_juridico` continua indo ao roteamento interno como sempre.
+    if (detalhar && !r.no_juridico) {
+      try {
+        const det = await slGet('inadimplencia/index', { idCondominio: id_condominio, 'UNIDADES[0]': id_unidade });
+        const linhasDet = Array.isArray(det) ? det : (det ? [det] : []);
+        // Anti-troca no ITEM: o `idUnidade` a API ignora e o topo da resposta nem sempre traz a unidade,
+        // então conferimos o id_unidade_uni de cada recebimento — nunca listar dívida de outro morador.
+        const recs = linhasDet
+          .flatMap((l) => (Array.isArray(l?.recebimento) ? l.recebimento : []))
+          .filter((b) => String(b?.id_unidade_uni) === String(id_unidade));
+        if (recs.length) r.detalhe = resumirCobrancasEmAberto(recs);
+      } catch { /* detalhe indisponível → segue com o resumo */ }
+    }
     return r;
   }
   return { status: 'sem_debito_vencido' }; // não consta na inadimplência (pode ter boleto A VENCER → get_boleto_2via)

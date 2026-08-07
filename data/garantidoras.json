@@ -10,7 +10,9 @@
     "INADIMPLENCIA ZERO": { "telefone": null, "whatsapp": "(11) 98706-1127", "email": "inadimplenciazero@superlogica.com", "site": null }
   },
   "condominios": [
-    { "id": 182, "nome": "FLORES", "match": ["flores"], "garantidora": "CONDINVEST", "tipo": "total" },
+    { "id": 182, "nome": "FLORES", "match": ["flores"], "garantidora": "CONDINVEST", "tipo": "total",
+      "_nota_extra_por_que": "Uso real 06/08/2026 (conv 685): a Ana direcionou tudo à CONDINVEST e o atendente, logo depois, entregou o boleto da TAXA EXTRA do apto 624 — que sai à parte e a equipe consegue. A moradora ouviu 'não é conosco' sobre algo que é. A Ana NÃO enxerga esse título pelo token, então ela oferece verificar, nunca promete o boleto.",
+      "nota_extra": "A taxa mensal deste condomínio é cobrada pela garantidora. Já a taxa extra é emitida à parte e não aparece na minha consulta — se o seu caso for a taxa extra, me avise que eu peço à equipe para verificar." },
     { "id": 188, "nome": "VITTA IPE ROXO", "match": ["ipe", "roxo"], "garantidora": "CONDINVEST", "tipo": "total" },
     { "id": 175, "nome": "VISTAS DO BOTANICO - CEDROS", "match": ["vistas", "botanico"], "garantidora": "CONDINVEST", "tipo": "total" },
     { "id": 177, "nome": "PARQUE AMARIGE", "match": ["amarige"], "garantidora": "GRUPO CDG", "tipo": "total" },

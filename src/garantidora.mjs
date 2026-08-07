@@ -31,5 +31,11 @@ export function consultar_garantidora({ id_condominio, nome } = {}) {
   const c = _matchGarantidora({ id_condominio, nome });
   if (!c) return { tem: false };
   const g = DB.garantidoras[c.garantidora] || {};
-  return { tem: true, tipo: c.tipo, condominio: c.nome, garantidora: { nome: c.garantidora, ...g } };
+  // `nota_extra` fica no CONDOMÍNIO, não na garantidora: a CONDINVEST atende vários prédios e
+  // pendurar o aviso nela levaria a taxa extra do Flores para o Ipê Roxo e o Vistas do Botânico.
+  return {
+    tem: true, tipo: c.tipo, condominio: c.nome,
+    garantidora: { nome: c.garantidora, ...g },
+    ...(c.nota_extra ? { nota_extra: c.nota_extra } : {}),
+  };
 }
