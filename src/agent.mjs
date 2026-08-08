@@ -61,7 +61,11 @@ const TOOLS = [
       // ⚠️ DD/MM/AAAA — o formato brasileiro, como a pessoa fala. NÃO converta: a conversão para o
       // formato da API é feita em código (src/write/datas.mjs). Converter aqui foi a causa do único
       // erro real do teste dos 20 (5 de agosto virou 8 de maio, calado).
-      data_entrada: { type: 'string', description: 'Data de entrada em DD/MM/AAAA (dia/mês/ano, como a pessoa informou). Repasse como veio — não converta para outro formato.' },
+      // ⚠️ "Repasse como veio - não converta" (1ª versão) foi longe demais: no caso 10 a pessoa disse
+      // "entra dia dez de agosto", a Ana ENTENDEU ("se for 10 de agosto, me mande 10/08/2026") e
+      // mesmo assim se recusou a escrever a data, exigindo que a pessoa digitasse. O que não se pode
+      // inverter é DIA e MÊS; passar de palavras para números é normalização legítima e obrigatória.
+      data_entrada: { type: 'string', description: 'Data de entrada em DD/MM/AAAA — dia primeiro, mês depois (ex.: 05/08/2026 é 5 de agosto). Se a pessoa falar por extenso ("dia dez de agosto"), escreva você em números, completando o ano pelo contexto: "10/08/2026". NUNCA inverta para mês/dia.' },
       email: { type: 'string' }, telefone: { type: 'string' }, cpf: { type: 'string' },
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
