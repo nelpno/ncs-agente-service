@@ -88,26 +88,32 @@ if (!ordemOk) console.log(`     >>> esperava: ${ordemEsperada.join(' > ')}`);
 // roda o retriever de ponta a ponta e SEMPRE remove a fixture no finally.
 // Cobre a regressão: ATA mais recente tem que vir ANTES da antiga mesmo com scores
 // diferentes (deliberação de assembleia nova prevalece sobre a velha).
+// ⚠️ Desde 08/08 as atas moram em data/atas/ e só chegam a quem passa incluirAtas:true — por isso
+// a fixture de ata é criada NAQUELA raiz e a consulta pede as atas explicitamente. A garantia que
+// este bloco prova (ATA recente antes da antiga) continua a mesma. A separação em si é provada em
+// test_atas_separacao.mjs.
 console.log('\n--- integração: ATA ao vivo (fixture descartável) ---');
 let intgOk = false;
 const fxRoot = path.join(__dirname, '..', 'data', 'regimentos', '__test_ata_fixture__');
+const fxAtas = path.join(__dirname, '..', 'data', 'atas', '__test_ata_fixture__');
 try {
   fs.mkdirSync(fxRoot, { recursive: true });
+  fs.mkdirSync(fxAtas, { recursive: true });
   fs.writeFileSync(path.join(fxRoot, '_meta.json'), JSON.stringify({ condominio: 'Test ATA Fixture' }));
   fs.writeFileSync(path.join(fxRoot, 'regimento-interno-fix.md'),
     '# I - DOS ANIMAIS\nAnimais de estimacao sao permitidos com guia e coleira nas areas comuns.');
-  fs.writeFileSync(path.join(fxRoot, 'ata-2024-05-10.md'),
+  fs.writeFileSync(path.join(fxAtas, 'ata-2024-05-10.md'),
     '# ANIMAIS\nEm 2024 ficou deliberado o limite de um animal de estimacao por unidade.');
-  fs.writeFileSync(path.join(fxRoot, 'ata-2025-09-20.md'),
+  fs.writeFileSync(path.join(fxAtas, 'ata-2025-09-20.md'),
     '# ANIMAIS\nNa assembleia mais recente foi deliberado ate dois animais de estimacao, revisando a regra anterior sobre animais.');
 
   _reloadIndex(); // o índice foi cacheado lá em cima (Lume) → recarregar p/ enxergar a fixture
-  const r = consultar_regimento({ condominio: '__test_ata_fixture__', pergunta: 'posso ter animal de estimacao?' });
+  const r = consultar_regimento({ condominio: '__test_ata_fixture__', pergunta: 'posso ter animal de estimacao?', incluirAtas: true });
   const atas = (r.trechos || []).filter((t) => t.tipo === 'ata');
   const i2025 = atas.findIndex((t) => t.data === '20/09/2025');
   const i2024 = atas.findIndex((t) => t.data === '10/05/2024');
   // isolamento: sem condominio NÃO pode retornar conteúdo da fixture
-  const semCondoIntg = consultar_regimento({ pergunta: 'animal' });
+  const semCondoIntg = consultar_regimento({ pergunta: 'animal', incluirAtas: true });
   intgOk = r.encontrou === true && r.contem_ata === true && !!r.aviso_ata
     && atas.length >= 2 && i2025 !== -1 && i2024 !== -1 && i2025 < i2024
     && atas[0].fonte.includes('ATA (') && semCondoIntg.encontrou === false;
@@ -116,6 +122,7 @@ try {
   console.log('XX  erro na integração:', e.message);
 } finally {
   fs.rmSync(fxRoot, { recursive: true, force: true });
+  fs.rmSync(fxAtas, { recursive: true, force: true });
   _reloadIndex(); // limpa o cache p/ não deixar a fixture removida fantasmando o índice
 }
 

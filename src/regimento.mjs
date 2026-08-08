@@ -8,6 +8,12 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..', 'data', 'regimentos');
+// ATAs de assembleia moram numa raiz SEPARADA e só chegam a quem passa incluirAtas:true (hoje: o
+// Estagiário). Decisão do Fernando 07/08: "coloca primeiro no chat estagiário, só no estagiário…
+// validou, aí é só replicar na Ana". A separação é por RAIZ e não por nome de arquivo de propósito:
+// com centenas de arquivos vindos do Drive, nome fora do padrão é certeza, e um filtro por nome
+// falharia ABERTO — a ata vazaria para a Ana em silêncio. Aqui, o que está em data/atas/ é ata.
+const ATAS_ROOT = path.join(__dirname, '..', 'data', 'atas');
 
 const norm = (s) => (s || '')
   .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -61,7 +67,8 @@ const SYN = {
   extrajudicial:['cobranca','atraso','multa','juros','debito'],
 };
 
-let _index = null; // { slug: { nome, chunks:[{docLabel,docTipo,secao,texto,ntexto,nsecao,ataData}] } }
+let _index = null;        // TUDO (regimento/convenção + atas) — visão do Estagiário
+let _indexSemAtas = null; // derivado, sem nenhum chunk de ata — visão da Ana
 
 // Detecta o tipo do documento pelo nome do arquivo.
 // ATA de assembleia: nome casa /^ata-|assembleia/i (ex.: ata-2025-03-12.md, assembleia-extraordinaria.md).
@@ -97,42 +104,85 @@ function fmtData(dt) {
 
 // Invalida o cache do índice. Uso interno/testes (ex.: após criar uma fixture em disco).
 // Não é chamado em runtime do agente — a base é estática enquanto o container vive.
-export function _reloadIndex() { _index = null; }
+export function _reloadIndex() { _index = null; _indexSemAtas = null; }
+
+// Lê os .md de um diretório de condomínio e devolve os chunks.
+// `forcarAta` vem da RAIZ (data/atas/) e vence o nome do arquivo: é isso que impede um arquivo
+// mal nomeado de ser classificado como regimento e chegar à Ana.
+function chunksDoDir(dir, forcarAta) {
+  const chunks = [];
+  for (const f of fs.readdirSync(dir)) {
+    if (!f.endsWith('.md')) continue;
+    let { docTipo, docLabel, ataData } = classificarDoc(f);
+    if (forcarAta && docTipo !== 'ata') { docTipo = 'ata'; docLabel = 'ATA'; ataData = null; }
+    let txt = fs.readFileSync(path.join(dir, f), 'utf8');
+    txt = txt.replace(/^---[\s\S]*?---\n/, '').replace(/<!--[\s\S]*?-->/g, ''); // tira front-matter e marcadores de página
+    let secao = '(início)';
+    let buf = [];
+    const flush = () => {
+      const t = buf.join(' ').trim();
+      if (t.length > 25) chunks.push({ docLabel, docTipo, secao, texto: t, ntexto: norm(t), nsecao: norm(secao), ataData });
+      buf = [];
+    };
+    for (const raw of txt.split('\n')) {
+      const line = raw.trim();
+      if (/^#{1,3}\s/.test(line)) { flush(); secao = line.replace(/^#{1,3}\s*/, '').trim(); continue; }
+      if (!line) { flush(); continue; }
+      buf.push(line);
+    }
+    flush();
+  }
+  return chunks;
+}
+
+function metaDoDir(dir, slug) {
+  try {
+    const m = JSON.parse(fs.readFileSync(path.join(dir, '_meta.json'), 'utf8'));
+    return { nome: m.condominio || slug, aliases: Array.isArray(m.aliases) ? m.aliases : [] };
+  } catch { return null; }
+}
 
 function loadIndex() {
   if (_index) return _index;
   _index = {};
-  if (!fs.existsSync(ROOT)) return _index;
-  for (const slug of fs.readdirSync(ROOT)) {
-    const dir = path.join(ROOT, slug);
-    if (!fs.statSync(dir).isDirectory()) continue;
-    let nome = slug;
-    let aliases = [];
-    try { const m = JSON.parse(fs.readFileSync(path.join(dir, '_meta.json'), 'utf8')); nome = m.condominio || slug; aliases = Array.isArray(m.aliases) ? m.aliases : []; } catch {}
-    const chunks = [];
-    for (const f of fs.readdirSync(dir)) {
-      if (!f.endsWith('.md')) continue;
-      const { docTipo, docLabel, ataData } = classificarDoc(f);
-      let txt = fs.readFileSync(path.join(dir, f), 'utf8');
-      txt = txt.replace(/^---[\s\S]*?---\n/, '').replace(/<!--[\s\S]*?-->/g, ''); // tira front-matter e marcadores de página
-      let secao = '(início)';
-      let buf = [];
-      const flush = () => {
-        const t = buf.join(' ').trim();
-        if (t.length > 25) chunks.push({ docLabel, docTipo, secao, texto: t, ntexto: norm(t), nsecao: norm(secao), ataData });
-        buf = [];
-      };
-      for (const raw of txt.split('\n')) {
-        const line = raw.trim();
-        if (/^#{1,3}\s/.test(line)) { flush(); secao = line.replace(/^#{1,3}\s*/, '').trim(); continue; }
-        if (!line) { flush(); continue; }
-        buf.push(line);
-      }
-      flush();
+  // 1) regimento / convenção / estatuto
+  if (fs.existsSync(ROOT)) {
+    for (const slug of fs.readdirSync(ROOT)) {
+      const dir = path.join(ROOT, slug);
+      if (!fs.statSync(dir).isDirectory()) continue;
+      const { nome, aliases } = metaDoDir(dir, slug) || { nome: slug, aliases: [] };
+      _index[slug] = { nome, aliases, chunks: chunksDoDir(dir, false) };
     }
-    _index[slug] = { nome, aliases, chunks };
+  }
+  // 2) atas (raiz separada). O slug casa com o de regimentos; se o condo só tiver ata, entra com
+  //    o _meta.json de lá (ou o próprio slug) — mas continua invisível para quem não pede ata.
+  if (fs.existsSync(ATAS_ROOT)) {
+    for (const slug of fs.readdirSync(ATAS_ROOT)) {
+      const dir = path.join(ATAS_ROOT, slug);
+      if (!fs.statSync(dir).isDirectory()) continue;
+      if (!_index[slug]) {
+        const m = metaDoDir(dir, slug) || { nome: slug, aliases: [] };
+        _index[slug] = { nome: m.nome, aliases: m.aliases, chunks: [] };
+      }
+      _index[slug].chunks = _index[slug].chunks.concat(chunksDoDir(dir, true));
+    }
   }
   return _index;
+}
+
+// Visão da Ana: mesmo índice sem os chunks de ata. Slug que ficar sem nenhum chunk é REMOVIDO —
+// assim um condomínio que só tem ata devolve "condominio_sem_regimento" (a resposta honesta:
+// "ainda não temos o regimento desse condomínio") em vez de "nada relevante no documento",
+// que sugeriria que o documento existe e não diz nada.
+function loadIndexSemAtas() {
+  if (_indexSemAtas) return _indexSemAtas;
+  const full = loadIndex();
+  _indexSemAtas = {};
+  for (const [slug, v] of Object.entries(full)) {
+    const chunks = v.chunks.filter((c) => c.docTipo !== 'ata');
+    if (chunks.length) _indexSemAtas[slug] = { nome: v.nome, aliases: v.aliases, chunks };
+  }
+  return _indexSemAtas;
 }
 
 function termos(pergunta) {
@@ -163,12 +213,17 @@ function resolveCondo(index, condominio) {
 }
 
 /**
- * consultar_regimento({ condominio, pergunta, k })
+ * consultar_regimento({ condominio, pergunta, k, incluirAtas })
  * Retorna trechos do regimento/convenção DO CONDOMÍNIO INFORMADO relevantes à pergunta.
  * O agente redige a resposta CITANDO a fonte; se encontrou=false, oferece encaminhar a um humano.
+ *
+ * `incluirAtas` default FALSE de propósito: esquecer de passar deixa o motor sem ata (falha
+ * fechada), nunca com ata indevida. Quem liga é o CHAMADOR, em código — nunca o LLM (o valor é
+ * aplicado depois do spread de args, então o modelo não consegue sobrescrever) e nunca uma env
+ * (a env do ncs-agente e a do ncs-chat divergem, e a regra ficaria diferente em cada container).
  */
-export function consultar_regimento({ condominio, pergunta, k = 8 } = {}) {
-  const index = loadIndex();
+export function consultar_regimento({ condominio, pergunta, k = 8, incluirAtas = false } = {}) {
+  const index = incluirAtas ? loadIndex() : loadIndexSemAtas();
   const disponiveis = Object.values(index).map((v) => v.nome);
   if (!Object.keys(index).length) return { encontrou: false, motivo: 'base de regimentos vazia', trechos: [] };
   const { slug, motivo } = resolveCondo(index, condominio);
@@ -177,6 +232,15 @@ export function consultar_regimento({ condominio, pergunta, k = 8 } = {}) {
   if (!pergunta || !norm(pergunta)) return { encontrou: false, motivo: 'pergunta_vazia', trechos: [] };
 
   const ts = termos(pergunta);
+  // A ata leva meia-pontuação para não dominar a Convenção/RI numa pergunta de REGRA ("posso ter
+  // cachorro?") só por casar termo no cabeçalho. Mas quando a pergunta é explicitamente sobre a
+  // DELIBERAÇÃO ("aumentou a taxa? foi decidido na última assembleia?" — o caso que o Fernando
+  // citou), a mesma penalidade empurrava a ata para fora do top-k: no Moove ela caía da 1ª página
+  // inteira e a resposta saía só com a Convenção, que é o texto que a assembleia ALTEROU.
+  // Perguntas que não citam assembleia seguem com o peso de sempre (o pino prova byte-idêntico).
+  const perguntaSobreAssembleia = /assembleia|assemblei|delibera|deliberado|decidido|decidiu|aprovado|aprovou|reuniao|reunião|\bata\b|votac|votad/i
+    .test(norm(pergunta) + ' ' + String(pergunta));
+  const PESO_ATA = perguntaSobreAssembleia ? 1 : 0.5;
   // matchers: termos curtos (<=3 chars) exigem PALAVRA INTEIRA (evita "cao" ⊂ "convoCAÇÃO"/"instalaCAO");
   // termos longos casam por substring (pega radical/plural). ntexto/nsecao já são normalizados (palavras separadas por espaço).
   const matchers = ts.map((t) => (t.length <= 3 ? { t, re: new RegExp(`(?:^| )${t}(?: |$)`) } : { t, re: null }));
@@ -198,8 +262,7 @@ export function consultar_regimento({ condominio, pergunta, k = 8 } = {}) {
       s += conta(c.ntexto, m);      // frequência (com teto) no corpo
       if (tem(c.nsecao, m)) s += 2; // termo no título da seção pesa mais
     }
-    // ATA é deliberação pontual/cronológica: meia-pontuação p/ não dominar a Convenção/RI por casar termo no cabeçalho.
-    if (c.docTipo === 'ata') s *= 0.5;
+    if (c.docTipo === 'ata') s *= PESO_ATA;
     return { c, s };
   }).filter((x) => x.s > 0).sort((a, b) => {
     if (b.s !== a.s) return b.s - a.s;

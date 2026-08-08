@@ -81,7 +81,9 @@ async function runTool(name, args, ctx) {
     case "listar_infracoes": return DOC.listar_infracoes(args);
     case "buscar_morador": return await DOC.buscar_morador(args);
     case "dados_condominio": return await DOC.dados_condominio(args);
-    case "consultar_regimento": return REG.consultar_regimento(args);
+    // incluirAtas:true — o Estagiário é o motor INTERNO (equipe NCS) e é onde as atas entram
+    // primeiro, para stress test antes de chegarem à Ana. Ver src/agent.mjs da Ana (false).
+    case "consultar_regimento": return REG.consultar_regimento({ ...args, incluirAtas: true });
     case "consultar_codigo_civil": return CC.consultar_codigo_civil(args);
     case "consultar_base_geral": return BG.consultar_base_geral(args);
     case "consultar_regra_mudanca": return MUD.consultar_regra_mudanca(args);

@@ -20,7 +20,12 @@ const real = 'A Assembleia foi presidida pelo Sr. ANGELO RODRIGUES GOLDONI, bras
 const lim = mascararPII(real);
 ok(!/075\.992\.948-30/.test(lim), 'CPF formatado é removido');
 ok(!/12\.718\.974/.test(lim), 'RG formatado é removido');
-ok(/ANGELO RODRIGUES GOLDONI/.test(lim), 'o NOME permanece (a ata precisa dizer quem presidiu)');
+// ⚠️ POLÍTICA TROCADA em 08/08/2026. Até aqui este teste exigia o CONTRÁRIO ("o nome permanece,
+// a ata precisa dizer quem presidiu"). Quem decidiu: Fernando, reunião de 07/08 (01:00:29),
+// tópico 2 do que ele aprovou — a ata entra "sem dado pessoal: CPF, quem participou, quem foi
+// presidente da mesa". Ele e o Natanael vão testar exatamente isso no Estagiário.
+ok(!/ANGELO RODRIGUES GOLDONI/.test(lim), 'o nome de quem presidiu SAI (decisão do Fernando 07/08)');
+ok(/\[nome removido\]/.test(lim), 'fica a marca de que havia um nome ali');
 ok(/apartamento 1302/.test(lim), 'a unidade permanece (é dado do condomínio, não documento)');
 ok(/\[removido\]/.test(lim), 'deixa marca do que foi retirado (não apaga em silêncio)');
 
@@ -48,6 +53,67 @@ ok(l2 === legitimo, 'texto legítimo passa INTACTO (valor, %, data, CNPJ, CEP, l
 ok(/56\.300\.773\/0001-48/.test(mascararPII('CNPJ: 56.300.773/0001-48')), 'CNPJ preservado');
 ok(/R\$ 101\.893,87/.test(mascararPII('total de R$ 101.893,87 (cento e um mil)')), 'valor em reais preservado');
 ok(/14802-370/.test(mascararPII('CEP 14802-370')), 'CEP preservado');
+
+// ── 2-bis. nome da MESA: os dois lados, com linhas verbatim das atas reais ──
+// O lado que PEGA (assinatura: cargo + documento na mesma linha)
+const assin1 = mascararPII('**ALEXANDRE HARLEI FERRARI** — PRESIDENTE (CPF: 123.456.789-00 / RG: 12.718.974)');
+ok(!/ALEXANDRE HARLEI FERRARI/.test(assin1), 'assinatura Vida Plena: nome da mesa sai');
+ok(/PRESIDENTE/.test(assin1), '...e o CARGO fica (a ata segue dizendo que houve mesa)');
+const assin2 = mascararPII('NAIARA AFFONSO AMANCIO CPF: 375.913.908-64 RG: 46.062.632-2 SECRETÁRIA');
+ok(!/NAIARA AFFONSO AMANCIO/.test(assin2), 'assinatura Studio Five (outro formato): nome sai');
+ok(/SECRET/.test(assin2), '...e o cargo fica mesmo com acento');
+
+// Narrativa: o nome de quem conduz TAMBÉM sai (o tratamento "Sr./Sra." é âncora suficiente de
+// pessoa), mas a frase e o CARGO permanecem — é o cargo que dá sentido à deliberação.
+const narrativa = mascararPII('O Sr. Alexandre Augusto Scalise, síndico do Condomínio, deu boas-vindas aos presentes.');
+ok(!/Alexandre Augusto Scalise/.test(narrativa), 'nome após tratamento sai mesmo sem documento na frase');
+ok(/síndico do Condomínio, deu boas-vindas aos presentes/.test(narrativa), '...e a frase inteira sobrevive');
+
+// O lado que NÃO PODE pegar — sem isso o mascarador destrói a deliberação, que é o conteúdo útil
+const semPessoa = 'A assembleia aprovou o reajuste da taxa em 7% e o rateio do Espaço Grill em 9 parcelas.';
+ok(mascararPII(semPessoa) === semPessoa, 'deliberação sem nome de pessoa fica INTACTA');
+const cargoSemDoc = 'O presidente da mesa informou que a taxa será reajustada em 7% a partir de abril.';
+ok(mascararPII(cargoSemDoc) === cargoSemDoc, 'cargo citado sem documento não dispara nada');
+const entidade = mascararPII('ATA do Condomínio Studio Five — AGO — presidida com CPF: 123.456.789-00');
+ok(/Studio Five/.test(entidade), 'nome do CONDOMÍNIO sobrevive numa linha que dispara a regra');
+const doisTokens = mascararPII('Reunião no Studio Five, presidida, CPF: 123.456.789-00');
+ok(/Studio Five/.test(doisTokens), 'nome próprio de 2 tokens não é confundido com pessoa');
+
+// formato REAL do Studio Five: nome colado ao rótulo, sem pontuação no meio
+const colado = mascararPII('LUCAS VICENTE REIS CPF: 123.456.789-00 RG: 12.718.974 PRESIDENTE');
+ok(!/LUCAS VICENTE REIS/.test(colado), 'nome colado ao rótulo (sem dois-pontos) também sai');
+
+// pautas em CAIXA ALTA precisam sobreviver — é o conteúdo que a ata serve para responder
+for (const pauta of [
+  'DELIBERAÇÃO E APROVAÇÃO DA PREVISÃO ORÇAMENTÁRIA E REAJUSTE DA TAXA CONDOMINIAL',
+  'APROVAÇÃO E RATEIO COBERTURA PARA O GRILL',
+  'PRESTAÇÃO DE CONTAS DO PERÍODO DE JANEIRO A DEZEMBRO DE 2025',
+  'OS RELATÓRIOS ESTÃO PUBLICADOS NO SITE DO GRUPO NCS E O RESUMO É ENVIADO NOS BOLETOS',
+]) ok(mascararPII(pauta) === pauta, `pauta em caixa alta intacta: "${pauta.slice(0, 38)}…"`);
+// endereço do condomínio é público e é o cabeçalho de toda ata
+const endereco = 'localizado na Rua Didimo Vieira da Silva, 507 - Vila Ferroviária, Araraquara-SP, CEP 14802-370';
+ok(mascararPII(endereco) === endereco, 'endereço do condomínio intacto');
+
+// a EMPRESA que a pessoa representa não é a pessoa (trecho real do Studio Five 27/10/2022)
+const repr = mascararPII('convidou a mim, Srta. Naiara Affonso Amancio, brasileira, solteira, representante do Grupo NCS, portadora do RG sob o nº 46.062.632-2');
+ok(/Grupo NCS/.test(repr), 'a administradora (Grupo NCS) sobrevive ao lado da qualificação');
+ok(!/Naiara Affonso Amancio/.test(repr), '...e a pessoa que a representa sai');
+
+// pauta de eleição não é nome de pessoa, mesmo colada ao cargo
+for (const pauta of ['ITEM 3 – ELEIÇÃO DE Síndico, Subsíndico e Membros do Conselho',
+  'ELEIÇÃO DO CARGO EM VACÂNCIA DE SUBSÍNDICO']) {
+  ok(mascararPII(pauta) === pauta, `pauta de eleição intacta: "${pauta.slice(0, 34)}…"`);
+}
+// endereço cujo logradouro tem "Dr." no nome (cabeçalho de toda ata do Vida Plena)
+const avDr = 'localizado na Avenida Dr. Leite de Moraes, n° 951, Vila Xavier';
+ok(mascararPII(avDr) === avDr, 'logradouro com "Dr." no nome não é confundido com pessoa');
+// nome não atravessa o fim da frase
+const duasFrases = mascararPII('presidida pela Sra. Graziela Patricia Delanez Gomes. A seguir foi aprovado o rateio.');
+ok(/A seguir foi aprovado o rateio\./.test(duasFrases), 'a frase seguinte ao nome permanece inteira');
+
+// nome NÃO atravessa quebra de linha (senão a substituição colapsa dois parágrafos num só)
+const duasLinhas = 'aprovado o Espaço Grill\nMARCOS ROBERTO GALIANI CPF: 123.456.789-00 PRESIDENTE';
+ok(mascararPII(duasLinhas).split('\n').length === 2, 'mascaramento preserva o número de linhas');
 
 // ── 3. detector auxiliar (usado para ABORTAR a ingestão se algo escapar) ────
 ok(_temPII('CPF sob n.º 075.992.948-30') === true, 'detector acha CPF');

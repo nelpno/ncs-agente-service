@@ -215,7 +215,10 @@ async function runToolReal(name, args, ctx) {
       ctx.ultimoLaudo = r.laudo; // o rascunho leva o laudo junto (o card mostra as conferências)
       return { ok: true, ...r.resumo };
     }
-    case 'consultar_regimento': return REG.consultar_regimento(args);
+    // incluirAtas:false — a Ana NÃO consulta ata de assembleia (decisão do Fernando 07/08: as atas
+    // ficam só no Estagiário até ele e o Natanael validarem o mascaramento de dado pessoal).
+    // Fica DEPOIS do spread para que o modelo não consiga ligar isso por conta própria.
+    case 'consultar_regimento': return REG.consultar_regimento({ ...args, incluirAtas: false });
     case 'consultar_base_geral': return BG.consultar_base_geral(args);
     case 'consultar_regra_mudanca': return MUD.consultar_regra_mudanca(args);
     case 'consultar_sistema_portaria': return PORT.consultar_sistema_portaria(args);
