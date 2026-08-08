@@ -6,7 +6,10 @@ const ok = (c, m) => { console.log(`${c ? 'OK ' : 'FALHA'} ${m}`); if (!c) falha
 // validar: campos obrigatórios
 ok(cadastroInquilino.validar({}).ok === false, 'vazio é inválido');
 // e-mail + telefone entram no `base` porque agora são OBRIGATÓRIOS p/ inquilino (Fernando 22/07).
-const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '12345678901', email: 'joao@x.com', telefone: '16999998888' };
+// ⚠️ o CPF da fixture tem de ser VÁLIDO (dígito fecha) desde 07/08/2026: `validar` passou a conferir
+// o dígito verificador, e uma fixture com número inventado testaria um cadastro que não existe.
+// 529.982.247-25 é o CPF canônico de teste.
+const base = { id_condominio: '179', id_unidade: '900', nome: 'João Silva', papel: 'inquilino', data_entrada: '06/30/2026', cpf: '52998224725', email: 'joao@x.com', telefone: '16999998888' };
 ok(cadastroInquilino.validar(base).ok === true, 'campos obrigatórios → válido');
 
 // ── e-mail e telefone OBRIGATÓRIOS p/ inquilino (Fernando REVERTEU em 22/07 a graduação de 14/07) ──
@@ -32,6 +35,44 @@ ok(cadastroInquilino.validar({ ...semCpf, papel: undefined }).ok === false, 'pap
 ok(cadastroInquilino.validar({ ...semCpf, papel: 'dependente' }).ok === true, 'dependente sem CPF → válido (não recebe boleto)');
 ok(cadastroInquilino.validar({ ...base, data_entrada: '30/06/2026' }).ok === false, 'data fora de MM/DD/AAAA → inválido');
 ok(cadastroInquilino.validar({ ...base, papel: 'sindico' }).ok === false, 'papel inválido rejeitado');
+
+// ── FORMATO do e-mail (defeito 6 do teste dos 20; o Fernando pediu o teste ao vivo, 00:44:17) ──────
+// Ela aceitou `eduardo.simoes@com.br`. O CPF tem validação e o e-mail não tinha nenhuma — e os dois
+// têm a MESMA consequência: é para onde o boleto vai. E-mail errado não volta como erro; o morador
+// simplesmente não recebe cobrança "e ninguém descobre até virar inadimplência" (Fernando, 00:43:11).
+const erroDe = (d) => cadastroInquilino.validar(d).erros.join(' ');
+ok(cadastroInquilino.validar({ ...base, email: 'eduardo.simoes@com.br' }).ok === false, 'e-mail no domínio nu "@com.br" → inválido (ninguém tem e-mail nesse domínio)');
+ok(/e-?mail/i.test(erroDe({ ...base, email: 'eduardo.simoes@com.br' })), 'o erro diz que o problema é o e-mail');
+ok(cadastroInquilino.validar({ ...base, email: 'joao@gmail' }).ok === false, 'sem o final do domínio (.com) → inválido');
+ok(cadastroInquilino.validar({ ...base, email: 'joao@.com' }).ok === false, 'domínio começando com ponto → inválido');
+ok(cadastroInquilino.validar({ ...base, email: 'joaogmail.com' }).ok === false, 'sem @ → inválido (o teste que o Fernando pediu ao vivo)');
+ok(cadastroInquilino.validar({ ...base, email: 'joao @x.com' }).ok === false, 'com espaço no meio → inválido');
+ok(cadastroInquilino.validar({ ...base, email: '@x.com' }).ok === false, 'sem nada antes do @ → inválido');
+ok(cadastroInquilino.validar({ ...base, email: 'joao@x' }).ok === false, 'domínio sem ponto → inválido');
+// CONTROLE — e-mail que existe de verdade não pode ser barrado. Falso positivo aqui trava um
+// cadastro correto no atendimento, que é pior do que o defeito que estamos consertando.
+for (const bom of ['joao@x.com', 'joao.silva@gmail.com', 'joao+tag@empresa.com.br', 'jo-ao_1@sub.dominio.org', 'JOAO@X.COM', 'maria@escritorio.adv.br']) {
+  ok(cadastroInquilino.validar({ ...base, email: bom }).ok === true, `CONTROLE: "${bom}" continua válido`);
+}
+ok(cadastroInquilino.validar({ ...base, email: ' joao@x.com ' }).ok === true, 'espaço em volta não invalida (é aparado)');
+// Dependente segue leniente: e-mail AUSENTE não trava. Mas e-mail ERRADO trava em qualquer papel —
+// não faz sentido guardar no cadastro um endereço que sabidamente não existe.
+ok(cadastroInquilino.validar(depSoBasico).ok === true, 'dependente SEM e-mail → válido (leniência preservada)');
+ok(cadastroInquilino.validar({ ...depSoBasico, email: 'x@com.br' }).ok === false, 'dependente COM e-mail errado → inválido');
+
+// ── DÍGITO do CPF (defeito 9) ─────────────────────────────────────────────────────────────────────
+// No caso 3 a Ana recusou o CPF duas vezes, mas por outro motivo: ele não existia no ERP. Ela nunca
+// disse que o número era inválido, então a pessoa não sabia o que corrigir. Agora o dígito é
+// conferido aqui e o erro diz o que houve.
+ok(cadastroInquilino.validar({ ...base, cpf: '12345678901' }).ok === false, 'CPF com dígito que não fecha → inválido');
+ok(/d[ií]gito|inv[áa]lido/i.test(erroDe({ ...base, cpf: '12345678901' })), 'o erro explica que o CPF é inválido, não que "faltou"');
+ok(cadastroInquilino.validar({ ...base, cpf: '11111111111' }).ok === false, 'CPF de dígitos repetidos → inválido');
+ok(cadastroInquilino.validar({ ...base, cpf: '5299822472' }).ok === false, 'CPF com 10 dígitos → inválido');
+// CONTROLE: CPF válido passa, com e sem máscara.
+ok(cadastroInquilino.validar({ ...base, cpf: '529.982.247-25' }).ok === true, 'CONTROLE: CPF válido com máscara passa');
+ok(cadastroInquilino.validar({ ...base, cpf: '52998224725' }).ok === true, 'CONTROLE: CPF válido sem máscara passa');
+ok(cadastroInquilino.validar({ ...depSoBasico, cpf: '52998224725' }).ok === true, 'dependente com CPF válido → válido');
+ok(cadastroInquilino.validar({ ...depSoBasico, cpf: '12345678901' }).ok === false, 'dependente com CPF inválido → inválido (dado errado é errado em qualquer papel)');
 
 // montarPayload: LABEL e obrigatórios
 const p = cadastroInquilino.montarPayload(base);

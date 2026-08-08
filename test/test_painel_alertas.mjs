@@ -28,5 +28,17 @@ ok(!quebrou, 'render sem o campo alertas não quebra (compat com ações antigas
 const xss = { ...base, render: { campos: [], diff: [], alertas: ['<script>alert(1)</script>'] } };
 ok(!renderPainel(xss).includes('<script>alert(1)</script>'), 'alerta é escapado (não injeta HTML)');
 
+// ── selo verde (Fernando, 07/08: "nenhum tá verdinho... podia ter um verdinho") ────────────────────
+// Sem ele, TODO card chega em vermelho/amarelo e o aprovador aprende a passar o olho por cima — que
+// é o mesmo mecanismo pelo qual o alerta do boleto duplicado deixaria de ser lido.
+const comSelo = { ...base, render: { campos: [], diff: [], alertas: [], selo: { tipo: 'ok', texto: 'Conferido: nada pendente neste cadastro.' } } };
+ok(renderPainel(comSelo).includes('Conferido: nada pendente'), 'sem alertas → exibe o selo verde');
+ok(/#dcfce7|#15803d/.test(renderPainel(comSelo)), 'o selo é verde de verdade (não é só texto)');
+// A regra é da AÇÃO, mas a tela não pode contradizê-la: verde junto de pendência é pior que sem verde.
+const seloComAlerta = { ...base, render: { campos: [], diff: [], alertas: ['Peça o contrato'], selo: { tipo: 'ok', texto: 'Conferido.' } } };
+const htmlMisto = renderPainel(seloComAlerta);
+ok(htmlMisto.includes('Peça o contrato') && !htmlMisto.includes('Conferido.'), 'selo + alerta → mostra o alerta e NÃO o verde');
+ok(!renderPainel(semAlerta).includes('&#9989;'), 'ação sem selo → não inventa verde (compat com ações antigas)');
+
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);

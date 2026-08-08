@@ -64,10 +64,14 @@ function extrasDaAcao(draft) {
     const titulo = acao.titulo || draft.acao;
     if (!acao.render) return { ...fallback, titulo };
     const r = acao.render(draft.dados || {}, draft.snapshot || []) || {};
+    const alertas = Array.isArray(r.alertas) ? r.alertas : [];
     return {
       resumo: r.resumo || null,
       campos: Array.isArray(r.campos) ? r.campos : [],
-      alertas: Array.isArray(r.alertas) ? r.alertas : [],
+      alertas,
+      // Selo verde do card (Fernando, 07/08). Só passa quando a ação NÃO devolveu alerta — a tela
+      // não pode mostrar "tudo conferido" ao lado de uma pendência.
+      selo: (r.selo && !alertas.length) ? { tipo: r.selo.tipo, texto: String(r.selo.texto || '') } : null,
       titulo,
     };
   } catch {
@@ -77,7 +81,7 @@ function extrasDaAcao(draft) {
 
 // Monta o card exibido na tela — só os campos que a UI precisa, CPF sempre mascarado.
 export function paraCard(draft) {
-  const { resumo, campos, alertas, titulo } = extrasDaAcao(draft);
+  const { resumo, campos, alertas, selo, titulo } = extrasDaAcao(draft);
   return {
     id: draft.id,
     acao: draft.acao,
@@ -85,6 +89,7 @@ export function paraCard(draft) {
     resumo: mascararObjeto(resumo),
     campos: mascararObjeto(campos),
     alertas: mascararObjeto(alertas),
+    selo: mascararObjeto(selo),
     dados: mascararObjeto(draft.dados),
     conflito: mascararObjeto(draft.conflito || null),
     solicitante: draft.solicitante || null,

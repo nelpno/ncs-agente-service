@@ -32,6 +32,12 @@
   .acao-alerta .at{font-weight:700;color:var(--crit);margin-bottom:4px;display:flex;align-items:center;gap:6px}
   .acao-alerta ul{margin:0;padding-left:18px}
   .acao-alerta li+li{margin-top:5px}
+  /* o contrário do alerta: "conferido, nada pendente". Só aparece quando NÃO há alerta nenhum —
+     é o contraste que devolve significado ao vermelho (pedido do Fernando, 07/08). Usa --good, que
+     a paleta já define nos dois temas; sem cor nova. */
+  .acao-ok{margin-top:12px;background:color-mix(in srgb,var(--good) 10%,transparent);
+    border:1px solid var(--good);border-left:4px solid var(--good);border-radius:10px;padding:10px 12px;font-size:13px}
+  .acao-ok .okt{font-weight:700;color:var(--good);display:flex;align-items:center;gap:6px}
   .conflito{margin-top:10px;background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid var(--warn);
     border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink)}
   .conflito .ct{font-weight:700;color:var(--warn);margin-bottom:4px}
@@ -216,6 +222,14 @@ function renderCard(d){
     kids.push(el('div',{class:'acao-alerta'},[
       el('div',{class:'at',text:'⚠️ Antes de aprovar'}),itens
     ]));
+  }
+  // SELO VERDE — pedido do Fernando (07/08): "nenhum tá verdinho... podia ter um verdinho, a pessoa:
+  // checklist já pegou tudo". Sem contraste, todo card chega em vermelho e o aprovador aprende a
+  // passar o olho por cima — inclusive pelo alerta do boleto duplicado, que é caro. O backend só
+  // manda o selo quando não há alerta nenhum; aqui a condição é repetida de propósito, para que uma
+  // mudança no backend não consiga pintar de verde um card com pendência.
+  else if(d.selo&&d.selo.texto){
+    kids.push(el('div',{class:'acao-ok'},[el('div',{class:'okt',text:'✅ '+d.selo.texto})]));
   }
   var aprBtn=el('button',{class:'btn-aprovar',text:'Aprovar'});
   var rejBtn=el('button',{class:'btn-rejeitar',text:'Rejeitar'});

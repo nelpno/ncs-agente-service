@@ -3,8 +3,12 @@ import { registerAction } from '../registry.mjs';
 import { responsaveisIndex as _respIndex } from '../../superlogica.mjs';
 import { slPut as _slPut } from '../../superlogica_write.mjs';
 import { enfileirarAvisos } from '../../outbox.mjs';
-import { STATUS } from '../../docia/conferir.mjs';
+import { STATUS, validarCPF } from '../../docia/conferir.mjs';
 import { validarExtras, payloadExtras } from '../campos_condo.mjs';
+// MESMO matcher de nome que o resto do sistema usa (catálogo + resolver do ERP). Aqui serve para
+// dizer se quem PEDIU o cadastro é alguém que já mora na unidade: "Ricardo Camargo" tem de casar
+// com "Ricardo Prado Camargo", senão o card acusa de intruso quem é o inquilino da casa.
+import { tokensNome, casaPorTokens } from '../../../gerador/src/match-nome.mjs';
 
 const DATA_RE = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/; // MM/DD/AAAA
 
@@ -32,6 +36,31 @@ const MAP_OPCIONAIS = {
   rg: 'contatos[0][ST_RG_CON]',
 };
 
+// ── Formato do e-mail (defeito 6 do teste dos 20) ─────────────────────────────────────────────────
+// Ela aceitou `eduardo.simoes@com.br`. O CPF tinha validação, o e-mail não tinha nenhuma — e os dois
+// têm a MESMA consequência: é para onde o boleto vai. E-mail errado não devolve erro; o morador só
+// não recebe cobrança, "e ninguém descobre até virar inadimplência" (Fernando, 07/08).
+const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+// Domínios que são SÓ sufixo público: `@com.br` passa em qualquer regex estrutural (com.br é um
+// domínio bem formado) e mesmo assim não existe caixa de e-mail nele. Só uma lista pega este caso —
+// que é justamente o que a Ana aceitou.
+const SUFIXO_PUBLICO_NU = new Set(['com', 'br', 'com.br', 'net', 'net.br', 'org', 'org.br',
+  'gov.br', 'edu.br', 'adv.br', 'eng.br', 'co', 'co.uk', 'info', 'biz']);
+export function emailValido(valor) {
+  const s = String(valor || '').trim();
+  if (!EMAIL_RE.test(s)) return false;
+  return !SUFIXO_PUBLICO_NU.has(s.split('@')[1].toLowerCase());
+}
+
+// ⚠️ 14 dígitos = CNPJ e passa direto: pessoa jurídica PODE ser inquilina, e barrar isso seria um
+// defeito novo em cima do que estamos consertando. Não há validador de CNPJ aqui, então o número é
+// aceito sem conferência de dígito — limitação conhecida e preferível a bloquear um caso legítimo.
+export function cpfCnpjValido(valor) {
+  const d = String(valor || '').replace(/\D/g, '');
+  if (d.length === 14) return true;
+  return validarCPF(d);
+}
+
 function validar(d) {
   const erros = [];
   for (const k of ['id_condominio', 'id_unidade', 'nome', 'data_entrada']) if (!d?.[k]) erros.push(`faltou ${k}`);
@@ -55,6 +84,10 @@ function validar(d) {
     // dependente menor por falta de placa/nascimento, o que contraria a leniência acima.
     erros.push(...validarExtras(d?.id_condominio, d));
   }
+  // Dado ERRADO é erro em qualquer papel — a leniência do dependente é sobre o dado AUSENTE
+  // ("menor não é obrigatório RG, CPF nem telefone"), nunca sobre guardar um número que não existe.
+  if (d?.cpf && !cpfCnpjValido(d.cpf)) erros.push('cpf inválido (o dígito verificador não confere) — confirme o número com a pessoa');
+  if (d?.email && !emailValido(d.email)) erros.push('e-mail inválido (o endereço não existe nesse formato) — confirme com a pessoa; é para onde o boleto é enviado');
   if (d?.papel && !['inquilino', 'dependente'].includes(d.papel)) erros.push('papel inválido');
   if (d?.data_entrada && !DATA_RE.test(d.data_entrada)) erros.push('data_entrada deve ser MM/DD/AAAA');
   if (d?.responsavel_cobranca && !RESPONSAVEIS.includes(d.responsavel_cobranca)) erros.push('responsavel_cobranca inválido');
@@ -78,7 +111,9 @@ function montarPayload(d) {
     'contatos[0][ID_TIPORESP_TRES]': inquilinoRecebe(d) ? TIPORESP_INQUILINO_RESPONSAVEL : TIPORESP_NAO_RECEBE,
     'contatos[0][ID_TIPOCONTATO_TCON]': '1', // condômino
   };
-  for (const [campo, chave] of Object.entries(MAP_OPCIONAIS)) if (d[campo]) p[chave] = d[campo];
+  // .trim(): o e-mail chega da conversa e vem com espaço em volta com frequência. Gravar " x@y.com "
+  // no campo de cobrança é o mesmo que gravar errado.
+  for (const [campo, chave] of Object.entries(MAP_OPCIONAIS)) if (d[campo]) p[chave] = typeof d[campo] === 'string' ? d[campo].trim() : d[campo];
   // Extras por condomínio que VÃO ao ERP (Tivoli: DT_NASCIMENTO_CON). Veículo/placa têm payload:null →
   // não entram aqui (ficam no card + aviso à portaria). Vazio p/ condo comum (byte-idêntico).
   Object.assign(p, payloadExtras(d.id_condominio, d));
@@ -206,16 +241,87 @@ function linhasDocia(l) {
   };
 }
 
-function render(d, snap) {
+// ── Quem já mora na unidade ───────────────────────────────────────────────────────────────────────
+// O card não mostrava NINGUÉM: no caso 12 do teste dos 20 a unidade tinha 3 moradores e o aprovador
+// decidia no escuro. É também o que substitui a conferência que a Ana tentava fazer sozinha — ela só
+// enxerga o contato que o resolver_cadastro devolveu (o proprietário), e por isso acusou de intruso
+// um inquilino de 2 anos. Aqui vê-se a unidade inteira, e quem julga é a pessoa.
+//
+// O papel sai de `id_label_tres` por mapa EXPLÍCITO: os valores estão documentados no topo deste
+// arquivo e são os mesmos que a escrita usa. `st_nometiporesp_tres` não entra — o nome do campo é
+// ambíguo entre "papel" e "quem recebe a cobrança", e rótulo errado no card é mentira silenciosa.
+const PAPEL_LABEL = { 1: 'proprietário', 2: 'proprietário', 3: 'imobiliária', 4: 'dependente', 7: 'inquilino', 999: 'procurador' };
+const ORDEM_PAPEL = ['proprietário', 'inquilino', 'dependente', 'imobiliária', 'procurador', 'contato'];
+const MAX_CONTATOS = 8;
+const ativo = (c) => !String(c?.dt_saida_res || '').trim(); // quem saiu não é morador de hoje
+const papelDoContato = (c) => PAPEL_LABEL[Number(c?.id_label_tres)] || 'contato';
+
+export function contatosDaUnidade(snap) {
+  return (Array.isArray(snap) ? snap : []).filter(ativo)
+    .map((c) => ({ nome: String(c.st_nome_con || '').trim(), papel: papelDoContato(c) }))
+    .filter((c) => c.nome)
+    .sort((a, b) => ORDEM_PAPEL.indexOf(a.papel) - ORDEM_PAPEL.indexOf(b.papel));
+}
+
+function textoContatos(lista) {
+  if (!lista.length) return 'ninguém cadastrado hoje nesta unidade';
+  const mostra = lista.slice(0, MAX_CONTATOS).map((c) => `${c.nome} (${c.papel})`).join(' · ');
+  // Corte declarado: "são 8" quando são 12 faria o aprovador conferir contra uma lista incompleta.
+  return lista.length > MAX_CONTATOS ? `${mostra} · +${lista.length - MAX_CONTATOS} outro(s)` : mostra;
+}
+
+/** Quem pediu já mora na unidade? Nome parcial casa ("Ricardo Camargo" ⊂ "Ricardo Prado Camargo"). */
+export function solicitanteEhDaUnidade(solicitante, lista) {
+  const toks = tokensNome(solicitante || '');
+  if (!toks.length) return false;
+  return lista.some((c) => casaPorTokens(toks, [c.nome]));
+}
+
+function render(d, snap, opts = {}) {
   const recebe = inquilinoRecebe(d);
   const doc = linhasDocia(d.laudo);
+  const ehDependente = d.papel === 'dependente';
+  const contatos = contatosDaUnidade(snap);
+  // A leitura de contrato pode estar desligada (DOCIA_ATIVO). Cobrar um documento que o sistema nem
+  // consegue receber seria alarme em 100% dos cards de inquilino — o ruído que este trabalho remove.
+  // ⚠️ A fonte é o RASCUNHO (`d.docia_ativo`, gravado na criação), não o ambiente: o card é desenhado
+  // tanto pelo ncs-agente quanto pelo ncs-chat, e só o primeiro tem a variável. Pelo ambiente, o
+  // alerta apareceria no painel por link e sumiria no Portal, que é onde a equipe aprova.
+  const dociaAtivo = opts.dociaAtivo ?? d.docia_ativo ?? (process.env.DOCIA_ATIVO === '1');
+  const pediuAlguemDeFora = ehDependente && d.solicitante_nome && !solicitanteEhDaUnidade(d.solicitante_nome, contatos);
+  const alertas = [
+    // 1º o que é ESCRITA no ERP: o flip do proprietário (1 → 2 "só extras") é uma 2ª gravação, num
+    // contato que já existe, e não sai daqui. Sem ele, proprietário e inquilino recebem a MESMA taxa.
+    ...(recebe ? [`Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`] : []),
+    // 2º segurança de acesso. Fernando, 07/08: "tem que ser pelo titular do imóvel que tá vinculado à
+    // unidade" — veio da vez em que um rapaz pediu o próprio cadastro como dependente e a equipe só
+    // liberou depois que a tia falou. A Ana registra e o card confere; ela não bloqueia ninguém,
+    // porque não tem como verificar identidade pelo WhatsApp.
+    ...(pediuAlguemDeFora ? [`Quem pediu ("${d.solicitante_nome}") não consta como morador desta unidade. Cadastro de dependente deve ser pedido pelo titular (proprietário ou inquilino) — confirme com ele antes de liberar o acesso.`] : []),
+    ...(ehDependente && !d.solicitante_nome ? ['Não ficou registrado quem pediu este cadastro — confirme com o titular da unidade antes de liberar o acesso.'] : []),
+    // 3º o documento. Fernando: "Ela teria que ter mandado o contrato" / "sempre que é locação tem
+    // contrato, particular ou da imobiliária — senão não tem como fazer". Só para inquilino:
+    // dependente não precisa de contrato (ele disse isso na mesma frase).
+    ...(!ehDependente && dociaAtivo && !d.laudo ? ['Não veio contrato de locação nesta conversa — peça e confira antes de aprovar.'] : []),
+    // 4º dado que falta e a equipe precisa buscar. ⚠️ Só para quem RECEBE boleto: para dependente,
+    // "sem e-mail: é para onde o boleto é enviado" contradizia o próprio card duas linhas acima
+    // ("o boleto continua indo para o proprietário") — e alarme falso repetido ensina a equipe a
+    // ignorar o alerta que importa. O CPF não aparece aqui porque nem chega: `validar` barra antes.
+    ...(!ehDependente && !d.email ? ['Sem e-mail: é para onde o boleto é enviado — peça antes de aprovar.'] : []),
+    ...(!ehDependente && !d.telefone ? ['Sem telefone: é o contato que entra no sistema da portaria.'] : []),
+    ...doc.alertas,
+  ];
   return {
     resumo: resumir(d) + doc.selo,
+    // Selo VERDE, pedido do Fernando (07/08): "nenhum tá verdinho... podia ter um verdinho, a pessoa:
+    // checklist já pegou tudo". Só existe quando NÃO há nenhum alerta — um verde ao lado de uma
+    // pendência valeria menos que nenhum verde. É ele que devolve significado ao vermelho.
+    ...(alertas.length === 0 ? { selo: { tipo: 'ok', texto: 'Conferido: nada pendente neste cadastro.' } } : {}),
     campos: [
       { label: 'Condomínio', valor: d.condominio_nome || d.id_condominio },
       { label: 'Unidade', valor: unidadeVisivel(d) },
       { label: 'Nome', valor: d.nome },
-      { label: 'Papel', valor: d.papel === 'dependente' ? 'Dependente' : 'Inquilino/Residente' },
+      { label: 'Papel', valor: ehDependente ? 'Dependente' : 'Inquilino/Residente' },
       { label: 'Entrada', valor: dataBR(d.data_entrada) },
       { label: 'E-mail', valor: d.email || '—' },
       { label: 'Telefone', valor: d.telefone || '—' },
@@ -227,22 +333,15 @@ function render(d, snap) {
       ...(d.rg ? [{ label: 'RG', valor: d.rg }] : []),
       ...(d.veiculo_modelo || d.veiculo_placa ? [{ label: 'Veículo', valor: [d.veiculo_modelo, d.veiculo_placa].filter(Boolean).join(' · ') }] : []),
       { label: 'Quem recebe o boleto', valor: recebe ? 'O inquilino (responsável pela cobrança)' : 'O proprietário (padrão)' },
+      // Quem PEDIU, como a pessoa se identificou na conversa. Fica ao lado da lista de moradores:
+      // é a conferência do titular, feita por quem tem como fazê-la.
+      ...(d.solicitante_nome ? [{ label: 'Quem pediu', valor: d.solicitante_nome }] : []),
+      { label: 'Quem já está na unidade', valor: textoContatos(contatos) },
       ...(doc.campo ? [doc.campo] : []),
     ],
     diff: [{ tipo: 'add', texto: `+ novo contato "${d.nome}" na unidade ${unidadeVisivel(d)}` }],
-    // alertas — o que o aprovador precisa FAZER e a Ana não faz sozinha. O flip do proprietário
-    // (1 → 2 "só extras") é uma 2ª escrita, num contato que já existe: fica com o humano nesta onda.
-    // Sem ele, proprietário e inquilino recebem a MESMA taxa (duplicação).
-    // O flip vem PRIMEIRO: é ação de escrita; o do contrato é conferência de papel.
-    alertas: [
-      ...(recebe ? [`Ao aprovar, mude o proprietário da unidade ${unidadeVisivel(d)} para "só cobranças extras" no Superlógica — sem isso o boleto da taxa sai para o proprietário E para o inquilino (duplicado).`] : []),
-      // Dado que falta e a equipe precisa buscar — é ação, por isso é alerta e não campo vazio.
-      // O CPF não aparece aqui porque nem chega: `validar` barra antes (a Ana pede no atendimento).
-      ...(!d.email ? ['Sem e-mail: é para onde o boleto é enviado — peça antes de aprovar.'] : []),
-      ...(!d.telefone ? ['Sem telefone: é o contato que entra no sistema da portaria.'] : []),
-      ...doc.alertas,
-    ],
-    snapshotResumo: `${(snap || []).length} contato(s) hoje na unidade`,
+    alertas,
+    snapshotResumo: `${contatos.length} contato(s) hoje na unidade`,
   };
 }
 

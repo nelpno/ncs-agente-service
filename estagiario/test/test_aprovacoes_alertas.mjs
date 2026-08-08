@@ -51,6 +51,16 @@ const draftProp = { ...draftInq, id: "d2", dados: { ...draftInq.dados, responsav
   check(Array.isArray(card.alertas) && card.alertas.length === 0, "ação desconhecida → alertas vazio, sem lançar");
   check(card.id === "d3", "ação desconhecida → o card ainda é montado (a fila não some)");
 }
+// --- selo verde: o contrário do alerta (Fernando, 07/08: "nenhum tá verdinho")
+{
+  const card = A.paraCard(draftProp); // cadastro completo, sem pendência nenhuma
+  check(card.selo && /conferido/i.test(card.selo.texto), "card sem pendência → chega com o selo verde");
+  const comAlerta = A.paraCard(draftInq); // inquilino assume a cobrança → tem o alerta do flip
+  check(comAlerta.alertas.length > 0 && !comAlerta.selo,
+    "card COM alerta → selo nulo (verde ao lado de pendência valeria menos que verde nenhum)");
+  const desconhecida = A.paraCard({ id: "d6", acao: "nao_existe", dados: {}, criado_em: "x" });
+  check(desconhecida.selo === undefined || desconhecida.selo === null, "ação desconhecida → sem selo (não inventa verde)");
+}
 // --- LGPD: o resumo/alerta passam pela mesma máscara do resto do card
 {
   const comCpf = { ...draftInq, id: "d4", dados: { ...draftInq.dados, nome: "João 529.982.247-25 Silva" } };

@@ -21,6 +21,12 @@ Enquanto o modo teste estiver ligado, quem cadastra de verdade continua sendo a 
   // se não aparecer na tela, o efeito colateral acontece calado.
   const alertasAcao = (r.alertas || []).map((a) =>
     `<p style="background:#fecaca;padding:8px;border-radius:6px;border-left:4px solid #b91c1c">&#9888;&#65039; <b>Antes de aprovar:</b> ${esc(a)}</p>`).join('');
+  // Selo VERDE — pedido do Fernando (07/08): "nenhum tá verdinho... podia ter um verdinho, a pessoa:
+  // checklist já pegou tudo". Ele só existe quando a AÇÃO não devolveu nenhum alerta (é a ação que
+  // decide, não a tela): verde ao lado de pendência valeria menos que verde nenhum.
+  const selo = r.selo?.tipo === 'ok' && !(r.alertas || []).length
+    ? `<p style="background:#dcfce7;padding:8px;border-radius:6px;border-left:4px solid #15803d">&#9989; ${esc(r.selo.texto || 'Conferido.')}</p>`
+    : '';
   const jaResolvido = draft.status !== 'pendente' ? `<p>Status: <b>${esc(draft.status)}</b> (nenhuma ação disponível)</p>` : '';
   const acoes = draft.status === 'pendente' ? `
     <form method="POST" action="/aprovacao/${esc(draft.token)}/aprovar"><input type="hidden" name="k" value="${esc(k)}"><input name="aprovador" placeholder="Seu nome" required><button>Aprovar</button></form>
@@ -28,6 +34,6 @@ Enquanto o modo teste estiver ligado, quem cadastra de verdade continua sendo a 
   return `<!doctype html><meta charset="utf-8"><title>Aprovação — ${esc(draft.acao)}</title>
 <body style="font-family:system-ui;max-width:560px;margin:40px auto">
 <h2>Aprovar escrita — ${esc(draft.time)}</h2>${simulacao}${alerta}
-<table>${linhas}</table><p><small>${esc(r.snapshotResumo || '')}</small></p>${alertasAcao}
+<table>${linhas}</table><p><small>${esc(r.snapshotResumo || '')}</small></p>${alertasAcao}${selo}
 ${jaResolvido}${acoes}</body>`;
 }

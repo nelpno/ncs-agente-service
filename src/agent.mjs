@@ -22,6 +22,7 @@ import * as ENGINE from './write/engine.mjs';
 import * as FILA from './fila.mjs'; // F1: a Ana carimba o ticket na fila `solicitacoes` (flag FILA_ANA_ENABLED)
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import * as TITU from './write/actions/titularidade.mjs'; // registra a ação titularidade + extrairProprietariosAtuais (tool gated por TITULARIDADE_ENABLED)
+import { converterCampoData } from './write/datas.mjs'; // BR → MM/DD em CÓDIGO (o modelo errava 1 em 20, calado)
 import { agoraContextoTemporal } from './tempo.mjs';
 import { podarHistorico } from './history.mjs';
 
@@ -57,14 +58,19 @@ const TOOLS = [
     parameters: { type: 'object', properties: {
       id_condominio: { type: 'string' }, id_unidade: { type: 'string' },
       nome: { type: 'string' }, papel: { type: 'string', enum: ['inquilino', 'dependente'] },
-      data_entrada: { type: 'string', description: 'MM/DD/AAAA' },
+      // ⚠️ DD/MM/AAAA — o formato brasileiro, como a pessoa fala. NÃO converta: a conversão para o
+      // formato da API é feita em código (src/write/datas.mjs). Converter aqui foi a causa do único
+      // erro real do teste dos 20 (5 de agosto virou 8 de maio, calado).
+      data_entrada: { type: 'string', description: 'Data de entrada em DD/MM/AAAA (dia/mês/ano, como a pessoa informou). Repasse como veio — não converta para outro formato.' },
       email: { type: 'string' }, telefone: { type: 'string' }, cpf: { type: 'string' },
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
+      solicitante_nome: { type: 'string',
+        description: 'Nome de QUEM está pedindo o cadastro, como a pessoa se identificou (pode ser o proprietário, o inquilino titular, a imobiliária ou um parente). Pergunte quando ela não disser e passe o que ela responder — a equipe confere na aprovação. Não bloqueie o cadastro por causa disso.' },
       // Campos que ALGUNS condomínios exigem (a ferramenta avisa quando faltam). RG é opcional em qualquer
       // condomínio; data de nascimento + modelo/placa do veículo são exigidos no Tivoli. Só passe se a pessoa informar.
       rg: { type: 'string' },
-      data_nascimento: { type: 'string', description: 'MM/DD/AAAA. Exigida em alguns condomínios (ex.: Tivoli).' },
+      data_nascimento: { type: 'string', description: 'DD/MM/AAAA (dia/mês/ano, como a pessoa informou). Exigida em alguns condomínios (ex.: Tivoli).' },
       veiculo_modelo: { type: 'string', description: 'Modelo do veículo. Exigido em alguns condomínios (ex.: Tivoli).' },
       veiculo_placa: { type: 'string', description: 'Placa do veículo. Exigida em alguns condomínios (ex.: Tivoli).' },
     }, required: ['id_unidade', 'nome', 'data_entrada'] } } },
@@ -74,11 +80,11 @@ const TOOLS = [
       id_condominio: { type: 'string' }, id_unidade: { type: 'string' },
       nome: { type: 'string', description: 'Nome do NOVO proprietário.' },
       cpf: { type: 'string', description: 'CPF do novo proprietário (necessário para gerar o boleto da taxa).' },
-      data_transferencia: { type: 'string', description: 'Data da compra/transferência, MM/DD/AAAA.' },
+      data_transferencia: { type: 'string', description: 'Data da compra/transferência em DD/MM/AAAA (dia/mês/ano, como a pessoa informou). Repasse como veio — não converta.' },
       email: { type: 'string' }, telefone: { type: 'string' },
       // Exigidos em alguns condomínios (a ferramenta avisa quando faltam). RG opcional em qualquer um.
       rg: { type: 'string' },
-      data_nascimento: { type: 'string', description: 'MM/DD/AAAA. Exigida em alguns condomínios (ex.: Tivoli).' },
+      data_nascimento: { type: 'string', description: 'DD/MM/AAAA (dia/mês/ano, como a pessoa informou). Exigida em alguns condomínios (ex.: Tivoli).' },
       veiculo_modelo: { type: 'string', description: 'Modelo do veículo. Exigido em alguns condomínios (ex.: Tivoli).' },
       veiculo_placa: { type: 'string', description: 'Placa do veículo. Exigida em alguns condomínios (ex.: Tivoli).' },
     }, required: ['id_unidade', 'nome', 'cpf', 'data_transferencia'] } } },
@@ -230,6 +236,16 @@ async function runToolReal(name, args, ctx) {
     case 'criar_rascunho_cadastro': {
       const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
       const idu = String(args.id_unidade || '');
+      // 🔴 Datas convertidas AQUI, em código. Até 07/08/2026 quem convertia DD/MM → MM/DD era o
+      // modelo: no teste dos 20 ele errou 1 (o caso 16 gravou 8 de MAIO onde a pessoa disse 5 de
+      // agosto) e o card exibiu uma data plausível. Data que não converte NÃO vira rascunho —
+      // volta erro para a Ana perguntar de novo, que é recuperável; data errada não é.
+      const datas = { data_entrada: args.data_entrada, data_nascimento: args.data_nascimento };
+      const errosData = [
+        converterCampoData(datas, 'data_entrada', 'Data de entrada'),
+        converterCampoData(datas, 'data_nascimento', 'Data de nascimento'),
+      ].filter(Boolean);
+      if (errosData.length) return { criado: false, motivo: 'data_invalida', erros: errosData };
       const r = await ENGINE.criarRascunho('cadastro_inquilino', {
         id_condominio: idc, id_unidade: idu,
         // rótulos p/ a tela do aprovador E p/ o aviso à portaria — do ERP (ctx), não do modelo.
@@ -237,16 +253,27 @@ async function runToolReal(name, args, ctx) {
         // não sai. Mapa primeiro (nunca desalinha); lastCondo só como reserva no mesmo turno.
         unidade_label: ctx.unidades?.[idu] || null,
         condominio_nome: ctx.condominios?.[idc] || ctx.lastCondo?.nome || null,
-        nome: args.nome, papel: args.papel || 'inquilino', data_entrada: args.data_entrada,
+        nome: args.nome, papel: args.papel || 'inquilino', data_entrada: datas.data_entrada,
         email: args.email, telefone: args.telefone, cpf: args.cpf,
         responsavel_cobranca: args.responsavel_cobranca,
+        // Quem PEDIU o cadastro, como a pessoa se identificou na conversa. Vai para o card ao lado dos
+        // contatos que já existem na unidade: é o que permite ao aprovador ver que o pedido de um
+        // dependente veio (ou não) do titular — regra do Fernando em 07/08 ("tem que ser pelo titular
+        // do imóvel"). A Ana registra, NÃO bloqueia: ela não tem como verificar identidade no WhatsApp.
+        solicitante_nome: args.solicitante_nome,
         // campos extras por condomínio (Tivoli) + RG — o validar/payload da ação decide o que exigir/gravar
-        rg: args.rg, data_nascimento: args.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
+        rg: args.rg, data_nascimento: datas.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
         // Laudo do DocIA quando a pessoa mandou o contrato NESTE atendimento (senão null: nem todo
         // cadastro vem com contrato, e com a flag desligada nunca vem). O card só exibe — a conferência
         // é informativa e não gateia o botão. Não entra em montarPayload: o payload do ERP é montado
         // campo a campo, então isto não vaza para o Superlógica.
         laudo: ctx.ultimoLaudo || null,
+        // A leitura de contrato estava ligada QUANDO este rascunho nasceu. Fica gravado no rascunho,
+        // e não lido do ambiente na hora de desenhar o card, porque quem desenha são DOIS containers
+        // com env diferente: o ncs-agente tem DOCIA_ATIVO, o ncs-chat (Portal, onde a equipe de fato
+        // aprova) não tem. Pelo ambiente, o alerta "não veio contrato" apareceria no painel por link
+        // e sumiria na tela que importa.
+        docia_ativo: process.env.DOCIA_ATIVO === '1',
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
@@ -260,6 +287,14 @@ async function runToolReal(name, args, ctx) {
       const idc = String(args.id_condominio || ctx.lastCondo?.id || '');
       const idu = String(args.id_unidade || '');
       // proprietário(s) ATUAL(is) = quem sai. Lido do ERP (NUNCA do LLM): id_label_tres 1/2 + sem data de saída.
+      // Mesma conversão em código do cadastro (ver src/write/datas.mjs). Aqui a data errada seria
+      // pior: ela é a data da compra, que sai na baixa do proprietário anterior.
+      const datasT = { data_transferencia: args.data_transferencia, data_nascimento: args.data_nascimento };
+      const errosDataT = [
+        converterCampoData(datasT, 'data_transferencia', 'Data da transferência'),
+        converterCampoData(datasT, 'data_nascimento', 'Data de nascimento'),
+      ].filter(Boolean);
+      if (errosDataT.length) return { criado: false, motivo: 'data_invalida', erros: errosDataT };
       let atuais = [];
       try { atuais = TITU.extrairProprietariosAtuais(await SL.responsaveisIndex(idc, idu)); }
       catch (e) { console.warn('[titularidade] leitura dos proprietarios atuais falhou:', e.message); }
@@ -267,9 +302,9 @@ async function runToolReal(name, args, ctx) {
         id_condominio: idc, id_unidade: idu,
         unidade_label: ctx.unidades?.[idu] || null,
         condominio_nome: ctx.condominios?.[idc] || ctx.lastCondo?.nome || null,
-        nome: args.nome, cpf: args.cpf, data_transferencia: args.data_transferencia,
+        nome: args.nome, cpf: args.cpf, data_transferencia: datasT.data_transferencia,
         email: args.email, telefone: args.telefone,
-        rg: args.rg, data_nascimento: args.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
+        rg: args.rg, data_nascimento: datasT.data_nascimento, veiculo_modelo: args.veiculo_modelo, veiculo_placa: args.veiculo_placa,
         proprietarios_atuais: atuais,
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };

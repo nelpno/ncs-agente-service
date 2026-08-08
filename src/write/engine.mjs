@@ -5,6 +5,19 @@ import { registrarEvento } from './auditoria.mjs';
 import { config } from '../config.mjs';
 import * as FILA from '../fila.mjs'; // F2: fecha a linha da fila (solicitacoes) vinculada ao rascunho ao aprovar
 
+// 🔴 Auditoria DEPOIS que o estado já mudou nunca pode virar falha na tela.
+// Defeito 11 do teste dos 20 (07/08/2026): o Fernando clicou em "Rejeitar", o banco gravou
+// `rejeitado` e a tela mostrou erro — porque o `registrarEvento` seguinte estourou e a exceção subiu
+// até o Portal. Quem lê a tela conclui que o pedido continua pendente, e clica de novo.
+// A regra: o efeito colateral avisa alto no log, mas o veredito é o do ESTADO.
+//
+// ⚠️ NÃO use isto no evento `pre_gravacao`: aquele é a rede de segurança do incidente de 23/07
+// (snapshot ANTES de escrever no ERP) e roda ANTES da escrita — falhar ali TEM de abortar.
+async function auditar(ev) {
+  try { await registrarEvento(ev); }
+  catch (e) { console.warn(`[engine] auditoria do evento "${ev?.tipo}" falhou (a operação em si aconteceu):`, e.message); }
+}
+
 export async function criarRascunho(acaoId, dados, ctx = {}) {
   const acao = getAction(acaoId);
   if (!acao) return { ok: false, motivo: 'acao_desconhecida' };
@@ -17,7 +30,7 @@ export async function criarRascunho(acaoId, dados, ctx = {}) {
     solicitante: ctx.solicitante || null, time: acao.timeAprovador || 'Atendimento geral',
     origem: ctx.origem || null,
   });
-  await registrarEvento({ tipo: 'criado', draftId: draft.id, acao: acaoId, solicitante: draft.solicitante, dados, conflito, snapshot });
+  await auditar({ tipo: 'criado', draftId: draft.id, acao: acaoId, solicitante: draft.solicitante, dados, conflito, snapshot });
   return {
     ok: true, draftId: draft.id, token: draft.token, time: draft.time, conflito,
     urlAprovacao: `${config.publicBase}/aprovacao/${draft.token}`,
@@ -44,7 +57,7 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   if (draft.status === 'expirado') return { ok: false, motivo: 'expirado' };
   if (draft.expiraEm <= Date.now()) {
     await updateDraft(draft.id, { status: 'expirado' });
-    await registrarEvento({ tipo: 'expirado', draftId: draft.id });
+    await auditar({ tipo: 'expirado', draftId: draft.id });
     await fecharFilaDoDraft(draft.id, 'expirada'); // fecha a linha da fila (sem aprovador — expirou sozinho)
     await notificarMorador(draft, 'Sua solicitação expirou sem aprovação; caso ainda precise, é só me chamar de novo.');
     return { ok: false, motivo: 'expirado' };
@@ -54,7 +67,7 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   let dados = draft.dados;
   if (correcoes && Object.keys(correcoes).length) {
     dados = { ...dados, ...correcoes };
-    await registrarEvento({ tipo: 'corrigido', draftId: draft.id, aprovador, diff: correcoes });
+    await auditar({ tipo: 'corrigido', draftId: draft.id, aprovador, diff: correcoes });
     await updateDraft(draft.id, { dados, expiraEm: Date.now() + config.approvalTtlH * 3600 * 1000 }); // corrigir reinicia SLA
   }
   const v = acao.validar(dados);
@@ -79,16 +92,16 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   try { res = await acao.gravar(payload, { dados }); }
   catch (e) {
     await updateDraft(draft.id, { status: 'erro' });
-    await registrarEvento({ tipo: 'erro', draftId: draft.id, aprovador, detalhe: e.message });
+    await auditar({ tipo: 'erro', draftId: draft.id, aprovador, detalhe: e.message });
     return { ok: false, motivo: 'erro_gravacao', detalhe: e.message };
   }
   if (!res.ok) {
     await updateDraft(draft.id, { status: 'erro' });
-    await registrarEvento({ tipo: 'erro', draftId: draft.id, aprovador, resposta: res.resposta, status: res.status });
+    await auditar({ tipo: 'erro', draftId: draft.id, aprovador, resposta: res.resposta, status: res.status });
     return { ok: false, motivo: 'erro_gravacao', resposta: res.resposta };
   }
   await updateDraft(draft.id, { status: 'gravado', resultado: { idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun } });
-  await registrarEvento({ tipo: 'gravado', draftId: draft.id, aprovador, payload, resposta: res.resposta, idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun, snapshot: draft.snapshot });
+  await auditar({ tipo: 'gravado', draftId: draft.id, aprovador, payload, resposta: res.resposta, idCriado: res.idCriado, candidatosId: res.candidatosId, dryRun: res.dryRun, snapshot: draft.snapshot });
 
   // F2: fecha a linha da fila (solicitacoes) vinculada a este rascunho — o ticket resolve JUNTO com a aprovação.
   await fecharFilaDoDraft(draft.id, 'resolvida', aprovador?.nome);
@@ -98,7 +111,7 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   if (acao.posGravar) {
     try {
       conectores = await acao.posGravar(dados, { dryRun: res.dryRun });
-      if (conectores) await registrarEvento({ tipo: 'conectores', draftId: draft.id, conectores });
+      if (conectores) await auditar({ tipo: 'conectores', draftId: draft.id, conectores });
     } catch (e) { console.warn('[engine] posGravar falhou:', e.message); }
   }
 
@@ -124,7 +137,7 @@ async function executarRejeicao(draft, { aprovador, motivo } = {}) {
   if (!draft) return { ok: false, motivo: 'nao_encontrado' };
   if (draft.status === 'gravado') return { ok: false, motivo: 'ja_gravado' };
   await updateDraft(draft.id, { status: 'rejeitado' });
-  await registrarEvento({ tipo: 'rejeitado', draftId: draft.id, aprovador, detalhe: motivo || '' });
+  await auditar({ tipo: 'rejeitado', draftId: draft.id, aprovador, detalhe: motivo || '' });
   await fecharFilaDoDraft(draft.id, 'rejeitada', aprovador?.nome); // fecha a linha da fila (rejeição = "Devolver", fluxo normal)
   await notificarMorador(draft, 'Sua solicitação foi revisada pela equipe e precisa de um ajuste; já entramos em contato.');
   return { ok: true, rejeitado: true };
@@ -153,5 +166,5 @@ async function notificarMorador(draft, mensagem) {
       return;
     }
   } catch (e) { console.warn('[engine] notificarMorador falhou:', e.message); }
-  await registrarEvento({ tipo: 'confirmacao_pendente', draftId: draft.id, mensagem });
+  await auditar({ tipo: 'confirmacao_pendente', draftId: draft.id, mensagem });
 }

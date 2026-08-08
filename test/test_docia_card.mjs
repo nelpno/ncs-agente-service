@@ -44,7 +44,10 @@ t('sem contrato → nenhuma linha de DocIA (card idêntico ao de hoje)', () => {
   const r = render({ ...BASE });
   assert.ok(!txt(r).includes('DocIA'), 'apareceu DocIA num cadastro sem contrato');
   assert.deepEqual(r.alertas, [], 'cadastro simples não pode ganhar alerta do nada');
-  assert.equal(r.campos.length, 9, 'o card sem laudo mudou de tamanho');
+  // 9 → 10 em 07/08/2026: o card passou a listar "Quem já está na unidade" (defeito 8 do teste dos
+  // 20 — a unidade do caso 12 tinha 3 moradores e o aprovador não via nenhum). O que esta asserção
+  // guarda continua sendo o mesmo: sem laudo, o card não ganha NADA de DocIA.
+  assert.equal(r.campos.length, 10, 'o card sem laudo mudou de tamanho');
 });
 
 t('sem contrato, o resumo não ganha selo', () => {

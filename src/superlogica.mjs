@@ -19,12 +19,38 @@ async function garantidoraDe(id_condominio) {
 // Timeout (env SL_TIMEOUT_MS, default 20s): sem isto um request lento da Superlógica trava o turno inteiro p/ sempre
 // (→ "parou de responder" no Chatwoot). Com AbortSignal.timeout, vira erro tratável (o agente compõe "não consegui consultar agora").
 const SL_TIMEOUT_MS = Number(process.env.SL_TIMEOUT_MS || 20000);
+
+// 429 / 5xx: tenta de novo antes de desistir. O Superlógica bloqueia por excesso de chamadas e a
+// identificação varre até 30 condomínios em paralelo — no teste dos 20 (07/08/2026) isso aconteceu
+// ao vivo e a Ana passou o caso para um humano por uma falha que dura 1 segundo.
+//
+// 🔴 SÓ LEITURA. `slPut` (superlogica_write.mjs) NÃO tem e NÃO pode ganhar retry: um PUT repetido
+// cadastra a pessoa duas vezes na unidade. Travado em test/test_sl_retry.mjs.
+//
+// 3 tentativas no total, com jitter: sem o jitter, 30 chamadas paralelas que tomam 429 juntas voltam
+// juntas e reproduzem o mesmo pico que causou o bloqueio.
+const SL_TENTATIVAS = 3;
+const SL_RETRY_BASE_MS = Number(process.env.SL_RETRY_BASE_MS || 700);
+const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
+const vaiTentarDeNovo = (status) => status === 429 || status >= 500;
+
 async function slGet(controllerAction, params = {}) {
   const qs = new URLSearchParams(params).toString();
   const url = `${config.slBase}/${controllerAction}${qs ? '?' + qs : ''}`;
-  const r = await fetch(url, { headers: { app_token: config.slApp, access_token: config.slAccess, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(SL_TIMEOUT_MS) });
-  if (!r.ok) throw new Error(`Superlógica ${controllerAction} ${r.status}`);
-  return r.json();
+  let ultimo;
+  for (let i = 0; i < SL_TENTATIVAS; i++) {
+    const r = await fetch(url, { headers: { app_token: config.slApp, access_token: config.slAccess, 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(SL_TIMEOUT_MS) });
+    if (r.ok) return r.json();
+    ultimo = r.status;
+    // 403/404 não melhoram por insistência — só o transitório se repete.
+    if (!vaiTentarDeNovo(r.status) || i === SL_TENTATIVAS - 1) break;
+    // Respeita o Retry-After quando o servidor manda um (limitado, para não travar o turno inteiro).
+    const pedido = Number(r.headers?.get?.('retry-after')) * 1000;
+    const espera = pedido > 0 ? Math.min(pedido, 5000) : SL_RETRY_BASE_MS * 2 ** i * (1 + Math.random());
+    await dormir(espera);
+  }
+  // Erra ALTO: devolver lista vazia aqui viraria "essa unidade não tem morador cadastrado".
+  throw new Error(`Superlógica ${controllerAction} ${ultimo}`);
 }
 
 // _unidadeNoJuridico: a unidade está em PROCESSO JUDICIAL? Só a variante de `inadimplencia/index` SEM `apenasResumoInad`
