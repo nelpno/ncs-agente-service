@@ -66,7 +66,11 @@ const TOOLS = [
       responsavel_cobranca: { type: 'string', enum: ['proprietario', 'inquilino'],
         description: 'Quem recebe o boleto da taxa. Só para papel=inquilino, e só se a pessoa disser — pergunte, não deduza. Na maioria é o proprietário (default se omitido). Dependente nunca recebe.' },
       solicitante_nome: { type: 'string',
-        description: 'Nome de QUEM está pedindo o cadastro, como a pessoa se identificou (pode ser o proprietário, o inquilino titular, a imobiliária ou um parente). Pergunte quando ela não disser e passe o que ela responder — a equipe confere na aprovação. Não bloqueie o cadastro por causa disso.' },
+        // ⚠️ NÃO peça este dado como pré-requisito. A 1ª versão desta descrição dizia "pergunte
+        // quando ela não disser" e, com a regra equivalente no prompt, a Ana passou a pendurar
+        // "com quem eu falo?" em toda resposta e a exigir o CPF do proprietário: 3 de 9 cadastros
+        // deixaram de sair (medido em prod, 07/08). Registro que vira pré-requisito é pré-requisito.
+        description: 'OPCIONAL. Nome de quem está pedindo o cadastro, SE a pessoa já tiver se identificado na conversa (pode ser o proprietário, o inquilino, a imobiliária ou um parente). Nunca segure o cadastro esperando este dado — vazio é perfeitamente aceitável.' },
       // Campos que ALGUNS condomínios exigem (a ferramenta avisa quando faltam). RG é opcional em qualquer
       // condomínio; data de nascimento + modelo/placa do veículo são exigidos no Tivoli. Só passe se a pessoa informar.
       rg: { type: 'string' },
