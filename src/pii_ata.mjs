@@ -69,11 +69,44 @@ const ESTRUTURAL = /condominio|residencial|edificio|associacao|assembleia|geral|
 const ehPessoa = (s) => !ESTRUTURAL.test(semAcento(s));
 const trocaSeForPessoa = (nome) => (ehPessoa(nome) ? MARCA_NOME : nome);
 
+// D) BLOCO DE ASSINATURA MULTILINHA — o formato em que o Drive entrega as atas do lote de 2026:
+//      José Francisco Freitas Caires
+//      CPF: 074.795.548-42
+//      RG: 18.819.389
+//      Presidente
+// Nenhuma das âncoras acima pega isto (todas exigem nome e sinal na MESMA linha), e sem D o lote
+// inteiro entraria com o nome da mesa. A âncora é: a linha inteira é só um nome próprio, e uma das
+// próximas linhas não-vazias começa com CPF/RG. O `RODAPE` existe porque o extrator gruda a
+// numeração de página no começo da linha ("4 | Página Luciana Somenzari de Almeida").
+const RODAPE = /^\s*\d+\s*\|\s*P[áa]gina\s*/i;
+const SO_NOME = new RegExp(`^(${NOME})[ \\t]*[.,;]?$`, 'u');
+const ABRE_DOC = /^\s*(?:CPF|RG)\b/i;
+const JANELA_ASSINATURA = 4;
+
+function mascararAssinaturaMultilinha(texto) {
+  const linhas = String(texto).split('\n');
+  return linhas.map((linha, i) => {
+    const prefixo = (linha.match(RODAPE) || [''])[0];
+    const corpo = linha.slice(prefixo.length);
+    const m = corpo.match(SO_NOME);
+    if (!m || !ehPessoa(m[1])) return linha;
+    // olha as próximas linhas não-vazias em busca de um rótulo de documento
+    let vistas = 0;
+    for (let j = i + 1; j < linhas.length && vistas < JANELA_ASSINATURA; j++) {
+      if (!linhas[j].trim()) continue;
+      vistas++;
+      if (ABRE_DOC.test(linhas[j])) return prefixo + corpo.replace(m[1], MARCA_NOME);
+    }
+    return linha;
+  }).join('\n');
+}
+
 function mascararNomesDaMesa(texto) {
-  return String(texto)
-    .replace(A_TRATAMENTO, (m, trat, nome) => (ehPessoa(nome) ? `${trat}. ${MARCA_NOME}` : m))
-    .replace(B_CARGO, (m, cabeca, nome, cauda) => `${cabeca}${trocaSeForPessoa(nome)}${cauda}`)
-    .replace(C_DOC, (m, nome, cauda) => `${trocaSeForPessoa(nome)}${cauda}`);
+  return mascararAssinaturaMultilinha(
+    String(texto)
+      .replace(A_TRATAMENTO, (m, trat, nome) => (ehPessoa(nome) ? `${trat}. ${MARCA_NOME}` : m))
+      .replace(B_CARGO, (m, cabeca, nome, cauda) => `${cabeca}${trocaSeForPessoa(nome)}${cauda}`)
+      .replace(C_DOC, (m, nome, cauda) => `${trocaSeForPessoa(nome)}${cauda}`));
 }
 
 /**

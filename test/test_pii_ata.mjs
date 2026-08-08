@@ -111,6 +111,24 @@ ok(mascararPII(avDr) === avDr, 'logradouro com "Dr." no nome não é confundido 
 const duasFrases = mascararPII('presidida pela Sra. Graziela Patricia Delanez Gomes. A seguir foi aprovado o rateio.');
 ok(/A seguir foi aprovado o rateio\./.test(duasFrases), 'a frase seguinte ao nome permanece inteira');
 
+// ── 2-ter. bloco de assinatura MULTILINHA (formato do lote do Drive) ────────
+// O read_file_content entrega a assinatura assim: nome sozinho numa linha, CPF na seguinte, RG
+// depois, cargo por último — às vezes com o rodapé de paginação grudado no nome. As âncoras que
+// exigem nome e documento na MESMA linha não pegam isto, e o lote inteiro vazaria o nome da mesa.
+const blocoAssinatura = [
+  'José Francisco Freitas Caires', '', 'CPF: 074.795.548-42', '', 'RG: 18.819.389', '', 'Presidente', '',
+  '4 | Página Luciana Somenzari de Almeida', '', 'CPF: 200.647.228-30', '', 'RG: 26.765.998-2', '', 'Secretária',
+].join('\n');
+const blocoMasc = mascararPII(blocoAssinatura);
+ok(!/José Francisco Freitas Caires/.test(blocoMasc), 'assinatura multilinha: nome do presidente sai');
+ok(!/Luciana Somenzari de Almeida/.test(blocoMasc), 'assinatura multilinha: nome com rodapé grudado sai');
+ok(/Presidente/.test(blocoMasc) && /Secretária/.test(blocoMasc), '...e os cargos ficam');
+ok(blocoMasc.split('\n').length === blocoAssinatura.split('\n').length, '...sem colapsar o bloco');
+
+// o outro lado: linha com nome próprio que NÃO é assinatura (não tem documento logo abaixo)
+const naoAssinatura = ['ITEM 4 – Reforma da Fachada', '', 'Os moradores aprovaram o orçamento apresentado.'].join('\n');
+ok(mascararPII(naoAssinatura) === naoAssinatura, 'linha de pauta seguida de texto comum fica intacta');
+
 // nome NÃO atravessa quebra de linha (senão a substituição colapsa dois parágrafos num só)
 const duasLinhas = 'aprovado o Espaço Grill\nMARCOS ROBERTO GALIANI CPF: 123.456.789-00 PRESIDENTE';
 ok(mascararPII(duasLinhas).split('\n').length === 2, 'mascaramento preserva o número de linhas');
