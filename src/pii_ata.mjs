@@ -10,12 +10,41 @@
 // resultado continuaria parecendo uma ata. Por isso cada padrão aqui é ancorado no RÓTULO (CPF/RG).
 const MARCA = '[removido]';
 
-// CPF: só quando vem anunciado como CPF. Aceita 000.000.000-00 e 00000000000.
-const CPF_ROTULADO = /\bCPF\b([^0-9\n]{0,20})(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})/gi;
+// Dígito verificador. É ele que torna seguro mascarar um CPF SEM o rótulo ao lado: um número no
+// formato 000.000.000-00 cujo DV fecha é CPF, não valor nem protocolo (o acaso fecha ~1% das vezes;
+// no lote real de 212 atas, 151 de 151 fechavam). Sem o DV, tirar a âncora do rótulo comeria número
+// legítimo — que é justamente o que este módulo não pode fazer.
+export function cpfValido(s) {
+  const d = String(s || '').replace(/\D/g, '');
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  const calc = (n, peso) => { let t = 0; for (let i = 0; i < n.length; i++) t += n[i] * (peso - i); const r = (t * 10) % 11; return r === 10 ? 0 : r; };
+  const n = d.split('').map(Number);
+  return calc(n.slice(0, 9), 10) === n[9] && calc(n.slice(0, 10), 11) === n[10];
+}
+
+// ⚠️ Separadores TOLERANTES a espaço horizontal (não `\s`, que engoliria quebra de linha e juntaria
+// números de linhas diferentes). O lote real de 212 atas trouxe "529. 982.247-25", "529.982.247- 25"
+// e "529.982.247.25" (ponto no lugar do hífen). Fixture prova o mecanismo; o dado real trouxe estas.
+const SEP = '[ \\t]*[.][ \\t]*';
+const SEP_DV = '[ \\t]*[-.][ \\t]*';
+const NUM_CPF = `\\d{3}${SEP}\\d{3}${SEP}\\d{3}${SEP_DV}\\d{2}`;
+
+// CPF anunciado como CPF. ⚠️ O gap NÃO pode excluir a quebra de linha: a extração das atas fecha a
+// linha no rótulo e abre a seguinte com o número ("portadora do CPF:" / linha em branco /
+// "000.000.000-00"). Era esse `\n` no gap que deixava 89 das 212 atas com CPF legível, com o guard
+// passando verde no CI. Lazy (`?`) para casar o número MAIS PRÓXIMO do rótulo.
+const CPF_ROTULADO = new RegExp(`\\bCPF\\b([^0-9]{0,20}?)(${NUM_CPF}|\\d{11})`, 'gi');
+
+// CPF SEM rótulo — só entra quando o dígito verificador fecha (ver `cpfValido` acima). É o que cobre
+// a ata que escreve "qualificada sob n. 000.000.000-00" sem dizer "CPF".
+const CPF_SOLTO = new RegExp(NUM_CPF, 'g');
 // RG: idem. O RG brasileiro varia muito (com/sem dígito verificador, com/sem pontos) — por isso o
 // rótulo é obrigatório. O `\s*-\s*` no fim existe porque a ata do Vancouver traz "RG n° 8169562 -7",
 // com espaço ANTES do hífen: sem isso o dígito verificador ficava órfão como " -7" depois do corte.
-const RG_ROTULADO = /\bRG\b([^0-9\n]{0,20})(\d{1,3}(?:\.\d{3}){1,3}(?:\s*-\s*[0-9A-Za-z])?|\d{7,11}(?:\s*-\s*[0-9A-Za-z])?)/gi;
+// ⚠️ Separador de grupo agora aceita ESPAÇO além do ponto ("RG: 12 345 678", visto no lote), e o gap
+// cruza a quebra de linha pelo mesmo motivo do CPF. Espaço HORIZONTAL apenas: com `\s` o padrão
+// juntaria dígitos de linhas diferentes e comeria número que não é documento.
+const RG_ROTULADO = /\bRG\b([^0-9]{0,20}?)(\d{1,3}(?:[ \t.]\d{3}){1,3}(?:[ \t]*-[ \t]*[0-9A-Za-z])?|\d{7,11}(?:[ \t]*-[ \t]*[0-9A-Za-z])?)/gi;
 
 // ── nome de quem compôs a mesa ────────────────────────────────────────────────
 // Decisão do Fernando (07/08/2026), tópico 2 do que ele aprovou: a ata no RAG entra "sem dado
@@ -155,7 +184,9 @@ export function mascararPII(texto) {
   if (!texto) return texto;
   const semDocumento = paraLF(texto)
     .replace(CPF_ROTULADO, (_m, meio) => `CPF${meio}${MARCA}`)
-    .replace(RG_ROTULADO, (_m, meio) => `RG${meio}${MARCA}`);
+    .replace(RG_ROTULADO, (_m, meio) => `RG${meio}${MARCA}`)
+    // Por último: o que sobrou sem rótulo nenhum, e SÓ se o dígito verificador fechar.
+    .replace(CPF_SOLTO, (m) => (cpfValido(m) ? MARCA : m));
   return mascararNomesDaMesa(semDocumento);
 }
 
@@ -168,9 +199,11 @@ export function mascararPII(texto) {
  */
 export function _temPII(texto) {
   if (!texto) return false;
-  CPF_ROTULADO.lastIndex = 0;
-  RG_ROTULADO.lastIndex = 0;
-  const s = paraLF(texto); // mesmo motivo do mascararPII: sem isto, CRLF esconde o documento
-  if (CPF_ROTULADO.test(s) || RG_ROTULADO.test(s)) return true;
-  return mascararNomesDaMesa(s) !== s;
+  // 🔴 O detector É o mascarador. Antes ele REIMPLEMENTAVA a regra — e as duas versões derivaram:
+  // em 09/08/2026 o `_temPII` devolvia `false` em 89 das 212 atas que tinham CPF de dígito
+  // verificador válido, e o guard da ingestão passou verde no CI com o documento legível dentro.
+  // O comentário acima já dizia "é impossível existir um caso que o mascarador trata e o detector
+  // não vê"; agora isso é verdade por construção, não por disciplina.
+  const s = paraLF(texto);
+  return mascararPII(s) !== s;
 }

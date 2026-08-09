@@ -191,5 +191,45 @@ ok(_temPII('RG sob n.º 12.718.974') === true, 'detector acha RG');
 ok(_temPII(legitimo) === false, 'detector NÃO acusa texto legítimo');
 ok(_temPII(lim) === false, 'texto já mascarado passa limpo no detector');
 
+// -- 4. as formas que o LOTE REAL de 212 atas revelou (09/08/2026) -----------------------------
+// O guard passou no CI e mesmo assim sobraram 151 CPFs de digito verificador valido em 89 atas.
+// Fixture prova o MECANISMO; so o dado real prova a realidade. Cada caso e uma forma copiada do
+// lote, com CPFs FICTICIOS de digito valido no lugar dos numeros.
+//
+// Causa principal: a extracao das atas QUEBRA A LINHA entre o rotulo e o numero (o rotulo "CPF:"
+// fecha a linha e o numero abre a seguinte) e o gap do padrao excluia a quebra de linha.
+console.log('\n--- formas do lote real de 212 atas ---');
+
+const CPF_FICT = '529.982.247-25';   // digito verificador fecha
+const CPF_FICT2 = '411.000.000-97';
+const QUEBRA = String.fromCharCode(10); // literal, para o heredoc nao transformar
+
+ok(mascararPII('portadora do CPF:' + QUEBRA + QUEBRA + CPF_FICT + ', domiciliada').includes('[removido]'),
+  'rotulo e numero em LINHAS DIFERENTES (a forma que deixou 89 atas sujas)');
+ok(mascararPII('qualificada sob n. ' + CPF_FICT2 + ', residente').includes('[removido]'),
+  'CPF SEM o rotulo, mas com digito verificador valido');
+ok(mascararPII('CPF: 529.982.247.25 e outros').includes('[removido]'),
+  'ponto no lugar do hifen antes do digito (8x no lote)');
+ok(mascararPII('CPF n. 529. 982.247-25').includes('[removido]'), 'espaco depois do ponto');
+ok(mascararPII('CPF n. 529.982.247- 25').includes('[removido]'), 'espaco antes do digito verificador');
+ok(mascararPII('RG: 12 345 678, expedido').includes('[removido]'), 'RG com ESPACO separando os grupos');
+
+// CONTROLES - o motivo de a ancora no rotulo existir. Mascarar demais destroi a ata.
+console.log('\n--- controles: o que NAO pode ser mascarado ---');
+const legit = [
+  ['aprovada a previsao orcamentaria de R$ 101.893,87 para o exercicio', 'valor em reais'],
+  ['conforme a Lei 4.591/64 e o art. 1.336 do Codigo Civil', 'numero de lei e de artigo'],
+  ['o condominio, CNPJ 17.057.515/0001-20, representado', 'CNPJ do condominio (nao e pessoa)'],
+  ['protocolo 123.456.789-11 do processo', 'shape de CPF com digito INVALIDO e sem rotulo'],
+  ['saldo de R$ 1.234.567,89 em caixa', 'valor grande em reais'],
+];
+for (const [txt, rotulo] of legit) ok(mascararPII(txt) === txt, 'preserva ' + rotulo);
+
+// O detector tem de enxergar exatamente o que o mascarador trata - senao a ingestao APROVA o que
+// deveria abortar. Foi o que aconteceu: _temPII devolvia false nas 89 atas sujas.
+ok(_temPII('portadora do CPF:' + QUEBRA + CPF_FICT) === true, 'detector ve o CPF na linha seguinte');
+ok(_temPII('sob n. ' + CPF_FICT2) === true, 'detector ve o CPF sem rotulo');
+for (const [txt, rotulo] of legit) ok(_temPII(txt) === false, 'detector NAO acusa ' + rotulo);
+
 console.log(`\n${falhas === 0 ? 'TODOS OS TESTES VERDES' : falhas + ' FALHA(S)'}`);
 process.exit(falhas === 0 ? 0 : 1);
