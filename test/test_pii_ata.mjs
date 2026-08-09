@@ -214,6 +214,48 @@ ok(mascararPII('CPF n. 529. 982.247-25').includes('[removido]'), 'espaco depois 
 ok(mascararPII('CPF n. 529.982.247- 25').includes('[removido]'), 'espaco antes do digito verificador');
 ok(mascararPII('RG: 12 345 678, expedido').includes('[removido]'), 'RG com ESPACO separando os grupos');
 
+// ── 09/08/2026: os 6 que sobreviveram ao lote de 212, medidos NAS ATAS EM PRODUCAO ────────────────
+// Todos ROTULADOS ("portador do CPF sob o n°", "RG:") e mesmo assim legiveis. O que escapou nao foi
+// o rotulo nem a quebra de linha (as duas ja tinham teste) - foi o FORMATO DO NUMERO: a extracao
+// deixa o separador PELA METADE. Roseiras II, Vale Supremo e Vila Rio Preto.
+// Numeros ficticios com digito valido; os formatos sao os que o dado real trouxe.
+console.log('\n--- separador PARCIAL, com rotulo (os 6 do lote de 09/08) ---');
+ok(mascararPII('portador do CPF sob o n. 529982247 25, residente').includes('[removido]'),
+  'sem ponto nenhum e ESPACO antes do digito ("DDDDDDDDD DD")');
+ok(mascararPII('do CPF sob o n. 529982.247-25, residente').includes('[removido]'),
+  'falta o PRIMEIRO ponto ("DDDDDD.DDD-DD")');
+ok(mascararPII('portador do CPF sob o n. 529982247-25, residente').includes('[removido]'),
+  'sem pontos, so o hifen ("DDDDDDDDD-DD")');
+ok(mascararPII('RG: 529982.247-25 Secretaria').includes('[removido]'),
+  'numero em forma de CPF rotulado como RG (Vale Supremo)');
+ok(mascararPII('inscrito no CPF n.529.982,247-25, RG sob n. 12.345.678').includes('[removido]'),
+  'VIRGULA no lugar do ponto (Piemonte) - aparece no diff da propria correcao');
+
+// ── documento com a CONTAGEM DE DIGITOS corrompida pela extracao ───────────────────────────────────
+// 30 ocorrencias no lote, em 14 formatos. Nao passam no digito verificador (falta ou sobra digito),
+// entao contador de CPF nao acusa - mas continuam sendo o documento de uma pessoa, legivel.
+// So valem COM rotulo: e o rotulo que diz que aquele numero e documento e nao valor nem data.
+console.log('\n--- documento com digito faltando ou sobrando (OCR) ---');
+for (const [txt, nome] of [
+  ['portador do CPF 52.998.224-72 e', 'CPF com 10 digitos'],
+  ['CPF sob o n. 52.998.224.725 e', 'CPF com 12 digitos'],
+  ['CPF: 529.982.247-2 residente', 'digito verificador truncado'],
+  ['CPF n. 529.98.247-25, brasileiro', 'grupo do meio com 2 digitos'],
+  ['CPF 5299822 e RG', 'CPF com 7 digitos'],
+  ['RG sob o n. 529982 expedido', 'RG com 6 digitos'],
+]) ok(mascararPII(txt).includes('[removido]'), nome);
+
+// Cauda orfa: o padrao consumiu parte do numero e deixou o resto colado na marca (Flores, Roseiras II)
+ok(!/\d/.test(mascararPII('RG sob o n.º 12.345,678-9, residente').replace(/\D/g, '')),
+  'nao sobra pedaco de documento colado no [removido]');
+// CONTROLE da cauda: numero que vem depois da marca SEM separador nao e cauda, e nao pode sumir
+ok(mascararPII('CPF: 529.982.247-25 Presidente 4 | Pagina 2').includes('Presidente 4'),
+  'numeracao depois da marca (sem separador) fica intacta');
+// O detector tem de acusar os MESMOS casos: era o `_temPII` dizendo false nesses 4 arquivos que
+// deixava a ingestao aprovar a ata com o documento dentro.
+ok(_temPII('portador do CPF sob o n. 529982247 25, residente') === true, 'detector ve o separador parcial');
+ok(_temPII('RG: 529982.247-25 Secretaria') === true, 'detector ve o rotulado como RG');
+
 // CONTROLES - o motivo de a ancora no rotulo existir. Mascarar demais destroi a ata.
 console.log('\n--- controles: o que NAO pode ser mascarado ---');
 const legit = [
@@ -222,6 +264,20 @@ const legit = [
   ['o condominio, CNPJ 17.057.515/0001-20, representado', 'CNPJ do condominio (nao e pessoa)'],
   ['protocolo 123.456.789-11 do processo', 'shape de CPF com digito INVALIDO e sem rotulo'],
   ['saldo de R$ 1.234.567,89 em caixa', 'valor grande em reais'],
+  // Estes tres entram em 09/08 junto com o afrouxamento do separador: sao o que o fix NAO pode comer.
+  // O rotulo "CPF" perto de um numero que nao e CPF e o cenario de risco de afrouxar o separador.
+  ['CPF/CNPJ: 17.057.515/0001-20 da administradora', 'CNPJ colado no rotulo CPF'],
+  ['CPF nao informado; ver R$ 101.893,87 no balancete', 'valor em R$ logo depois da palavra CPF'],
+  ['CPF nao consta. Lei 4.591/64, art. 1.336 do Codigo Civil', 'lei e artigo depois da palavra CPF'],
+  // O risco que a VIRGULA abre: valor em R$ com 11 digitos (3-3-3-2) perto do rotulo. Precisaria
+  // passar de cem milhoes, mas o controle fica escrito - se um dia colidir, este teste avisa.
+  ['CPF a informar; obra de R$ 123.456.789,01 aprovada', 'valor de 9 digitos + centavos perto do rotulo'],
+  // ⚠️ Controles do bloco acima: com o rotulo aceitando numero de tamanho irregular, o que impede
+  // de comer dinheiro e a proibicao do "$" no meio, e de comer lei/data e o minimo de 6 digitos.
+  ['CPF e valor: R$ 101.893,87 no balancete', 'valor em R$ COLADO no rotulo'],
+  ['CPF nao consta; ver Lei 4.591 de 1964', 'numero de lei perto do rotulo'],
+  ['CPF: ver ata de 15/03/2024 para detalhe', 'data perto do rotulo'],
+  ['RG: [removido] Presidente 4 | Pagina 2', 'numeracao de pagina depois do rotulo ja mascarado'],
 ];
 for (const [txt, rotulo] of legit) ok(mascararPII(txt) === txt, 'preserva ' + rotulo);
 
