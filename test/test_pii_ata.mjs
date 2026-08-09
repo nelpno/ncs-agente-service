@@ -116,6 +116,13 @@ ok(!/VIVIANE APARECIDA CEREDA FERREIRA/.test(eleito), 'nome de quem foi eleito a
 ok(/Secretaria Municipal da Educação/.test(eleito), '...e o ÓRGÃO onde ela trabalha permanece');
 ok(/CONSELHEIRA FISCAL SUPLENTE/.test(eleito), '...e o cargo eleito permanece');
 
+// 🔴 o token de nome começava NO MEIO de uma palavra (Tríade 15/10/2025, verbatim): em
+// "E RG Nº 12.718.974" ele começava no "G" de "RG" e o texto virava "E R[nome removido]".
+const rgNumero = mascararPII('ARQUITETO, JOSE DA SILVA CPF Nº 123.456.789-00 E RG Nº 12.718.974, RESIDENTE');
+ok(!/R\[nome removido\]/.test(rgNumero), 'o rótulo RG não é partido ao meio');
+ok(/E RG Nº/.test(rgNumero), '...e "E RG Nº" continua legível');
+ok(mascararPII(rgNumero) === rgNumero, 'o mascaramento CONVERGE numa passada só');
+
 // 🔴 "RG" sem fronteira de palavra casava DENTRO de "CA-RG-OS" (Lume 19/07/2024)
 const cargos = 'para todos os fins e direitos; OS OUTROS CARGOS FICARAM EM VACÂNCIA E SERÃO APRESENTADOS';
 ok(mascararPII(cargos) === cargos, '"CARGOS" não é confundido com o rótulo RG');

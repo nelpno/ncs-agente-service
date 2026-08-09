@@ -60,7 +60,10 @@ const DOC = '(?:\\bCPF\\b|\\bRG\\b|\\[removido\\])';
 // ⚠️ Sem ponto no corpo do token: com ele, "Sr. José Aparecido de Oliveira. Passando para o item 4"
 // virava um "nome" que atravessava o fim da frase, e a substituição levava junto o começo da frase
 // seguinte. O preço é perder o ponto de abreviações no meio do nome — irrelevante, já que o nome sai.
-const TOKEN = `(?!CPF\\b|RG\\b|Cpf\\b|Rg\\b|${CARGO})\\p{Lu}[\\p{L}'’-]*`;
+// ⚠️ O `\b` inicial não é decoração: sem ele o token começa NO MEIO de uma palavra. Em
+// "E RG Nº [removido]" ele começava no "G" de "RG", montava o "nome" G+Nº e o texto virava
+// "E R[nome removido] [removido]" — corrupção visível, mas silenciosa em quem convergisse.
+const TOKEN = `\\b(?!CPF\\b|RG\\b|Cpf\\b|Rg\\b|${CARGO})\\p{Lu}[\\p{L}'’-]*`;
 // ⚠️ Espaço e tab, NUNCA \s: \s casa quebra de linha, e aí o "nome" atravessava o fim do parágrafo
 // e a substituição COLAPSAVA as duas linhas numa só (media 8 das 25 atas). Nome não muda de linha.
 const NOME = `${TOKEN}(?:[ \\t]+(?:(?:de|da|do|dos|das|e)[ \\t]+)?${TOKEN}){1,6}`;
