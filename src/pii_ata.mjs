@@ -143,9 +143,17 @@ function mascararNomesDaMesa(texto) {
  * o leitor humano saiba que ali havia um dado — apagar sem marca esconde a edição e atrapalha
  * quem for conferir contra o original.
  */
+// 🔴 CRLF cegava o mascarador. Os padrões usam `\n` e `[^0-9\n]` para não atravessar linha; com
+// CRLF sobra um `\r` que entra na janela e desloca o casamento, então `_temPII` devolvia FALSE no
+// Windows e TRUE no Linux para os MESMOS bytes. O script imprimia "0 com PII, tudo limpo" e não
+// gravava nada — a verificação virava no-op justo onde ela roda, e ficava cega onde o dado importa
+// (o CI e a produção são Linux). Quem pegou foi o gate do CI, não o script. Medido nos dois lados.
+// Normalizar na ENTRADA de ambas as funções é o que garante o mesmo resultado em qualquer SO.
+const paraLF = (s) => String(s).replace(/\r\n/g, '\n');
+
 export function mascararPII(texto) {
   if (!texto) return texto;
-  const semDocumento = String(texto)
+  const semDocumento = paraLF(texto)
     .replace(CPF_ROTULADO, (_m, meio) => `CPF${meio}${MARCA}`)
     .replace(RG_ROTULADO, (_m, meio) => `RG${meio}${MARCA}`);
   return mascararNomesDaMesa(semDocumento);
@@ -162,7 +170,7 @@ export function _temPII(texto) {
   if (!texto) return false;
   CPF_ROTULADO.lastIndex = 0;
   RG_ROTULADO.lastIndex = 0;
-  const s = String(texto);
+  const s = paraLF(texto); // mesmo motivo do mascararPII: sem isto, CRLF esconde o documento
   if (CPF_ROTULADO.test(s) || RG_ROTULADO.test(s)) return true;
   return mascararNomesDaMesa(s) !== s;
 }

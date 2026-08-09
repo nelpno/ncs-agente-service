@@ -166,6 +166,25 @@ ok(mascararPII(naoAssinatura) === naoAssinatura, 'linha de pauta seguida de text
 const duasLinhas = 'aprovado o Espaço Grill\nMARCOS ROBERTO GALIANI CPF: 123.456.789-00 PRESIDENTE';
 ok(mascararPII(duasLinhas).split('\n').length === 2, 'mascaramento preserva o número de linhas');
 
+// ── 2-quater. CRLF não pode esconder o documento ────────────────────────────
+// 🔴 O mascarador era NO-OP no Windows: `_temPII` devolvia false com CRLF e true com LF nos MESMOS
+// bytes, então o script imprimia "0 com PII, tudo limpo" e não gravava nada. A verificação virava
+// no-op justo onde ela roda (Windows) e ficava cega onde o dado importa (CI e produção são Linux).
+// Quem pegou foi o gate do CI. O teste compara os DOIS finais de linha no mesmo texto.
+const comQuebras = [
+  'A Assembleia foi presidida pelo Sr. ANGELO RODRIGUES GOLDONI, brasileiro, casado,',
+  'aposentado, portador do RG sob n.º 12.718.974, portador do CPF sob n.º 075.992.948-30,',
+  'residente e domiciliado nesta cidade.',
+];
+const emLF = comQuebras.join('\n');
+const emCRLF = comQuebras.join('\r\n');
+ok(_temPII(emLF) === true, 'detector acha o documento com LF');
+ok(_temPII(emCRLF) === true, 'detector acha o MESMO documento com CRLF');
+ok(_temPII(emLF) === _temPII(emCRLF), 'detector dá o mesmo veredito nos dois finais de linha');
+ok(!/075\.992\.948-30/.test(mascararPII(emCRLF)), 'mascarador remove o CPF mesmo com CRLF');
+ok(!/12\.718\.974/.test(mascararPII(emCRLF)), 'mascarador remove o RG mesmo com CRLF');
+ok(mascararPII(emCRLF).split('\n').length === 3, '...preservando as 3 linhas');
+
 // ── 3. detector auxiliar (usado para ABORTAR a ingestão se algo escapar) ────
 ok(_temPII('CPF sob n.º 075.992.948-30') === true, 'detector acha CPF');
 ok(_temPII('RG sob n.º 12.718.974') === true, 'detector acha RG');
