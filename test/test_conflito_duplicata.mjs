@@ -53,6 +53,43 @@ await t('sem CPF → conflito pelo nome (fluxo antigo não regride)', async () =
   assert.equal(r.conflito, true);
 });
 
+console.log('\n[1b] o ERP grava espaço a mais no meio do nome — ninguém digita assim');
+
+// Achado no stress de 08/08 (cenário S13): a Ana preparou o cadastro de "DANIEL PAGANIN" numa unidade
+// onde ele JÁ é o inquilino, e o guard não acusou. Provado no container, com controle positivo:
+//   checarConflito('DANIEL PAGANIN')  → false        ← como a pessoa digita
+//   checarConflito('DANIEL  PAGANIN') → true         ← copiado byte a byte do ERP (2 espaços)
+// `norm` fazia trim() mas não colapsava espaço INTERNO. 10 de 1.187 contatos numa amostra de 5
+// condomínios têm isso. Com a gravação ligada, é a mesma pessoa cadastrada 2× na unidade.
+const COM_ESPACO_DUPLO = [
+  { st_nome_con: 'HELIO SEGNINI ', st_cpf_con: '', id_contato_con: '900' },
+  { st_nome_con: 'DANIEL  PAGANIN', st_cpf_con: '', id_contato_con: '901' }, // como o ERP devolve
+];
+const conflitoRosa = (d) => cadastroInquilino.checarConflito({}, { id_condominio: '172', id_unidade: '13067', ...d },
+  { responsaveisIndex: async () => COM_ESPACO_DUPLO });
+
+await t('ERP com 2 espaços, pessoa digita 1 → conflito (o caso real do S13)', async () => {
+  const r = await conflitoRosa({ nome: 'DANIEL PAGANIN', cpf: '41106335244' });
+  assert.equal(r.conflito, true, 'o espaço a mais no cadastro do ERP cegou o guard de duplicata');
+});
+
+await t('o inverso também: pessoa digita 2 espaços, ERP tem 1 → conflito', async () => {
+  const r = await conflito({ nome: 'Bruno  Muller  de Souza', cpf: '11144477735' });
+  assert.equal(r.conflito, true, 'espaço extra digitado pela pessoa quebrou a comparação');
+});
+
+await t('espaço no fim do nome do ERP continua sem atrapalhar', async () => {
+  const r = await conflitoRosa({ nome: 'Helio Segnini', cpf: '11144477735' });
+  assert.equal(r.conflito, true, 'o trim() regrediu');
+});
+
+await t('🔴 CONTROLE: colapsar espaço NÃO pode passar a casar nome PARCIAL', async () => {
+  // Decisão registrada em 16/07: casar parcial arrisca falso-positivo em famílias homônimas.
+  // Colapsar espaço é normalização da MESMA string — não pode abrir essa porta de carona.
+  const r = await conflito({ nome: 'Muller de Souza', cpf: '11144477735' });
+  assert.equal(r.conflito, false, 'nome parcial passou a casar — isso barra cadastro legítimo de parente');
+});
+
 console.log('\n[2] controle: pessoa NOVA entra normalmente (o guard não pode travar tudo)');
 
 await t('nome e CPF novos → SEM conflito', async () => {

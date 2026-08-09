@@ -18,6 +18,36 @@ async function auditar(ev) {
   catch (e) { console.warn(`[engine] auditoria do evento "${ev?.tipo}" falhou (a operação em si aconteceu):`, e.message); }
 }
 
+/**
+ * Um cadastro, um card: expira o rascunho ANTERIOR da mesma conversa quando um novo o substitui.
+ *
+ * Nasceu do stress de 08/08 (cenário S12): a Ana preparou o cadastro, seguiu conversando como se não
+ * tivesse preparado, e preparou de novo — dois cards idênticos com 12 s de diferença. Na fila REAL de
+ * 07/08 a Maria Poliana tinha 2 rascunhos do mesmo cadastro. Com `WRITE_REAL_ACTIONS` ligado e os
+ * dois aprovados, é a mesma pessoa cadastrada duas vezes na unidade.
+ *
+ * ⚠️ Só toca rascunho que ainda está `pendente`. Se um humano já aprovou/rejeitou o anterior, o novo
+ * é um pedido de verdade e os dois valem — sobrescrever apagaria uma decisão que alguém tomou.
+ * ⚠️ Defensivo de ponta a ponta: isto roda DEPOIS de o card novo já existir, então falhar aqui não
+ * pode derrubar nada. O pior caso é voltar a ter dois cards, que é o estado de antes.
+ */
+export async function substituirRascunho(draftIdAnterior, { motivo = 'substituído por um rascunho mais novo da mesma conversa' } = {}) {
+  if (!draftIdAnterior) return { ok: false, motivo: 'sem_draft' };
+  try {
+    const anterior = await getDraft(draftIdAnterior);
+    if (!anterior) return { ok: false, motivo: 'nao_encontrado' };
+    if (anterior.status !== 'pendente') return { ok: false, motivo: `ja_${anterior.status}` };
+    await updateDraft(draftIdAnterior, { status: 'expirado' });
+    // `tipo: 'expirado'` de propósito — o vocabulário de eventos já existente, com o porquê no detalhe.
+    await auditar({ tipo: 'expirado', draftId: draftIdAnterior, detalhe: motivo });
+    await fecharFilaDoDraft(draftIdAnterior, 'expirada'); // senão sobra linha órfã aberta para sempre
+    return { ok: true, substituido: draftIdAnterior };
+  } catch (e) {
+    console.warn('[engine] substituirRascunho falhou (ficam 2 cards, que é o estado de antes):', e.message);
+    return { ok: false, motivo: 'erro', detalhe: e.message };
+  }
+}
+
 export async function criarRascunho(acaoId, dados, ctx = {}) {
   const acao = getAction(acaoId);
   if (!acao) return { ok: false, motivo: 'acao_desconhecida' };

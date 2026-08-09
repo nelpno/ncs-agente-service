@@ -130,7 +130,14 @@ export const cadastroInquilino = {
 };
 registerAction(cadastroInquilino);
 
-const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').trim();
+// ⚠️ O `\s+ → ' '` não é zelo: o ERP guarda "DANIEL  PAGANIN" com DOIS espaços, e ninguém digita
+// assim. Sem colapsar, a comparação de nome do `checarConflito` falha calada e a duplicata passa —
+// medido no stress de 08/08 (cenário S13) e provado no container com controle positivo: o mesmo nome
+// copiado byte a byte do ERP acusava, o nome digitado não. 10 de 1.187 contatos numa amostra de 5
+// condomínios têm espaço duplo. Colapsar é normalização da MESMA string; NÃO abre para nome parcial
+// ("Muller de Souza" continua não casando "Bruno Muller de Souza"), que é decisão de 16/07 e tem
+// teste próprio.
+const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '').replace(/\s+/g, ' ').trim();
 
 async function snapshot(ctx, d, io = {}) {
   const respIndex = io.responsaveisIndex || _respIndex;

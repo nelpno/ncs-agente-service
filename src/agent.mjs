@@ -19,6 +19,7 @@ import * as CND from './cnd.mjs';
 import * as DOCIA from './docia/docia.mjs';
 import * as DOSSIE from './docia/dossie.mjs';
 import * as ENGINE from './write/engine.mjs';
+import * as DEDUPE from './write/dedupe_rascunho.mjs';
 import * as FILA from './fila.mjs'; // F1: a Ana carimba o ticket na fila `solicitacoes` (flag FILA_ANA_ENABLED)
 import './write/actions/cadastro_inquilino.mjs'; // side-effect: registerAction
 import * as TITU from './write/actions/titularidade.mjs'; // registra a ação titularidade + extrairProprietariosAtuais (tool gated por TITULARIDADE_ENABLED)
@@ -289,6 +290,17 @@ async function runToolReal(name, args, ctx) {
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
         resumo: `Cadastro de ${args.nome} na unidade ${args.id_unidade}` });
+      // Um cadastro, um card. Se esta MESMA conversa já tinha preparado este MESMO cadastro (mesma
+      // unidade + pessoa + papel), o card antigo sai e vale o novo — que pode ser a correção de um
+      // dado. Roda DEPOIS de o novo existir: falhar aqui devolve os 2 cards, que é o estado de antes.
+      // Medido no stress de 08/08 (S12): 1 conversa em 48 preparou duas vezes, calada.
+      if (DEDUPE.dedupeAtivo()) {
+        const { expirar } = DEDUPE.registrarRascunho(ctx.sessionCtx, { id_unidade: idu, nome: args.nome, papel: args.papel }, r.draftId);
+        if (expirar) {
+          const sub = await ENGINE.substituirRascunho(expirar);
+          console.log(`[cadastro] rascunho ${expirar} substituído por ${r.draftId}: ${sub.ok ? 'ok' : sub.motivo}`);
+        }
+      }
       // F1: carimba a solicitação de escrita-ERP na fila, VINCULADA ao rascunho (draft_id). Flag off = no-op.
       try { await FILA.registrarSolicitacao({ tipo: 'cadastro_inquilino', assunto: `Cadastro de inquilino${ctx.condominios?.[idc] ? ' - ' + ctx.condominios[idc] : ''}`, requester: ctx.solicitante || null, draftId: r.draftId }); } catch (e) { console.warn('[fila] cadastro nao registrado:', e.message); }
       return { criado: true, protocolo: r.draftId, aguardando_aprovacao: true,
