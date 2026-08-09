@@ -34,8 +34,24 @@ const RG_ROTULADO = /\bRG\b([^0-9\n]{0,20})(\d{1,3}(?:\.\d{3}){1,3}(?:\s*-\s*[0-
 const MARCA_NOME = '[nome removido]';
 const semAcento = (s) => String(s).normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '');
 
-const CARGO = '(?:PRESIDENTE|PRESIDENTA|SECRET[ÁA]RI[OA]|S[ÍI]NDIC[OA]|SUBS[ÍI]NDIC[OA]|CONSELHEIR[OA])';
-const DOC = '(?:CPF|RG|\\[removido\\]|portador|portadora|inscrit[oa])';
+// 🔴 NUNCA usar a flag `i` nos regexes que contêm o TOKEN de nome. Em JavaScript, `i` + `u` faz
+// case-folding e `\p{Lu}` passa a casar MINÚSCULA — o token deixa de exigir maiúscula e o "nome"
+// engole a frase inteira. Foi exatamente isso que aconteceu ao acrescentar o lookbehind de
+// logradouro: "O Sr. Alexandre esclareceu que a responsabilidade é de quem realizou a reserva"
+// virou "O Sr. [nome removido] realizou a reserva" — o sentido INVERTEU (de regra geral para fato
+// sobre uma pessoa) e nada acusou. Por isso a insensibilidade a caixa é escrita letra a letra.
+const ci = (s) => s.replace(/[a-zA-ZÀ-ÿ]/g, (c) => `[${c.toUpperCase()}${c.toLowerCase()}]`);
+const CARGO = `(?:${['PRESIDENTE', 'PRESIDENTA', 'SECRETÁRIO', 'SECRETÁRIA', 'SECRETARIO', 'SECRETARIA',
+  'SÍNDICO', 'SÍNDICA', 'SINDICO', 'SINDICA', 'SUBSÍNDICO', 'SUBSÍNDICA', 'SUBSINDICO', 'SUBSINDICA',
+  'CONSELHEIRO', 'CONSELHEIRA'].map(ci).join('|')})`;
+// ⚠️ "portador/inscrito" NÃO entra aqui. Na ata a qualificação vem longe do nome — "VIVIANE
+// APARECIDA CEREDA FERREIRA, brasileira, casada, Pedagoga Coordenadora Técnica da Secretaria
+// Municipal da Educação, portadora do RG…" — então a âncora pegava as duas palavras imediatamente
+// antes de "portadora" e apagava "Municipal da Educação", deixando o NOME REAL intacto. Pior dos
+// dois mundos: perde conteúdo e não protege ninguém. Só rótulo de documento, que é imediato.
+// ⚠️ Fronteira de palavra obrigatória: sem ela "RG" casa DENTRO de "CA-RG-OS" e a frase
+// "OS OUTROS CARGOS FICARAM EM VACÂNCIA" virava "[nome removido]RGOS FICARAM EM VACÂNCIA".
+const DOC = '(?:\\bCPF\\b|\\bRG\\b|\\[removido\\])';
 // nome próprio = 2+ tokens capitalizados seguidos (de/da/do/dos/das/e no meio não contam como token).
 // ⚠️ O lookahead que barra CPF/RG/cargo é o que faz a coisa funcionar no formato real do Studio Five,
 // "LUCAS VICENTE REIS CPF: … PRESIDENTE": sem ele o quantificador guloso engolia o próprio "CPF"
@@ -52,16 +68,24 @@ const NOME = `${TOKEN}(?:[ \\t]+(?:(?:de|da|do|dos|das|e)[ \\t]+)?${TOKEN}){1,6}
 // A) tratamento antes do nome — "Sr. ANGELO RODRIGUES GOLDONI", "Srta. Naiara Affonso Amancio"
 // ⚠️ O lookbehind de logradouro existe porque "Avenida Dr. Leite de Moraes, 951" é o ENDEREÇO do
 // condomínio no cabeçalho de toda ata do Vida Plena — e o "Dr." ali é do nome da rua, não de pessoa.
+const LOGRADOURO = ['avenida', 'av', 'rua', 'r', 'alameda', 'praça', 'praca', 'travessa', 'rodovia', 'estrada', 'rod'].map(ci).join('|');
+const TRATAMENTO = ['Sr', 'Sra', 'Srta', 'Dr', 'Dra'].map(ci).join('|');
 const A_TRATAMENTO = new RegExp(
-  `(?<!\\b(?:avenida|av|rua|r|alameda|pra[çc]a|travessa|rodovia|estrada|rod)\\.?[ \\t])`
-  + `\\b(Sr|Sra|Srta|Dr|Dra)\\.?[ \\t]+(${NOME})`, 'giu');
+  `(?<!\\b(?:${LOGRADOURO})\\.?[ \\t])\\b(${TRATAMENTO})\\.?[ \\t]+(${NOME})`, 'gu');
 // B) linha de ASSINATURA: nome no início da linha seguido do cargo — "**ALEXANDRE FERRARI** — PRESIDENTE"
 // ⚠️ A âncora de início de linha (^) não é decoração: sem ela esta regra casava "ITEM 3 – ELEIÇÃO DE
 // Síndico, Subsíndico e Membros do Conselho" e transformava a PAUTA DA ELEIÇÃO em "[nome removido]".
 // Os outros formatos de assinatura ("NOME CPF: … PRESIDENTE") já são cobertos pelo C_DOC.
-const B_CARGO = new RegExp(`^([ \\t]*\\*{0,2})(${NOME})(\\*{0,2}[ \\t]*[—–\\-:,][ \\t]*\\*{0,2}${CARGO})`, 'gmiu');
+const B_CARGO = new RegExp(`^([ \\t]*\\*{0,2})(${NOME})(\\*{0,2}[ \\t]*[—–\\-:,][ \\t]*\\*{0,2}${CARGO})`, 'gmu');
 // C) nome seguido da qualificação — "NATANAEL OLIVEIRA DE SOUZA SOARES: [removido] RG:"
 const C_DOC = new RegExp(`(${NOME})(\\*{0,2}[ \\t]*[:,]?[ \\t]*(?:${DOC}))`, 'gu');
+// E) CARGO seguido de dois-pontos e o nome — é assim que a ata registra quem foi eleito:
+// "1º CONSELHEIRA FISCAL SUPLENTE: VIVIANE APARECIDA CEREDA FERREIRA, brasileira, casada…".
+// Sem esta âncora esse nome ficava, porque não tem tratamento ("Sra.") nem documento colado.
+// O miolo aceita só MAIÚSCULAS e espaço até os dois-pontos: assim casa " FISCAL SUPLENTE" e não
+// casa "ITEM 3 – ELEIÇÃO DE Síndico, Subsíndico e Membros do Conselho:", que tem vírgulas e
+// minúsculas e é PAUTA, não eleição registrada.
+const E_CARGO_DOIS_PONTOS = new RegExp(`(${CARGO}[A-ZÁÂÃÀÉÊÍÓÔÕÚÜÇ \\t]{0,25}:[ \\t]*)(${NOME})`, 'gu');
 
 // Se a sequência carrega uma destas, não é pessoa — é a entidade, o cargo, o endereço ou a pauta.
 const ESTRUTURAL = /condominio|residencial|edificio|associacao|assembleia|geral|ordinaria|extraordinaria|instalacao|presiden|secretari|sindic|conselho|\bata\b|cpf|\brg\b|\brua\b|\bav\b|avenida|alameda|\bpraca\b|travessa|rodovia|estrada|\brod\b|\bvila\b|\bjardim\b|\bbairro\b|\bcep\b|delibera|aprova|presta|previsao|orcament|taxa|reajuste|rateio|\bitem\b|assunto|relatorio|convenc|regimento|eleica|eleicao|eleger|vacancia|\bcargo|energia|ligacao|interesse|economista|socio\b|\bgrupo\b|\bncs\b|administradora|imobiliaria|construtora|incorporadora|\bempresa|ltda|\bbanco\b|\bs\.?a\.?\b/i;
@@ -106,7 +130,8 @@ function mascararNomesDaMesa(texto) {
     String(texto)
       .replace(A_TRATAMENTO, (m, trat, nome) => (ehPessoa(nome) ? `${trat}. ${MARCA_NOME}` : m))
       .replace(B_CARGO, (m, cabeca, nome, cauda) => `${cabeca}${trocaSeForPessoa(nome)}${cauda}`)
-      .replace(C_DOC, (m, nome, cauda) => `${trocaSeForPessoa(nome)}${cauda}`));
+      .replace(C_DOC, (m, nome, cauda) => `${trocaSeForPessoa(nome)}${cauda}`)
+      .replace(E_CARGO_DOIS_PONTOS, (m, cabeca, nome) => `${cabeca}${trocaSeForPessoa(nome)}`));
 }
 
 /**

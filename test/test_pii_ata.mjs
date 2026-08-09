@@ -94,6 +94,32 @@ for (const pauta of [
 const endereco = 'localizado na Rua Didimo Vieira da Silva, 507 - Vila Ferroviária, Araraquara-SP, CEP 14802-370';
 ok(mascararPII(endereco) === endereco, 'endereço do condomínio intacto');
 
+// 🔴 REGRESSÃO REAL (Lume 19/03/2026, achada comparando o disco com o PDF do Drive): a flag `i`
+// num regex com \p{Lu} faz case-folding, o token de nome deixa de exigir maiúscula e engole a
+// frase. O 2º caso é o que dói: o sentido INVERTE — de "a responsabilidade é de quem reservou"
+// (regra geral) para "ele reservou" (fato sobre uma pessoa). Nada acusou: nem o pino, nem o
+// verificador semântico, nem a lista de removidos (que usava um regex diferente, sem `i`).
+const narrativas = [
+  'O Sr. Alexandre informou que a referida manutenção se faz necessária em razão da existência de goteiras',
+  'O Sr. Alexandre esclareceu que a responsabilidade é de quem realizou a reserva da quadra',
+  'A Sra. Marcela apresentou o orçamento e pediu que os moradores avaliassem as três propostas',
+];
+for (const f of narrativas) {
+  ok(mascararPII(f) === f, `narrativa com nome de 1 token fica intacta: "${f.slice(5, 42)}…"`);
+}
+
+// Eleição registrada: o cargo vem antes, com dois-pontos, e o nome NÃO tem tratamento nem
+// documento colado — sem a âncora do cargo esse nome ficava. (Lume 19/07/2024, verbatim.)
+const eleito = mascararPII('1º CONSELHEIRA FISCAL SUPLENTE: VIVIANE APARECIDA CEREDA FERREIRA, brasileira, casada, '
+  + 'Pedagoga Coordenadora Técnica da Secretaria Municipal da Educação, portadora do RG sob o nº 12.718.974');
+ok(!/VIVIANE APARECIDA CEREDA FERREIRA/.test(eleito), 'nome de quem foi eleito ao conselho sai');
+ok(/Secretaria Municipal da Educação/.test(eleito), '...e o ÓRGÃO onde ela trabalha permanece');
+ok(/CONSELHEIRA FISCAL SUPLENTE/.test(eleito), '...e o cargo eleito permanece');
+
+// 🔴 "RG" sem fronteira de palavra casava DENTRO de "CA-RG-OS" (Lume 19/07/2024)
+const cargos = 'para todos os fins e direitos; OS OUTROS CARGOS FICARAM EM VACÂNCIA E SERÃO APRESENTADOS';
+ok(mascararPII(cargos) === cargos, '"CARGOS" não é confundido com o rótulo RG');
+
 // a EMPRESA que a pessoa representa não é a pessoa (trecho real do Studio Five 27/10/2022)
 const repr = mascararPII('convidou a mim, Srta. Naiara Affonso Amancio, brasileira, solteira, representante do Grupo NCS, portadora do RG sob o nº 46.062.632-2');
 ok(/Grupo NCS/.test(repr), 'a administradora (Grupo NCS) sobrevive ao lado da qualificação');
