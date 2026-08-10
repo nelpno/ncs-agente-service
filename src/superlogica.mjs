@@ -223,7 +223,21 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
   const _listCondominios = deps.listCondominios || listCondominios;
   const _slGet = deps.slGet || slGet;
 
-  const condos = _filtrarCondos(await _listCondominios(), condominio);
+  const _todosCondos = await _listCondominios();
+  const condos = _filtrarCondos(_todosCondos, condominio);
+  // ⚠️ `_filtrarCondos` é um FILTRO: quando nenhum degrau casa, ele devolve a lista INTEIRA de volta.
+  // Isso é "não localizei esse condomínio", NUNCA "achei todos" — e a diferença custou caro em
+  // 10/08/2026 (conversa 830): a moradora escreveu "Spazzio aboccato" (dois Z, um C a menos), a
+  // varredura rodou nos 59 e a Ana respondeu "achei estas opções no condomínio Vale Supremo",
+  // listando 9 blocos de um prédio que ela nunca citou; ao confirmar "Bloco 4", recebeu os canais da
+  // garantidora DO VALE SUPREMO. Um erro de digitação virou informação acionável sobre outro
+  // condomínio. Os módulos de cobrança/carteira/cobrador já faziam essa distinção; a identificação,
+  // que é a porta de entrada de todos eles, não fazia.
+  const semCondominio = !!condominio && _todosCondos.length > 1 && condos.length === _todosCondos.length;
+  const naoLocalizado = () => ({ encontrado: false, unidades: [], motivo: 'condominio_nao_localizado', condominio_informado: condominio });
+  // Sem CPF/telefone o condomínio é a ÚNICA âncora — a unidade "403" existe em dezenas de prédios.
+  // Sai antes da varredura: além de correto, poupa 59 chamadas à API.
+  if (semCondominio && !cpfd && !telTail) return naoLocalizado();
 
   const q = { cpfd, telTail, nomeN, unidadeQ };
   const matches = [];
@@ -256,6 +270,12 @@ export async function resolver_cadastro({ cpf, nome, condominio, telefone, unida
 
   const best = Math.max(...matches.map((m) => m.score));
   const criterio = matches.find((m) => m.score === best).criterio;
+  // O condomínio que a pessoa nomeou não foi localizado e o match veio de unidade/nome: o candidato
+  // está num prédio que ela não citou (homônimos e o mesmo nº de apartamento se repetem entre os 59).
+  // CPF e telefone seguem valendo — são âncora própria, e um CPF pode mesmo ter unidade em 2+
+  // condomínios (test_resolver_multi_condo.mjs). Falha FECHADA: pedir o nome certo é recuperável;
+  // entregar o apartamento de outro condomínio não é.
+  if (semCondominio && criterio !== 'cpf' && criterio !== 'telefone') return naoLocalizado();
   const confianca = best >= 80 ? 'alta' : best >= 50 ? 'media' : 'baixa';
   const seen = new Set(); const unidades = [];
   for (const m of matches.filter((m) => m.score === best)) {

@@ -138,8 +138,14 @@ body[data-screen="login"] #s-login{display:grid;place-items:center}
 
 /* ============ APP SHELL ============ */
 .app{display:grid;grid-template-columns:266px 1fr;height:100vh;height:100dvh;overflow:hidden}
+/* ⚠️ min-height:0 + overflow:hidden NÃO são decoração: `.side` é GRID ITEM (min-height:auto por
+   padrão), então com a lista de conversas cheia ela cresce, estica a linha do grid e empurra a coluna
+   do chat para baixo — o composer sai da tela e o `overflow:hidden` do `.app` o corta, sem barra de
+   rolagem para trazê-lo de volta. Medido em 10/08 (vídeo do Natanael): com 20 conversas o composer
+   ficava 110px fora da viewport EM QUALQUER ALTURA, até 900px, e o "+ Nova conversa" sumia junto.
+   Quem tem 0-2 conversas nunca vê o defeito — foi por isso que a varredura de 60 telas não o pegou. */
 .side{background:var(--sidebar);color:var(--sidebar-ink);display:flex;flex-direction:column;
-  padding:16px 14px;gap:4px;border-right:1px solid var(--sidebar-line)}
+  padding:16px 14px;gap:4px;border-right:1px solid var(--sidebar-line);min-height:0;overflow:hidden}
 .side-brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px}
 .side-brand img{height:34px;width:34px}
 .side-brand .wm{font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1;letter-spacing:-.01em}
@@ -158,7 +164,9 @@ body[data-screen="login"] #s-login{display:grid;place-items:center}
 .nav-item .ic{width:18px;text-align:center;opacity:.85}
 .nav-item:hover{background:rgba(255,255,255,.06)}
 .nav-item.on{background:rgba(211,222,17,.14);color:#eef0c0}
-.conv-list{display:flex;flex-direction:column;gap:1px;overflow:auto;margin-top:2px}
+/* min-height:0 é o que faz a lista ENCOLHER e rolar dentro de si; sem ele o `overflow:auto` nunca
+   chega a valer, porque o item flex se recusa a ficar menor que o conteúdo (min-height:auto). */
+.conv-list{display:flex;flex-direction:column;gap:1px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;min-height:0;margin-top:2px}
 .conv-item{display:block;padding:9px 12px;border-radius:10px;border:none;background:transparent;width:100%;
   text-align:left;color:var(--sidebar-ink);transition:.13s}
 .conv-item:hover{background:rgba(255,255,255,.06)}

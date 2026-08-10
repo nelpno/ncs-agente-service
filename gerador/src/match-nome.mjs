@@ -8,8 +8,19 @@
 // pessoa, nunca o programa — essa colisão já quebrou um condomínio em silêncio).
 
 const COMB = new RegExp("[\\u0300-\\u036f]", "g");
+// O apóstrofo UNE, não separa: "L'Harmonie" é uma palavra só, e o ERP a grava "LHARMONIE" (colado).
+// Tratando-o como pontuação, "L'Harmonie" virava "l harmonie" (dois tokens) e NUNCA casava com o
+// token único "lharmonie" — nenhum dos 4 degraus pegava, e o L'Harmonie ficava invisível para
+// cobrança, garantidora e carteira. Medido em 10/08/2026 (vídeo do Fernando): "cobrança L'Harmonie"
+// respondia "não consta aqui o parâmetro de cobrança", com o condomínio na base o tempo todo.
+// Removido ANTES da troca de pontuação por espaço — vale também para D'Angelo, Sant'Ana etc.
+// ⚠️ O `\s*` não é enfeite: as nossas próprias bases escrevem o MESMO condomínio de três jeitos —
+// "LHARMONIE" (cobrança), "L’ HARMONIE" (regra de mudança, com apóstrofo tipográfico E espaço) e
+// "L'Harmonie" (como a equipe digita). Tirar só o apóstrofo faria as três divergirem em duas formas
+// e eu consertaria a cobrança quebrando a mudança. Absorvendo o espaço, as três viram "lharmonie".
+const APOSTROFO = new RegExp("['\\u2019\\u02bc\\u0060\\u00b4]\\s*", "g");
 export const normNome = (s) => String(s || "").toLowerCase().normalize("NFD").replace(COMB, "")
-  .replace(/[^a-z0-9]+/g, " ").trim();
+  .replace(APOSTROFO, "").replace(/[^a-z0-9]+/g, " ").trim();
 
 // palavras que só dizem o TIPO da pessoa jurídica — aparecem em quase todo nome e não identificam nada.
 // "residencial" entra porque o sistema grava "CONDOMINIO RESIDENCIAL VANCOUVER" e a equipe escreve
