@@ -309,7 +309,17 @@ function render(d, snap, opts = {}) {
     // 3º o documento. Fernando: "Ela teria que ter mandado o contrato" / "sempre que é locação tem
     // contrato, particular ou da imobiliária — senão não tem como fazer". Só para inquilino:
     // dependente não precisa de contrato (ele disse isso na mesma frase).
-    ...(!ehDependente && dociaAtivo && !d.laudo ? ['Não veio contrato de locação nesta conversa — peça e confira antes de aprovar.'] : []),
+    // ⚠️ O alerta media a ausência de LAUDO e afirmava a ausência de CONTRATO — não é a mesma coisa.
+    // 10/08 (conv 848): o cliente mandou o contrato às 13:14, a Ana LEU o documento e criou o cadastro
+    // às 13:18 sem nunca chamar a conferência (ela perguntou "é só essa página?" e ele respondeu outra
+    // coisa). O card estampou "não veio contrato", a equipe leu como fato e passou a tarde pedindo ao
+    // cliente um documento que ele já havia enviado. `documento_recebido` é gravado na criação do
+    // rascunho (o dossiê tinha páginas) e separa os dois casos. Segue sendo alerta, não trava.
+    ...(!ehDependente && dociaAtivo && !d.laudo
+      ? [d.documento_recebido
+        ? 'O contrato chegou nesta conversa mas NÃO passou pela conferência automática — abra o documento e confira antes de aprovar.'
+        : 'Não veio contrato de locação nesta conversa — peça e confira antes de aprovar.']
+      : []),
     // 4º dado que falta e a equipe precisa buscar. ⚠️ Só para quem RECEBE boleto: para dependente,
     // "sem e-mail: é para onde o boleto é enviado" contradizia o próprio card duas linhas acima
     // ("o boleto continua indo para o proprietário") — e alarme falso repetido ensina a equipe a

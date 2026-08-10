@@ -286,6 +286,11 @@ async function runToolReal(name, args, ctx) {
         // aprova) não tem. Pelo ambiente, o alerta "não veio contrato" apareceria no painel por link
         // e sumiria na tela que importa.
         docia_ativo: process.env.DOCIA_ATIVO === '1',
+        // O documento CHEGOU nesta conversa (o dossiê tem páginas), mesmo que a conferência não tenha
+        // rodado. Sem este sinal o card dizia "não veio contrato" para quem tinha acabado de enviá-lo
+        // (conv 848, 10/08) e a equipe pedia de novo. Nunca deixa a criação do rascunho cair: um
+        // problema ao ler o dossiê vale como "não sei", que é o texto conservador de sempre.
+        documento_recebido: (() => { try { return DOSSIE.pecasDe(ctx.dossieKey).length > 0; } catch { return false; } })(),
       }, { solicitante: ctx.solicitante || null, origem: ctx.origem || null });
       if (!r.ok) return { criado: false, motivo: r.motivo, erros: r.erros || [] };
       (ctx.draft ||= []).push({ token: r.token, url: r.urlAprovacao, time: r.time, conflito: r.conflito,
