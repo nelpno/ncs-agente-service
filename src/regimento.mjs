@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { mascararDocumentos } from './pii_ata.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..', 'data', 'regimentos');
@@ -302,7 +303,13 @@ export function consultar_regimento({ condominio, pergunta, k = 8, incluirAtas =
       fonte: `${c.docLabel} — ${c.secao}`,
       tipo: c.docTipo,
       ...(c.docTipo === 'ata' && c.ataData ? { data: fmtData(c.ataData) } : {}),
-      texto: c.texto.length > 700 ? c.texto.slice(0, 700) + '…' : c.texto,
+      // CPF/RG saem AQUI, na saída, e não do arquivo. Decisão do Fernando (09/08): apagar o
+      // documento só na cópia que conversa e manter o texto íntegro no que gera multa. Mascarar o
+      // .md faria uma re-extração futura do catálogo levar "[removido]" para dentro do texto que a
+      // multa imprime verbatim — meses depois e em silêncio. Aqui isso é impossível: o gerador não
+      // passa por esta função (ele lê `gerador/dados/*.json`), então a base legal não muda.
+      // Nome é preservado de propósito — regra diferente da ata. Ver test_pii_regimento.mjs.
+      texto: mascararDocumentos(c.texto.length > 700 ? c.texto.slice(0, 700) + '…' : c.texto),
     })),
   };
 }

@@ -216,16 +216,33 @@ function mascararNomesDaMesa(texto) {
 // Normalizar na ENTRADA de ambas as funções é o que garante o mesmo resultado em qualquer SO.
 const paraLF = (s) => String(s).replace(/\r\n/g, '\n');
 
-export function mascararPII(texto) {
+/**
+ * mascararDocumentos(texto) → tira CPF e RG, PRESERVANDO os nomes.
+ *
+ * É a metade "documento" do mascarador, exportada porque Convenção e Regimento Interno usam uma
+ * regra DIFERENTE da ata: lá o Fernando mandou tirar o nome também (reunião 07/08), aqui não —
+ * ele escolheu (WhatsApp 09/08, opção 2) apagar o CPF só na cópia que conversa, e o nome do
+ * síndico é informação pública do condomínio que o time cita ao redigir.
+ *
+ * 🔑 Existe como função exportada, e não como um segundo mascarador em outro arquivo, porque foi
+ * exatamente uma regra reimplementada em dois lugares que deixou 151 CPFs passarem nas atas em
+ * 09/08/2026: as duas cópias derivaram e o guard ficou verde com o documento legível dentro.
+ * Enquanto isto aqui for o único dono dos padrões de CPF/RG, é impossível uma versão ficar para trás.
+ */
+export function mascararDocumentos(texto) {
   if (!texto) return texto;
-  const semDocumento = paraLF(texto)
+  return paraLF(texto)
     .replace(CPF_ROTULADO, (_m, meio) => `CPF${meio}${MARCA}`)
     .replace(RG_ROTULADO, (_m, meio) => `RG${meio}${MARCA}`)
     .replace(DOC_ROTULADO, (_m, rotulo, meio) => `${rotulo}${meio}${MARCA}`)
     .replace(CAUDA_ORFA, '$1')
     // Por último: o que sobrou sem rótulo nenhum, e SÓ se o dígito verificador fechar.
     .replace(CPF_SOLTO, (m) => (cpfValido(m) ? MARCA : m));
-  return mascararNomesDaMesa(semDocumento);
+}
+
+export function mascararPII(texto) {
+  if (!texto) return texto;
+  return mascararNomesDaMesa(mascararDocumentos(texto));
 }
 
 /**
