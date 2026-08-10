@@ -78,10 +78,15 @@
       "tipo_portaria": "Virtual"
     },
     {
-      "nome": "CEDROS",
-      "slug": "cedros",
+      "nome": "VISTAS DO BOTANICO - CEDROS",
+      "slug": "vistas-botanico-cedros",
       "sistema": "Shielder",
-      "tipo_portaria": "Humana"
+      "tipo_portaria": "Humana",
+      "aliases": [
+        "Cedros (Vitta)",
+        "Vitta Cedros",
+        "Vistas do Botânico Cedros"
+      ]
     },
     {
       "nome": "CITY CENTER",
@@ -94,7 +99,11 @@
       "slug": "five",
       "sistema": "Alarm System",
       "tipo_portaria": "Virtual",
-      "aliases": ["Studio 5", "Five", "Studio Five"]
+      "aliases": [
+        "Studio 5",
+        "Five",
+        "Studio Five"
+      ]
     },
     {
       "nome": "FLORES",

@@ -95,10 +95,15 @@
       "procedimento": ""
     },
     {
-      "nome": "CEDROS",
-      "slug": "cedros",
+      "nome": "VISTAS DO BOTANICO - CEDROS",
+      "slug": "vistas-botanico-cedros",
       "horario": "SEG A SEXTA DÀS 08:00 ÀS 11H00 E DA 13H00 ÀS 17H00.",
-      "procedimento": "DE SABADO DÀS 08:00 ÀS 11:00( UMA MUDANÇA POR DIA EM CADA BLOCO. SOLICITAR COM 24 HORAS DE ANTECEDÊNCIA, AVISAR NO GRUPO DO WHATSAPP. CADASTRAR NO SHIELDER"
+      "procedimento": "DE SABADO DÀS 08:00 ÀS 11:00( UMA MUDANÇA POR DIA EM CADA BLOCO. SOLICITAR COM 24 HORAS DE ANTECEDÊNCIA, AVISAR NO GRUPO DO WHATSAPP. CADASTRAR NO SHIELDER",
+      "aliases": [
+        "Cedros (Vitta)",
+        "Vitta Cedros",
+        "Vistas do Botânico Cedros"
+      ]
     },
     {
       "nome": "CITY CENTER",
@@ -115,7 +120,12 @@
     {
       "nome": "FIVE",
       "slug": "five",
-      "aliases": ["studio five", "studio 5", "studiofive", "studio five araraquara"],
+      "aliases": [
+        "studio five",
+        "studio 5",
+        "studiofive",
+        "studio five araraquara"
+      ],
       "horario": "SEGUNDA A SEXTA-FEIRA 08H00 ÀS 11H00 E DA 13H00 ÀS 17H00 E SÁBADOS DÀS 08H00 ÀS 11H00, SÓ PODE UMA MUDANÇA POR DIA, AVISAR COM 1 DIA DE ANTECEDENCIA.",
       "procedimento": "ENVIAR A AUTORIZAÇÃO E COMUNICADO PARA A ANA ZELADORA PELO WHATSAPP. ENVIAR EMAIL PARA A PORTARIA ALARM SYSTEM INFORMANDO NOVO CADASTRO OU DESOCUPAÇÃO."
     },
