@@ -12,6 +12,7 @@ import { SAIDA } from "./src/documentos.mjs";
 import { descreverAnexo, montarMensagemComAnexo } from "./src/visao.mjs";
 import { carregarSessao, verificarSenha, verificarSenhaDummy, assinarCookie, rateLogin, rateLoginIp, registrarFalha, resetRate, hashToken } from "./src/auth.mjs";
 import { porEmail, porId, porTokenConvite, ativar, tocarUltimoAcesso, tocarUltimoAcessoSeNecessario, listar, criarComConvite, regenerarConvite, desativar, reativar, incrementarSessaoVersao, definirPodeAprovar } from "./src/usuarios.mjs";
+import { montarPedidoCopiloto } from "./src/copiloto.mjs"; // sugestão de resposta p/ o painel de atendimento
 import { montarInteracao, gravarInteracao } from "./src/registro.mjs"; // log por turno (auditoria + custo + tag)
 import { classificarAsync } from "./src/classificar.mjs"; // tag do resíduo sem tool (LLM barato, fire-and-forget)
 import { sbSelect } from "./src/db.mjs";
@@ -32,6 +33,17 @@ const PENDENCIAS_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "pend
 const SOLICITACOES_HTML = ver(fs.readFileSync(path.join(__dirname, "public", "solicitacoes.html"), "utf8"));
 const PORT = parseInt(process.env.PORT || "8090", 10);
 const COOKIE = "ncs_sess";
+// Copiloto do painel de atendimento (adapter do Chatwoot → aqui). Ausente = rota devolve 503:
+// env-gated, para o Estagiário seguir subindo igual onde o copiloto não estiver ligado.
+const COPILOTO_SECRET = process.env.COPILOTO_SECRET || "";
+
+/** Compara segredo em tempo constante (evita descobrir o token byte a byte pelo tempo de resposta). */
+function segredoConfere(recebido, esperado) {
+  const a = Buffer.from(String(recebido ?? ""));
+  const b = Buffer.from(String(esperado ?? ""));
+  if (!b.length || a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
 const COOKIE_MAXAGE_S = 30 * 24 * 3600; // 30 dias (sliding: renova a cada request autenticado)
 
 // Fail-fast: sem SESSION_SECRET forte, o HMAC do cookie usaria chave vazia → qualquer um forja sessão. Recusa subir.
@@ -175,6 +187,35 @@ const server = http.createServer(async (req, res) => {
       await tocarUltimoAcesso(u.id);
       setSessCookie(res, cookieDe(fresh));
       return json(res, 200, { ok: true, nome: u.nome });
+    }
+
+    // ---------- COPILOTO do painel de atendimento (máquina→máquina) ----------
+    // Quem chama é o adapter do Chatwoot, não um navegador: autentica por SEGREDO, não por cookie
+    // (e por isso NÃO passa por `mesmaOrigem`, que é defesa de CSRF de browser).
+    // Existe porque o copiloto nativo do Chatwoot ("Sugerir uma resposta") está morto na imagem
+    // 4.15.1 — a rota do botão devolve HTTP 422 e o serviço que a substituiria não está na build.
+    // A sugestão sai daqui para virar NOTA INTERNA no painel; nunca é enviada a ninguém por este
+    // caminho — quem envia é a pessoa, depois de revisar.
+    if (req.method === "POST" && url === "/copiloto") {
+      if (!COPILOTO_SECRET) return json(res, 503, { erro: "copiloto desligado" });
+      const d = JSON.parse((await readBody(req, 200_000)) || "{}");
+      if (!segredoConfere(d.secret, COPILOTO_SECRET)) return json(res, 401, { erro: "não autorizado" });
+
+      const pedido = montarPedidoCopiloto({
+        canal: d.canal,
+        mensagens: d.mensagens,
+        assinatura: d.assinatura,
+        condominio: d.condominio,
+      });
+      // null = não há fala de quem escreveu: falha FECHADA, melhor nota nenhuma que sugestão inventada.
+      if (!pedido) return json(res, 200, { sugestao: null, motivo: "sem_mensagem_do_cliente" });
+
+      // Sessão EFÊMERA e em memória: cada sugestão nasce limpa. Não usa Redis nem `estag-<uid>` —
+      // não há usuário logado aqui, e contaminar a sessão de alguém com o texto de um e-mail de
+      // terceiro misturaria conversas (e injetaria texto não confiável no histórico da pessoa).
+      const session = { messages: [] };
+      const turno = await handleTurn(session, pedido, { cacheKey: "copiloto" });
+      return json(res, 200, { sugestao: turno.reply || null, tools: turno.toolsUsed || [] });
     }
 
     // ---------- GUARDA (tudo abaixo exige sessão) ----------

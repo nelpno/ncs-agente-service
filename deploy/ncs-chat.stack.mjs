@@ -69,6 +69,7 @@ export function buildChatStack(secrets = {}) {
     webhookSecret,
     secullumUser,   // OPCIONAL (env-gated): ponto/afastamento dos terceirizados no Estagiário
     secullumPass,
+    copilotoSecret, // OPCIONAL (env-gated): sugestão de resposta pedida pelo painel de atendimento
   } = secrets;
 
   const env = [
@@ -103,10 +104,14 @@ export function buildChatStack(secrets = {}) {
     // (não aborta o deploy). Por isso ficam fora do cálculo de `missing` abaixo.
     { name: "SECULLUM_USER", value: secullumUser || "" },
     { name: "SECULLUM_PASS", value: secullumPass || "" },
+    // Copiloto do painel de atendimento: segredo compartilhado com o adapter do Chatwoot, que pede
+    // a sugestão de resposta em POST /copiloto. OPCIONAL/env-gated pelo mesmo motivo do Secullum —
+    // ausente, a rota devolve 503 e o Estagiário sobe igual.
+    { name: "COPILOTO_SECRET", value: copilotoSecret || "" },
   ];
 
   // opcionais não entram em `missing` (a tool degrada sozinha; o deploy do Estagiário não pode parar por elas)
-  const OPCIONAIS = new Set(["SECULLUM_USER", "SECULLUM_PASS"]);
+  const OPCIONAIS = new Set(["SECULLUM_USER", "SECULLUM_PASS", "COPILOTO_SECRET"]);
   const missing = env.filter((e) => !OPCIONAIS.has(e.name) && (e.value == null || e.value === "")).map((e) => e.name);
   const fraco = !sessionSecret || sessionSecret.length < SESSION_SECRET_MIN;
 
