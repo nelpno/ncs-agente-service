@@ -120,6 +120,35 @@ function montarPayload(d) {
   return p;
 }
 
+// "Pode ligar (mas só efetivar se tiver contrato) / Sem contrato - não efetiva" — Fernando, 17/08/2026,
+// ao autorizar a gravação real. Até então o card só AVISAVA (ver o comentário do alerta mais abaixo:
+// "não bloqueia o botão nem decide nada"), então ligar WRITE_REAL_ACTIONS sem isto entregaria o
+// oposto do combinado.
+//
+// Mora AQUI e não em `validar()` de propósito: `validar` roda também na CRIAÇÃO do rascunho
+// (engine.mjs:54), e travar ali faria o card não nascer — a equipe nem saberia que a pessoa pediu,
+// que é pior que o problema que se quer resolver. O card continua nascendo; o que não acontece é a
+// gravação no ERP.
+//
+// Três fronteiras, cada uma com teste:
+//  - DEPENDENTE nunca trava: não existe contrato de locação de filho/cônjuge de quem já mora lá.
+//  - DocIA DESLIGADO nunca trava: sem ele não há como saber do contrato, e travar todo cadastro por
+//    uma peça nossa estar fora seria falhar fechado no lugar errado.
+//  - Documento que CHEGOU mas não foi conferido PASSA. É a conversa 848: o contrato foi enviado, a
+//    conferência não rodou, e a equipe está com o documento na tela. Travar ali prenderia um cadastro
+//    certo. O card já distingue esse caso desde 10/08 e continua avisando.
+function bloqueiaGravacao(d = {}) {
+  if (d.papel === 'dependente') return null;
+  if (!d.docia_ativo) return null;
+  if (d.laudo || d.documento_recebido) return null;
+  return {
+    bloqueia: true,
+    motivo: 'sem_contrato',
+    mensagem: 'Sem contrato de locação não é possível concluir este cadastro. '
+      + 'Peça o contrato ao solicitante e confira antes de aprovar.',
+  };
+}
+
 export const cadastroInquilino = {
   id: 'cadastro_inquilino',
   descricao: 'Cadastrar inquilino/residente ou dependente numa unidade',
@@ -127,6 +156,7 @@ export const cadastroInquilino = {
   timeAprovador: 'Recepção',
   validar,
   montarPayload,
+  bloqueiaGravacao,
 };
 registerAction(cadastroInquilino);
 

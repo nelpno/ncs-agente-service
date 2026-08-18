@@ -103,6 +103,21 @@ async function executarAprovacao(draft, { aprovador, correcoes } = {}) {
   const v = acao.validar(dados);
   if (!v.ok) return { ok: false, motivo: 'invalido', erros: v.erros };
 
+  // Trava de gravação da própria ação (ex.: "sem contrato não efetiva", Fernando 17/08). Só aqui,
+  // NUNCA na criação do rascunho — o card tem de nascer para a equipe ver que a pessoa pediu.
+  // Antes do CAS de propósito: bloquear depois deixaria o draft preso em `aprovando`.
+  // Defensivo: se a trava em si explodir, ela NÃO derruba a aprovação (quem recusa cadastro
+  // incompleto é o `validar`, dono daquela regra); o erro fica alto no log.
+  if (acao.bloqueiaGravacao) {
+    let trava = null;
+    try { trava = acao.bloqueiaGravacao(dados); }
+    catch (e) { console.warn('[engine] bloqueiaGravacao falhou (segue, sem travar):', e.message); }
+    if (trava && trava.bloqueia) {
+      await auditar({ tipo: 'bloqueado', draftId: draft.id, aprovador, motivo: trava.motivo });
+      return { ok: false, motivo: 'bloqueado', detalhe: trava.motivo, mensagem: trava.mensagem };
+    }
+  }
+
   // Reivindica o draft atomicamente. Se perder (outro aprovador já pegou), não grava de novo.
   const claimed = await aprovarDraftCAS(draft.id, aprovador);
   if (!claimed) return { ok: false, motivo: 'ja_em_processamento' };

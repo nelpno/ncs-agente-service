@@ -63,10 +63,14 @@ export function criarHandlerAprovar({ aprovarRascunhoPorId } = {}) {
       const motivo = out?.motivo || 'falha';
       const status = motivo === 'nao_encontrado' ? 404
         : (motivo === 'ja_rejeitado' || motivo === 'expirado') ? 409
-        : motivo === 'invalido' ? 422
+        // `bloqueado` = regra da própria ação recusou ("sem contrato não efetiva", Fernando 17/08).
+        // 422 junto com `invalido`: o pedido está bem formado, mas não pode ser processado como está.
+        : (motivo === 'invalido' || motivo === 'bloqueado') ? 422
         : motivo === 'erro_gravacao' ? 502
         : 400;
-      return { status, json: { ok: false, gravado: false, motivo, erros: out?.erros, detalhe: out?.detalhe } };
+      // `mensagem` é a frase escrita para quem aprova. Sem repassá-la, a tela mostraria o jargão
+      // ("sem_contrato") e a pessoa não saberia o que fazer — a trava viraria um erro sem saída.
+      return { status, json: { ok: false, gravado: false, motivo, erros: out?.erros, detalhe: out?.detalhe, mensagem: out?.mensagem } };
     }
     return { status: 200, json: { ok: true, gravado: !!out.gravado, dryRun: !!out.dryRun, jaGravado: !!out.jaGravado } };
   };
