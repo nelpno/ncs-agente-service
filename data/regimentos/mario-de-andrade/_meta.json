@@ -6,14 +6,26 @@
   "documentos": [
     {
       "arquivo": "convencao-mario-de-andrade.md",
-      "chars": 34725,
-      "secoes_##": 18,
-      "artigos_###": 44
+      "chars": 36456,
+      "secoes_##": 11,
+      "artigos_###": 46
+    },
+    {
+      "arquivo": "regimento-interno-mario-de-andrade.md",
+      "chars": 21415,
+      "secoes_##": 8,
+      "artigos_###": 17
     }
   ],
-  "gerado_em": "2026-06-21",
+  "gerado_em": "2026-08-18",
   "revisao_humana": "pendente",
   "uso_juridico_liberado": false,
-  "fonte": "Drive Grupo NCS (CONVENÇÕES E R.I), enviado por Fernando 19/06/2026. Texto extraído via Google Drive read_file_content. Revisão humana pendente.",
-  "nota": "Sem Regimento Interno na pasta do Drive — a própria Convenção (Art. 6/8/12) registra que o Regulamento Interno ainda não foi elaborado."
+  "fonte": "Convencao: certidao do 1o Oficial de Registro de Imoveis de Araraquara (PDF escaneado, OCR Gemini 18/08/2026) — SUBSTITUIU a versao .docx do Drive de 19/06, que estava incompleta (faltavam os Artigos 1 e 20 como secao e havia 4 erros de digitacao, entre eles a alinea 'l)' onde a registrada diz 'i)'). Regimento Interno: PDF escaneado enviado pelo Fernando em 18/08/2026 (OCR Gemini), aprovado em assembleia de 02/07/2013.",
+  "nota": "A qualificacao dos condominos requerentes (paginas 1-8 da certidao: CPF, RG e endereco residencial de dezenas de pessoas) foi DELIBERADAMENTE excluida — nao e texto normativo e nao serve a nenhuma resposta. O .md tem 0 CPF e 0 RG. A nota anterior dizia que o Regulamento Interno ainda nao existia; ele EXISTE e esta aqui desde 18/08/2026.",
+  "aliases": [
+    "EDIFICIO MARIO DE ANDRADE",
+    "Mario de Andrade",
+    "Mário de Andrade",
+    "Condomínio Edifício Mário de Andrade"
+  ]
 }
