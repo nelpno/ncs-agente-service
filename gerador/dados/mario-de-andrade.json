@@ -23,9 +23,14 @@
     "observacao": "Valor é sugestão — síndico confirma."
   },
   "convencao_penalidades": {
-    "capitulo": "Artigo 14",
-    "texto": "Artigo 14\nSem prejuízo do disposto no Artigo anterior, o condômino faltoso, será punível com pena pecuniária que lhe será Imposta pelo Síndico, o qual dosará a gravidade da falta, Indo a correspondente pena a até ao décuplo do valor das despesas comuns de condomínio, conforme estabelecem os artigos 1336, § 20, e 1337 caput e parágrafo único, ambos do Código Civil Brasileiro.",
-    "fonte": "convencao_literal"
+    "capitulo": "Regimento Interno, Artigo 8.º",
+    "texto": "Artigo 8.º\nAs penalidades pecuniárias serão aplicadas gradualmente, tendo como valor de referência a Taxa Condominial ordinária mensal à época do pagamento, sendo que, em primeira instância, proceder-se-á à \"ADVERTÊNCIA\" por escrito ao condômino infrator.\nParágrafo Primeiro – Além das penalidades cominadas em Lei, fica ainda o condômino que, transitória ou eventualmente, perturbar o uso das coisas ou partes comuns ou der causa as despesas, por ato seu ou de seus parentes, familiares, amigos, convidados, visitas ou inquilinos, sujeito à multa correspondente a até 05 (cinco) contribuições mensais de condomínio e no dobro, em caso de reincidência, sem prejuízo das demais conseqüências civis e criminais de seus atos.",
+    "fonte": "regimento_literal",
+    "substituiu": {
+      "capitulo": "Artigo 14",
+      "fonte": "convencao_literal",
+      "motivo": "Fernando por WhatsApp em 18/08/2026: \"Pode usar mais nova do regimento\". O R.I. (assembleia de 02/07/2013) e posterior a convencao e traz gradacao (advertencia -> ate 5 taxas -> dobro na reincidencia) no lugar do \"decuplo\" do Artigo 14 da convencao."
+    }
   },
   "catalogo_infracoes": {
     "barulho": {
