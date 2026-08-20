@@ -7,6 +7,7 @@ import { handleTurn } from './src/agent.mjs';
 import { responder } from './src/octadesk.mjs';
 import { sinalCobranca } from './src/cobranca.mjs';
 import { servirPdf } from './src/cnd.mjs';
+import { servirManual } from './src/manual_proprietario.mjs';
 import * as DOSSIE from './src/docia/dossie.mjs';
 
 function readBody(req) { return new Promise((r) => { let d = ''; req.on('data', (c) => (d += c)); req.on('end', () => r(d)); }); }
@@ -194,6 +195,15 @@ const server = http.createServer(async (req, res) => {
       if (!pdf) return json(res, 404, { erro: 'documento não encontrado ou expirado' });
       res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename="declaracao-quitacao.pdf"' });
       return res.end(pdf);
+    }
+    // Manual do proprietário (material da construtora sobre o IMÓVEL): serve o PDF INTEIRO por token
+    // efêmero, mesmo mecanismo do CND. Pedido do Fernando 18/08: "manda o arquivo inteiro".
+    if (req.method === 'GET' && req.url.startsWith('/manual/')) {
+      const token = req.url.slice('/manual/'.length).split('?')[0];
+      const doc = servirManual(token);
+      if (!doc) return json(res, 404, { erro: 'documento não encontrado ou expirado' });
+      res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': 'inline; filename="manual-do-proprietario.pdf"' });
+      return res.end(doc);
     }
     // Painel de aprovação (equipe) — protegido por passcode ?k=
     if (req.method === 'GET' && req.url.startsWith('/aprovacao/')) {

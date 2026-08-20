@@ -1,0 +1,15 @@
+{
+  "_leia": "Manual do proprietario POR CONDOMINIO — material da CONSTRUTORA sobre o IMOVEL (garantia, manutencao, acabamento), NAO regra de condominio. Fica fora de data/regimentos/ de proposito: la o retriever o citaria como 'Regimento Interno', o que seria falso e poderia acabar dentro de uma multa. Aqui ele e entregue INTEIRO, como anexo, sem fatiar em trecho.",
+  "_fonte": "Fernando por WhatsApp em 18/08/2026: 'Consegue mandar documento completo tipo PDF? Se o cara tiver duvida, manda o arquivo inteiro. E nao separa por trecho.' Escopo fechado por ele em 18/08 23:37: 'So manual proprietario seiva'.",
+  "_como_acrescentar": "1) por o PDF em data/documentos/<slug>/; 2) acrescentar a entrada aqui; 3) rodar test/test_manual_proprietario.mjs (ele confere que TODO arquivo listado existe em disco e e um PDF de verdade).",
+  "manuais": [
+    {
+      "nome": "SEIVA VILA HARMONIA",
+      "slug": "seiva",
+      "arquivo": "seiva/manual-do-proprietario.pdf",
+      "titulo": "Manual do Proprietario",
+      "origem": "construtora",
+      "paginas": 169
+    }
+  ]
+}
